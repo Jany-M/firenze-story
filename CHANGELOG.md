@@ -2,6 +2,8 @@
 
 | Date | Change |
 |---|---|
+| 2026-11-23 | [M10](docs/DATA-SOURCES.md#M10) Orsanmichele model in use ([docs/landmarks/ORSANMICHELE.md](docs/landmarks/ORSANMICHELE.md)). Bridge phases of San Niccolò and Vittoria recorded (Museo Galileo, structurae.net, risorgimentofirenze.it) for the enlarged study area ([docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md)). |
+| 2026-11-23 | [M09](docs/DATA-SOURCES.md#M09) Santa Maria Novella model in use ([docs/landmarks/SANTA-MARIA-NOVELLA.md](docs/landmarks/SANTA-MARIA-NOVELLA.md)). |
 | 2026-11-23 | Live events: Night of the Bridges 3–4 Aug 1944 (La Nazione, Uffizi, storiadifirenze.org); Scoppio fireworks on the cart ([docs/EVENTS-COSTUMES.md](docs/EVENTS-COSTUMES.md), [docs/HISTORY.md](docs/HISTORY.md)). Walkability grid `footprints.u16` from the structure footprints (derived, see [pipeline/README.md](pipeline/README.md)). |
 | 2026-11-23 | [M08](docs/DATA-SOURCES.md#M08) Santa Croce model in use ([docs/landmarks/SANTA-CROCE.md](docs/landmarks/SANTA-CROCE.md)). |
 | 2026-11-23 | Removed: 29 "demolished" records traced from the 1830s cadastre / 1843 Fantozzi map that lie in today's river bed (sandbank shading, current lines and bridge lines on the maps, checked visually); undocumented rope ferries ([docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md)). Added: the move of the David, 14–18 May 1504 (Landucci, via Opera di Santa Maria del Fiore, https://duomo.firenze.it/it/opera-magazine/post/4693/quando-il-david-si-mosse; route presumed) ([docs/HISTORY.md](docs/HISTORY.md)). |
