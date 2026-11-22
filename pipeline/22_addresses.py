@@ -22,7 +22,7 @@ import shapefile
 from shapely.geometry import shape, Point
 from shapely.strtree import STRtree
 sys.path.insert(0, os.path.dirname(__file__))
-from common import ROOT
+from common import ROOT, CORE_HALF
 RAW = os.path.join(ROOT, "_dev", "data", "raw", "comune")
 OUT = os.path.join(ROOT, "web", "public", "data")
 T = Transformer.from_crs(3003, 25832, always_xy=True)
@@ -81,7 +81,7 @@ civ_xy, civ = [], []
 for sr in R.iterShapeRecords():
     if not sr.shape.points: continue
     x, z = scene(*sr.shape.points[0])
-    if abs(x) > 1100 or abs(z) > 1100: continue                     # core area only
+    if abs(x) > CORE_HALF + 100 or abs(z) > CORE_HALF + 100: continue         # study area only (+100 m for buildings on the edge)
     d = sr.record.as_dict(); civ_xy.append((x, z)); civ.append((d["CODICESTRA"], d["NUMEROCIVI"], d.get("TIPO", "N")))
 civ_tree = cKDTree(np.array(civ_xy)); print("civici in core", len(civ))
 F = read_zip_shp(os.path.join(RAW, "civici_francesi_shp.zip"))

@@ -6,7 +6,7 @@ river life in `web/src/sim/river.ts` (table `RIVER_LIFE`). Confidence tags as in
 ## 1. Terrain and land cover
 | Layer | Extent / resolution | Source | Notes |
 |---|---|---|---|
-| Core terrain | 2 × 2 km, 4 m | LiDAR 2023 DTM (Comune di Firenze) | riverbed carved 1.6 m under the water surface |
+| Core terrain | 3.6 × 3.6 km, 4 m | LiDAR 2023 DTM (Comune di Firenze) | riverbed carved 1.6 m under the water surface |
 | Wide terrain | 12 × 12 km, 40 m | Copernicus GLO-30 (30 m) | buildings and woods stripped by a 150 m morphological opening; aligned to the LiDAR datum on the river (offset +0.51 m); Fiesole, Arcetri, Bellosguardo hills |
 | Land texture | 12 × 12 km, ~6 m | Sentinel-2 cloudless 2016 (EOX, CC BY 4.0) | today's colours; woods where it is dark green |
 | Ground by era | – | dated city (urban raster: first year anything stood in each 8 m cell) | meadow and fields → beaten earth → stone paving (1230s) → today's surfaces (1880–1960); built-up land outside the core appears 1900–2000 |
@@ -62,7 +62,7 @@ interpolated axis level.
 | Cargo boats (*navicelli*, sail + tow rope) | up to the old city port | -30 – 1300 | Comune 2019; meer.com |
 | | to the port below the Santa Rosa weir (Ognissanti / Pignone) | 1300 – 1880 (end *conjectural*) | Comune 2019 |
 | Renaioli (sand diggers) with flat boats and sand heaps on the *renai* | between the two weirs | 1700 – 1960 (documented 1829, 1846, 1847; active until the mid-20th c.) | Comune 2019; La Nazione |
-| Fishermen on the banks | everywhere | all periods | Comune 2019 |
+| Fishermen on the banks | everywhere: most seated on a stone with a rod, some standing; two wading knee-deep near the bank; the rod sways and is lifted every ~25 s (a bite or a new cast) | all periods | Comune 2019 (poses *inferred*) |
 | Fishing boats | between the weirs only until 1586 (ban), outside them always | – | Comune 2019 |
 | Landing stages (*scali*) | Porticciola (Piazza d'Arno / delle Travi) and Renai, between Carraia and Santa Trinita | from 1830 | Comune 2019 |
 | | gora of the Renai mills, Lungarno Serristori | from 1846 | Comune 2019 |
@@ -83,10 +83,13 @@ of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557
 - hmdb.org, Piazza della Signoria excavations marker; Wikipedia "Florentia (Roman city)"
 - Copernicus DEM GLO-30 (© DLR / Airbus, ESA); Sentinel-2 cloudless 2016 by EOX (CC BY 4.0, contains modified Copernicus Sentinel data 2016); OpenStreetMap (ODbL)
 
-### Bridges outside the current core (recorded, shown once the study area grows)
+### Ponte San Niccolò and Ponte alla Vittoria (in the study area since 2026-11-23)
 | Bridge | Phases |
 |---|---|
 | Ponte San Niccolò | suspension bridge "San Ferdinando" (Seguin) 1837–1844 (flood) · rebuilt 1853–1890 · three-span metal bridge 1890–1944 · Morandi single arch 1949 |
 | Ponte alla Vittoria | suspension bridge "San Leopoldo" 1835–1931 (four lion pillars) · Ponte alla Vittoria 1931–1944 · rebuilt 1946 (142 m × 15.5 m) |
 Sources: Museo Galileo (San Niccolò weir page), structurae.net, risorgimentofirenze.it; span counts of the 1931 and 1946
-Vittoria bridges *inferred*.
+Vittoria bridges *inferred*. San Niccolò 1949: main span 87.5 m, 132 m long, 17.5 m wide (structurae; it gives works 1955–60,
+most Florentine sources 1949 – kept 1949, to verify on dated photos); the 1890 bridge is drawn as iron girders on masonry piers.
+Both were mined on 3–4 Aug 1944 and are blown up in the Night of the Bridges scene. Ponte da Verrazzano (1969) is still
+outside (≈ 2.1 km east of the origin).

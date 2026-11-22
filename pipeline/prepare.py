@@ -10,6 +10,12 @@ files already in web/public.   Usage: python pipeline/prepare.py [--force]
 """
 import glob, importlib.util, os, shutil, subprocess, sys
 
+# The build scripts print "…", "×", accented street names: on a Windows console (cp1252) that raises UnicodeEncodeError
+# and the step dies. Force UTF-8 for this process and for every child step.
+os.environ["PYTHONIOENCODING"] = "utf-8"; os.environ["PYTHONUTF8"] = "1"
+for _s in (sys.stdout, sys.stderr):
+    try: _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception: pass
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 J = lambda *p: os.path.join(ROOT, *p)
 FORCE = "--force" in sys.argv

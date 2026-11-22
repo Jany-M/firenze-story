@@ -7,7 +7,7 @@ import { texture, triplanarTexture, float } from 'three/tsl';
 import type { TexSet } from './assets';
 
 type Arch = 'round' | 'segment' | 'ellipse' | 'flat' | 'trestle' | 'suspension';
-interface Spec { spans: number; arch: Arch; width: number; pier: number; rise?: number; houses?: boolean }
+interface Spec { spans: number; arch: Arch; width: number; pier: number; rise?: number; houses?: boolean; mat?: 'iron' | 'stone' | 'concrete' | 'wood' }   // mat: deck/girders (piers stay masonry for iron)
 /** By bridge and phase start year. Sources: Comune "Una città e il suo fiume" (R02), standard histories. */
 export const BRIDGE_SPECS: Record<string, Record<number, Spec>> = {
   'Ponte Vecchio': { [-30]: { spans: 0, arch: 'trestle', width: 6, pier: 0.5 }, 1177: { spans: 5, arch: 'round', width: 9, pier: 4 },
@@ -22,10 +22,11 @@ export const BRIDGE_SPECS: Record<string, Record<number, Spec>> = {
   // 1890 (tram); mined 1944; Morandi's single reinforced-concrete arch: main span 87.5 m, 132 m long, 17.5 m wide (structurae);
   // opening year 1949 in most Florentine sources, structurae gives works 1955–60 – kept 1949, to verify on dated photos
   'Ponte San Niccolò': { 1837: { spans: 1, arch: 'suspension', width: 7, pier: 0 }, 1853: { spans: 1, arch: 'suspension', width: 7, pier: 0 },
-    1890: { spans: 3, arch: 'flat', width: 9, pier: 2.5 }, 1949: { spans: 1, arch: 'segment', width: 17.5, pier: 0, rise: 6.0 } },
+    1890: { spans: 3, arch: 'flat', width: 9, pier: 2.5, mat: 'iron' }, 1949: { spans: 1, arch: 'segment', width: 17.5, pier: 0, rise: 6.0 } },
   // Vittoria: Leopoldo II's suspension bridge "San Leopoldo" 1835 (four pillars with marble lions); Ponte alla Vittoria 1931;
   // mined 1944; rebuilt 1946, 142 m long, 15.5 m wide (structurae). Span counts of 1931 and 1946 *inferred* – to verify on photos
-  'Ponte alla Vittoria': { 1835: { spans: 1, arch: 'suspension', width: 7, pier: 0 }, 1931: { spans: 3, arch: 'segment', width: 15, pier: 3, rise: 2.4 },
+  'Ponte Vittoria': {           // OSM: "Ponte della Vittoria"; officially Ponte alla Vittoria
+    1835: { spans: 1, arch: 'suspension', width: 7, pier: 0 }, 1931: { spans: 3, arch: 'segment', width: 15, pier: 3, rise: 2.4 },
     1946: { spans: 3, arch: 'segment', width: 15.5, pier: 3, rise: 2.4 } },
 };
 const DEFAULT: Record<string, Spec> = {
@@ -71,7 +72,7 @@ export function buildBridge(pts: [number, number][], spec: Spec, wl: number, gro
   const box = (m: string, x0: number, x1: number, y0: number, y1: number, z0: number, z1: number) => {
     const g = new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0); g.translate((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2); add(m, place(g));
   };
-  const mat = spec.arch === 'trestle' ? 'wood' : spec.arch === 'suspension' ? 'iron' : (spec.rise != null && spec.width >= 14) ? 'concrete' : 'stone';
+  const mat = spec.mat ?? (spec.arch === 'trestle' ? 'wood' : spec.arch === 'suspension' ? 'iron' : (spec.rise != null && spec.width >= 14) ? 'concrete' : 'stone');
   if (spec.arch === 'trestle') {                                   // wooden deck on rows of piles
     box('wood', 0, L, deck - thick, deck, -W / 2, W / 2);
     for (let a = abut; a < L - abut; a += 7) for (const z of [-W / 2 + 0.4, 0, W / 2 - 0.4]) {
@@ -121,7 +122,7 @@ export function buildBridge(pts: [number, number][], spec: Spec, wl: number, gro
   for (let k = 1; k < n; k++) {
     const xm = L - abut - k * s - (k - 0.5) * p, hgt = spring + rise * 0.55 - bed;
     for (const sd of [-1, 1]) {
-      const g = new THREE.BoxGeometry(p * 0.72, hgt, p * 0.72); g.rotateY(Math.PI / 4); g.translate(xm, bed + hgt / 2, sd * W / 2); add(mat, place(g));
+      const g = new THREE.BoxGeometry(p * 0.72, hgt, p * 0.72); g.rotateY(Math.PI / 4); g.translate(xm, bed + hgt / 2, sd * W / 2); add(mat === 'iron' ? 'stone' : mat, place(g));
     }
   }
   // parapets; medieval Grazie had small houses / chapels on the piers (demolished 1876)

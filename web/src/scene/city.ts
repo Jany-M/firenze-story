@@ -82,6 +82,9 @@ export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSe
     p.y.assign(ground.add(r));
     const alive = uYear.greaterThanEqual(start).and(uYear.lessThan(end));
     If(alive.not(), () => { p.assign(vec3(0, -500, 0)); });   // collapse hidden structures (degenerate tris)
+    // while a building is still going up (long estimated ramps), show the rising walls without the roof: a roof squashed
+    // onto a low wall read as orange patches on the ground
+    If(grow.lessThan(0.999).and(aFu.lessThan(0)).and(aFu.greaterThan(-500)), () => { p.assign(vec3(0, -500, 0)); });
     vRel.assign(r); vFlags.assign(flags); vStart.assign(start); vTop.assign(top);
     return p;
   })();

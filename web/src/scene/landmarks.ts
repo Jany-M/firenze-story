@@ -41,6 +41,12 @@ export const LANDMARKS: LandmarkDef[] = [
     clear: [[-503.5, -339.5], [-494.5, -339.5], [-494.5, -330.0], [-503.5, -330.0]],          // bell tower
     source: 'Landmark model v1 – Santa Maria Novella (Blender, measured on LiDAR 2023 + OSM outline; Gothic church, Alberti façade, Talenti tower)' },  { file: 'orsanmichele', replaces: ['Chiesa di Orsanmichele'], at: [-9.0, 121.6], rot: 0, ground: 10.0,
     source: 'Landmark model v1 – Orsanmichele (Blender, measured on LiDAR 2023 + OSM outline; loggia, granary floors, tabernacles)' },
+  { file: 'bargello', replaces: ['Palazzo del Bargello', 'Museo Nazionale del Bargello', 'Bargello'], at: [226.6, 136.0], rot: 0, ground: 8.5,
+    clear: [[223.2, 129.7], [222.9, 136.3], [217.5, 168.5], [236.6, 171.1], [285.3, 171.0], [286.2, 134.9], [244.4, 131.2], [230.9, 130.0]],   // OSM way 43837065
+    source: 'Landmark model v1 – Bargello (Blender, measured on LiDAR 2023 + OSM outline; Volognana tower, wings 1255–1345, courtyard, Verone, staircase)' },
+  { file: 'loggia_lanzi', replaces: ['Loggia dei Lanzi', 'Loggia della Signoria'], at: [22.8, 275.8], rot: -0.3696, ground: 9.6,
+    clear: [[18.3, 288.8], [22.8, 275.8], [59.2, 289.9], [55.1, 301.4], [44.1, 297.2], [43.5, 298.7]],   // OSM way 43284457
+    source: 'Landmark model v1 – Loggia dei Lanzi (Blender, measured on LiDAR 2023 + OSM outline; loggia 1376–82, Virtues, terrace, statues 1506–1865)' },
 ];
 
 export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[], base = './models/landmarks') {

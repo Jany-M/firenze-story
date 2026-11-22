@@ -1,5 +1,5 @@
 // Timeline: non-linear year scale, construction histogram (Paris-style), epoch ticks, event pins, draggable knob.
-import { state, set, fmtYear } from '../state';
+import { state, set, fmtYear, fmtDay } from '../state';
 import { EVENTS, PERIODS } from '../data/history';
 import type { Rec } from '../scene/city';
 
@@ -10,13 +10,12 @@ export const xToYear = (x: number) => { for (let i = 1; i < SEG.length; i++) if 
 
 export function createTimeline(el: HTMLElement, recs: Rec[], onEvent: (i: number) => void) {
   el.innerHTML = `
-    <div class="tl-top">
-      <button class="play" title="Play / pause (space)">▶</button>
-      <div class="yr"></div><div class="tl-date"></div>
-      <label class="spd">speed <select>${[2, 10, 25, 60, 150].map(v => `<option value="${v}">${v} y/s</option>`).join('')}</select></label>
-      <div class="tl-hint">drag the timeline · ← → step a year · shift ±25</div>
+    <div class="tl-ctl">
+      <button class="play" title="Play / pause (space) · ← → step a year, shift ±25">▶</button>
+      <div class="yr"></div>
+      <select class="spd" title="playback speed">${[2, 10, 25, 60, 150].map(v => `<option value="${v}">${v} y/s</option>`).join('')}</select>
     </div>
-    <div class="track"><canvas></canvas><div class="pins"></div><div class="knob"></div></div>`;
+    <div class="track" title="drag to change the year"><canvas></canvas><div class="pins"></div><div class="knob"></div></div>`;
   const cv = el.querySelector('canvas')!, ctx = cv.getContext('2d')!, knob = el.querySelector('.knob') as HTMLElement;
   const playBtn = el.querySelector('.play') as HTMLButtonElement, sel = el.querySelector('select')!;
   sel.value = String(state.speed);
@@ -31,7 +30,9 @@ export function createTimeline(el: HTMLElement, recs: Rec[], onEvent: (i: number
   const pins = el.querySelector('.pins')!;
   EVENTS.forEach((e, i) => {
     const p = document.createElement('button'); p.className = 'pin'; p.style.left = `${yearToX(e.year) * 100}%`;
-    p.title = `${fmtYear(e.year)} · ${e.title}`; p.onclick = ev => { ev.stopPropagation(); onEvent(i); }; pins.appendChild(p);
+    p.title = `${fmtYear(e.year)}${e.date ? ' · ' + fmtDay(e.date) : ''} · ${e.title}`;
+    p.onpointerdown = ev => ev.stopPropagation();                 // not a drag of the timeline: the event moves it
+    p.onclick = ev => { ev.stopPropagation(); onEvent(i); }; pins.appendChild(p);
   });
   function draw() {
     const w = (cv.width = cv.clientWidth * devicePixelRatio), h = (cv.height = cv.clientHeight * devicePixelRatio);
@@ -62,7 +63,6 @@ export function createTimeline(el: HTMLElement, recs: Rec[], onEvent: (i: number
     update() {
       knob.style.left = `${yearToX(state.year) * 100}%`;
       (el.querySelector('.yr') as HTMLElement).textContent = fmtYear(state.year);
-      (el.querySelector('.tl-date') as HTMLElement).textContent = state.mode === 'live' ? `${state.date.split('-').reverse().join('/')} · ${String(Math.floor(state.hour)).padStart(2, '0')}:${String(Math.round((state.hour % 1) * 60)).padStart(2, '0')}` : '';
       playBtn.textContent = state.playing ? '❚❚' : '▶';
     },
   };

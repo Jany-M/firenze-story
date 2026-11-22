@@ -91,11 +91,12 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   const inRange = (y: number, r: number[]) => y >= r[0] && y < r[1];
 
   // ---------- moving things ----------
-  interface Mover { obj: THREE.Object3D; x: number; dir: number; speed: number; x0: number; x1: number; lane: number; crew: any[]; bob: number; kind: string }
+  interface Mover { obj: THREE.Object3D; x: number; dir: number; speed: number; x0: number; x1: number; lane: number; crew: any[]; bob: number; kind: string; draft?: number }   // draft: how deep the hull sits (m)
   let movers: Mover[] = [], statics: THREE.Object3D[] = [], crew: any[] = [];
   let ducks: { obj: THREE.Object3D; x: number; lane: number; v: number }[] = [];
   let birds: THREE.InstancedMesh | null = null; const birdState: { c: THREE.Vector3; r: number; a: number; s: number; h: number }[] = [];
   let key = '';
+  let stoneMat: THREE.Material | undefined;
 
   function waterPos(x: number, lane: number) {       // lane -1 north bank .. 0 centre .. 1 south bank
     const p = at(x); const z = lane < 0 ? p[2] + (p[3] - p[2]) * -lane : p[2] + (p[4] - p[2]) * lane;
@@ -103,7 +104,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     return new THREE.Vector3(x, y !== undefined && !Number.isNaN(y) ? y : p[1], z);
   }
   function placeOnWater(name: string, x: number, lane: number, rot = 0) {
-    const p = waterPos(x, lane); const o = props.place(name, p.x, p.y - 0.15, p.z, rot, group); if (o) statics.push(o); return o;
+    const p = waterPos(x, lane); const o = props.place(name, p.x, p.y - 0.1, p.z, rot, group); if (o) statics.push(o); return o;   // small boats draw ~10 cm
   }
   function onBank(x: number, north: boolean, out = 4) {
     const p = at(x), z = north ? p[3] - out : p[4] + out; return new THREE.Vector3(x, height(x, z), z);
@@ -121,7 +122,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     const nav = inRange(year, RIVER_LIFE.navicelliCity) ? [xMin + 200, (bx.vecchio ?? 0) + 150] : inRange(year, RIVER_LIFE.navicelliPort) ? [xMin + 200, rosa - 80] : null;
     if (nav) for (let i = 0; i < 3; i++) {
       const o = props.place('navicello', 0, 0, 0, 0, group); if (!o) break;
-      const m: Mover = { obj: o, x: nav[0] + R() * (nav[1] - nav[0]), dir: R() < 0.5 ? 1 : -1, speed: 0.9 + R() * 0.6, x0: nav[0], x1: nav[1], lane: (R() - 0.5) * 0.6, crew: [], bob: R() * 6, kind: 'nav' };
+      const m: Mover = { obj: o, x: nav[0] + R() * (nav[1] - nav[0]), dir: R() < 0.5 ? 1 : -1, speed: 0.9 + R() * 0.6, x0: nav[0], x1: nav[1], lane: (R() - 0.5) * 0.6, crew: [], bob: R() * 6, kind: 'nav', draft: 0.3 };
       if (live) for (let k = 0; k < 2; k++) { const a = people.claim(new THREE.Vector3(), new THREE.Vector3(1, 0, 0), 'static', k ? 'idle' : 'agree', undefined, 'boatman'); if (a) { m.crew.push(a); crew.push(a); } }
       movers.push(m);
     }
@@ -132,19 +133,34 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       const h = onBank(x + 8, north, 3); const s = props.place('sandheap', h.x, h.y - 0.3, h.z, R() * 3, group); if (s) statics.push(s);
       if (live && b) for (let k = 0; k < 2; k++) {
         const p = waterPos(x - 1.5 + k * 2.4, north ? -0.62 : 0.62);
-        const a = people.claim(p.setY(p.y + 0.35), new THREE.Vector3(x, 0, at(x)[2]), 'static', 'agree', undefined, 'boatman'); if (a) crew.push(a);
+        const a = people.claim(p.setY(p.y - 0.02), new THREE.Vector3(x, 0, at(x)[2]), 'static', 'agree', undefined, 'boatman'); if (a) { a.obj.position.y = p.y; crew.push(a); }   // on the boat floor
       }
     }
-    // fishermen: on the banks everywhere; boats between the weirs only until 1586, always outside them
-    if (live) for (let i = 0; i < 7; i++) {
-      const x = (bx.carraia ?? -400) - 600 + R() * 1900, north = R() < 0.5, p = onBank(x, north, 1.5);
-      const a = people.claim(p, waterPos(x, 0), 'static', 'idle', undefined, 'fisher'); if (a) crew.push(a);
+    // fishermen: on the banks in every era – most sit on a stone with a rod, some stand; a few wade into the shallows;
+    // boats between the weirs only until 1586, always outside them
+    if (live) for (let i = 0; i < 9; i++) {
+      const x = (bx.carraia ?? -400) - 600 + R() * 1900, north = R() < 0.5, p = onBank(x, north, 1.2), w = waterPos(x, north ? -1 : 1);
+      const seated = i % 3 !== 2;
+      const a = people.claim(p.clone(), waterPos(x, 0), 'static', 'idle', undefined, 'fisher'); if (!a) continue;
+      crew.push(a);
+      if (seated) {                                     // on a stone ~0.42 m high: hips at the stone top, feet on the ground
+        a.obj.position.y = p.y - 0.6; people.setPose(a, 'sitrod', w.y);
+        stoneMat ??= new THREE.MeshStandardNodeMaterial({ color: 0xa39d90, roughness: 0.95, flatShading: true });
+        const st = new THREE.Mesh(new THREE.IcosahedronGeometry(0.34, 1), stoneMat); st.scale.set(1, 0.62, 0.85); st.position.set(a.obj.position.x, p.y + 0.15, a.obj.position.z);
+        st.rotation.y = a.obj.rotation.y; st.translateZ(-0.12); st.castShadow = true; group.add(st); statics.push(st);
+      } else people.setPose(a, 'rod', w.y);
+    }
+    if (live) for (let i = 0; i < 2; i++) {            // wading knee-deep near the bank, rod out over the current
+      const x = (bx.carraia ?? -400) - 300 + R() * 1400, north = R() < 0.5, p = waterPos(x, north ? -0.88 : 0.88);
+      const a = people.claim(p.clone().setY(p.y - 0.45), waterPos(x, 0), 'static', 'idle', undefined, 'fisher'); if (!a) continue;
+      a.obj.position.y = p.y - 0.45; people.setPose(a, 'rod', p.y); crew.push(a);
     }
     for (let i = 0; i < 3; i++) {   // fishing boats: in the city reach only before the 1586 ban, otherwise up- or downstream
       const inside = inRange(year, RIVER_LIFE.fishingBoatsInCity) && R() < 0.6;
       const x = inside ? rosa + 200 + R() * (niccolo - rosa - 400) : (R() < 0.5 ? rosa - 300 - R() * 1500 : niccolo + 200 + R() * 1200);
       const b = placeOnWater('barchetto', x, (R() - 0.5) * 0.8, R() * 6); if (b) b.children.forEach(c => { if (/sand/.test(c.name)) c.visible = false; });
-      if (live && b) { const p = waterPos(x, 0); const a = people.claim(p.setY(p.y + 0.35), p.clone().add(new THREE.Vector3(0, 0, 5)), 'static', 'idle', undefined, 'fisher'); if (a) crew.push(a); }
+      if (live && b) { const p = waterPos(x, 0); const a = people.claim(p.clone().setY(p.y - 0.05), p.clone().add(new THREE.Vector3(0, 0, 5)), 'static', 'idle', undefined, 'fisher');
+        if (a) { a.obj.position.y = p.y - 0.05; people.setPose(a, 'rod', p.y); crew.push(a); } }   // standing on the boat floor
     }
     // ferries where a bridge was down
     for (const f of RIVER_LIFE.ferries) if (inRange(year, [f.from, f.to]) && bx[f.site] !== undefined) {
@@ -260,7 +276,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     // dugouts with jars of goods going up and down the river
     if (inRange(year, RIVER_LIFE.canoes)) for (let i = 0; i < 5; i++) {
       const o = placeA('canoe', 0, 0, 0, 0, group); if (!o) break;
-      const m: Mover = { obj: o, x: xMin + 300 + R() * (xMax - xMin - 600), dir: R() < 0.5 ? 1 : -1, speed: 0.7 + R() * 0.5, x0: xMin + 200, x1: xMax - 200, lane: (R() - 0.5) * 0.8, crew: [], bob: R() * 6, kind: 'nav' };
+      const m: Mover = { obj: o, x: xMin + 300 + R() * (xMax - xMin - 600), dir: R() < 0.5 ? 1 : -1, speed: 0.7 + R() * 0.5, x0: xMin + 200, x1: xMax - 200, lane: (R() - 0.5) * 0.8, crew: [], bob: R() * 6, kind: 'nav', draft: 0.1 };
       if (live) { const ag = people.claim(new THREE.Vector3(), new THREE.Vector3(1, 0, 0), 'static', 'agree'); if (ag) { m.crew.push(ag); crew.push(ag); } }
       movers.push(m);
     }
@@ -293,8 +309,9 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       if (m.kind === 'nav') {
         m.x += m.dir * m.speed * dt; if (m.x > m.x1 || m.x < m.x0) { m.dir *= -1; m.x = Math.min(m.x1, Math.max(m.x0, m.x)); }
         const p = waterPos(m.x, m.lane), ahead = waterPos(m.x + m.dir * 6, m.lane);
-        m.obj.position.set(p.x, p.y - 0.25 + Math.sin(t * 1.3 + m.bob) * 0.05, p.z); m.obj.rotation.y = Math.atan2(-(ahead.z - p.z), ahead.x - p.x);
-        m.crew.forEach((c, i) => { c.obj.position.set(p.x - m.dir * (2 + i * 3), p.y + 0.5, p.z); c.obj.rotation.y = m.obj.rotation.y + Math.PI / 2; });
+        const dr = m.draft ?? 0.25, floor = p.y - dr + 0.08;                    // crew stands on the hull floor
+        m.obj.position.set(p.x, p.y - dr + Math.sin(t * 1.3 + m.bob) * 0.04, p.z); m.obj.rotation.y = Math.atan2(-(ahead.z - p.z), ahead.x - p.x);
+        m.crew.forEach((c, i) => { c.obj.position.set(p.x - m.dir * (dr < 0.2 ? 1.2 : 2 + i * 3), floor, p.z); c.obj.rotation.y = m.obj.rotation.y + Math.PI / 2; });
       } else if (m.kind === 'wade') {             // wading across the ford, knee-deep
         m.lane += m.dir * dt * 0.012; if (m.lane > m.x1 || m.lane < m.x0) { m.dir *= -1; m.obj.rotation.y += Math.PI; }
         const p = waterPos(m.x, m.lane); m.obj.position.set(p.x, p.y - 0.55, p.z); m.obj.rotation.y = m.dir > 0 ? 0 : Math.PI;

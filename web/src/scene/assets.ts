@@ -6,7 +6,7 @@ import { texture, triplanarTexture, float, vec3 } from 'three/tsl';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export const TEXTURES = ['intonaco', 'pietra_forte', 'pietra_serena', 'coppi', 'lastrico', 'cotto', 'wood', 'canvas', 'marble_white', 'marble_green', 'marble_red',
-  'terra', 'basoli', 'ammattonato', 'lastrico_filari', 'asfalto'] as const;
+  'terra', 'basoli', 'ammattonato', 'lastrico_filari', 'lastrico_spina', 'asfalto'] as const;
 export type TexName = typeof TEXTURES[number];
 export type TexSet = Record<TexName, { col: THREE.Texture; rgh: THREE.Texture }>;
 

@@ -47,13 +47,20 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const lum = dot(o, vec3(0.299, 0.587, 0.114));
     const n1 = fbm(P.mul(0.08)), n2 = fbm(P.mul(0.9));
     // meadow / pasture (spring-summer Tuscan greens, drier in patches)
-    const meadow = mix(mix(vec3(0.2, 0.28, 0.12), vec3(0.3, 0.36, 0.16), n1), vec3(0.42, 0.4, 0.22), smoothstep(0.62, 0.8, n2).mul(0.45));
+    // meadow: greens varying over ~10 m and ~1 m, dry straw patches, darker clover, and small details (tufts, flowers, stones)
+    const n3 = fbm(P.mul(0.27)), n4 = fbm(P.mul(3.1)), cellD = floor(P.mul(3.0)), hD = hash(cellD.x.add(cellD.y.mul(57.3)));
+    let meadow: any = mix(mix(vec3(0.2, 0.28, 0.12), vec3(0.3, 0.36, 0.16), n1), vec3(0.42, 0.4, 0.22), smoothstep(0.62, 0.8, n2).mul(0.45));
+    meadow = mix(meadow, vec3(0.16, 0.24, 0.1), smoothstep(0.58, 0.75, n3).mul(0.55));                // clover / damp hollows
+    meadow = mix(meadow, vec3(0.48, 0.45, 0.28), smoothstep(0.66, 0.82, n3.mul(0.6).add(n4.mul(0.4))).mul(0.5)); // dry grass
+    meadow = meadow.mul(n4.mul(0.22).add(0.89));                                                       // tufts
+    meadow = select(hD.greaterThan(0.992), vec3(0.85, 0.78, 0.35), select(hD.greaterThan(0.986), vec3(0.86, 0.86, 0.8),
+      select(hD.lessThan(0.004), vec3(0.5, 0.48, 0.44), meadow)));                                       // flowers, daisies, stones
     // farmland parcels (wheat, ploughed earth, vines, olive groves) on a slightly rotated 60 x 22 m grid
     const q = vec2(P.x.mul(0.94).add(P.y.mul(0.34)), P.y.mul(0.94).sub(P.x.mul(0.34)));
     const cell = floor(q.div(vec2(60, 22))), hc = hash(cell.x.add(cell.y.mul(131)));
     const rows = step(0.5, fract(q.y.div(2.2)));
     const field = select(hc.lessThan(0.25), mix(vec3(0.5, 0.43, 0.24), vec3(0.57, 0.5, 0.29), n2),               // wheat
-      select(hc.lessThan(0.45), mix(vec3(0.33, 0.26, 0.19), vec3(0.4, 0.32, 0.23), rows),                          // ploughed
+      select(hc.lessThan(0.45), mix(vec3(0.33, 0.29, 0.23), vec3(0.41, 0.37, 0.29), rows),                          // ploughed (brown, not orange)
         select(hc.lessThan(0.7), mix(vec3(0.26, 0.31, 0.15), vec3(0.34, 0.32, 0.2), rows),                           // vines
           meadow)));
     // woods today (dark green in Sentinel-2) were woods / olive groves before too
@@ -72,8 +79,17 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const pc = floor(P.div(40)), ph = (k: number) => hash(pc.x.mul(127.1).add(pc.y.mul(311.7)).add(k));
     const paved = step(float(1237).add(ph(1).mul(102)), uYear);
     const brick = step(ph(2), 0.3).mul(step(uYear, float(1450).add(ph(3).mul(100))));
-    let street: any = mix(terra, mix(lastr, amm, brick), paved);
-    street = mix(street, filari, step(float(1860).add(ph(4).mul(50)), uYear));
+    // unpaved earth streets: grass grows where few walk (patches and edges), so the earth blends into the meadows
+    const grassy = smoothstep(0.55, 0.78, fbm(P.mul(0.35))).mul(0.55).add(smoothstep(0.7, 0.9, n4).mul(0.3));
+    const earth = mix(terra, meadow, grassy);
+    let street: any = mix(earth, mix(lastr, amm, brick), paved);
+    // relaid from the 1840s in pietra forte / pietra serena slabs in courses with dressed tops (grooves, punched dots,
+    // herring-bone chiselling); by 40 m patch: neat courses ~55 %, older irregular courses ~30 %, square slabs dressed in
+    // herring-bone laid on the diagonal ~15 % (squares, e.g. Piazza Donatello) – shares *inferred*
+    const Pd = vec2(P.x.add(P.y), P.y.sub(P.x)).mul(0.7071);
+    const spina = texture(tex.lastrico_spina.col).sample(Pd.div(4)).rgb;
+    const modern = select(ph(6).lessThan(0.55), filari, select(ph(6).lessThan(0.85), lastr, spina));
+    street = mix(street, modern, step(float(1860).add(ph(4).mul(50)), uYear));
     const newQuarter = step(1850, urbanStart);
     // …then today's ground from the 2017 orthophoto (real roads, yards and gardens) instead of a flat asphalt fill, which
     // drew dark squares around the detached villas of the outer belt (asphalt texture tints it slightly)

@@ -14,7 +14,7 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 [![Netlify Status](https://api.netlify.com/api/v1/badges/87ac5e9f-ddc6-4dc3-a1fc-65b3bea10b28/deploy-status)](https://app.netlify.com/projects/firenzestory/deploys)
 
 ## Highlights
-- **9,067 dated structures** in the 2 × 2 km historic core: 6,352 present-day buildings (OSM + LiDAR 2023), 2,302 demolished buildings and blocks traced from the 1830s land register and the 1843 map, walls, gates, towers, Roman remains and the conjectural Roman grid. Every structure has a start/end year, a confidence level and its sources.
+- **18,784 dated structures** in a 3.6 × 3.6 km study area (Cascine to Piazza Ferrucci, Ponte alla Vittoria to Ponte San Niccolò): 14,173 present-day buildings (OSM + LiDAR 2023), about 4,200 demolished buildings and blocks traced from the 1830s land register and the 1843 map, walls, gates, towers, Roman remains and the conjectural Roman grid. Every structure has a start/end year, a confidence level and its sources.
 - **Real roofs** reconstructed from the laser scan (fitted planes, ridges and hips), Florentine eaves, chimneys; façades by era (window types, shutters from 1750, shop arches, rusticated palazzi, 19th-century balconies) and landmark materials.
 - **The valley around it**: 12 × 12 km of terrain (Fiesole, Arcetri, Bellosguardo), fields, meadows and woods that give way to the city as it is built, ~65,000 trees.
 - **The Arno**: river pools stepping down at the San Niccolò and Santa Rosa weirs, dated bridge phases (Roman wooden bridge, the 1333 and 1557 floods, the 1837 suspension bridge, 1944), cargo boats, renaioli, fishermen, ferries, landing stages, ducks, herons, swallows.
@@ -35,6 +35,8 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/SANTA-CROCE.md](docs/landmarks/SANTA-CROCE.md) | Landmark model: Santa Croce – measurements, phases, review list |
 | [docs/landmarks/SANTA-MARIA-NOVELLA.md](docs/landmarks/SANTA-MARIA-NOVELLA.md) | Landmark model: Santa Maria Novella – measurements, phases, review list |
 | [docs/landmarks/ORSANMICHELE.md](docs/landmarks/ORSANMICHELE.md) | Landmark model: Orsanmichele – measurements, phases, review list |
+| [docs/landmarks/BARGELLO.md](docs/landmarks/BARGELLO.md) | Landmark model: Bargello – measurements, phases, review list |
+| [docs/landmarks/LOGGIA-DEI-LANZI.md](docs/landmarks/LOGGIA-DEI-LANZI.md) | Landmark model: Loggia dei Lanzi and its statues – measurements, phases, review list |
 | [docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md) | Terrain, land cover, vegetation, the Arno, weirs, bridges, crossings, river life, early settlement |
 | [docs/HISTORY.md](docs/HISTORY.md) | Epochs, urban changes, recurring and one-off events, daily-life vignettes |
 | [docs/EVENTS-COSTUMES.md](docs/EVENTS-COSTUMES.md) | Scoppio del Carro, carnival, police patrols, army, costume palette, interactions |

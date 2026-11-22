@@ -111,13 +111,16 @@ Ground shader: `web/src/scene/environment.ts`; textures: `pipeline/30_textures.p
 
 | Years | Surface | Texture | Basis |
 |---|---|---|---|
-| before Florentia, outside the castrum, unbuilt | beaten earth with ruts, gravel, damp patches | `terra` (8 m) | – |
+| before Florentia, outside the castrum, unbuilt | beaten earth with ruts, gravel, damp patches; grey-brown (not orange, so it never reads as roof tile), with grass coming through where few walk | `terra` (8 m) + meadow | – |
 | c. 30 BC – 550, inside the castrum | earth blocks; cardo, decumanus and a ~36 m street grid in polygonal *basoli* | `basoli` (4 m) | castrum walls from A03; street pattern simplified (*inferred*) |
 | 550 – 1237 | beaten earth | `terra` | – |
 | 1237 – 1339 | streets paved patch by patch (each 40 m patch has its own year); ~30 % in brick herring-bone | `ammattonato` (2.4 m), `lastrico` (5 m) | first paving in the 13th c.; "all streets paved by 1339" (popular claim, to verify) – *conjectural* |
 | 1339 – c. 1860 | irregular pietra forte slabs (*lastrico*); brick streets re-laid in stone 1450–1550 | `lastrico` | *conjectural* timing |
-| c. 1860 → today, historic city | regular pietra forte slabs in rows | `lastrico_filari` (4 m) | 19th-c. re-paving, today's centre – *inferred* |
-| quarters built after 1850 | earth / macadam, asphalt 1925–1960 | `terra`, `asfalto` (6 m) | *inferred* |
+| c. 1840 → today, historic city | rectangular slabs of pietra forte (grey-brown) and pietra serena (blue-grey) in courses, light grey mortar joints; tops dressed with parallel grooves, herring-bone chiselling or punched dots, older slabs worn smooth. By 40 m patch: neat courses ~55 %, older irregular courses ~30 %, square slabs in herring-bone dressing laid on the diagonal ~15 % | `lastrico_filari` (4 m), `lastrico` (5 m), `lastrico_spina` (4 m, rotated 45°) | the centre was relaid in stone 1841–46 (Grand Duchy) and later; appearance from Jany's photographs (Nov 2026) – shares *inferred* |
+| quarters built after 1850 | earth / macadam, then from 1925–60 today's ground from the 2017 orthophoto (roads, yards, gardens), lightly tinted with `asfalto` | `terra`, orthophoto (S02) | *inferred* |
+
+Meadows: greens varying at ~10 m and ~1 m, clover hollows, dry straw patches, tufts, scattered flowers and stones.
+Buildings still going up (start year plus their estimated ramp) show their walls rising without the roof.
 
 Not yet: sidewalks and curbs, slab rows following each street's direction, drains and gutters, mud and puddles by
 season, the urban raster (8 m) is coarse at street edges.

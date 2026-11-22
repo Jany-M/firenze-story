@@ -42,3 +42,8 @@ function scheduleHash() {
   }, 300);
 }
 export const fmtYear = (y: number) => (y < 0 ? `${Math.abs(Math.round(y))} BC` : `${Math.round(y)}`);
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/** 'MM-DD' -> '24 June' */
+export const fmtDay = (md: string) => { const [m, d] = md.split('-').map(Number); return m >= 1 && m <= 12 && d ? `${d} ${MONTHS[m - 1]}` : md; };
+/** decimal hour -> '09:45' */
+export const fmtHour = (h: number) => { const m = Math.round(h * 60); return `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };

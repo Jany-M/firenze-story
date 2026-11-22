@@ -14,7 +14,16 @@ interface Agent {
   obj: THREE.Object3D; mixer: THREE.AnimationMixer; actions: Record<string, THREE.AnimationAction>; body: THREE.MeshStandardMaterial;
   skin: THREE.MeshStandardMaterial[]; bones: Record<string, THREE.Bone>; rig: THREE.Object3D; worn: Record<string, THREE.Mesh>; outfit: string;
   role: Role; a: number; b: number; t: number; len: number; speed: number; cur: string; target?: THREE.Vector3; busy: boolean; blockedN?: number;
+  pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
+/** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
+export type Pose = 'sit' | 'rod' | 'sitrod';
+// Xbot / Mixamo rig in T-pose: thigh forward = UpLeg.x −90°, shin down = Leg.x +90°; arm forward = Arm.y ±, down = Arm.z ±
+const POSE_BONES: Record<string, [string, number, number, number][]> = {
+  sit: [['LeftUpLeg', -1.5, 0, -0.08], ['RightUpLeg', -1.5, 0, 0.08], ['LeftLeg', 1.45, 0, 0], ['RightLeg', 1.45, 0, 0]],
+  rod: [['RightArm', 0, 1.3, 0.55], ['LeftArm', 0, -1.15, -0.5], ['RightForeArm', 0, 0.35, 0], ['LeftForeArm', 0, -0.55, 0]],
+};
+const rodMat = new THREE.MeshStandardMaterial({ color: 0x5a4630, roughness: 0.8 }), lineMat = new THREE.LineBasicMaterial({ color: 0xd8d4c8, transparent: true, opacity: 0.6 });
 const tmp = new THREE.Vector3();
 // outfits: garment / hat names from the costume kit
 export const OUTFITS: Record<string, string[]> = {
@@ -154,12 +163,44 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     ag.busy = true; ag.role = role; ag.obj.visible = true; ag.obj.position.copy(pos); ag.obj.lookAt(face.x, pos.y, face.z);
     tint(ag, color, outfit); play(ag, anim); return ag;
   }
-  function release(ag: Agent) { ag.busy = false; ag.obj.visible = false; }
+  function release(ag: Agent) { setPose(ag, null); ag.busy = false; ag.obj.visible = false; }
+  /** Seat an agent (seat height = its position + 0.45 m: put the agent's position at ground level), and/or give it a rod
+   *  whose line drops to waterY (world). The rod sways and now and then is lifted (a bite or a re-cast). */
+  function setPose(ag: Agent, pose: Pose | null, waterY = 0) {
+    ag.pose = pose ?? undefined;
+    if (ag.rod) { ag.obj.remove(ag.rod.g); ag.rod = undefined; }
+    if (!pose) { for (const k of ['LeftUpLeg', 'RightUpLeg', 'LeftLeg', 'RightLeg', 'RightArm', 'LeftArm', 'RightForeArm', 'LeftForeArm']) ag.bones['mixamorig' + k]?.rotation.set(0, 0, 0); return; }
+    if (pose === 'rod' || pose === 'sitrod') {
+      const g = new THREE.Group();                         // seated or not, the upper body keeps its height in the agent frame
+      const hand = new THREE.Vector3(0.05, 1.12, 0.42), dir = new THREE.Vector3(0, 0.55, 1).normalize(), L = 3.4;
+      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.016, L, 5), rodMat); c.castShadow = true;
+      c.position.copy(hand).addScaledVector(dir, L / 2); c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir); g.add(c);
+      const tip = hand.clone().addScaledVector(dir, L);
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([tip, tip.clone().setY(0)]), lineMat); line.frustumCulled = false; g.add(line);
+      ag.obj.add(g); ag.rod = { g, line, tip, waterY, ph: Math.random() * 20 };
+    }
+  }
+  const lift = new THREE.Vector3();
+  function applyPose(ag: Agent, t: number) {
+    const p = ag.pose!; const parts = p === 'sitrod' ? ['sit', 'rod'] : [p];
+    for (const k of parts) for (const [n, x, y, z] of POSE_BONES[k]) ag.bones['mixamorig' + n]?.rotation.set(x, y, z);
+    const r = ag.rod; if (!r) return;
+    // sway, and every ~25 s a short lift of the rod tip (a bite, or pulling the line in to cast again)
+    const ph = (t + r.ph) % 25, pull = ph < 1.6 ? Math.sin((ph / 1.6) * Math.PI) : 0;
+    r.g.rotation.set(-pull * 0.35 + Math.sin(t * 0.7 + r.ph) * 0.02, Math.sin(t * 0.31 + r.ph) * 0.05, 0);
+    r.g.updateMatrix(); lift.copy(r.tip).applyMatrix4(r.g.matrix);                 // tip in the agent's frame
+    const wy = (r.waterY - ag.obj.position.y) / ag.obj.scale.y;                      // water level in the agent's frame
+    const a = r.line.geometry.getAttribute('position') as THREE.BufferAttribute;
+    a.setXYZ(0, r.tip.x, r.tip.y, r.tip.z); a.setXYZ(1, r.tip.x, r.tip.y - (lift.y - wy) - 0.02 + pull * 0.6, r.tip.z + 0.4); a.needsUpdate = true;
+  }
+  let clock = 0;
   function update(dt: number) {
     if (!enabled) return;
+    clock += dt;
     for (const ag of agents) {
       ag.mixer.update(dt);
       if (!ag.obj.visible) continue;
+      if (ag.pose) applyPose(ag, clock);
       if (ag.role === 'walker') {
         ag.t += ag.speed * dt;
         if (ag.t >= ag.len) { ag.a = ag.b; nextEdge(ag); if (Math.random() < 0.02) { place(ag); continue; } }
@@ -187,7 +228,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     }
   }
   return {
-    group, claim, release, update, agents,
+    group, claim, release, update, agents, setPose,
     get year() { return year; },
     setEnabled(v: boolean) { const was = enabled; enabled = v; group.visible = v; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
     setContext(y: number, c: THREE.Vector3, r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); radius = r; if (changed && enabled) reset(); return changed; },
