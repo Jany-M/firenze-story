@@ -12,12 +12,6 @@
   NODE_VERSION = "22"
   PYTHON_VERSION = "3.12"
 
-# Keep previous /docs/ between builds when docs sources did not change
-[[plugins]]
-  package = "netlify-plugin-cache"
-  [plugins.inputs]
-  paths = ["web/public/docs"]
-
 [[redirects]]
   from = "/docs"
   to = "/docs/"
