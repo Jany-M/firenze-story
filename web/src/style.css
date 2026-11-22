@@ -1,0 +1,80 @@
+[hidden] { display: none !important; }
+:root { --ink: #16130f; --glass: rgba(22, 19, 15, .64); --line: rgba(255, 255, 255, .16); --gold: #c8913a; --txt: #f3ede2; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #1d1a16; color: var(--txt); font: 13px/1.45 Inter, system-ui, sans-serif; }
+#app { position: fixed; inset: 0; }
+#app canvas { display: block; }
+.glass { position: fixed; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 12px; z-index: 5; }
+button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; cursor: pointer; }
+button:hover { border-color: var(--gold); }
+button.on { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
+select, input[type=text] { font: inherit; background: rgba(0, 0, 0, .35); color: var(--txt); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; }
+.muted { opacity: .65; font-size: 12px; }
+#brand { position: fixed; left: 16px; top: 12px; z-index: 5; text-shadow: 0 1px 6px rgba(0, 0, 0, .6); }
+#brand h1 { margin: 0; font: 600 22px Georgia, serif; } #brand em { color: var(--gold); font-style: normal; } #brand p { margin: 0; opacity: .75; font-size: 12px; }
+#search-wrap { top: 14px; left: 50%; transform: translateX(-50%); width: min(420px, 40vw); padding: 6px; }
+#search { width: 100%; border: 0; background: transparent; color: var(--txt); padding: 6px 8px; outline: none; }
+#search::placeholder { color: var(--txt); opacity: .55; }
+#results { max-height: 60vh; overflow: auto; }
+#results button { display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--line); border-radius: 0; color: var(--txt); }
+#results .kind { display: inline-block; min-width: 58px; font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--gold); }
+#results .alias { display: block; font-size: 11.5px; opacity: .75; padding-left: 62px; }
+#results .none { padding: 6px 10px; }
+#modes { top: 14px; right: 14px; padding: 4px; display: flex; gap: 4px; }
+#modes button { border: 0; }
+#hud { top: 72px; left: 14px; padding: 10px 14px; max-width: 360px; }
+#hud .era { font: 600 17px Georgia, serif; color: #fff; margin-bottom: 6px; }
+#hud .kv { display: grid; gap: 4px; font-size: 12px; opacity: .9; } #hud b { display: block; font-weight: 500; color: #fff; }
+#side { top: 64px; right: 14px; width: 330px; max-height: calc(100vh - 210px); overflow: auto; padding: 12px 14px; }
+#side h4 { margin: 12px 0 6px; font: 600 13px Georgia, serif; color: var(--gold); }
+.seg { display: flex; gap: 4px; flex-wrap: wrap; }
+.lg { display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 12px; } .lg i { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.lg span { margin-left: auto; opacity: .75; } .lg em { opacity: .6; font-style: normal; font-size: 11px; }
+#events button, #levents button { display: block; width: 100%; text-align: left; margin: 3px 0; font-size: 12px; }
+.tag { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 99px; background: rgba(200, 145, 58, .25); color: #f2c785; margin: 2px 4px 2px 0; }
+.tag.documented { background: rgba(111, 191, 115, .25); color: #a8e0aa; } .tag.inferred { background: rgba(224, 184, 79, .25); color: #f0d48a; } .tag.conjectural { background: rgba(127, 147, 173, .3); color: #c3d0e0; }
+.row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+#live { top: 64px; right: 14px; padding: 10px 14px; display: grid; gap: 8px; width: 280px; max-height: calc(100vh - 210px); overflow: auto; }
+#live h4 { margin: 6px 0 0; font: 600 13px Georgia, serif; color: var(--gold); }
+#live label { display: grid; gap: 3px; } #live .row { display: flex; }
+#card { right: 14px; bottom: 120px; width: 330px; padding: 12px 14px; max-height: 50vh; overflow: auto; }
+#side:not([hidden]) ~ #card { right: 360px; }
+#card h3 { margin: 0 0 4px; font: 600 16px Georgia, serif; color: #fff; padding-right: 20px; }
+#card dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin: 8px 0; font-size: 12px; } #card dt { opacity: .6; } #card dd { margin: 0; }
+#card a { color: var(--gold); } #card .x { position: absolute; right: 8px; top: 6px; border: 0; font-size: 18px; padding: 0 6px; }
+#timeline { left: 14px; right: 14px; bottom: 14px; padding: 8px 14px 6px; }
+.tl-top { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.play { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--ink); border: 0; font-weight: 700; padding: 0; }
+.yr { font: 600 24px Georgia, serif; color: #fff; min-width: 90px; } .tl-date { opacity: .8; } .spd { opacity: .8; font-size: 12px; } .tl-hint { margin-left: auto; opacity: .5; font-size: 11px; }
+.track { position: relative; height: 62px; cursor: ew-resize; touch-action: none; }
+.track canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.knob { position: absolute; top: 0; bottom: 14px; width: 2px; background: #fff; transform: translateX(-1px); box-shadow: 0 0 0 3px rgba(200, 145, 58, .45); pointer-events: none; }
+.pins { position: absolute; inset: 0; pointer-events: none; }
+.pin { position: absolute; top: 2px; width: 11px; height: 11px; padding: 0; border-radius: 50%; background: #e05a47; border: 2px solid #fff; transform: translateX(-50%); pointer-events: auto; }
+.toast { position: fixed; left: 50%; top: 70px; transform: translateX(-50%); background: var(--glass); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; z-index: 20; max-width: 60vw; }
+#loading { position: fixed; inset: 0; display: grid; place-items: center; background: #1d1a16; z-index: 50; transition: opacity .6s; text-align: center; }
+#loading h2 { font: 600 34px Georgia, serif; margin: 0 0 8px; } #loading em { color: var(--gold); font-style: normal; }
+#loading.done { opacity: 0; pointer-events: none; }
+details { margin-top: 12px; font-size: 12px; } details ul { padding-left: 16px; }
+
+/* view controls help (scene/view.ts) */
+.view-help { position: fixed; right: 16px; top: 64px; z-index: 30; background: rgba(28, 24, 20, 0.88); color: #efe7d8;
+  padding: 12px 14px; border-radius: 8px; font: 12px/1.5 system-ui, sans-serif; min-width: 230px; cursor: pointer; }
+.view-help b { display: block; margin-bottom: 6px; font-size: 13px; }
+.view-help div { display: flex; justify-content: space-between; gap: 14px; }
+.view-help kbd { font: 11px ui-monospace, monospace; background: rgba(255, 255, 255, 0.12); padding: 0 5px; border-radius: 3px; }
+
+/* inspector: sources and address history */
+#card ul.src { margin: 0; padding-left: 0; list-style: none; } #card ul.src li { margin: 2px 0; font-size: 12px; }
+#card .sid { display: inline-block; min-width: 30px; padding: 0 4px; border-radius: 3px; background: rgba(255,255,255,.12); font-size: 10px; text-align: center; }
+#card ul.att { margin: 4px 0 0; padding-left: 14px; max-height: 180px; overflow: auto; font-size: 11.5px; }
+#card details summary { cursor: pointer; } #card details.data summary { opacity: .8; } #card details.data[open] summary { margin-bottom: 4px; } #card hr { border: 0; border-top: 1px solid rgba(255,255,255,.12); margin: 6px 0; }
+#card .small { font-size: 11px; } #card { max-height: calc(100vh - 230px); overflow: auto; }
+
+/* street strip (buildings of a street side by side) */
+#strip { left: 50%; transform: translateX(-50%); bottom: 150px; padding: 8px 12px; max-width: calc(100vw - 40px); overflow-x: auto; z-index: 7; }
+#strip .strip-head { display: flex; gap: 8px; align-items: baseline; margin-bottom: 4px; } #strip .strip-head .x { margin-left: auto; }
+#strip svg text { fill: var(--txt); font-size: 9px; opacity: .8; } #strip svg text.nm { fill: var(--gold); font-size: 10px; opacity: 1; }
+#strip svg rect { stroke: rgba(0,0,0,.35); stroke-width: .5; cursor: pointer; } #strip svg rect.hist { stroke: #fff; stroke-width: 1.4; }
+#strip svg g.b:hover rect { filter: brightness(1.3); } #strip .gl { stroke: var(--line); }
+#card .strip-open { width: 100%; }

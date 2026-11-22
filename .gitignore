@@ -1,0 +1,9 @@
+﻿# private work area: notes, drafts, emails, mockups, references, raw data cache, dev tools
+_dev/
+
+# build output and dependencies
+web/node_modules/
+web/dist/
+__pycache__/
+*.pyc
+*.blend1

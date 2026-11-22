@@ -1,0 +1,10 @@
+# pipeline/ (data build) and pipeline/prepare.py
+numpy
+scipy
+pillow
+pyproj
+shapely
+pyshp
+opencv-python-headless
+mapbox_earcut
+zipfile-deflate64

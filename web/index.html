@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Firenze Story — Florence in 4D</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="app"></div>
+  <header id="brand"><h1>Firenze <em>Story</em></h1><p>Florence in 4D · v0.1 preview</p></header>
+  <div id="search-wrap" class="glass"><input id="search" placeholder="Search a building or monument…" autocomplete="off" /><div id="results"></div></div>
+  <nav id="modes" class="glass"></nav>
+  <div id="hud" class="glass"></div>
+  <aside id="side" class="glass" hidden></aside>
+  <div id="live" class="glass" hidden></div>
+  <article id="card" class="glass" hidden></article>
+  <footer id="timeline" class="glass"></footer>
+  <div id="loading"><div><h2>Firenze <em>Story</em></h2><p>Starting renderer…</p></div></div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

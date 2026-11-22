@@ -1,0 +1,482 @@
+{
+ "fs_wood": {
+  "tex": "wood",
+  "color": [
+   0.45,
+   0.34,
+   0.24
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.8,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_wood_dark": {
+  "tex": "wood",
+  "color": [
+   0.25,
+   0.18,
+   0.12
+  ],
+  "tint": [
+   0.55,
+   0.5,
+   0.45
+  ],
+  "rough": 0.8,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_canvas": {
+  "tex": "canvas",
+  "color": [
+   0.85,
+   0.8,
+   0.68
+  ],
+  "tint": [
+   1.0,
+   0.9411764705882354,
+   0.8
+  ],
+  "rough": 0.9,
+  "scale": 2.0,
+  "metal": 0.0
+ },
+ "fs_canvas_red": {
+  "tex": "canvas",
+  "color": [
+   0.55,
+   0.16,
+   0.12
+  ],
+  "tint": [
+   0.6470588235294118,
+   0.18823529411764706,
+   0.1411764705882353
+  ],
+  "rough": 0.9,
+  "scale": 2.0,
+  "metal": 0.0
+ },
+ "fs_canvas_blu": {
+  "tex": "canvas",
+  "color": [
+   0.22,
+   0.3,
+   0.45
+  ],
+  "tint": [
+   0.25882352941176473,
+   0.35294117647058826,
+   0.5294117647058824
+  ],
+  "rough": 0.9,
+  "scale": 2.0,
+  "metal": 0.0
+ },
+ "fs_wicker": {
+  "tex": null,
+  "color": [
+   0.62,
+   0.48,
+   0.28
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.95,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_terracotta": {
+  "tex": "cotto",
+  "color": [
+   0.7,
+   0.4,
+   0.26
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.85,
+  "scale": 1.5,
+  "metal": 0.0
+ },
+ "fs_iron": {
+  "tex": null,
+  "color": [
+   0.18,
+   0.18,
+   0.19
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.5,
+  "scale": 1.0,
+  "metal": 0.8
+ },
+ "fs_gold": {
+  "tex": null,
+  "color": [
+   0.85,
+   0.65,
+   0.25
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.35,
+  "scale": 1.0,
+  "metal": 1.0
+ },
+ "fs_red_paint": {
+  "tex": null,
+  "color": [
+   0.55,
+   0.08,
+   0.06
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_white": {
+  "tex": null,
+  "color": [
+   0.92,
+   0.91,
+   0.88
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.7,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_produce_green": {
+  "tex": null,
+  "color": [
+   0.3,
+   0.45,
+   0.15
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.7,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_produce_orange": {
+  "tex": null,
+  "color": [
+   0.85,
+   0.45,
+   0.1
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_produce_red": {
+  "tex": null,
+  "color": [
+   0.6,
+   0.1,
+   0.08
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_bread": {
+  "tex": null,
+  "color": [
+   0.72,
+   0.52,
+   0.28
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_cloth_bolt": {
+  "tex": "canvas",
+  "color": [
+   0.4,
+   0.18,
+   0.35
+  ],
+  "tint": [
+   0.4705882352941177,
+   0.21176470588235294,
+   0.4117647058823529
+  ],
+  "rough": 0.9,
+  "scale": 3.0,
+  "metal": 0.0
+ },
+ "fs_sand": {
+  "tex": null,
+  "color": [
+   0.72,
+   0.64,
+   0.48
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_thatch": {
+  "tex": null,
+  "color": [
+   0.52,
+   0.44,
+   0.28
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_daub": {
+  "tex": null,
+  "color": [
+   0.55,
+   0.45,
+   0.33
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_feather_white": {
+  "tex": null,
+  "color": [
+   0.9,
+   0.9,
+   0.88
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_feather_grey": {
+  "tex": null,
+  "color": [
+   0.45,
+   0.47,
+   0.48
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_duck_brown": {
+  "tex": null,
+  "color": [
+   0.36,
+   0.28,
+   0.2
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.8,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_fur_deer": {
+  "tex": null,
+  "color": [
+   0.45,
+   0.3,
+   0.18
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_bird_dark": {
+  "tex": null,
+  "color": [
+   0.12,
+   0.12,
+   0.14
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.8,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_clay": {
+  "tex": null,
+  "color": [
+   0.62,
+   0.42,
+   0.3
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.95,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_stone_serena": {
+  "tex": "pietra_serena",
+  "color": [
+   0.55,
+   0.56,
+   0.55
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_wool": {
+  "tex": null,
+  "color": [
+   0.82,
+   0.79,
+   0.72
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_pig_dark": {
+  "tex": null,
+  "color": [
+   0.3,
+   0.24,
+   0.22
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_cow": {
+  "tex": null,
+  "color": [
+   0.58,
+   0.5,
+   0.4
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.95,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_ember": {
+  "tex": null,
+  "color": [
+   0.9,
+   0.35,
+   0.08
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.0
+ }
+}
