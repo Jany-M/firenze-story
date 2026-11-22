@@ -75,7 +75,10 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     let street: any = mix(terra, mix(lastr, amm, brick), paved);
     street = mix(street, filari, step(float(1860).add(ph(4).mul(50)), uYear));
     const newQuarter = step(1850, urbanStart);
-    street = mix(street, mix(terra, asf, step(float(1925).add(ph(5).mul(35)), uYear)), newQuarter);
+    // …then today's ground from the 2017 orthophoto (real roads, yards and gardens) instead of a flat asphalt fill, which
+    // drew dark squares around the detached villas of the outer belt (asphalt texture tints it slightly)
+    const nowGround = mix(o.mul(1.04), asf, 0.15);
+    street = mix(street, mix(terra, nowGround, step(float(1925).add(ph(5).mul(35)), uYear)), newQuarter);
     const urbanGround = street;
     // Roman Florentia (c. 30 BC – 6th c.): castrum box from the excavated walls (A03), cardo (via Roma–Calimala) and
     // decumanus (via Strozzi–Speziali–Corso) crossing at the forum; streets every ~1 actus in basoli

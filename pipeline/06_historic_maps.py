@@ -5,7 +5,9 @@ import math, os, io, json, urllib.request, urllib.parse, concurrent.futures as c
 from PIL import Image
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),"..")
 OUT=os.path.join(ROOT,"_dev","data","raw","historic_maps"); os.makedirs(OUT,exist_ok=True)
-S,W,N,E=43.755,11.235,43.785,11.275; Z=17; R=20037508.342789244
+import sys, os; sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+from common import wgs_bbox
+S,W,N,E=wgs_bbox(); Z=17; R=20037508.342789244
 LAYERS=["cartestoriche:1837_PiantaTopograficaEVedutaGeneraleDiFirenzeGugliantiniAngioliniRosaspina","cartestoriche:1843_PiantaGeometricaDiFirenzeFantozzi",
  "cartestoriche:1855_PiantaCittaDiFirenzePozzi","cartestoriche:1861_PiantaDiFirenzeESuoiContorni","cartestoriche:1865_1870_MappaCittaDiFirenzeIGM",
  "cartestoriche:1873_PiantaDiFirenzeEDintorniIGM","cartestoriche:1937_MappaCittaDiFirenze","cartestoriche:CatastoLorenese_ComFi",
@@ -23,7 +25,10 @@ def tile(lay,x,y):
     return x,y,None
 for lay in LAYERS:
     name=lay.split(":")[1]; png=os.path.join(OUT,name+".png")
-    if os.path.exists(png): continue
+    meta=png[:-4]+".json"
+    if os.path.exists(png) and os.path.exists(meta):
+        w0,s0,e0,n0=json.load(open(meta))["bbox_wgs84"]
+        if w0<=W and s0<=S and e0>=E and n0>=N: continue   # cached mosaic already covers the study area
     im=Image.new("RGBA",((x1-x0+1)*256,(y1-y0+1)*256)); miss=0
     with cf.ThreadPoolExecutor(6) as ex:
         for x,y,t in ex.map(lambda a: tile(lay,*a),[(x,y) for x in range(x0,x1+1) for y in range(y0,y1+1)]):

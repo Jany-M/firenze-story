@@ -82,3 +82,11 @@ of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557
 - La Nazione (renaioli in the first half of the 20th century)
 - hmdb.org, Piazza della Signoria excavations marker; Wikipedia "Florentia (Roman city)"
 - Copernicus DEM GLO-30 (© DLR / Airbus, ESA); Sentinel-2 cloudless 2016 by EOX (CC BY 4.0, contains modified Copernicus Sentinel data 2016); OpenStreetMap (ODbL)
+
+### Bridges outside the current core (recorded, shown once the study area grows)
+| Bridge | Phases |
+|---|---|
+| Ponte San Niccolò | suspension bridge "San Ferdinando" (Seguin) 1837–1844 (flood) · rebuilt 1853–1890 · three-span metal bridge 1890–1944 · Morandi single arch 1949 |
+| Ponte alla Vittoria | suspension bridge "San Leopoldo" 1835–1931 (four lion pillars) · Ponte alla Vittoria 1931–1944 · rebuilt 1946 (142 m × 15.5 m) |
+Sources: Museo Galileo (San Niccolò weir page), structurae.net, risorgimentofirenze.it; span counts of the 1931 and 1946
+Vittoria bridges *inferred*.

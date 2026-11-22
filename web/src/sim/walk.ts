@@ -4,7 +4,8 @@
 import * as THREE from 'three/webgpu';
 import { isAlive, type Rec } from '../scene/city';
 
-const RES = 2, HALF = 1000, W = (2 * HALF) / RES, CELL = 4;
+const RES = 2, CELL = 4;
+let HALF = 1800, W = (2 * HALF) / RES;                  // set from the grid size in init (study area ±1800 m)
 let recs: Rec[] = [], foot: Uint16Array | null = null, trees: Float32Array | null = null, year = 2026;
 const treeGrid = new Map<number, number[]>();            // 4 m cells → tree indices
 let boxes: { x0: number; x1: number; z0: number; z1: number }[] = [];
@@ -34,6 +35,7 @@ function tree(x: number, z: number, r: number) {
 
 export const walk = {
   init(r: Rec[], f: Uint16Array | null, t: Float32Array | null) {
+    if (f) { W = Math.round(Math.sqrt(f.length / 2)); HALF = (W * RES) / 2; }
     recs = r; foot = f && f.length === 2 * W * W ? f : null; trees = t; treeGrid.clear();
     if (t) for (let i = 0; i < t.length / 7; i++) {
       const k = key(Math.floor(t[i * 7] / CELL), Math.floor(t[i * 7 + 2] / CELL));

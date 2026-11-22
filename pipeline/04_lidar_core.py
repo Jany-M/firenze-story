@@ -1,9 +1,11 @@
 """Fetch LiDAR 2023 DSM+DTM 500 m tiles for a bbox (EPSG:25832 / ETRS89 UTM32N, 1 m cells assumed — read from header)
 and store them as compressed float32 .npz + header JSON in _dev/data/processed/lidar2023/<kind>/ (ASCII kept only in scratch).
-usage: python 04_lidar_core.py 680500 4848000 682500 4850000"""
+usage: python 04_lidar_core.py [x0 y0 x1 y1]  (default: the tile grid around the study area in common.py)"""
 import sys, os, io, json, subprocess, numpy as np
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.join(HERE,"..")
-x0,y0,x1,y1=map(int,sys.argv[1:5]); SCR=os.path.expanduser("~/scratch/lidar"); os.makedirs(SCR,exist_ok=True)
+sys.path.insert(0,HERE)
+from common import LIDAR_BBOX
+x0,y0,x1,y1=map(int,sys.argv[1:5]) if len(sys.argv)>=5 else LIDAR_BBOX; SCR=os.path.expanduser("~/scratch/lidar"); os.makedirs(SCR,exist_ok=True)
 sys.argv=[sys.argv[0]]
 import importlib.util
 spec=importlib.util.spec_from_file_location("lt",os.path.join(HERE,"03_lidar_tiles.py"))

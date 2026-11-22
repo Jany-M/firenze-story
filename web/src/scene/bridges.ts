@@ -18,7 +18,15 @@ export const BRIDGE_SPECS: Record<string, Record<number, Spec>> = {
   'Ponte alla Carraia': { 1220: { spans: 5, arch: 'round', width: 8, pier: 4 }, 1337: { spans: 5, arch: 'round', width: 8, pier: 4 },
     1559: { spans: 5, arch: 'segment', width: 10, pier: 4.5, rise: 4.2 }, 1952: { spans: 5, arch: 'segment', width: 15, pier: 3, rise: 3.2 } },
   'Ponte Amerigo Vespucci': { 1957: { spans: 3, arch: 'segment', width: 20, pier: 2.5, rise: 1.6 } },
-  'Ponte San Niccolò': { 1837: { spans: 1, arch: 'suspension', width: 7, pier: 0 }, 1949: { spans: 1, arch: 'segment', width: 14, pier: 0, rise: 3.6 } },
+  // San Niccolò: Seguin suspension bridge "San Ferdinando" 1837, washed out 1844, rebuilt 1853; three-span metal bridge
+  // 1890 (tram); mined 1944; Morandi's single reinforced-concrete arch: main span 87.5 m, 132 m long, 17.5 m wide (structurae);
+  // opening year 1949 in most Florentine sources, structurae gives works 1955–60 – kept 1949, to verify on dated photos
+  'Ponte San Niccolò': { 1837: { spans: 1, arch: 'suspension', width: 7, pier: 0 }, 1853: { spans: 1, arch: 'suspension', width: 7, pier: 0 },
+    1890: { spans: 3, arch: 'flat', width: 9, pier: 2.5 }, 1949: { spans: 1, arch: 'segment', width: 17.5, pier: 0, rise: 6.0 } },
+  // Vittoria: Leopoldo II's suspension bridge "San Leopoldo" 1835 (four pillars with marble lions); Ponte alla Vittoria 1931;
+  // mined 1944; rebuilt 1946, 142 m long, 15.5 m wide (structurae). Span counts of 1931 and 1946 *inferred* – to verify on photos
+  'Ponte alla Vittoria': { 1835: { spans: 1, arch: 'suspension', width: 7, pier: 0 }, 1931: { spans: 3, arch: 'segment', width: 15, pier: 3, rise: 2.4 },
+    1946: { spans: 3, arch: 'segment', width: 15.5, pier: 3, rise: 2.4 } },
 };
 const DEFAULT: Record<string, Spec> = {
   wood: { spans: 0, arch: 'trestle', width: 6, pier: 0.5 }, stone: { spans: 5, arch: 'round', width: 8, pier: 4 },

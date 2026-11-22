@@ -116,7 +116,8 @@ def numkey(n):
     m = re.match(r"\d+", n); return (int(m.group()) if m else 0, n)
 
 # every street of the core goes into the search index, with a point on it (middle of its longest stretch in the core)
-CORE = 1000.0
+from common import CORE_HALF
+CORE = CORE_HALF
 used = set()
 best = {}
 for g, code in zip(lines, line_code):

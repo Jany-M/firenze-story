@@ -33,6 +33,8 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/PALAZZO-VECCHIO.md](docs/landmarks/PALAZZO-VECCHIO.md) | Landmark model: Palazzo Vecchio – measurements, phases, review list |
 | [docs/landmarks/PONTE-VECCHIO.md](docs/landmarks/PONTE-VECCHIO.md) | Landmark model: Ponte Vecchio 1345, shops and Vasari Corridor – measurements, phases, review list |
 | [docs/landmarks/SANTA-CROCE.md](docs/landmarks/SANTA-CROCE.md) | Landmark model: Santa Croce – measurements, phases, review list |
+| [docs/landmarks/SANTA-MARIA-NOVELLA.md](docs/landmarks/SANTA-MARIA-NOVELLA.md) | Landmark model: Santa Maria Novella – measurements, phases, review list |
+| [docs/landmarks/ORSANMICHELE.md](docs/landmarks/ORSANMICHELE.md) | Landmark model: Orsanmichele – measurements, phases, review list |
 | [docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md) | Terrain, land cover, vegetation, the Arno, weirs, bridges, crossings, river life, early settlement |
 | [docs/HISTORY.md](docs/HISTORY.md) | Epochs, urban changes, recurring and one-off events, daily-life vignettes |
 | [docs/EVENTS-COSTUMES.md](docs/EVENTS-COSTUMES.md) | Scoppio del Carro, carnival, police patrols, army, costume palette, interactions |

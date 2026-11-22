@@ -243,7 +243,9 @@ NAMED = {  # bridge -> dated phases (start, end, kind, conf). Sources: Comune "U
     r"carraia": [(1220, 1333, "stone", "documented"), (1337, 1557, "stone", "inferred"), (1559, 1944, "stone", "inferred"), (1952, None, "stone", "documented")],
     r"alle grazie": [(1237, 1944, "stone", "documented"), (1957, None, "concrete", "documented")],
     r"vespucci": [(1957, None, "concrete", "documented")],
-    r"san niccol": [(1837, 1944, "iron", "documented"), (1949, None, "concrete", "documented")]}
+    r"san niccol": [(1837, 1844, "iron", "documented"), (1853, 1890, "iron", "documented"), (1890, 1944, "iron", "documented"),
+                   (1949, None, "concrete", "documented")],
+    r"vittoria": [(1835, 1931, "iron", "documented"), (1931, 1944, "concrete", "inferred"), (1946, None, "concrete", "documented")]}
 for e in ST:
     t = e.get("tags", {})
     if e["type"] != "way" or "geometry" not in e: continue
@@ -314,7 +316,9 @@ U = np.full((nu, nu), 9999, np.float32)
 cx = ((spos[:, 0] + ORIGIN[0] - X0) / UC).astype(int); cz = ((spos[:, 2] + (Y1 - ORIGIN[1])) / UC).astype(int)
 ok = (cx >= 0) & (cx < nu) & (cz >= 0) & (cz < nu)
 np.minimum.at(U, (cz[ok], cx[ok]), starts[sbid[ok]])
+occ = (U < 9999).astype(np.float32)
 U = cv2.erode(U, np.ones((3, 3), np.uint8))                             # spread 1 cell: yards, lanes
+dense = cv2.blur(occ, (7, 7)) >= 0.35                                   # >= 35 % built within ~56 m
 U_built = U.copy()
 
 def urban_at(x, y):
@@ -324,19 +328,21 @@ def urban_at(x, y):
 
 # ================= vegetation =================
 # streets raster (2 m) to keep trees off today's streets and squares
-SR = np.zeros((1000, 1000), np.uint8)
+NS = int((X1 - X0) / 2); SR = np.zeros((NS, NS), np.uint8)
 for a, b, _ in edges:
     A, B = nodes[a], nodes[b]
     cv2.line(SR, (int((A[0] + ORIGIN[0] - X0) / 2), int((A[2] + Y1 - ORIGIN[1]) / 2)), (int((B[0] + ORIGIN[0] - X0) / 2), int((B[2] + Y1 - ORIGIN[1]) / 2)), 1, 5)
 for s in squares:
     cv2.fillPoly(SR, [np.array([[(x + ORIGIN[0] - X0) / 2, (z + Y1 - ORIGIN[1]) / 2] for x, z in s["ring"]], np.int32)], 1)
 def on_street(x, y):
-    c = ((x - X0) / 2).astype(int).clip(0, 999); r = ((Y1 - y) / 2).astype(int).clip(0, 999); return SR[r, c] > 0
+    c = ((x - X0) / 2).astype(int).clip(0, NS - 1); r = ((Y1 - y) / 2).astype(int).clip(0, NS - 1); return SR[r, c] > 0
 # streets and squares (Mercato Vecchio, Signoria, …) are urban ground from when the buildings around them stand
 street8 = cv2.resize(SR, (nu, nu), interpolation=cv2.INTER_AREA) > 0
 around = cv2.erode(U_built, np.ones((9, 9), np.uint8))                     # earliest building within ~36 m
 U = np.where((U_built > 3000) & street8 & (around < 3000), around, U_built)
-U.astype(np.float32).tofile(os.path.join(OUT, "urban.f32"))
+# the ground shader paves only built-up blocks and streets: in the sparse villa belt on the hills a detached house keeps
+# its garden instead of a grey 8 m square around it (vegetation above still uses the full U)
+np.where(dense | street8, U, 9999).astype(np.float32).tofile(os.path.join(OUT, "urban.f32"))
 from shapely import contains_xy
 TREES = []   # x, y, z (local), height, type (0 broadleaf, 1 cypress, 2 olive, 3 poplar), start, end
 def add(x, y, h, typ, start, end):
