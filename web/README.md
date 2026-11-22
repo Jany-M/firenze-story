@@ -11,6 +11,8 @@ npm run dev        # opens http://localhost:5173
 ```
 `npm run build` produces a static `dist/` you can host anywhere (relative paths).
 
+Documentation site (Zensical): built into `public/docs/` by `pipeline/prepare.py` and served at `/docs/` (also linked from Sources → Credits). Needs `zensical` in `.venv` once: `python -m venv .venv` then `.venv\Scripts\pip install zensical`.
+
 URL switches: `?gl=1` force the WebGL2 backend · `?lite=1` no shadows, 1× pixel ratio (weak laptops).
 The hash keeps the state (year, date, hour, mode, colour mode, overlay, camera), so any view can be bookmarked.
 

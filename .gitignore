@@ -1,9 +1,23 @@
 ﻿# private work area: notes, drafts, emails, mockups, references, raw data cache, dev tools
 _dev/
 
-# build output and dependencies
+# Node / Vite
 web/node_modules/
 web/dist/
+
+# Docs site (Zensical) — local build artifacts
+.venv/
+.cache/
+web/public/docs/
+docs/changelog.md
+site/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Blender autosave
 *.blend1

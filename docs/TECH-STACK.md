@@ -1,6 +1,6 @@
 # Firenze Story — Tech stack (v0.2, 21 Nov 2026)
 
-Principles (from the project rules): lean, DRY, reusable shared modules, standard formats, so other tools can plug in. Versions were checked on 21 Nov 2026; pin versions in `package.json`.
+Lean, DRY, reusable shared modules, standard formats, so other tools can plug in. Versions were checked on 21 Nov 2026; pin versions in `package.json`.
 
 ## 1. Runtime (browser)
 

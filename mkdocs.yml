@@ -1,0 +1,63 @@
+# Firenze Story docs — built with Zensical into web/public/docs (served at /docs/)
+# Prefer this file if zensical.toml nav/extensions act up; Zensical reads mkdocs.yml.
+# Build: .venv\Scripts\zensical build --clean
+
+site_name: Firenze Story
+site_description: Florence in 4D — documentation (sources, buildings, landmarks, river, history, tech)
+site_author: Jany Martelli
+# Served by the Vite app under /docs/ (dev and static dist). Change for a different public host.
+site_url: http://localhost:5173/docs/
+copyright: '&copy; Jany Martelli — <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> · <a href="/">Open the app</a>'
+docs_dir: docs
+site_dir: web/public/docs
+repo_url: https://github.com/Jany-M/firenze-story
+repo_name: firenze-story
+edit_uri: edit/main/docs/
+use_directory_urls: true
+nav:
+  - Home: index.md
+  - Changelog: changelog.md
+  - Data sources: DATA-SOURCES.md
+  - Buildings: BUILDINGS.md
+  - Materials: MATERIALS.md
+  - Landmarks:
+    - Duomo: landmarks/DUOMO.md
+    - Campanile & Baptistery: landmarks/CAMPANILE-BAPTISTERY.md
+    - Palazzo Vecchio: landmarks/PALAZZO-VECCHIO.md
+    - Ponte Vecchio: landmarks/PONTE-VECCHIO.md
+    - Santa Croce: landmarks/SANTA-CROCE.md
+  - River & landscape: RIVER-LANDSCAPE.md
+  - History: HISTORY.md
+  - Events & costumes: EVENTS-COSTUMES.md
+  - Sources survey: SOURCES-SURVEY.md
+  - Tech stack: TECH-STACK.md
+
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: brown
+    accent: amber
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - search.highlight
+    - toc.follow
+    - content.code.copy
+
+extra:
+  generator: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.details

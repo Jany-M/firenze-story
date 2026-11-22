@@ -23,7 +23,9 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     <select id="ov">${MAP_OVERLAYS.map(o => `<option value="${o.id}">${o.name}</option>`).join('')}</select>
     <label class="row">opacity <input id="ovo" type="range" min="0" max="1" step="0.05"></label>
     <h4>Events</h4><div id="events"></div>
-    <details><summary>Credits & data</summary><ul>${CREDITS.map(c => `<li>${esc(c)}</li>`).join('')}</ul><p class="muted">Renderer: ${hooks.backend}. Drop a Gaussian splat (.ply/.spz/.splat/.ksplat) onto the page to place it at the focus point.</p></details>`;
+    <details><summary>Credits & data</summary><ul>${CREDITS.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+      <p><a href="docs/" target="_blank" rel="noopener">Documentation</a> · dataset ids, landmarks, sources, history</p>
+      <p class="muted">Renderer: ${hooks.backend}. Drop a Gaussian splat (.ply/.spz/.splat/.ksplat) onto the page to place it at the focus point.</p></details>`;
   $('#cm', side).onclick = ev => { const c = (ev.target as HTMLElement).dataset.c; if (c) set({ color: c as any }); };
   const ov = $<HTMLSelectElement>('#ov', side), ovo = $<HTMLInputElement>('#ovo', side);
   ov.value = state.overlay; ovo.value = String(state.overlayOpacity);
@@ -180,7 +182,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
 
   /** Sources folded under "Data" so the card opens compact; the open/closed choice is kept between cards. */
   let dataOpen = false;
-  const dataHtml = (L: SourceLink[]) => `<dt>Data</dt><dd><details class="data"${dataOpen ? ' open' : ''}><summary>${L.length} source${L.length === 1 ? '' : 's'}</summary><ul class="src">${srcHtml(L)}</ul><p class="muted small">Ids refer to docs/DATA-SOURCES.md.</p></details></dd>`;
+  const dataHtml = (L: SourceLink[]) => `<dt>Data</dt><dd><details class="data"${dataOpen ? ' open' : ''}><summary>${L.length} source${L.length === 1 ? '' : 's'}</summary><ul class="src">${srcHtml(L)}</ul><p class="muted small">Ids refer to the <a href="docs/DATA-SOURCES/" target="_blank" rel="noopener">data sources</a> register.</p></details></dd>`;
   const wireData = () => card.querySelectorAll<HTMLDetailsElement>('details.data').forEach(d => d.ontoggle = () => { dataOpen = d.open; });
   const srcHtml = (L: SourceLink[]) => L.map(l => `<li>${l.id ? `<span class="sid">${l.id}</span> ` : ''}${l.url
     ? `<a target="_blank" rel="noopener" href="${esc(l.url)}">${esc(l.text)}</a>` : esc(l.text)}</li>`).join('');

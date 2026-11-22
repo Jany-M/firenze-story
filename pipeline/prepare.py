@@ -4,7 +4,8 @@ A step runs only when one of its inputs is newer than its outputs (or an output 
   textures   pipeline/30_textures.py                          -> web/public/textures/*
   props      blender/scripts/*.py + textures                  -> web/public/models/*.glb, blender/*.blend
   city/env   pipeline/common.py, 20_build_city.py, 21_build_env.py (+ raw data in _dev/data) -> web/public/data/*
-Steps whose tools are missing (Blender, Python packages, raw data) are skipped with a warning; the app then uses the
+  docs       mkdocs.yml + docs/*.md + CHANGELOG.md            -> web/public/docs/  (Zensical; optional)
+Steps whose tools are missing (Blender, Python packages, raw data, zensical) are skipped with a warning; the app then uses the
 files already in web/public.   Usage: python pipeline/prepare.py [--force]
 """
 import glob, importlib.util, os, shutil, subprocess, sys
@@ -90,4 +91,37 @@ else:
     if stale(addr_in, [J("web", "public", "data", "addresses.json")]):
         if have("numpy", "pyproj", "shapely", "scipy", "shapefile"): run([PY, J("pipeline", "22_addresses.py")], "addresses (22_addresses.py)")
     else: print("  = addresses up to date")
+
+# 4. documentation site (Zensical → web/public/docs, served by Vite at /docs/)
+def sync_docs_changelog():
+    """Root CHANGELOG.md uses docs/… links for GitHub; the docs site needs paths without that prefix."""
+    src, dst = J("CHANGELOG.md"), J("docs", "changelog.md")
+    if not os.path.exists(src):
+        return False
+    text = open(src, encoding="utf-8").read()
+    # GitHub-root links → docs-site-relative (URL and visible label)
+    text = text.replace("](docs/", "](").replace("[docs/", "[")
+    text = text.replace(
+        "](pipeline/README.md)",
+        "](https://github.com/Jany-M/firenze-story/blob/main/pipeline/README.md)",
+    )
+    header = "<!-- Generated from ../CHANGELOG.md by pipeline/prepare.py — edit the root file. -->\n\n"
+    open(dst, "w", encoding="utf-8", newline="\n").write(header + text)
+    return True
+
+
+docs_in = [J("mkdocs.yml"), J("CHANGELOG.md"), J("docs", "*.md"), J("docs", "landmarks", "*.md")]
+docs_out = [J("web", "public", "docs", "index.html")]
+if stale(docs_in, docs_out):
+    sync_docs_changelog()
+    zensical = J(".venv", "Scripts", "zensical.exe") if os.name == "nt" else J(".venv", "bin", "zensical")
+    if not os.path.exists(zensical):
+        zensical = shutil.which("zensical")
+    if zensical:
+        run([zensical, "build", "--clean", "-f", J("mkdocs.yml")], "docs site (zensical)")
+    else:
+        print("  ! zensical not found – skip docs site (python -m venv .venv && .venv\\Scripts\\pip install zensical)")
+else:
+    print("  = docs site up to date")
+
 print("[prepare] done")

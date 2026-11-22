@@ -1,0 +1,24 @@
+# Netlify continuous deploy (push / PR). Build settings live here — leave the UI fields blank
+# once the GitHub repo is linked: https://app.netlify.com/start
+"$schema" = "https://open-api.netlify.com/netlify.schema.json"
+
+[build]
+  command = "bash scripts/netlify-build.sh"
+  publish = "web/dist"
+  # Exit 0 = skip this deploy; exit 1 = build. Only web app + docs paths count.
+  ignore = "bash ./scripts/netlify-ignore.sh"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PYTHON_VERSION = "3.12"
+
+# Keep previous /docs/ between builds when docs sources did not change
+[[plugins]]
+  package = "netlify-plugin-cache"
+  [plugins.inputs]
+  paths = ["web/public/docs"]
+
+[[redirects]]
+  from = "/docs"
+  to = "/docs/"
+  status = 301

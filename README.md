@@ -1,8 +1,17 @@
 # Firenze Story
 
-Florence in 4D: a city that grows from the Iron Age huts to today, with a playable timeline, a street-level Live mode (people in period dress, markets, calcio storico, the Scoppio del Carro, life on the Arno) and a Sources view that shows the era of every  building and source data.
+Florence urban history in 4D: a city that grows from the Iron Age huts to today, with a playable timeline, a street-level Live mode (people in period dress, markets, calcio storico, the Scoppio del Carro, life on the Arno) and a Sources view that shows the era of every  building and source data.
 
-**Run it:** copy the project locally then double-click `start.bat`. It rebuilds whatever is out of date (textures, Blender props and costumes, city and landscape data), installs the web dependencies the first time, and opens http://localhost:5173.
+## Support this Project if you like it
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-shambix-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/shambix) or [![Sponsor this on GitHub](https://img.shields.io/github/sponsors/Jany-M?label=Sponsor&logo=githubsponsors&logoColor=white&color=EA4AAA)](https://github.com/sponsors/Jany-M)
+
+
+## Check out the Live App
+
+🔗 [firenzestory.netlify.app](https://firenzestory.netlify.app/)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/87ac5e9f-ddc6-4dc3-a1fc-65b3bea10b28/deploy-status)](https://app.netlify.com/projects/firenzestory/deploys)
 
 ## Highlights
 - **9,067 dated structures** in the 2 × 2 km historic core: 6,352 present-day buildings (OSM + LiDAR 2023), 2,302 demolished buildings and blocks traced from the 1830s land register and the 1843 map, walls, gates, towers, Roman remains and the conjectural Roman grid. Every structure has a start/end year, a confidence level and its sources.
@@ -15,6 +24,7 @@ Florence in 4D: a city that grows from the Iron Age huts to today, with a playab
 ## Documentation
 | Doc | What's in it |
 |---|---|
+| [CHANGELOG.md](CHANGELOG.md) | Project history (with links to the docs below when a change touches one) |
 | [docs/DATA-SOURCES.md](docs/DATA-SOURCES.md) | Register of every dataset: use, period, licence, status, local path |
 | [docs/BUILDINGS.md](docs/BUILDINGS.md) | How buildings are made: counts, dating rules, roof reconstruction, façade rules by era, limits |
 | [docs/MATERIALS.md](docs/MATERIALS.md) | Every material and pattern (pietra forte, pietra serena, intonaco, coppi, marble, …): definition, use, reference |
@@ -38,7 +48,15 @@ Florence in 4D: a city that grows from the Iron Age huts to today, with a playab
 | `web/` | three.js app (WebGPU with WebGL2 fallback); `public/data` (city, landscape), `public/models` (props, costumes), `public/textures` |
 | `pipeline/` | Reproducible build: downloads → city → landscape → textures; `prepare.py` rebuilds what is stale |
 | `blender/` | Asset and costume library (`*.blend`) and the scripts that build it (`scripts/build_*.py`) |
-| `docs/` | Documentation (table above) |
+| `docs/` | Markdown sources (table above); built site → `web/public/docs/` via [Zensical](https://zensical.org/) (`mkdocs.yml`) |
+| `mkdocs.yml` | Zensical / MkDocs config for the browsable docs |
+| `netlify.toml` | Autodeploy on push (skips if neither `web/` nor docs changed); docs rebuilt only when docs sources change |
+
+## Development
+
+**Run it locally:** copy the project locally then double-click `start.bat`. It rebuilds whatever is out of date (textures, Blender props and costumes, city and landscape data, docs site), installs the web dependencies the first time, and opens http://localhost:5173.
+
+**Docs in the app:** [http://localhost:5173/docs/](http://localhost:5173/docs/) (Zensical build of `docs/`, also linked from Sources → Credits). First time: `python -m venv .venv` then `.venv\Scripts\pip install zensical`.
 
 ## License
 
