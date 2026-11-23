@@ -40,14 +40,14 @@ export function createTimeline(el: HTMLElement, recs: Rec[], onEvent: (i: number
     const mx = Math.max(...counts.map(c => Math.sqrt(c)), ...conj.map(c => Math.sqrt(c) * 0.5), 1);
     conj.forEach((c, i) => {   // conjectural start dates: faded, they are estimates by zone
       if (!c) return; const bh = ((Math.sqrt(c) * 0.5) / mx) * (h * 0.62);
-      ctx.fillStyle = 'rgba(200,200,210,.22)'; ctx.fillRect((i / bins) * w, h * 0.7 - bh, w / bins - 1, bh);
+      ctx.fillStyle = 'rgba(120,100,100,.22)'; ctx.fillRect((i / bins) * w, h * 0.7 - bh, w / bins - 1, bh);
     });
     counts.forEach((c, i) => {
       if (!c) return; const bh = (Math.sqrt(c) / mx) * (h * 0.62);
       ctx.fillStyle = PERIODS[col[i]]?.color ?? '#999'; ctx.globalAlpha = 0.85; ctx.fillRect((i / bins) * w, h * 0.7 - bh, w / bins - 1, bh);
     });
-    ctx.globalAlpha = 1; ctx.fillStyle = 'rgba(255,255,255,.18)'; ctx.fillRect(0, h * 0.7, w, 2 * devicePixelRatio);
-    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = `${10 * devicePixelRatio}px Inter, system-ui`;
+    ctx.globalAlpha = 1; ctx.fillStyle = 'rgba(158,11,35,.35)'; ctx.fillRect(0, h * 0.7, w, 2 * devicePixelRatio);
+    ctx.fillStyle = 'rgba(42,32,32,.75)'; ctx.font = `${10 * devicePixelRatio}px Inter, system-ui`;
     for (const y of [-800, -59, 500, 1000, 1172, 1333, 1436, 1530, 1737, 1865, 1944, 2026]) {
       const x = yearToX(y) * w; ctx.fillRect(x, h * 0.7, 1, 6 * devicePixelRatio); ctx.fillText(fmtYear(y), Math.min(x + 3, w - 40 * devicePixelRatio), h * 0.97);
     }

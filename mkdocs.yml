@@ -40,8 +40,10 @@ theme:
   name: material
   palette:
     scheme: default
-    primary: brown
-    accent: amber
+    primary: red
+    accent: red
+  logo: assets/stemma-firenze.svg
+  favicon: assets/stemma-firenze.svg
   features:
     - navigation.instant
     - navigation.sections

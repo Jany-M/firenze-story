@@ -2,6 +2,7 @@
 
 | Date | Change |
 |---|---|
+| 2026-11-23 | New look in Florence's colours: white panels, Florence red (#c8102e) accents and headings, dark text; the city's coat of arms ([M13](docs/DATA-SOURCES.md#M13), CC BY-SA 3.0) as logo, loading screen and favicon; docs site in red with the same logo. |
 | 2026-11-23 | [M12](docs/DATA-SOURCES.md#M12) Loggia dei Lanzi model with its statues by date ([docs/landmarks/LOGGIA-DEI-LANZI.md](docs/landmarks/LOGGIA-DEI-LANZI.md)). App: event card on the left (summary, sources, Wikipedia) when an event is opened from the timeline or the Live list; every panel can be folded, cards closed; one-row timeline (play, year, speed at the start; no hint text, no date or hour). |
 | 2026-11-23 | [M11](docs/DATA-SOURCES.md#M11) Bargello model in use ([docs/landmarks/BARGELLO.md](docs/landmarks/BARGELLO.md)). Inspector cards now link each landmark to its own model row (M06–M11) instead of the Duomo's. |
 | 2026-11-23 | Street paving redone from photographs (slabs in courses, dressed tops: grooves, herring-bone, punched dots); earth with gravel, muted early brick paving ([docs/MATERIALS.md](docs/MATERIALS.md)). Clicking a street or square opens its card (if recorded by that year). Timeline: event dots jump to the event without moving the bar; Night of the Bridges framed wide; daytime restored after night events. Palazzo Medici Riccardi added to the landmark list. |

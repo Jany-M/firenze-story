@@ -92,6 +92,7 @@ export const CREDITS = [
   'Comune di Firenze – open data (CC-BY 4.0): LiDAR 2023, 1:500 cartography, archaeology, historic maps & cadastre (WMS)',
   '© OpenStreetMap contributors (ODbL)', 'OpenHistoricalMap contributors (CC0)', 'Wikidata (CC0)',
   'Placeholder figure: three.js example “Xbot” (Mixamo) – to be replaced by period characters',
+  'Stemma di Firenze (logo, loader, favicon): Wikimedia Commons “FlorenceCoA.svg”, CC BY-SA 3.0',
 ];
 
 /** Event card: a short summary, the sources behind it and the Italian Wikipedia page (keyed by event title). */
