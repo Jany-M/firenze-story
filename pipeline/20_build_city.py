@@ -28,10 +28,16 @@ MAPS = {k: np.load(os.path.join(BUILD, f"{v}_05.npy")) for k, v in {
     "m1873": "1873_PiantaDiFirenzeEDintorniIGM", "m1937": "1937_MappaCittaDiFirenze", "ortho": "Ortofoto2017_COL_2K_CoFi"}.items()}
 
 # ---------- "built" masks per historic map (calibrated on sample crops) ----------
+F43_R = 1640.0                                             # inner edge of the 1843 map's circular frame, m from the origin
 def built_masks():
     m = {}
     c = MAPS["cad"]; m["cad"] = (c[..., 3] > 0)
-    a = MAPS["m1843"][..., :3].astype(int); lum = a.mean(-1); m["m1843"] = lum < 150
+    # 1843 Fantozzi: dark building fill only (lum < 105; at 150 garden texture, tree rows, ditches and road lines count), and only
+    # inside the map's round frame (F43_R m from the origin): the ring scale and the corner vignettes are decoration.
+    a = MAPS["m1843"][..., :3].astype(int); lum = a.mean(-1)
+    yy, xx = np.ogrid[:lum.shape[0], :lum.shape[1]]
+    inside = ((xx * RES + X0 - ORIGIN[0]) ** 2 + (Y1 - yy * RES - ORIGIN[1]) ** 2) < F43_R ** 2
+    m["m1843"] = (lum < 105) & inside
     a = MAPS["m1873"][..., :3].astype(int); m["m1873"] = (a[..., 0] - a[..., 1] > 55) & (a[..., 1] < 150)
     a = MAPS["m1937"][..., :3].astype(int); m["m1937"] = (a[..., 0] > 170) & (a[..., 0] - a[..., 2] > 110) & (a[..., 1] < 185) & (a[..., 1] > 90)
     # cadastre coverage = union of drawn parcels, closed + dilated ~25 m
@@ -573,7 +579,7 @@ def _river_bed():
 RIVER_BED = _river_bed() or (None, None)
 SKIPPED_IN_RIVER = []
 
-def demolished_from(mask, label, conf, individual=False):
+def demolished_from(mask, label, conf, individual=False, keep=None):
     """Historic buildings absent today. individual=True: mask already separates units (cadastre fill), no merging."""
     old_r = np.zeros(mask.shape, np.uint8)
     for g in old_polys:
@@ -595,6 +601,7 @@ def demolished_from(mask, label, conf, individual=False):
         rc = poly_mask(P, 0.5)
         if rc is not None and old_r[rc].mean() > 0.4: continue
         f73, f37 = frac(BM["m1873"], rc), frac(BM["m1937"], rc)
+        if keep is not None and not keep(P, f73): continue
         if REPUBBLICA.contains(P.centroid): end, why = 1888, "Risanamento of Mercato Vecchio and the ghetto (1885–95)"
         elif f73 < 0.3: end, why = 1868, "absent on IGM 1873 map"
         elif f37 < 0.3: end, why = 1900, "absent on 1937 map"
@@ -617,8 +624,26 @@ cad_mask = cad_fill & BM["cad_cov"]
 n1 = demolished_from(cad_mask, "Catasto Generale Toscano 1830s (Comune WMS, vectorised per building)", "inferred", individual=True)
 # Mercato Vecchio square & Colonna dell'Abbondanza: positions verified visually on cadastre vs 2017 orthophoto (local coords)
 MV = {"mercato_vecchio": [-90, 14], "colonna_abbondanza": [-96, 25]}
+# 1843 Fantozzi map (mask: see built_masks): never on the wall line (drawn by the walls model), and outside the sixth circle only if the IGM 1873 map confirms a building there
+# (countryside lines and hatching look like blocks after the threshold). Checked on _dev/tmp/f1843_*.jpg overlays.
 m43 = BM["m1843"] & ~BM["cad_cov"]
-n2 = demolished_from(m43, "Fantozzi map 1843 (Comune WMS, vectorised)", "conjectural")
+WALL_LINE = unary_union([w[2] for w in walls if w[0] in (1284, 1333)]).buffer(12)
+# today's squares (OSM place=square): a block traced only on the 1843 map in the middle of one is the market, a statue base
+# or lettering, not a house (Piazza San Lorenzo is open on every view since the 18th century)
+_sq = []
+for e in OSM:
+    t = e.get("tags", {})
+    if e["type"] == "way" and t.get("place") == "square" and len(e.get("geometry", [])) >= 4:
+        g_ = Polygon(utm_line(e["geometry"])).buffer(0)
+        if g_.area > 200: _sq.append(g_.buffer(-3))
+SQUARES = prepared.prep(unary_union(_sq)) if _sq else None
+def keep43(P, f73):
+    c = P.centroid; x, y = c.x - ORIGIN[0], c.y - ORIGIN[1]
+    if (x * x + y * y) ** 0.5 > F43_R: return False
+    if WALL_LINE.intersects(c): return False
+    if SQUARES is not None and SQUARES.contains(c): return False
+    return ZONE_ARNOLFO.contains(c) or f73 >= 0.3
+n2 = demolished_from(m43, "Fantozzi map 1843 (Comune WMS, vectorised)", "conjectural", keep=keep43)
 print("demolished: cadastre", n1, "1843", n2, "| skipped in the river bed (map hatching, not buildings):", len(SKIPPED_IN_RIVER))
 
 # ================= 3. OpenHistoricalMap dated structures (walls, gates, towers, churches, Roman monuments) =====

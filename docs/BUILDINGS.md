@@ -2,20 +2,27 @@
 
 All dated structures are built by `pipeline/20_build_city.py` into one mesh (`web/public/data/structures.*`); the
 shader (`web/src/scene/city.ts`) shows each one only between its start and end year and draws façades and roofs
-from per-building data. Numbers below are from the current build (2026-11-21).
+from per-building data. Numbers below are from the current build (2026-11-26, ±1800 m area).
 
 ## 1. What is in the model
 
 | Group | Count | Geometry from | Dates from |
 |---|---:|---|---|
-| Present-day buildings | 6,352 | OSM footprint + LiDAR 2023 (DTM ground, DSM roof) | §2 |
-| Demolished buildings (land register, 1830s) | 1,453 | Catasto Generale Toscano parcels vectorised from the Comune WMS | absent on later maps → end year |
-| Demolished blocks (1843 map) | 849 | Fantozzi 1843 blocks where the cadastre is not digitised | same |
-| Walls, towers, churches | 49 | OpenHistoricalMap | OHM start/end dates |
-| Gates | 21 | OSM / OHM | historiography |
+| Present-day buildings | 14,231 | OSM footprint + LiDAR 2023 (DTM ground, DSM roof) | §2 |
+| Demolished buildings (land register, 1830s) | 1,525 | Catasto Generale Toscano parcels vectorised from the Comune WMS | absent on later maps → end year |
+| Demolished blocks (1843 map) | 439 | Fantozzi 1843 blocks where the cadastre is not digitised: dark building fill only, inside the map's round frame, off the wall line and out of today's squares; outside the walls only if the IGM 1873 map shows a building there too | same |
+| Walls, towers, churches | 58 | OpenHistoricalMap | OHM start/end dates |
+| Gates | 26 | OSM / OHM | historiography |
 | Roman remains (excavated) | 42 groups | Comune archaeology layer | Roman period |
 | Roman insulae (conjectural) | 301 | grid inside the castrum walls | 30 BC – 5th c. |
-| **Total** | **9,067** | 2.8 M vertices, 1.8 M triangles | |
+| **Total** | **16,622** | 5.8 M vertices, 3.7 M triangles | |
+
+**The 1843 map's decoration (fixed 2026-11-26).** The Fantozzi plan is drawn inside a round frame with a graduated ring,
+allegorical vignettes in the corners, tree rows, ditches and shaded gardens. Read at a loose threshold these became
+2,664 "demolished buildings" (the ring and the vignettes outside the city, rows of blocks along field lines) and dated
+present-day buildings standing on gardens as older than 1843. Now only the dark building fill counts (luminance < 105),
+only inside the frame (1,640 m from the origin), never on the wall line, and outside the walls only with the IGM 1873
+map's agreement. Overlays used for the check: `_dev/tmp/f1843_*.jpg`.
 
 ## 2. Dating (first match wins)
 1. Curated landmark list (historiography; e.g. Duomo 1296, dome 1420–36) – *documented*
