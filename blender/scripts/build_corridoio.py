@@ -171,6 +171,75 @@ def ninna(part):
 
 # ------------------------------------------------------------------ Lungarno degli Archibusieri: loggia under the corridor
 LUNG = {}
+def uffizi_head(p, R, sEnd):
+    """Where the Lungarno loggia reaches the Uffizi (photograph: Dimitris Kamaras 2016, from the Uffizi): the corridor ends in a
+    block as wide as the corridor plus the street beside it, reaching the Uffizi's south-west front. On its east and west faces
+    a great round arch over the street (Lungarno degli Archibusieri → Lungarno Anna Maria Luisa de' Medici) and, on the river
+    part, a small arched door at the end of the portico; two barred windows a face at the corridor's floor; a string course,
+    the cornice and a hipped roof. The Uffizi front from OSM way 477279033: (−32.0, 418.0) → (1.3, 435.5)."""
+    q = R.at(sEnd); tx, tz = q["t"]; g, f, e = q["g"], q["f"], q["e"]
+    sx, sz = -tz, tx                                                         # side +1 (the river)
+    U0, ud = (-32.0, 418.0), (33.3, 17.5); ul = math.hypot(*ud); un = (-ud[1] / ul, ud[0] / ul)
+    # how far the Uffizi front lies from the corridor's centre line, on the −1 side
+    WU = -(((q["x"] - U0[0]) * un[0] + (q["z"] - U0[1]) * un[1]) / (sx * un[0] + sz * un[1]))
+    WU = abs(WU); Wr = R.W / 2; LB = 7.5
+    def P(sv, w, h=0.0): d = sv - sEnd; return V(q["x"] + tx * d + sx * w, q["z"] + tz * d + sz * w, h)
+    Wt = Wr + WU                                                             # u across the block: 0 = river edge → Wt = Uffizi
+    pier = Wr + 0.6                                                          # river part | street part
+    r_big = (Wt - pier - 0.3) / 2; sp_big = f - 0.7 - r_big
+    r_door = 0.95; sp_door = g + 2.6
+    for sv, sgn in ((sEnd + LB, 1), (sEnd, -1)):
+        o = P(sv, Wr) if sgn > 0 else P(sv, -WU)
+        F = Frame(o, D3(-sx, -sz) if sgn > 0 else D3(sx, sz), D3(tx * sgn, tz * sgn))
+        def U(u): return u if sgn > 0 else Wt - u
+        ua, ub = sorted((U(pier + 0.15), U(Wt - 0.15)))                      # the great arch over the street
+        da, db = sorted((U(Wr - 1.2 - r_door), U(Wr - 1.2 + r_door)))       # the door (east) or the open portico (west)
+        # wall above the corridor floor across the whole face, with two barred windows
+        box(bm_for(p, "corr"), F, 0, Wt, f, e, -0.4, 0)
+        for uc in (U(Wr * 0.5), U(pier + (Wt - pier) / 2)):
+            win_rect(p, F, uc, f + 1.4, f + 2.9, 1.1, frame="serena", grille=True)
+        pbox(bm_for(p, "serena"), F, -0.05, Wt + 0.05, f - 0.1, f + 0.15, 0, 0.14)                          # string course
+        pbox(bm_for(p, "corr"), F, -0.1, Wt + 0.1, e - 0.45, e - 0.15, 0, 0.35)                             # cornice
+        # below the floor: piers and spandrels round the great arch, the door (east face only)
+        Fa = Frame(F.p(ua, 0, 0), F.u, F.n)
+        arch_face(p, "corr", Fa, ub - ua, sp_big, r_big, f)
+        lo, hi = (0, ua) if sgn > 0 else (ub, Wt)                             # the river part of the face
+        if sgn > 0:
+            box(bm_for(p, "corr"), F, lo, da, g - 0.5, f, -0.4, 0); box(bm_for(p, "corr"), F, db, hi, g - 0.5, f, -0.4, 0)
+            Fd = Frame(F.p(da, 0, 0), F.u, F.n); arch_face(p, "corr", Fd, db - da, sp_door, r_door, f)
+            box(bm_for(p, "corr"), F, da, db, g - 0.5, g - 0.05, -0.4, 0)
+        else:
+            box(bm_for(p, "corr"), F, lo, hi, sp_big - 0.4, f, -0.4, 0)                                     # over the portico's last arch
+        # the pier between the door and the great arch, and the Uffizi-side jamb
+        pa, pb = sorted((U(pier - 0.6 + 0.0), U(pier + 0.15)))
+        box(bm_for(p, "corr"), F, pa, pb, g - 0.5, sp_big, -0.6, 0)
+        ja, jb = sorted((U(Wt - 0.15), U(Wt)))
+        box(bm_for(p, "corr"), F, ja, jb, g - 0.5, sp_big, -0.6, 0)
+        if sgn > 0:
+            for (u0, u1) in ((ua, ua + 0.35), (ub - 0.35, ub)): pbox(bm_for(p, "serena"), F, u0, u1, sp_big - 0.3, sp_big, 0, 0.12)   # imposts
+    # the river face of the block: wall from the ground to the eave (the portico behind it ends here), one window
+    Fr = Frame(P(sEnd, Wr), D3(tx, tz), D3(sx, sz))
+    box(bm_for(p, "corr"), Fr, 0, LB, g - 0.5, e, -0.4, 0)
+    win_rect(p, Fr, LB / 2, f + 1.4, f + 2.9, 1.1, frame="serena", grille=True)
+    pbox(bm_for(p, "serena"), Fr, -0.05, LB + 0.05, f - 0.1, f + 0.15, 0, 0.14)
+    pbox(bm_for(p, "corr"), Fr, -0.1, LB + 0.1, e - 0.45, e - 0.15, 0, 0.35)
+    # the vault over the street (a barrel along the street) and the ceiling of the river part
+    bm = bm_for(p, "corr"); cw = -(pier + (Wt - pier) / 2 - Wr); seg = 14
+    for k in range(seg):
+        a0, a1 = math.pi * k / seg, math.pi * (k + 1) / seg
+        h0, h1 = sp_big + r_big * math.sin(a0), sp_big + r_big * math.sin(a1)
+        w0, w1 = cw + r_big * math.cos(a0), cw + r_big * math.cos(a1)
+        poly(bm, [P(sEnd, w0, h0), P(sEnd + LB, w0, h0), P(sEnd + LB, w1, h1), P(sEnd, w1, h1)])
+    poly(bm, [P(sEnd, Wr, sp_door + r_door + 0.3), P(sEnd + LB, Wr, sp_door + r_door + 0.3), P(sEnd + LB, Wr - pier, sp_door + r_door + 0.3), P(sEnd, Wr - pier, sp_door + r_door + 0.3)])
+    # the street-side wall of the river part (the pier seen from the street), floor and roof
+    Fs = Frame(P(sEnd, Wr - pier), D3(tx, tz), D3(-sx, -sz))
+    box(bm_for(p, "corr"), Fs, 0.6, LB - 0.6, g - 0.5, sp_big + r_big, -0.4, 0)
+    poly(bm_for(p, "corr"), [P(sEnd, Wr, f), P(sEnd + LB, Wr, f), P(sEnd + LB, -WU, f), P(sEnd, -WU, f)])
+    ov = 0.5; z0, z1 = e - 0.15, e + 2.2
+    A, B, C, Dd = P(sEnd - 0.2, Wr + ov, z0), P(sEnd + LB + ov, Wr + ov, z0), P(sEnd + LB + ov, -WU, z0), P(sEnd - 0.2, -WU, z0)
+    mid = (Wr + ov - WU) / 2; Ra, Rb = P(sEnd + 2.0, mid, z1), P(sEnd + LB + ov - 2.0, mid, z1)
+    br = bm_for(p, "roof"); poly(br, [A, B, Rb, Ra]); poly(br, [C, Dd, Ra, Rb]); poly(br, [B, C, Rb]); poly(br, [Dd, A, Ra])
+
 def lungarno():
     Lr, br = D["lungarno"], D["bridge"]
     T = Run(Lr["pts"], Lr["floor"], Lr["eave"], Lr["ground"], 6).T
@@ -185,7 +254,7 @@ def lungarno():
     R = Run(pts, fl, ev, gr, 6.0); sC, sEnd = R.S[1], R.S[-1]
     LUNG["run"] = R
     p = f"lungarno@1565-{NOW}"
-    body(p, R, 0, sEnd, rect_side=1, oc_side=-1, spacing=4.75, cap1=True)
+    body(p, R, 0, sEnd, rect_side=1, oc_side=-1, spacing=4.75, cap1=False)
     nb = int((sEnd - sC - 2.0) / 4.75); bay = (sEnd - sC - 2.0) / nb
     ops = []
     for j in range(nb):
@@ -193,6 +262,7 @@ def lungarno():
         ops.append((a, b, g + 7.3, (b - a) / 2))
     substructure(p, R, sC, sEnd, openings=ops)
     substructure(p, R, 0, sC, openings=[(0.4, sC - 0.2, R.at(0)["g"] + 4.5, 9)])                            # over the bridge head
+    uffizi_head(p, R, sEnd)
     Q = R.samples(sC, sEnd)                                                                                    # river face: stone plinth
     quad_strip(bm_for(p, "stone"), [V(*R.side(q, 1, R.W / 2 + 0.03), 2.6) for q in Q], [V(*R.side(q, 1, R.W / 2 + 0.03), q["g"] - 0.4) for q in Q])
     # 1572–1885: arches closed into shops (doors, small windows); rooms overhanging the river on struts

@@ -1,0 +1,354 @@
+{
+ "fs_marble_white": {
+  "tex": "marble_white",
+  "color": [
+   0.9,
+   0.89,
+   0.86
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.45,
+  "scale": 0.35,
+  "metal": 0.0
+ },
+ "fs_marble_green": {
+  "tex": "marble_green",
+  "color": [
+   0.13,
+   0.2,
+   0.16
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.4,
+  "scale": 0.5,
+  "metal": 0.0
+ },
+ "fs_marble_red": {
+  "tex": "marble_red",
+  "color": [
+   0.68,
+   0.36,
+   0.32
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.45,
+  "scale": 0.5,
+  "metal": 0.0
+ },
+ "fs_dome_tiles": {
+  "tex": "coppi",
+  "color": [
+   0.66,
+   0.36,
+   0.24
+  ],
+  "tint": [
+   1.0,
+   0.93,
+   0.88
+  ],
+  "rough": 0.75,
+  "scale": 0.55,
+  "metal": 0.0
+ },
+ "fs_roof_tiles": {
+  "tex": "coppi",
+  "color": [
+   0.62,
+   0.34,
+   0.24
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.8,
+  "scale": 0.45,
+  "metal": 0.0
+ },
+ "fs_window_glass": {
+  "tex": null,
+  "color": [
+   0.08,
+   0.09,
+   0.11
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.15,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_bronze": {
+  "tex": null,
+  "color": [
+   0.35,
+   0.25,
+   0.13
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.35,
+  "scale": 1.0,
+  "metal": 0.9
+ },
+ "fs_gilt_copper": {
+  "tex": null,
+  "color": [
+   0.86,
+   0.66,
+   0.28
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.25,
+  "scale": 1.0,
+  "metal": 1.0
+ },
+ "fs_brick_masonry": {
+  "tex": "cotto",
+  "color": [
+   0.56,
+   0.38,
+   0.28
+  ],
+  "tint": [
+   0.92,
+   0.86,
+   0.8
+  ],
+  "rough": 0.9,
+  "scale": 0.6,
+  "metal": 0.0
+ },
+ "fs_shadow_recess": {
+  "tex": null,
+  "color": [
+   0.05,
+   0.05,
+   0.05
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_lunette_mosaic": {
+  "tex": null,
+  "color": [
+   0.75,
+   0.6,
+   0.3
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.3,
+  "scale": 1.0,
+  "metal": 0.6
+ },
+ "fs_door_wood": {
+  "tex": "wood",
+  "color": [
+   0.32,
+   0.22,
+   0.14
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.8,
+  "scale": 0.8,
+  "metal": 0.0
+ },
+ "fs_lead_sheet": {
+  "tex": null,
+  "color": [
+   0.42,
+   0.44,
+   0.46
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.3
+ },
+ "fs_plaster_white": {
+  "tex": "intonaco",
+  "color": [
+   0.9,
+   0.88,
+   0.82
+  ],
+  "tint": [
+   1.35,
+   1.3,
+   1.18
+  ],
+  "rough": 0.9,
+  "scale": 0.4,
+  "metal": 0.0
+ },
+ "fs_pietra_serena": {
+  "tex": "pietra_serena",
+  "color": [
+   0.5,
+   0.5,
+   0.48
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.7,
+  "scale": 0.5,
+  "metal": 0.0
+ },
+ "fs_robbia_blue": {
+  "tex": null,
+  "color": [
+   0.16,
+   0.3,
+   0.62
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.35,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_robbia_white": {
+  "tex": null,
+  "color": [
+   0.92,
+   0.92,
+   0.9
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.35,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_inscription_letters": {
+  "tex": null,
+  "color": [
+   0.2,
+   0.19,
+   0.17
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.7,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_wrought_iron": {
+  "tex": null,
+  "color": [
+   0.08,
+   0.08,
+   0.08
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.6
+ },
+ "fs_shutters_grey": {
+  "tex": null,
+  "color": [
+   0.55,
+   0.58,
+   0.58
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.7,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_plaster_ochre_annunziata": {
+  "tex": null,
+  "color": [
+   0.86,
+   0.66,
+   0.42
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_skylight_glass": {
+  "tex": null,
+  "color": [
+   0.78,
+   0.82,
+   0.84
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.25,
+  "scale": 1.0,
+  "metal": 0.0
+ }
+}

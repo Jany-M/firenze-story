@@ -7,7 +7,8 @@ rot 0, ground 0. The palace frame: t along the piazza front from its south end (
 b into the palace, n towards the piazza.
 Measured (LiDAR 2023 DSM, docs/landmarks/PITTI.md): front ≈201 m from t −14 to 187, 23 bays of ≈8.74 m; the central 13 bays
 three storeys, roof ≈38.5 m above the piazza (17.0 m scene); the outer five bays a side two storeys, ≈26.5 m; front
-block ≈24 m deep; the rest of the palace (courtyard wings, garden front, rondò, Meridiana) as a 1 m raster of the DSM.
+block ≈24 m deep; the rest of the palace (courtyard wings, garden front, rondò, Meridiana) massed from a 1 m raster of
+the DSM (landmark_mass.py).
 Details from photographs (docs/materials): rough pietra forte rustication over the whole front, large round-arched windows
 with rusticated voussoirs, a continuous balustraded balcony on each floor, the central portal; the lateral doors of the
 1458 front become Ammannati's kneeling windows; the Ammannati courtyard with rusticated orders.
@@ -32,7 +33,7 @@ MAT["iron"] = material("wrought_iron", None, (0.08, 0.08, 0.08), 0.6, metal=0.6)
 NOW = K.NOW
 D = json.load(open(os.path.join(ROOT, "blender", "data", "pitti.json"), encoding="utf-8"))
 FR = D["frame"]; A = Vector((FR["A"][0], -FR["A"][1], 0)); DD = Vector((FR["d"][0], -FR["d"][1], 0)); NN = Vector((FR["n"][0], -FR["n"][1], 0))
-G0 = max(g for t, g in D["front_ground"] if 10 <= t <= 180) + 0.05     # the piazza at its highest along the front (no step buried)
+G0 = FR["ground_front"]
 Z = Vector((0, 0, 1))
 def W(t, b, h=0.0): return A + DD * t - NN * b + Z * h            # palace frame → Blender
 F_FRONT = Frame(A, DD, NN)                                        # u = t, v = height, n towards the piazza
@@ -47,7 +48,7 @@ def high(k): return 5 <= k <= 17
 H_LOW, H_HIGH, DEPTH = G0 + 26.5, G0 + 38.5, 24.0
 FL = [G0, G0 + 11.5, G0 + 24.5]                                   # ground floor, piano nobile, second floor
 
-# ------------------------------------------------------------------ the rest of the palace: DSM raster, merged boxes
+# ------------------------------------------------------------------ the rest of the palace: massed from the DSM raster
 def phase_of(t, b, k):
     if k == "mer": return "meridiana", 1776
     if b < -1: return ("rondo_carrozze", 1765) if t < 86 else ("rondo_bacco", 1783)
@@ -55,8 +56,10 @@ def phase_of(t, b, k):
     if 25 <= t <= 150: return "ammannati", 1560
     return "retro", 1640
 def raster():
-    g = D["grid"]; t0, b0, nt, nb = g["t0"], g["b0"], g["nt"], g["nb"]
-    cell = {}
+    """The palace behind the front block: buildings massed from the DSM (landmark_mass.py) – hipped roofs at the measured
+    heights, walls, cornices and windows; the form of each roof and window is *generic*."""
+    from landmark_mass import massing
+    g = D["grid"]; t0, b0, nt, nb = g["t0"], g["b0"], g["nt"], g["nb"]; cells = {}
     for j in range(nb):
         for i in range(nt):
             h = g["h"][j][i]
@@ -64,23 +67,18 @@ def raster():
             t, b = t0 + i + 0.5, b0 + j + 0.5
             ph = phase_of(t, b, g["k"][j][i])
             if ph is None: continue
-            cell[(i, j)] = (ph, round(h / 2.5) * 2.5, g["g"][j][i])
-    used = set(); boxes = []
-    for (i, j), (ph, h, gr) in sorted(cell.items(), key=lambda kv: (kv[0][1], kv[0][0])):
-        if (i, j) in used: continue
-        i1 = i
-        while (i1 + 1, j) in cell and (i1 + 1, j) not in used and cell[(i1 + 1, j)][:2] == (ph, h): i1 += 1
-        j1 = j
-        while all((ii, j1 + 1) in cell and (ii, j1 + 1) not in used and cell[(ii, j1 + 1)][:2] == (ph, h) for ii in range(i, i1 + 1)): j1 += 1
-        gmin = min(cell[(ii, jj)][2] for ii in range(i, i1 + 1) for jj in range(j, j1 + 1))
-        for ii in range(i, i1 + 1):
-            for jj in range(j, j1 + 1): used.add((ii, jj))
-        boxes.append((ph, t0 + i, t0 + i1 + 1, b0 + j, b0 + j1 + 1, gmin - 0.5, h))
-    for (name, y), ta, tb, ba, bb, z0, z1 in boxes:
-        part = f"{name}@{y}-{NOW}"; mat = "plaster" if name == "meridiana" else "stone"
-        box(bm_for(part, mat), Frame(W(ta, bb), DD, NN), 0, tb - ta, z0, z1, 0, bb - ba)
-        poly(bm_for(part, "roof"), [W(ta, ba, z1 + 0.05), W(tb, ba, z1 + 0.05), W(tb, bb, z1 + 0.05), W(ta, bb, z1 + 0.05)])
-    print("raster boxes", len(boxes))
+            cells[(i, j)] = (ph, h, g["g"][j][i])
+    massing(cells, t0, b0, W, DD, -NN, mat="stone", trim="stone", mat_of=lambda ph: "plaster" if ph[0] == "meridiana" else "stone",
+            solid=lambda t, b: -1 <= b < DEPTH and T_S <= t <= T_N, win=(1.3, 2.4), floor=5.2, nowin=in_court)
+def in_court(t, b):
+    """True inside Ammannati's courtyard (its sides get their orders by hand)."""
+    ring_ = max(D["inners"], key=lambda q: abs(sum(a[0] * c[1] - c[0] * a[1] for a, c in zip(q, q[1:] + q[:1]))))
+    x = FR["A"][0] + FR["d"][0] * t - FR["n"][0] * b; z = FR["A"][1] + FR["d"][1] * t - FR["n"][1] * b
+    c = False
+    for i in range(len(ring_)):
+        (xi, zi), (xj, zj) = ring_[i], ring_[i - 1]
+        if (zi > z) != (zj > z) and x < (xj - xi) * (z - zi) / (zj - zi) + xi: c = not c
+    return c
 
 # ------------------------------------------------------------------ the piazza front
 def rustication(part, F, u0, u1, v0, v1, seed, course=1.05, proud=(0.12, 0.32), holes=()):
@@ -96,7 +94,7 @@ def rustication(part, F, u0, u1, v0, v1, seed, course=1.05, proud=(0.12, 0.32), 
 
 def arched_window(part, F, u, sill, w, spring, mat="rust", fill="glass"):
     r = w / 2
-    arch_fill(part, fill, F, u - r, u + r, sill, spring, n=0.03)
+    arch_fill(part, fill, F, u - r, u + r, sill, spring, n=-0.15)
     voussoirs(part, mat, F, u, spring, r, r + 1.1, n=13, proud=0.35)
     pbox(bm_for(part, "stone"), F, u - r - 0.3, u + r + 0.3, sill - 0.35, sill, 0, 0.45)
 
@@ -111,7 +109,7 @@ def front():
         name, y = section(k); part = f"{name}@{y}-{NOW}"
         u0, u1 = T_S + k * BAY, T_S + (k + 1) * BAY; uc = (u0 + u1) / 2
         top = H_HIGH if high(k) else H_LOW
-        box(bm_for(part, "stone"), F_FRONT, u0, u1, G0 - 2.0, top, -DEPTH, -0.02)
+        box(bm_for(part, "stone"), F_FRONT, u0, u1, G0 - 1.0, top, -DEPTH, -0.02)
         holes = []
         # ground floor
         door = (k == 11); side_door = k in (9, 13)
@@ -144,18 +142,25 @@ def front():
 
 # ------------------------------------------------------------------ Ammannati's courtyard
 def courtyard():
-    part = f"ammannati@1560-{NOW}"
+    part = f"cortile_ammannati@1560-{NOW}"
     ring_ = max(D["inners"], key=lambda q: abs(sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(q, q[1:] + q[:1]))))
     P = ring_[:-1] if ring_[0] == ring_[-1] else ring_
     area = sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(P, P[1:] + P[:1])); sg = 1 if area > 0 else -1
     cx = sum(p[0] for p in P) / len(P); cz = sum(p[1] for p in P) / len(P)
-    g = D["courtyard_ground"] + 0.05
+    g = G0 + 0.5
     for (ax, az), (bx, bz) in zip(P, P[1:] + P[:1]):
         L = math.dist((ax, az), (bx, bz))
         if L < 6: continue
         tx, tz = (bx - ax) / L, (bz - az) / L; nx, nz = -tz * sg, tx * sg                                       # pointing into the court
         if (cx - ax) * nx + (cz - az) * nz < 0: nx, nz = -nx, -nz
         F = Frame(Vector((ax, -az, 0)), Vector((tx, -tz, 0)), Vector((nx, -nz, 0)))
+        # the wing behind this side, from the DSM 4 m back from the court: the orders stop where the wing stops (the garden
+        # side is the low terrace towards the Boboli amphitheatre)
+        mx, mz = (ax + bx) / 2 - nx * 4.0, (az + bz) / 2 - nz * 4.0
+        t_ = (mx - FR["A"][0]) * FR["d"][0] + (mz - FR["A"][1]) * FR["d"][1]; b_ = -((mx - FR["A"][0]) * FR["n"][0] + (mz - FR["A"][1]) * FR["n"][1])
+        gg = D["grid"]; ii, jj = int(t_ - gg["t0"]), int(b_ - gg["b0"])
+        hb = gg["h"][jj][ii] if 0 <= jj < gg["nb"] and 0 <= ii < gg["nt"] and gg["h"][jj][ii] is not None else g
+        if hb < g + 9.0: continue
         nb = max(1, round(L / 6.2)); bw = L / nb
         for q in range(nb):
             u = (q + 0.5) * bw
@@ -163,9 +168,10 @@ def courtyard():
             voussoirs(part, "rust", F, u, g + 5.4, bw * 0.32, bw * 0.32 + 0.9, n=9, proud=0.3)
             for s in (-1, 1):                                                                          # banded columns
                 for v in range(5): pbox(bm_for(part, "rust"), F, u + s * bw * 0.5 - 0.55, u + s * bw * 0.5 + 0.55, g + v * 1.25, g + v * 1.25 + 0.8, 0, 0.55)
-            win_round(part, F, u, g + 13.6, g + 18.6, 1.7, frame="stone")
-            win_round(part, F, u, g + 24.8, g + 29.0, 1.5, frame="stone")
-        for v in (g + 11.0, g + 22.0): entablature(part, F, 0, L, v, mat="stone", h=1.0, proj=0.6)
+            if hb > g + 19.5: win_round(part, F, u, g + 13.6, g + 18.6, 1.7, frame="stone")
+            if hb > g + 30.0: win_round(part, F, u, g + 24.8, g + 29.0, 1.5, frame="stone")
+        for v in (g + 11.0, g + 22.0):
+            if hb > v + 1.5: entablature(part, F, 0, L, v, mat="stone", h=1.0, proj=0.6)
 
 raster()
 front()
