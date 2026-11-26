@@ -1,0 +1,855 @@
+[
+ {
+  "topic": "maps",
+  "file": "local:maps/circles-of-walls.jpg",
+  "subjects": [
+   "map",
+   "rec:Cerchia d'Arnolfo",
+   "rec:citywalls",
+   "rec:mura matildine",
+   "rec:prima cerchia comunale",
+   "map:circles"
+  ],
+  "caption": "The circles of walls of Florence on today's terrain: Roman, Carolingian, Matildine, the first communal circle (1172) and the sixth circle (1284–1333) with its gates, towers and bastions. Firenze Story, from OpenHistoricalMap and OpenStreetMap",
+  "author": "Firenze Story (lines: OpenHistoricalMap contributors, OpenStreetMap contributors)",
+  "license": "CC BY-SA 4.0 (map); ODbL (OSM data)",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "page": "https://github.com/Jany-M/firenze-story/blob/main/docs/landmarks/MURA.md",
+  "date": "2026"
+ },
+ {
+  "topic": "maps",
+  "file": "Francesco Rosselli (attribution). Pianta della Catena, 1470.jpg",
+  "subjects": [
+   "map"
+  ],
+  "caption": "The 'Pianta della Catena', view of Florence c. 1470–82 (attr. Francesco Rosselli): the sixth circle of walls with all its towers"
+ },
+ {
+  "topic": "maps",
+  "file": "Madonna bigallo, firenze view.jpg",
+  "subjects": [
+   "map",
+   "rec:Cerchia d'Arnolfo"
+  ],
+  "caption": "The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery"
+ },
+ {
+  "topic": "maps",
+  "file": "prefix:Miniatore fiorentino, pianta di firenze da poggio bracciolini",
+  "subjects": [
+   "map"
+  ],
+  "caption": "Plan of Florence in a 15th-century manuscript of Poggio Bracciolini's Historia florentina"
+ },
+ {
+  "topic": "maps",
+  "file": "Florence1493.png",
+  "subjects": [
+   "map"
+  ],
+  "caption": "Florence in the Nuremberg Chronicle, 1493"
+ },
+ {
+  "topic": "maps",
+  "file": "Stefano buonsignori, pianta di firenze, 1594, 01.jpg",
+  "subjects": [
+   "map"
+  ],
+  "caption": "Stefano Buonsignori's bird's-eye plan of Florence, 1584 (1594 printing): every street, garden, wall and gate"
+ },
+ {
+  "topic": "maps",
+  "file": "Ca. 1660 map of Florence by Wenceslaus Hollar.jpg",
+  "subjects": [
+   "map"
+  ],
+  "caption": "Wenceslaus Hollar, plan of Florence, c. 1660"
+ },
+ {
+  "topic": "maps",
+  "file": "prefix:Pianta della Città di Firenze nelle sue vere misure",
+  "subjects": [
+   "map"
+  ],
+  "caption": "Ferdinando Ruggieri, plan of the city 'in its true measures', 1731"
+ },
+ {
+  "topic": "maps",
+  "file": "Pianta alluvione firenze 1740.jpeg",
+  "subjects": [
+   "map",
+   "event:Great flood of the Arno"
+  ],
+  "caption": "Ferdinando Morozzi's plan of the flood of 1740, the water heights street by street"
+ },
+ {
+  "topic": "maps",
+  "file": "1835 map of Florence.jpg",
+  "subjects": [
+   "map"
+  ],
+  "caption": "Plan of Florence, 1835 (W. B. Clarke for the SDUK): the walls still whole, before Poggi"
+ },
+ {
+  "topic": "maps",
+  "file": "prefix:Map Urban development - Bologna and Firenze 1992 - Sviluppo urbano di Firen",
+  "subjects": [
+   "map",
+   "rec:Cerchia d'Arnolfo"
+  ],
+  "caption": "The growth of Florence and its successive circles of walls (Touring Club Italiano, 1992)"
+ },
+ {
+  "topic": "maps",
+  "file": "prefix:Map Urban development -Bologna and Firenze 1992 - Evoluzione di Firenze",
+  "subjects": [
+   "map",
+   "rec:Cerchia d'Arnolfo"
+  ],
+  "caption": "Florence from the Roman colony to the 20th century, phase by phase (Touring Club Italiano, 1992)"
+ },
+ {
+  "topic": "walls",
+  "file": "Pianta mura romane di Firenze.jpg",
+  "subjects": [
+   "rec:citywalls",
+   "map"
+  ],
+  "caption": "Plan of the Roman walls of Florentia"
+ },
+ {
+  "topic": "walls",
+  "file": "Museo Firenze com'era, plastico Florentia 1.JPG",
+  "subjects": [
+   "rec:citywalls",
+   "event:Foundation of Florentia (traditional date)"
+  ],
+  "caption": "Model of Roman Florentia (Museo Firenze com'era)"
+ },
+ {
+  "topic": "maps",
+  "file": "Mura di Firenze.JPG",
+  "subjects": [
+   "map",
+   "rec:Cerchia d'Arnolfo",
+   "event:Florence capital of Italy · walls demolished (Poggi plan)"
+  ],
+  "caption": "Antonio Campani's plan of Florence, 1822: the sixth circle of walls whole, with its gates and bastions"
+ },
+ {
+  "topic": "walls",
+  "file": "Michelangelo, studio per porta san gallo.jpg",
+  "subjects": [
+   "rec:Cerchia d'Arnolfo",
+   "rec:Porta San Gallo",
+   "rec:Baluardo a San Gallo"
+  ],
+  "caption": "Michelangelo, study for the fortifications at Porta San Gallo, c. 1525"
+ },
+ {
+  "topic": "walls",
+  "file": "Sala di Clemente VII, stradano, assedio di Firenze.JPG",
+  "subjects": [
+   "rec:Cerchia d'Arnolfo",
+   "event:Calcio during the siege"
+  ],
+  "caption": "The siege of 1529–30, fresco by Stradano and Vasari in Palazzo Vecchio: the walls, the bastions and the camp outside"
+ },
+ {
+  "topic": "walls",
+  "file": "Mura san niccolo.JPG",
+  "subjects": [
+   "rec:Cerchia d'Arnolfo",
+   "rec:Torre San Niccolò"
+  ],
+  "caption": "The Oltrarno walls climbing from San Niccolò to San Miniato today"
+ },
+ {
+  "topic": "walls",
+  "file": "Forte di Belvedere, bastione.jpg",
+  "subjects": [
+   "rec:Cerchia d'Arnolfo",
+   "rec:Forte di Belvedere"
+  ],
+  "caption": "A bastion of the Forte di Belvedere"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta romana, firenze, esterno.JPG",
+  "subjects": [
+   "rec:Porta Romana"
+  ],
+  "caption": "Porta Romana from outside"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta romana, firenze, interno.JPG",
+  "subjects": [
+   "rec:Porta Romana"
+  ],
+  "caption": "Porta Romana from the city side"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta romana, firenze, affresco.JPG",
+  "subjects": [
+   "rec:Porta Romana"
+  ],
+  "caption": "The fresco in the lunette of Porta Romana"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta romana, braccio di legno con catena.jpg",
+  "subjects": [
+   "rec:Porta Romana"
+  ],
+  "caption": "Porta Romana: the original wooden doors' bar and chain"
+ },
+ {
+  "topic": "walls",
+  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (19).jpg",
+  "subjects": [
+   "rec:Porta San Frediano"
+  ],
+  "caption": "Porta San Frediano, painted by Fabio Borbottoni (19th century)"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san frediano 02.JPG",
+  "subjects": [
+   "rec:Porta San Frediano"
+  ],
+  "caption": "Porta San Frediano today"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san frediano, interno.JPG",
+  "subjects": [
+   "rec:Porta San Frediano"
+  ],
+  "caption": "Porta San Frediano from the city side"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san frediano, portone originale.JPG",
+  "subjects": [
+   "rec:Porta San Frediano"
+  ],
+  "caption": "The original 14th-century doors of Porta San Frediano"
+ },
+ {
+  "topic": "walls",
+  "file": "Piazza Cesare Beccaria, porta alla croce 03.jpg",
+  "subjects": [
+   "rec:Porta alla Croce"
+  ],
+  "caption": "Porta alla Croce alone in Piazza Beccaria since Poggi's works"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta alla croce, lato interno, lapide 1310, 2.jpg",
+  "subjects": [
+   "rec:Porta alla Croce"
+  ],
+  "caption": "Porta alla Croce: the inscription of 1310 on the city side"
+ },
+ {
+  "topic": "walls",
+  "file": "Firenze, porta al prato, veduta da via ponte alle mosse.jpg",
+  "subjects": [
+   "rec:Porta al Prato"
+  ],
+  "caption": "Porta al Prato"
+ },
+ {
+  "topic": "walls",
+  "file": "Firenze, porta al prato, lapide 1311.jpg",
+  "subjects": [
+   "rec:Porta al Prato"
+  ],
+  "caption": "Porta al Prato: the inscription of 1311"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san gallo 11.JPG",
+  "subjects": [
+   "rec:Porta San Gallo"
+  ],
+  "caption": "Porta San Gallo"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta San Gallo epigrafe 1.JPG",
+  "subjects": [
+   "rec:Porta San Gallo"
+  ],
+  "caption": "Porta San Gallo: the founding inscription"
+ },
+ {
+  "topic": "walls",
+  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (17).jpg",
+  "subjects": [
+   "rec:Torre San Niccolò"
+  ],
+  "caption": "Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni"
+ },
+ {
+  "topic": "walls",
+  "file": "Torre di san niccolò, estate 01.JPG",
+  "subjects": [
+   "rec:Torre San Niccolò"
+  ],
+  "caption": "Torre San Niccolò, the only tower never cut down"
+ },
+ {
+  "topic": "walls",
+  "file": "Torre di san niccolò, estate 02 scale.JPG",
+  "subjects": [
+   "rec:Torre San Niccolò"
+  ],
+  "caption": "Inside Torre San Niccolò: the stairs in the tower open towards the city"
+ },
+ {
+  "topic": "walls",
+  "file": "Florence, Porta San Giorgio, RP-F-F25436-AQ.jpg",
+  "subjects": [
+   "rec:Porta San Giorgio"
+  ],
+  "caption": "Porta San Giorgio, photograph c. 1858 (Rijksmuseum)"
+ },
+ {
+  "topic": "walls",
+  "file": "Cento vedute di Firenze antica, 1789 (page 57 crop).jpg",
+  "subjects": [
+   "rec:Porta San Giorgio"
+  ],
+  "caption": "Porta San Giorgio in the 'Cento vedute di Firenze antica', 1789"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san giorgio, ext. 01.JPG",
+  "subjects": [
+   "rec:Porta San Giorgio"
+  ],
+  "caption": "Porta San Giorgio from outside, with the St George relief"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san giorgio, int. 02 affresco.JPG",
+  "subjects": [
+   "rec:Porta San Giorgio"
+  ],
+  "caption": "Bicci di Lorenzo's Madonna inside Porta San Giorgio"
+ },
+ {
+  "topic": "walls",
+  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (54).jpg",
+  "subjects": [
+   "rec:Porta San Miniato"
+  ],
+  "caption": "Porta San Miniato, painted by Fabio Borbottoni"
+ },
+ {
+  "topic": "walls",
+  "file": "Porta san miniato, veduta esterna 01.jpg",
+  "subjects": [
+   "rec:Porta San Miniato"
+  ],
+  "caption": "Porta San Miniato from outside"
+ },
+ {
+  "topic": "walls",
+  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (35).jpg",
+  "subjects": [
+   "rec:Torre della Zecca"
+  ],
+  "caption": "The Torre della Zecca on the river, painted by Fabio Borbottoni"
+ },
+ {
+  "topic": "walls",
+  "file": "Torre della Zecca - Firenze.jpg",
+  "subjects": [
+   "rec:Torre della Zecca"
+  ],
+  "caption": "Torre della Zecca in Piazza Piave today"
+ },
+ {
+  "topic": "walls",
+  "file": "prefix:Marcus Tuscher, Frantz Stephans",
+  "subjects": [
+   "rec:Arco di Trionfo"
+  ],
+  "caption": "Carl Marcus Tuscher, the triumphal arch for Francis Stephen of Lorraine's entry, 1739"
+ },
+ {
+  "topic": "walls",
+  "file": "Firenze, arco lorenese, lato nord 02.jpg",
+  "subjects": [
+   "rec:Arco di Trionfo"
+  ],
+  "caption": "The Arco di Trionfo dei Lorena by Porta San Gallo"
+ },
+ {
+  "topic": "walls",
+  "file": "Fortezza da basso 01.jpg",
+  "subjects": [
+   "rec:Fortezza da Basso",
+   "rec:Cerchia d'Arnolfo"
+  ],
+  "caption": "The Fortezza da Basso"
+ },
+ {
+  "topic": "walls",
+  "file": "Fortezza da basso, ingresso 01.JPG",
+  "subjects": [
+   "rec:Fortezza da Basso",
+   "rec:Cerchia d'Arnolfo"
+  ],
+  "caption": "The entrance of the Fortezza da Basso"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Codice rustici, santa maria del fiore.jpg",
+  "subjects": [
+   "rec:Cattedrale di Santa Maria del Fiore"
+  ],
+  "caption": "Santa Maria del Fiore in the Codex Rustici, 1440s"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Franco gizdulich, modello della facciata medievale",
+  "subjects": [
+   "rec:Cattedrale di Santa Maria del Fiore"
+  ],
+  "caption": "Model of Arnolfo's unfinished medieval façade (Franco Gizdulich)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Dante Domenico di Michelino Duomo Florence.jpg",
+  "subjects": [
+   "rec:Cattedrale di Santa Maria del Fiore"
+  ],
+  "caption": "Domenico di Michelino, Dante and the Divine Comedy, 1465, with the new dome"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Giovan battista nelli (attr.), ricostruzione dei ponteggi",
+  "subjects": [
+   "rec:Cattedrale di Santa Maria del Fiore",
+   "event:Consecration of the Duomo with Brunelleschi’s dome"
+  ],
+  "caption": "The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Paolo uccello, orologio di smf.jpg",
+  "subjects": [
+   "rec:Cattedrale di Santa Maria del Fiore"
+  ],
+  "caption": "Paolo Uccello's clock inside the Duomo, 1443"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Battistero-Duomo-Campanile.jpg",
+  "subjects": [
+   "rec:Cattedrale di Santa Maria del Fiore",
+   "rec:Campanile di Giotto",
+   "rec:Battistero di San Giovanni"
+  ],
+  "caption": "Baptistery, Duomo and Campanile today"
+ },
+ {
+  "topic": "landmarks",
+  "file": "CampanileGiotto-01.jpg",
+  "subjects": [
+   "rec:Campanile di Giotto"
+  ],
+  "caption": "Giotto's Campanile"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Andrea pisano, creazione di adamo, 1334-48",
+  "subjects": [
+   "rec:Campanile di Giotto"
+  ],
+  "caption": "Andrea Pisano, the Creation of Adam, relief from the Campanile, 1334–48"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Andrea e nino pisano, architettura, 1348-50",
+  "subjects": [
+   "rec:Campanile di Giotto"
+  ],
+  "caption": "Andrea and Nino Pisano, Architecture, relief from the Campanile"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Battistero Firenze 2019.jpg",
+  "subjects": [
+   "rec:Battistero di San Giovanni"
+  ],
+  "caption": "The Baptistery of San Giovanni"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Section of Baptistery, Florence Cathedral",
+  "subjects": [
+   "rec:Battistero di San Giovanni"
+  ],
+  "caption": "Section of the Baptistery (C. H. Moore, 1905)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Fra' Jacopo, mosaici dell'abside del battistero",
+  "subjects": [
+   "rec:Battistero di San Giovanni"
+  ],
+  "caption": "The apse mosaics of the Baptistery, from 1225"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Lorenzo ghiberti, porta del paradiso, 1425-52",
+  "subjects": [
+   "rec:Battistero di San Giovanni"
+  ],
+  "caption": "Ghiberti's Gates of Paradise, 1425–52 (detail)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Piazza della signoria, palazzo vecchio, veduta 01.jpg",
+  "subjects": [
+   "rec:Palazzo Vecchio"
+  ],
+  "caption": "Palazzo Vecchio on Piazza della Signoria"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo Vecchio Cortile interno.JPG",
+  "subjects": [
+   "rec:Palazzo Vecchio"
+  ],
+  "caption": "The courtyard of Palazzo Vecchio"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo vecchio, salone dei 500 soffitto.JPG",
+  "subjects": [
+   "rec:Palazzo Vecchio"
+  ],
+  "caption": "The ceiling of the Salone dei Cinquecento"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Vasari Corridor 1.JPG",
+  "subjects": [
+   "rec:Palazzo Vecchio",
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "Vasari's corridor, 1565"
+ },
+ {
+  "topic": "landmarks",
+  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (3).jpg",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "Ponte Vecchio, painted by Fabio Borbottoni"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Ponto Vecchio, Florence, Italy LCCN2007663196.tif",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Ponte vecchio 21r-23r, lapide ricostruzione del ponte nel 1345",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The inscription on the rebuilding of the bridge in 1345"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Florence - UNESCO - PHOTO0000004875 0001.tiff",
+  "subjects": [
+   "rec:Ponte Vecchio",
+   "event:The great flood"
+  ],
+  "caption": "Ponte Vecchio after the flood of November 1966 (UNESCO)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze aka Florence, Italy (42195674311).jpg",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "Ponte Vecchio today"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Basílica de la Santa Cruz, Florencia, Italia, 2022-09-18, DD 95.jpg",
+  "subjects": [
+   "rec:Basilica di Santa Croce"
+  ],
+  "caption": "Santa Croce"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Calcio fiorentino 1688.jpg",
+  "subjects": [
+   "rec:Basilica di Santa Croce",
+   "event:Calcio during the siege",
+   "event:Calcio Storico final (San Giovanni)"
+  ],
+  "caption": "A match of calcio in Piazza Santa Croce, 1688"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Santa croce, interior 00.jpg",
+  "subjects": [
+   "rec:Basilica di Santa Croce"
+  ],
+  "caption": "Inside Santa Croce"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Pazzi Chapel Santa Croce Apr 2008 P.JPG",
+  "subjects": [
+   "rec:Basilica di Santa Croce",
+   "event:Pazzi conspiracy"
+  ],
+  "caption": "Brunelleschi's Pazzi Chapel at Santa Croce"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Santa Maria Novella (Florence).jpg",
+  "subjects": [
+   "rec:Basilica di Santa Maria Novella"
+  ],
+  "caption": "Santa Maria Novella"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Facciata di santa maria novella, vela rucellai",
+  "subjects": [
+   "rec:Basilica di Santa Maria Novella"
+  ],
+  "caption": "Alberti's façade: the Rucellai sail in the frieze"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Fabio borbottoni, 1820-1902, interno di santa maria novella.JPG",
+  "subjects": [
+   "rec:Basilica di Santa Maria Novella"
+  ],
+  "caption": "Inside Santa Maria Novella, painted by Fabio Borbottoni"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Santa maria novella, cappella tornabuoni, domenico ghirlandaio3.JPG",
+  "subjects": [
+   "rec:Basilica di Santa Maria Novella"
+  ],
+  "caption": "Ghirlandaio's frescoes in the Tornabuoni Chapel"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Museo di santa maria novella, chiostro verde.JPG",
+  "subjects": [
+   "rec:Basilica di Santa Maria Novella"
+  ],
+  "caption": "The Chiostro Verde"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Orsanmichele e il cavalcavia prima del restauro",
+  "subjects": [
+   "rec:Chiesa di Orsanmichele"
+  ],
+  "caption": "Orsanmichele and its overpass before the restoration, 1880s–90s"
+ },
+ {
+  "topic": "landmarks",
+  "file": "FirenzeOrsanmichele01.jpg",
+  "subjects": [
+   "rec:Chiesa di Orsanmichele"
+  ],
+  "caption": "Orsanmichele"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze - Chiesa di Orsammichele, tabernacolo dell'Orcagna-edit.jpg",
+  "subjects": [
+   "rec:Chiesa di Orsanmichele"
+  ],
+  "caption": "Orcagna's tabernacle inside Orsanmichele"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Orsanmichele, interno, buca per le granaglie 01.JPG",
+  "subjects": [
+   "rec:Chiesa di Orsanmichele"
+  ],
+  "caption": "A chute for the grain, from the time Orsanmichele was the city granary"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Orsanmichele, san matteo di Ghiberti 02.JPG",
+  "subjects": [
+   "rec:Chiesa di Orsanmichele"
+  ],
+  "caption": "Ghiberti's St Matthew in its niche"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo del bargello visto da piazza san firenze.JPG",
+  "subjects": [
+   "rec:Palazzo del Bargello"
+  ],
+  "caption": "The Bargello from Piazza San Firenze"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Museo del bargello, cortile.jpg",
+  "subjects": [
+   "rec:Palazzo del Bargello"
+  ],
+  "caption": "The courtyard of the Bargello"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo del Podestà - Escutcheons - overview E.jpg",
+  "subjects": [
+   "rec:Palazzo del Bargello"
+  ],
+  "caption": "The coats of arms of the podestà in the courtyard"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze, loggia dei lanzi (2020) 01.jpg",
+  "subjects": [
+   "rec:Loggia dei Lanzi"
+  ],
+  "caption": "The Loggia dei Lanzi"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:The Lodge of the Lancers (i.e. Loggia dei Lanzi)",
+  "subjects": [
+   "rec:Loggia dei Lanzi"
+  ],
+  "caption": "The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze.Loggia.Perseus01.JPG",
+  "subjects": [
+   "rec:Loggia dei Lanzi"
+  ],
+  "caption": "Cellini's Perseus, 1554"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze.Loggia.Sabine01.JPG",
+  "subjects": [
+   "rec:Loggia dei Lanzi"
+  ],
+  "caption": "Giambologna's Rape of the Sabines, 1583"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Lion of Loggia de' Lanzi left.JPG",
+  "subjects": [
+   "rec:Loggia dei Lanzi"
+  ],
+  "caption": "One of the Medici lions, placed in 1789"
+ },
+ {
+  "topic": "history",
+  "file": "Necropoli di Palastreto 02.JPG",
+  "subjects": [
+   "event:Villanovan village by the Arno ford"
+  ],
+  "caption": "Villanovan graves found in Florence (Palastreto)"
+ },
+ {
+  "topic": "history",
+  "file": "Totila fa dstruggere la città di Firenze.jpg",
+  "subjects": [
+   "history"
+  ],
+  "caption": "Totila destroys Florence (miniature from Villani's Chronicle)"
+ },
+ {
+  "topic": "history",
+  "file": "prefix:Orcagna, la cacciata del duca d'atene",
+  "subjects": [
+   "history"
+  ],
+  "caption": "Orcagna (attr.), the expulsion of the Duke of Athens, 1343"
+ },
+ {
+  "topic": "history",
+  "file": "Francesco granacci, entrata di Carlo VIII a Firenze.jpg",
+  "subjects": [
+   "history"
+  ],
+  "caption": "Francesco Granacci, Charles VIII enters Florence, 1494"
+ },
+ {
+  "topic": "history",
+  "file": "Fabio borbottoni, 1820-1902, piazza della luna nel mercato vecchio.JPG",
+  "subjects": [
+   "event:A market morning in Mercato Vecchio",
+   "event:Mercato Vecchio & ghetto demolished"
+  ],
+  "caption": "Piazza della Luna in the Mercato Vecchio, painted by Fabio Borbottoni before the demolitions"
+ },
+ {
+  "topic": "history",
+  "file": "prefix:Brindellone dello scoppio del carro di firenze, che si dice del 1494",
+  "subjects": [
+   "event:Scoppio del Carro – the new Brindellone",
+   "event:Scoppio del Carro (Easter)"
+  ],
+  "caption": "The Brindellone, the cart of the Scoppio del Carro"
+ },
+ {
+  "topic": "history",
+  "file": "Calcio Storico partita.JPG",
+  "subjects": [
+   "event:Calcio Storico final (San Giovanni)"
+  ],
+  "caption": "A match of Calcio Storico in Piazza Santa Croce"
+ },
+ {
+  "topic": "history",
+  "file": "Porta alla croce, lato interno, lapide alluvione 1966.JPG",
+  "subjects": [
+   "event:The great flood"
+  ],
+  "caption": "The 1966 flood line marked at Porta alla Croce"
+ },
+ {
+  "topic": "history",
+  "file": "Unknown painter - Execution of Savonarola on the Piazza della Signoria - WGA23933.jpg",
+  "subjects": [
+   "event:Execution of Savonarola",
+   "event:Bonfire of the Vanities",
+   "rec:Palazzo Vecchio"
+  ],
+  "caption": "The execution of Savonarola in Piazza della Signoria, 23 May 1498 (anonymous, after Francesco Rosselli, Museo di San Marco)"
+ },
+ {
+  "topic": "history",
+  "file": "Stefano Ussi - The Execution of Savonarola - WGA24194.jpg",
+  "subjects": [
+   "event:Execution of Savonarola"
+  ],
+  "caption": "Stefano Ussi, The Execution of Savonarola, c. 1850"
+ }
+]

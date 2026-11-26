@@ -1,0 +1,6 @@
+/* picture galleries of the encyclopedia (pipeline/52_encyclopedia.py) */
+.mgallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; margin: 1em 0 2em; }
+.mgallery figure { margin: 0; display: flex; flex-direction: column; align-items: stretch; }
+.mgallery figure img { width: 100%; height: 160px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.mgallery figcaption { font-size: .72rem; line-height: 1.35; text-align: left; margin-top: .4em; max-width: none; }
+.mgallery figcaption small { color: var(--md-default-fg-color--light); }

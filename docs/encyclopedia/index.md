@@ -1,0 +1,34 @@
+# Encyclopedia of Florence
+
+The buildings, walls and events shown in the app, explained for readers. Each entry gives a short history and a timeline,
+pictures (maps, drawings, paintings and photographs, each credited and linked to its source) and the sources the app
+uses. The technical side, meaning how each landmark is measured and modelled, is in the [landmark notes](/docs/landmarks/DUOMO/).
+
+In the app, the same pictures appear as thumbnails in a building's or event's card: click one to open it large, and use
+← → to browse. The ☰ menu has **Historic maps and views** for the maps of the whole city.
+
+## Entries
+
+| Entry | In short |
+|---|---|
+| [The walls and gates](walls-and-gates.md) | Six circles of walls from Roman Florentia to 1333, the gates, the towers cut down in 1529, the bastions, and Poggi's demolitions |
+| [Santa Maria del Fiore](duomo.md) | The cathedral: Arnolfo 1296, Brunelleschi's dome 1420–36, the façade of 1887 |
+| [Giotto's Campanile](campanile.md) | The bell tower: Giotto, Andrea Pisano, Francesco Talenti, 1334–59 |
+| [The Baptistery of San Giovanni](baptistery.md) | The octagon consecrated in 1059 and its three bronze doors |
+| [Palazzo Vecchio](palazzo-vecchio.md) | Palace of the Priors from 1299, the tower, the Salone dei Cinquecento |
+| [Loggia dei Lanzi](loggia-dei-lanzi.md) | The Republic's loggia of 1376–82 and its statues |
+| [Ponte Vecchio](ponte-vecchio.md) | The bridge of 1345, its shops and Vasari's corridor |
+| [Orsanmichele](orsanmichele.md) | Grain market, granary and the guilds' church |
+| [The Bargello](bargello.md) | The oldest public palace: Capitano del Popolo, Podestà, prison, museum |
+| [Santa Croce](santa-croce.md) | The Franciscans' church, begun 1294–95; façade of 1863 |
+| [Santa Maria Novella](santa-maria-novella.md) | The Dominicans' church and Alberti's façade |
+| [Events](events.md) | The events on the app's timeline, from the Villanovan village to the 1966 flood |
+| [Maps and images](maps-and-images.md) | Every picture in the collection, by topic, with its author, licence and source |
+
+## About the pictures
+
+Only public-domain or Creative Commons pictures are used. Most come from Wikimedia Commons, especially the many photographs
+of Florentine monuments by the Commons users Sailko and Francesco Bini, the 19th-century *Views of ancient Florence* by
+Fabio Borbottoni, and old maps and prints. Each picture keeps its author and licence, and links to its page on Commons.
+The list is kept in `docs/materials/manifest.json` and downloaded by `pipeline/50_materials.py`. To add a picture,
+add a line there and run the script.
