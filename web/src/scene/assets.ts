@@ -10,10 +10,10 @@ export const TEXTURES = ['intonaco', 'pietra_forte', 'pietra_serena', 'coppi', '
 export type TexName = typeof TEXTURES[number];
 export type TexSet = Record<TexName, { col: THREE.Texture; rgh: THREE.Texture }>;
 
-export async function loadTextures(base = './textures'): Promise<TexSet> {
+export async function loadTextures(base = './textures', anisotropy = 8): Promise<TexSet> {
   const L = new THREE.TextureLoader();
   const get = (n: string, srgb: boolean) => L.loadAsync(`${base}/${n}.jpg`).then(t => {
-    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = anisotropy;
     t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace; return t;
   });
   const out: any = {};

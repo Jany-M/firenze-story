@@ -4,7 +4,7 @@
 import * as THREE from 'three/webgpu';
 import {
   Fn, uniform, texture, vec2, vec3, vec4, mix, positionWorld, positionLocal, dot, select, float, smoothstep, hash, fract, step,
-  floor, sin, abs, max, attribute, cameraPosition, normalize, pow, instanceIndex, transformNormalToView,
+  floor, sin, abs, max, length, attribute, cameraPosition, normalize, pow, instanceIndex, transformNormalToView,
 } from 'three/tsl';
 import { uYear, uSky } from './city';
 export { uSky };
@@ -24,12 +24,12 @@ const noise2: any = Fn(([p]: any) => {
 });
 const fbm = (p: any): any => noise2(p).mul(0.55).add(noise2(p.mul(2.03)).mul(0.3)).add(noise2(p.mul(4.1)).mul(0.15));
 
-export async function loadEnvironment(base: string, meta: any, ortho: THREE.Texture, blank: THREE.Texture, tex: TexSet) {
+export async function loadEnvironment(base: string, meta: any, ortho: THREE.Texture, blank: THREE.Texture, tex: TexSet, opts: { treeShare?: number; anisotropy?: number } = {}) {
   const group = new THREE.Group();
   const coreHalf = ((meta.terrain.n - 1) * meta.terrain.step) / 2;           // 1000 m
   const W = meta.wide, wideHalf = W.half;
   const land = await new THREE.TextureLoader().loadAsync(`${base}/${W.land}`);
-  land.colorSpace = THREE.SRGBColorSpace; land.flipY = false; land.anisotropy = 8;
+  land.colorSpace = THREE.SRGBColorSpace; land.flipY = false; land.anisotropy = opts.anisotropy ?? 8;
   // urban raster: first year something stood in each 8 m cell of the core
   const U = meta.urban;
   const urbanTex = new THREE.DataTexture(await bin(`${base}/urban.f32`, Float32Array), U.n, U.n, THREE.RedFormat, THREE.FloatType);
@@ -39,11 +39,15 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   // ---------- ground colour (shared by the core and the wide ring) ----------
   const ground = Fn(() => {
     const P = positionWorld.xz;
-    const inCore = step(abs(P.x), coreHalf - 1).mul(step(abs(P.y), coreHalf - 1));
+    // the sharp orthophoto fades into the 10 m Sentinel-2 land cover over a wide, wobbly ring, not along the square edge
+    // of the orthophoto tile (which read as a lit rectangle on the map from far away)
+    const sq = step(abs(P.x), coreHalf - 1).mul(step(abs(P.y), coreHalf - 1));
+    const rr = length(P).add(fbm(P.mul(0.0045)).sub(0.5).mul(coreHalf * 0.16));
+    const inCore = float(1).sub(smoothstep(coreHalf * 0.74, coreHalf * 0.99, rr)).mul(sq);
     const uvC = P.add(coreHalf).div(coreHalf * 2);
     const uvW = P.add(wideHalf).div(wideHalf * 2);
     const s2 = texture(land).sample(uvW).rgb;
-    const o = select(inCore.greaterThan(0.5), texture(ortho).sample(uvC).rgb, s2);
+    const o = mix(s2, texture(ortho).sample(uvC).rgb, inCore);
     const lum = dot(o, vec3(0.299, 0.587, 0.114));
     const n1 = fbm(P.mul(0.08)), n2 = fbm(P.mul(0.9));
     // meadow / pasture (spring-summer Tuscan greens, drier in patches)
@@ -73,7 +77,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     //  re-laid in stone 1450–1550) → irregular pietra forte slabs (lastrico) → regular slabs in rows from 1860 →
     //  quarters built after 1850: earth/macadam, asphalt 1925–1960. Roman castrum: earth with basoli on cardo and decumanus.
     const urbanStart = texture(urbanTex).sample(uvC).r;
-    const built = inCore.mul(smoothstep(urbanStart.sub(15), urbanStart.add(15), uYear));
+    const built = sq.mul(smoothstep(urbanStart.sub(15), urbanStart.add(15), uYear));
     const T = (n: keyof TexSet, size: number) => texture(tex[n].col).sample(P.div(size)).rgb;
     const terra = T('terra', 8), lastr = T('lastrico', 5).mul(0.95), amm = T('ammattonato', 2.4), filari = T('lastrico_filari', 4), asf = T('asfalto', 6);
     const pc = floor(P.div(40)), ph = (k: number) => hash(pc.x.mul(127.1).add(pc.y.mul(311.7)).add(k));
@@ -107,11 +111,11 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const builtToday = smoothstep(1.0, 1.08, o.x.div(o.y.add(0.001))).mul(float(1).sub(inCore));
     const modernWide = mix(open, s2.mul(1.08), smoothstep(1900, 2000, uYear).mul(builtToday).add(smoothstep(1950, 2010, uYear).mul(0.55).mul(float(1).sub(builtToday))));
     const t = smoothstep(1880, 1960, uYear);
-    const countryside = select(inCore.greaterThan(0.5), mix(open, o.mul(1.05), t.mul(0.6)), modernWide);
+    const countryside = mix(modernWide, mix(open, o.mul(1.05), t.mul(0.6)), inCore);
     let base: any = mix(countryside, urbanGround, built);
     base = mix(base, romanGround, inCastrum.mul(romanEra));
     const ov = ovTex.sample(uvC);
-    return vec4(mix(base, ov.rgb, ov.a.mul(uOverlayOpacity).mul(inCore)), 1);
+    return vec4(mix(base, ov.rgb, ov.a.mul(uOverlayOpacity).mul(sq)), 1);
   })();
   const groundMat = new THREE.MeshStandardNodeMaterial({ roughness: 1, metalness: 0 });
   groundMat.colorNode = ground;
@@ -227,7 +231,8 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const trees: THREE.InstancedMesh[] = [];
   const M = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), v = new THREE.Vector3();
   species.forEach((sp, ty) => {
-    const ids: number[] = []; for (let i = 0; i < N; i++) if (T[i * S + 4] === ty) ids.push(i);
+    const share = opts.treeShare ?? 1;   // small devices draw a thinned forest (quality.ts); the same trees every time
+    const ids: number[] = []; for (let i = 0; i < N; i++) if (T[i * S + 4] === ty && (share >= 1 || ((Math.imul(i, 2654435761) >>> 0) / 4294967296) < share)) ids.push(i);
     if (!ids.length) return;
     const life = new Float32Array(ids.length * 2);
     const mk = (geo: THREE.BufferGeometry, isCrown: boolean) => {

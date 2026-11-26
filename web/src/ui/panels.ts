@@ -2,6 +2,7 @@
 // inspector card, search, credits, toasts. Plain DOM, no framework.
 import { layout } from './layout';
 import { galleryHtml, wireGallery } from './gallery';
+import { libraryUrl } from '../data/library';
 import { state, set, fmtYear, fmtDay, fmtHour, MONTHS, type Mode } from '../state';
 import { epochAt, EVENTS, EVENT_REFS, PERIODS, CONF_COLORS, MAP_OVERLAYS, CREDITS, SOURCE_LAYERS } from '../data/history';
 import { ANCIENT_SITES, NECROPOLES } from '../sim/river';
@@ -56,15 +57,14 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     <h3 class="ptitle" id="ltitle">Live</h3>
     <div class="row when"><input id="dd" type="number" min="1" max="31" title="day"><select id="dm" title="month">${MONTHS.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('')}</select>
       <span class="muted">at</span><b id="hrv"></b></div>
-    <input id="hr" type="range" min="5" max="21" step="0.25" title="time of day">
     <label class="row"><input id="ts" type="checkbox"> tilt-shift</label>
     <div class="muted" id="livenote"></div>
     <h4>Events</h4><div id="levents" class="events"></div>`;
-  const dd = $<HTMLInputElement>('#dd', live), dm = $<HTMLSelectElement>('#dm', live), hr = $<HTMLInputElement>('#hr', live), ts = $<HTMLInputElement>('#ts', live);
+  const dd = $<HTMLInputElement>('#dd', live), dm = $<HTMLSelectElement>('#dm', live), ts = $<HTMLInputElement>('#ts', live);
   const setDate = () => { const m = +dm.value, d = Math.min(Math.max(+dd.value || 1, 1), new Date(2001, m, 0).getDate());
     set({ date: `${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}` }); };
   dd.onchange = setDate; dm.onchange = setDate;
-  hr.oninput = () => set({ hour: +hr.value }); ts.onchange = () => set({ tiltShift: ts.checked });
+  ts.onchange = () => set({ tiltShift: ts.checked });
   // every event with its year (and day for the yearly ones): a click moves the timeline and the camera there
   // the same live scene once only: the historical date wins over today's (e.g. Calcio 1530, not the 2026 final)
   const seenLive = new Set<string>();
@@ -300,7 +300,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
       ${r.sub ? `<dt>Type</dt><dd>${esc(r.sub)}</dd>` : ''}
       ${dataHtml(links)}</dl>
       ${galleryHtml([`rec:${r.name}`])}
-      <p>${r.qid && !links.some(l => l.url === `https://www.wikidata.org/wiki/${r.qid}`) ? `<a target="_blank" rel="noopener" href="https://www.wikidata.org/wiki/${r.qid}">Wikidata ${r.qid}</a> ` : ''}${wiki ? `<a target="_blank" rel="noopener" href="${wiki}">Wikipedia</a> ` : ''}<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=19/${ll.lat.toFixed(6)}/${ll.lon.toFixed(6)}">Map</a></p>
+      <p>${r.qid && !links.some(l => l.url === `https://www.wikidata.org/wiki/${r.qid}`) ? `<a target="_blank" rel="noopener" href="https://www.wikidata.org/wiki/${r.qid}">Wikidata ${r.qid}</a> ` : ''}${libraryUrl(r.name) ? `<a target="_blank" rel="noopener" href="${libraryUrl(r.name)}">Library</a> ` : ''}${wiki ? `<a target="_blank" rel="noopener" href="${wiki}">Wikipedia</a> ` : ''}<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=19/${ll.lat.toFixed(6)}/${ll.lon.toFixed(6)}">Map</a></p>
 `;
     $('.x', card).onclick = () => set({ selected: -1 }); wireData(); wireGallery(card);
     if (reveal) layout.open(card);
@@ -309,7 +309,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   /** Card for things placed from a source rather than from the building data (huts, kilns, graves, …). */
   let siteOpen = false;
   function showSite(info: { name: string; kind: string; from: number; to: number; src: string; conf?: string } | null) {
-    if (!info) { siteOpen = false; streetOpen = null; card.hidden = true; return; }
+    if (!info) { siteOpen = false; if (streetOpen) hooks.highlightStreet?.(null); streetOpen = null; card.hidden = true; return; }
     siteOpen = true; streetOpen = null; card.hidden = false;
     const page = A07_PAGES.find(([r]) => r.test(info.src))?.[1] ?? DATASET.a07.url;
     card.innerHTML = `<button class="x" title="close">×</button><h3>${esc(info.name)}</h3>
@@ -341,12 +341,16 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     side.hidden = state.mode !== 'sources'; live.hidden = state.mode !== 'live';
     const [mm, dday] = state.date.split('-').map(Number);
     if (document.activeElement !== dd) dd.value = String(dday); if (document.activeElement !== dm) dm.value = String(mm);
-    hr.value = String(state.hour); $('#hrv', live).textContent = fmtHour(state.hour); ts.checked = state.tiltShift;
+    $('#hrv', live).textContent = fmtHour(state.hour); ts.checked = state.tiltShift;
     if ('selected' in changed) showCard(state.selected, true);
     if ('mode' in changed) layout.open(state.mode === 'live' ? live : side);
     $('#ltitle', live).textContent = `Live · ${fmtDay(state.date)} · ${fmtHour(state.hour)}`;
   }
-  return { update, showSite, showEvent, showStreet: (code: string | null) => { if (code) { set({ selected: -1 }); showStreet(code); } }, streetAt, legend: () => { if (state.mode === 'sources') legend(); }, liveNote: (t: string) => ($('#livenote', live).textContent = t) };
+  /** Something on the map is selected (building, landmark, street or square, river site) or its card/strip is open. */
+  const hasSelection = () => state.selected >= 0 || !card.hidden || !strip.hidden;
+  /** Drop every selection: cards, street highlight, the street strip. */
+  function clearSelection() { showSite(null); hooks.highlightStreet?.(null); closeStrip(); set({ selected: -1 }); }
+  return { hasSelection, clearSelection, update, showSite, showEvent, showStreet: (code: string | null) => { if (code) { set({ selected: -1 }); showStreet(code); } }, streetAt, legend: () => { if (state.mode === 'sources') legend(); }, liveNote: (t: string) => ($('#livenote', live).textContent = t) };
 }
 
 export function toast(msg: string) {

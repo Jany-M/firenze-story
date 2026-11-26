@@ -33,10 +33,30 @@ function serveStaticSiteIndexes(prefixes: string[]): Plugin {
   };
 }
 
+/** Hot reload for generated assets: when the pipeline or Blender rewrites models, data, textures or materials in public/,
+ *  open pages reload once the writes settle (Vite does not reload for public/ edits on its own). */
+function reloadOnAssets(dirs: string[]): Plugin {
+  return {
+    name: 'reload-on-assets',
+    configureServer(s) {
+      const roots = dirs.map(d => path.join(pub, d));
+      s.watcher.add(roots);
+      let t: ReturnType<typeof setTimeout> | null = null; const changed = new Set<string>();
+      const hit = (f: string) => {
+        if (!roots.some(r => f.startsWith(r))) return;
+        changed.add(path.relative(pub, f)); if (t) clearTimeout(t);
+        t = setTimeout(() => { s.config.logger.info(`assets changed (${[...changed].slice(0, 3).join(', ')}${changed.size > 3 ? ', …' : ''}), reloading`, { timestamp: true });
+          changed.clear(); s.ws.send({ type: 'full-reload', path: '*' }); }, 800);
+      };
+      s.watcher.on('change', hit); s.watcher.on('add', hit); s.watcher.on('unlink', hit);
+    },
+  };
+}
+
 // base './' so the built site works from any folder / static server
 export default defineConfig({
   base: './',
-  plugins: [serveStaticSiteIndexes(['/docs', '/library'])],
+  plugins: [serveStaticSiteIndexes(['/docs', '/library']), reloadOnAssets(['models', 'data', 'textures', 'materials'])],
   build: { target: 'es2022', chunkSizeWarningLimit: 3000 },
   server: { port: 5173, open: true },
 });

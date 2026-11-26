@@ -1,7 +1,10 @@
 import * as THREE from 'three/webgpu';
 import { state, set, on } from './state';
-import { createStage, uTilt } from './scene/stage';
-import { loadCity, uYear, uColorMode, uSelected, pickHit, periodOf } from './scene/city';
+import { createStage, uTilt, DEFAULT_HOUR } from './scene/stage';
+import { detectQuality } from './quality';
+import { createXray } from './scene/xray';
+import { createStatues } from './scene/statues';
+import { loadCity, setCorridorCut, uYear, uColorMode, uSelected, pickHit, periodOf } from './scene/city';
 import { loadLandmarks, LANDMARKS } from './scene/landmarks';
 import { createStreetHighlight } from './scene/streetview';
 import { loadEnvironment, makeHeight, uOverlayOpacity, uTime, uSky } from './scene/environment';
@@ -36,22 +39,27 @@ const say = (t: string) => {
 };
 
 async function main() {
-  const stage = await createStage(document.getElementById('app')!);
+  say('Checking this device');
+  const q = await detectQuality();
+  done(`${q.tier} detail (${q.reason})`);
+  const stage = await createStage(document.getElementById('app')!, q);
   const { scene, camera, controls, renderer, pipeline } = stage;
   say('Materials and the 2017 orthophoto');
   const texLoader = new THREE.TextureLoader();
-  const loadTex = (u: string) => texLoader.loadAsync(`${DATA}/${u}`).then(t => { t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; t.generateMipmaps = true; return t; });
-  const [ortho, mtex] = await Promise.all([loadTex('ortho2017.jpg'), loadTextures('./textures')]);
+  const loadTex = (u: string) => texLoader.loadAsync(`${DATA}/${u}`).then(t => { t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = q.anisotropy; t.generateMipmaps = true; return t; });
+  const [ortho, mtex] = await Promise.all([loadTex('ortho2017.jpg'), loadTextures('./textures', q.anisotropy)]);
   const blank = new THREE.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1); blank.needsUpdate = true;
   say('Study area and street network');
   const [meta, streets] = await Promise.all(['meta', 'streets'].map(n => fetch(`${DATA}/${n}.json`).then(r => r.json())));
   meta.streets = streets;
   done(`${((meta.bbox_utm[2] - meta.bbox_utm[0]) / 1000).toFixed(1)} × ${((meta.bbox_utm[3] - meta.bbox_utm[1]) / 1000).toFixed(1)} km, ${streets.edges.length.toLocaleString()} street segments`);
   say('Dated buildings and structures');
-  const { mesh, recs, hide } = await loadCity(DATA, ortho, mtex);
+  const { mesh, recs, hide } = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius });
   done(`${recs.length.toLocaleString()} structures`);
   say('Landmark models');
   const landmarks = await loadLandmarks(scene, mtex, recs); hide(landmarks.replaced, landmarks.replacedIds);
+  fetch('./models/landmarks/corridoio_path.json').then(r => r.ok ? r.json() : null).then(c => { if (c) setCorridorCut(c.runs, c.from); }).catch(() => {});
+  const xray = createXray(camera, controls.target, { mesh, recs }, landmarks.xrayParts);
   // Years where something visibly changes: a structure rising (start → start + ramp) or going, a landmark part, an event.
   // Playback rushes through the stretches in between, so nobody stares at decades where nothing moves.
   const busy: [number, number][] = [];
@@ -71,14 +79,15 @@ async function main() {
   const tlEl = document.getElementById('timeline')!;
   scene.add(mesh);
   say('Terrain, river, bridges and trees');
-  const env = await loadEnvironment(DATA, meta, ortho, blank, mtex);
+  const env = await loadEnvironment(DATA, meta, ortho, blank, mtex, { treeShare: q.treeShare, anisotropy: q.anisotropy });
   scene.add(env.group);
   const [H, HW] = await Promise.all(['terrain', 'wide'].map(async n => new Float32Array(await (await fetch(`${DATA}/${n}.f32`)).arrayBuffer())));
   const height = makeHeight(meta, H, HW);
+  const statues = createStatues(scene, height); statues.update(state.year);
   done(`${meta.trees.count.toLocaleString()} trees`);
   say('People and costumes');
-  const people = await createPeople(scene, streets, 280);
-  const riverPeople = await createPeople(scene, streets, 40, { walkers: false });
+  const people = await createPeople(scene, streets, q.people);
+  const riverPeople = await createPeople(scene, streets, q.riverPeople, { walkers: false });
   say('Props, boats and animals');
   const props = await loadProps(mtex, './models');
   const scenes = createScenes(scene, people, height, props, streets.squares);
@@ -129,15 +138,18 @@ async function main() {
         : s === 'ponti1944' ? 'The Night of the Bridges, 3–4 August 1944 (sequence compressed)' : 'Everyday streets');
     }
   }
-  // a night event (e.g. the Night of the Bridges at 23:00) sets the clock to night; once the user moves on (another year,
-  // date or mode) the previous daytime hour comes back
-  let nightRestore: { hour: number; year: number; date: string } | null = null;
+  // One lighting for the whole app (DEFAULT_HOUR). An event with its own hour (the Night of the Bridges at 23:00) lights the
+  // scene for that hour while it runs; it goes back to the default when the animation ends, or as soon as the user moves
+  // on: another event, another year or day, another mode.
+  const EVENT_LEN: Record<string, number> = { ponti1944: 72 };     // seconds of a live sequence before it counts as over
+  let eventLight: { year: number; date: string; until: number } | null = null;
+  const endEventLight = () => { if (!eventLight) return; eventLight = null; if (state.hour !== DEFAULT_HOUR) queueMicrotask(() => set({ hour: DEFAULT_HOUR })); };
+  if (state.hour !== DEFAULT_HOUR) set({ hour: DEFAULT_HOUR });
   function goEvent(i: number) {
     const e = EVENTS[i];
-    const night = e.hour != null && (e.hour >= 20 || e.hour < 6);
-    if (night) nightRestore = { hour: nightRestore?.hour ?? (state.hour >= 7 && state.hour <= 18 ? state.hour : 11), year: e.year, date: e.date ?? state.date };
-    else if (nightRestore) { set({ hour: nightRestore.hour }); nightRestore = null; }
-    set({ year: e.year, date: e.date ?? state.date, hour: e.hour ?? state.hour, playing: false, mode: e.live ? 'live' : state.mode });
+    eventLight = null;
+    if (e.hour != null && e.hour !== DEFAULT_HOUR) eventLight = { year: e.year, date: e.date ?? state.date, until: e.live && EVENT_LEN[e.live] ? performance.now() + EVENT_LEN[e.live] * 1000 : Infinity };
+    set({ year: e.year, date: e.date ?? state.date, hour: eventLight ? e.hour! : DEFAULT_HOUR, playing: false, mode: e.live ? 'live' : state.mode });
     if (e.live) { pendingEvent = e; refreshLive(true); } else flyTo(e.at[0], e.at[1], 600, 0.85);
     panels.showEvent(i);
   }
@@ -156,10 +168,8 @@ async function main() {
     ] });
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
   on((s, ch) => {
-    if (nightRestore && ((('year' in ch) && Math.round(s.year) !== nightRestore.year) || (('date' in ch) && s.date !== nightRestore.date) || (('mode' in ch) && s.mode !== 'live'))) {
-      const h = nightRestore.hour; nightRestore = null; queueMicrotask(() => set({ hour: h }));
-    }
-    if ('year' in ch) { uYear.value = s.year; walk.setYear(s.year); env.update(s.year); splats.update(s.year); }
+    if (eventLight && ((('year' in ch) && Math.round(s.year) !== eventLight.year) || (('date' in ch) && s.date !== eventLight.date) || ('mode' in ch))) endEventLight();
+    if ('year' in ch) { uYear.value = s.year; statues.update(s.year); walk.setYear(s.year); env.update(s.year); splats.update(s.year); }
     if ('color' in ch) uColorMode.value = { real: 0, period: 1, confidence: 2 }[s.color];
     if ('selected' in ch) uSelected.value = s.selected;
     if ('overlay' in ch) {
@@ -177,6 +187,8 @@ async function main() {
   renderer.domElement.addEventListener('pointerdown', e => (down = [e.clientX, e.clientY]));
   renderer.domElement.addEventListener('pointerup', e => {
     if (Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4) return;
+    // with something selected, a click on the map only deselects; the next click picks again
+    if (panels.hasSelection()) { panels.clearSelection(); return; }
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera);
     const hit = pickHit(mesh, recs, ray, state.year), lm = landmarks.pick(ray);
@@ -218,10 +230,12 @@ async function main() {
       if (y >= 2026) set({ year: 2026, playing: false }); else set({ year: y });
     } else tlEl.classList.remove('fast');
     view.update(dt); controls.update(); uTime.value += dt;
-    stage.setSun(state.mode === 'live' ? state.hour : 10.5, state.year); uSky.value.copy(scene.background as THREE.Color);
+    if (eventLight && performance.now() > eventLight.until) endEventLight();
+    stage.setSun(state.hour, state.year); uSky.value.copy(scene.background as THREE.Color);
     { // haze scales with zoom: close views stay crisp, the whole valley only fades at the horizon
       const d = camera.position.distanceTo(controls.target), f = scene.fog as THREE.Fog;
-      f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); }
+      f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); stage.fitClip(f.far); }
+    xray.update(dt, state.year);
     river.update(dt, state.year, true); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => PERIODS[periodOf(r.start)]?.color ?? '#888'));
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);

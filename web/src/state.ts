@@ -25,7 +25,6 @@ function readHash(): Partial<State> {
   const q = new URLSearchParams(location.hash.slice(1));
   if (q.has('y')) out.year = +q.get('y')!;
   if (q.has('d')) out.date = q.get('d')!;
-  if (q.has('h')) out.hour = +q.get('h')!;
   if (q.has('m')) out.mode = q.get('m') as Mode;
   if (q.has('c')) out.color = q.get('c') as ColorMode;
   if (q.has('o')) out.overlay = q.get('o')!;
@@ -36,7 +35,7 @@ let t: any = 0;
 function scheduleHash() {
   clearTimeout(t);
   t = setTimeout(() => {
-    const q = new URLSearchParams({ y: String(Math.round(state.year)), d: state.date, h: state.hour.toFixed(1), m: state.mode, c: state.color, o: state.overlay });
+    const q = new URLSearchParams({ y: String(Math.round(state.year)), d: state.date, m: state.mode, c: state.color, o: state.overlay });
     if (state.cam.length) q.set('cam', state.cam.map(v => v.toFixed(0)).join(','));
     history.replaceState(null, '', '#' + q.toString());
   }, 300);

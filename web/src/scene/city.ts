@@ -5,7 +5,9 @@ import * as THREE from 'three/webgpu';
 import {
   Fn, attribute, uniform, texture, textureLoad, ivec2, int, float, vec2, vec3, vec4, If, select, mix, min, max, clamp, fract, step,
   smoothstep, positionLocal, positionWorld, hash, varyingProperty, abs, floor, length, normalize, cameraPosition, pow, sin, fwidth,
+  dFdx, dFdy, cross, dot,
 } from 'three/tsl';
+import { cityKeep } from './xray';
 import { PERIODS, CONF_COLORS } from '../data/history';
 import type { TexSet } from './assets';
 
@@ -21,8 +23,46 @@ export const uColorMode = uniform(0);      // 0 real, 1 period, 2 confidence
 export const uSelected = uniform(-1);
 export const uOrtho = uniform(1);          // 1 = tint roofs with their 2017 orthophoto colour
 export const uSky = uniform(new THREE.Color(0xb8c8d6));   // sky colour (set every frame), reflected by glass and water
+// Corridor cut: where a raised passage (the Vasari Corridor) runs through or over city houses, the houses are cut open above
+// its floor inside its footprint, so the whole route shows. Raster of the floor height (NaN-free: −1e4 = no corridor).
+const cutBlank = new THREE.DataTexture(new Float32Array([-1e4]), 1, 1, THREE.RedFormat, THREE.FloatType); cutBlank.needsUpdate = true;
+const cutTex = texture(cutBlank);
+const uCutBox = uniform(new THREE.Vector4(0, 0, 1, 1));   // x0, z0, width, depth (m)
+const uCutFrom = uniform(99999);
+/** Build the cut raster from corridor runs (centre line, floor per point, width), shown from year `from`. */
+export function setCorridorCut(runs: { pts: [number, number][]; floor: number[]; w: number }[], from: number, res = 0.5, margin = 0.35) {
+  let x0 = Infinity, z0 = Infinity, x1 = -Infinity, z1 = -Infinity;
+  for (const r of runs) for (const [x, z] of r.pts) { x0 = Math.min(x0, x - r.w); z0 = Math.min(z0, z - r.w); x1 = Math.max(x1, x + r.w); z1 = Math.max(z1, z + r.w); }
+  const W = Math.ceil((x1 - x0) / res), H = Math.ceil((z1 - z0) / res), d = new Float32Array(W * H).fill(-1e4);
+  for (const r of runs) {
+    const hw = r.w / 2 + margin;
+    for (let i = 0; i < r.pts.length - 1; i++) {
+      const [ax, az] = r.pts[i], [bx, bz] = r.pts[i + 1], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1;
+      const c0 = Math.max(0, Math.floor((Math.min(ax, bx) - hw - x0) / res)), c1 = Math.min(W - 1, Math.ceil((Math.max(ax, bx) + hw - x0) / res));
+      const r0 = Math.max(0, Math.floor((Math.min(az, bz) - hw - z0) / res)), r1 = Math.min(H - 1, Math.ceil((Math.max(az, bz) + hw - z0) / res));
+      for (let rr = r0; rr <= r1; rr++) for (let cc = c0; cc <= c1; cc++) {
+        const px = x0 + (cc + 0.5) * res, pz = z0 + (rr + 0.5) * res;
+        const t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / L2));
+        if (Math.hypot(px - ax - dx * t, pz - az - dz * t) > hw) continue;
+        const f = r.floor[i] + (r.floor[i + 1] - r.floor[i]) * t, k = rr * W + cc;
+        d[k] = d[k] < -1e3 ? f : Math.min(d[k], f);
+      }
+    }
+  }
+  const tex = new THREE.DataTexture(d, W, H, THREE.RedFormat, THREE.FloatType);
+  tex.minFilter = tex.magFilter = THREE.NearestFilter; tex.needsUpdate = true;
+  cutTex.value = tex; uCutBox.value.set(x0, z0, W * res, H * res); uCutFrom.value = from;
+}
+/** Mask: false inside a corridor's footprint above its floor (from its year). */
+const corridorKeep = Fn(() => {
+  const uv = vec2(positionWorld.x.sub(uCutBox.x).div(uCutBox.z), positionWorld.z.sub(uCutBox.y).div(uCutBox.w));
+  const inBox = uv.x.greaterThan(0).and(uv.x.lessThan(1)).and(uv.y.greaterThan(0)).and(uv.y.lessThan(1));
+  const f = cutTex.sample(uv).r;
+  const cut = inBox.and(f.greaterThan(-1000)).and(positionWorld.y.greaterThan(f.add(0.05))).and(uYear.greaterThanEqual(uCutFrom));
+  return cut.not();
+});
 
-export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSet) {
+export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSet, opts: { radius?: number } = {}) {
   void orthoTex;   // roofs are tinted per building from the orthophoto in the pipeline (no per-pixel photo smear)
   const bin = async (n: string) => (await fetch(`${base}/structures.${n}.bin`)).arrayBuffer();
   const [meta, pos, nrm, bid, fu, fv, idx] = await Promise.all([
@@ -32,13 +72,28 @@ export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSe
   // normals: int8 x4 -> float32 x3
   const n8 = new Int8Array(nrm), nv = n8.length / 4, n32 = new Float32Array(nv * 3);
   for (let i = 0; i < nv; i++) { n32[i * 3] = n8[i * 4] / 127; n32[i * 3 + 1] = n8[i * 4 + 1] / 127; n32[i * 3 + 2] = n8[i * 4 + 2] / 127; }
+  let P3 = new Float32Array(pos), N3 = n32, B1 = new Float32Array(bid), U1 = new Float32Array(fu), V1 = new Float32Array(fv), I = new Uint32Array(idx);
+  // small devices (quality.ts): only the structures within opts.radius of the centre go to the GPU
+  if (opts.radius) {
+    const keepRec = new Uint8Array(recs.length);
+    for (const r of recs) keepRec[r.id] = Math.hypot(r.c[0], r.c[1]) <= opts.radius ? 1 : 0;
+    const remap = new Int32Array(B1.length).fill(-1); let k = 0;
+    for (let i = 0; i < B1.length; i++) if (keepRec[Math.round(B1[i])]) remap[i] = k++;
+    const p2 = new Float32Array(k * 3), n2 = new Float32Array(k * 3), b2 = new Float32Array(k), u2 = new Float32Array(k), v2 = new Float32Array(k);
+    for (let i = 0; i < B1.length; i++) { const j = remap[i]; if (j < 0) continue;
+      p2.set(P3.subarray(i * 3, i * 3 + 3), j * 3); n2.set(N3.subarray(i * 3, i * 3 + 3), j * 3); b2[j] = B1[i]; u2[j] = U1[i]; v2[j] = V1[i]; }
+    const tri: number[] = [];
+    for (let t = 0; t < I.length; t += 3) { const a = remap[I[t]], b = remap[I[t + 1]], c = remap[I[t + 2]]; if (a >= 0 && b >= 0 && c >= 0) tri.push(a, b, c); }
+    P3 = p2; N3 = n2; B1 = b2; U1 = u2; V1 = v2; I = new Uint32Array(tri);
+    for (const r of recs) if (!keepRec[r.id]) r.hidden = true;
+  }
   const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));
-  g.setAttribute('normal', new THREE.BufferAttribute(n32, 3));
-  g.setAttribute('bid', new THREE.BufferAttribute(new Float32Array(bid), 1));
-  g.setAttribute('fu', new THREE.BufferAttribute(new Float32Array(fu), 1));
-  g.setAttribute('fv', new THREE.BufferAttribute(new Float32Array(fv), 1));
-  g.setIndex(new THREE.BufferAttribute(new Uint32Array(idx), 1));
+  g.setAttribute('position', new THREE.BufferAttribute(P3, 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(N3, 3));
+  g.setAttribute('bid', new THREE.BufferAttribute(B1, 1));
+  g.setAttribute('fu', new THREE.BufferAttribute(U1, 1));
+  g.setAttribute('fv', new THREE.BufferAttribute(V1, 1));
+  g.setIndex(new THREE.BufferAttribute(I, 1));
   g.computeBoundingSphere(); g.computeBoundingBox();
 
   // per-structure data textures
@@ -210,8 +265,14 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     // walls, gates, Roman remains (no windows)
     facade = SX(kind.greaterThan(1.5).and(kind.lessThan(3.5)), forte, SX(kind.greaterThan(3.5), SX(mtl.greaterThan(2.5), cotto, plaster), facade));
     // ---------- roofs: coppi running down the slope, tinted with the building's own roof colour ----------
-    const hasUV = aFv.notEqual(0);
-    const ruv = SX(hasUV, vec2(aFu.negate().sub(1), aFv), vec2(positionWorld.x, positionWorld.z));
+    // tile courses follow each roof face: the face's own slope (from screen derivatives, so every pitch of a hip or a
+    // LiDAR roof gets its direction) gives the downhill axis; v runs down the slope in true length, u along the eaves
+    const fN0 = normalize(cross(dFdx(positionWorld), dFdy(positionWorld)));
+    const fN = SX(fN0.y.lessThan(0), fN0.negate(), fN0);
+    const gH = length(vec2(fN.x, fN.z)), down = vec2(fN.x, fN.z).div(max(gH, float(1e-4))), along = vec2(down.y.negate(), down.x);
+    const Pw = vec2(positionWorld.x, positionWorld.z);
+    const slopeUV = vec2(dot(Pw, along), dot(Pw, down).div(max(fN.y, float(0.25))));
+    const ruv = SX(gH.greaterThan(0.06), slopeUV, Pw);
     const tiles = T('coppi', ruv.div(4));
     const tint = t3.xyz.div(V3(0.62, 0.38, 0.27));
     const roof = tiles.mul(mix(vec3(1), tint, SX(uOrtho.greaterThan(0.5), float(0.85), float(0)))).mul(mix(float(0.92), float(1.06), h));
@@ -230,6 +291,7 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     const sel = abs(aBid.sub(uSelected)).lessThan(0.5);
     return vec4(SX(sel, mix(col, vec3(1.0, 0.72, 0.25), 0.55), col), 1);
   })();
+  mat.maskNode = (cityKeep(aBid) as any).and(corridorKeep());
   mat.roughnessNode = select(aFu.lessThan(0).and(aFu.greaterThan(-500)), float(0.78), float(0.92));
 
   const mesh = new THREE.Mesh(g, mat);

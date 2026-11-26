@@ -51,6 +51,36 @@ export const LANDMARKS: LandmarkDef[] = [
   { file: 'loggia_lanzi', from: 1382, replaces: ['Loggia dei Lanzi', 'Loggia della Signoria'], at: [22.8, 275.8], rot: -0.3696, ground: 9.6,
     clear: [[18.3, 288.8], [22.8, 275.8], [59.2, 289.9], [55.1, 301.4], [44.1, 297.2], [43.5, 298.7]],   // OSM way 43284457
     source: 'Landmark model v1 – Loggia dei Lanzi (Blender, measured on LiDAR 2023 + OSM outline; loggia 1376–82, Virtues, terrace, statues 1506–1865)' },
+  { file: 'uffizi', from: 1560, replaces: ['Galleria degli Uffizi', 'Uffizi', 'Palazzo degli Uffizi'], at: [21.5, 437.5], rot: -0.2947, ground: 8.8,
+    clear: [[-8.1, 442.1],  [47.4, 459.0],  [92.2, 311.6],  [36.7, 294.8]],   // OSM way 477279033 (the wings and the piazzale between them)
+    source: 'Landmark model v1 – Uffizi (Blender, measured on LiDAR 2023 + OSM outline; wings 1565–80, Arno serliana, statues 1850, quarter and San Pier Scheraggio before 1560)' },
+  // San Lorenzo and Palazzo Medici Riccardi: absolute scene coordinates (like the walls), heights above their ground
+  { file: 'san_lorenzo', from: 393, replaces: ['Basilica di San Lorenzo', 'Cappella dei Principi'], at: [0, 0], rot: 0, ground: 7.8,
+    clear: [[-131.8, -354.2], [-137.3, -329.8], [-144.5, -331.6], [-148.0, -313.2], [-129.1, -309.4], [-125.5, -321.5], [-108.8, -317.8],
+      [-106.8, -326.9], [-72.3, -319.2], [-59.4, -316.7], [-52.5, -347.5], [-100.9, -358.3], [-100.3, -369.0], [-113.3, -371.7], [-110.9, -382.6],
+      [-124.2, -385.4], [-141.6, -371.4], [-157.7, -374.7], [-179.6, -355.0], [-166.6, -333.9], [-150.4, -331.1]],   // OSM ways 599900778 + 24883267
+    ids: [9862, 15265],   // the cloister / library shell and a "demolished" 1830s tracing inside the library range
+    members: [{ key: 'principi', name: 'Cappella dei Principi', from: 1604 }],
+    source: 'Landmark model v1 – San Lorenzo (Blender, measured on LiDAR 2023 + OSM outline; Old Sacristy 1428, church 1461, cloister, New Sacristy, Laurentian Library, Cappella dei Principi 1604–1640, bell tower 1740)' },
+  { file: 'medici_riccardi', from: 1445, replaces: ['Palazzo Medici Riccardi', 'Palazzo Medici'], at: [0, 0], rot: 0, ground: 8.0,
+    clear: [[-9.1, -361.0], [-5.6, -380.4], [-0.9, -399.3], [5.6, -431.0], [22.8, -425.4], [52.6, -415.5], [71.1, -408.5], [61.3, -384.5], [40.4, -338.7]],   // OSM relation 1379977
+    source: 'Landmark model v1 – Palazzo Medici Riccardi (Blender, measured on LiDAR 2023 + OSM outline; Michelozzo 1445–52, kneeling windows 1517, Riccardi extension 1689)' },
+  // Vasari Corridor beyond the bridge (the bridge stretch is in ponte_vecchio): absolute scene coordinates, heights in scene y
+  { file: 'corridoio', from: 1565, replaces: ['Corridoio Vasariano'], at: [0, 0], rot: 0, ground: 0,
+    ids: [3281, 3359, 2114, 1987, 1986, 1985, 2011, 3290, 3291],   // Lungarno loggia shell, Via de' Bardi stretch, Oltrarno strip pieces, Torre dei Mannelli
+    members: [{ key: 'mannelli', name: 'Torre dei Mannelli', from: 1249 }],
+    source: 'Landmark model v1 – Corridoio Vasariano (Blender; OSM outline, LiDAR 2023 heights; 1565, Lungarno shops 1572–1885, Via de\' Bardi stretch destroyed 1944 and rebuilt 1950, Torre dei Mannelli)' },
+  // Palazzo Pitti (palace, rondò, Meridiana) and the Boboli garden with Forte Belvedere: absolute scene coordinates
+  { file: 'pitti', from: 1458, replaces: ['Palazzo Pitti'], at: [0, 0], rot: 0, ground: 0,
+    clear: [[-491.3, 783.4], [-503.8, 766.0], [-508.2, 768.9], [-512.1, 763.7], [-507.9, 761.0], [-512.6, 753.7], [-497.9, 743.5], [-472.1, 784.0], [-400.9, 738.0], [-327.2, 689.4], [-328.3, 687.9], [-354.6, 649.9], [-340.8, 640.8], [-336.7, 647.0], [-320.6, 671.4], [-319.3, 673.3], [-321.0, 674.5], [-317.3, 680.5], [-311.6, 688.8], [-302.4, 703.4], [-339.6, 728.2], [-324.1, 751.1], [-321.3, 755.3], [-334.3, 764.0], [-324.4, 779.0], [-343.7, 790.7], [-335.7, 803.4], [-336.5, 803.9], [-353.6, 814.6], [-355.3, 815.7], [-364.5, 820.6], [-371.9, 809.8], [-379.9, 814.6], [-391.6, 821.7], [-401.4, 807.3], [-413.0, 812.5], [-419.1, 803.0], [-420.9, 804.0], [-423.3, 805.4], [-461.9, 828.8], [-478.3, 801.5]],   // OSM relation 1637338
+    ids: [3317, 15772],   // Palazzina della Meridiana, a tracing inside the palace
+    members: [{ key: 'meridiana', name: 'Palazzina della Meridiana', from: 1776 }],
+    source: 'Landmark model v1 – Palazzo Pitti (Blender; OSM outline, LiDAR 2023 heights; Luca Pitti 1458, Ammannati 1560, Parigi 1618–1640, rondò 1765/1783, Meridiana 1776)' },
+  { file: 'boboli', from: 1550, replaces: ['Forte di Belvedere'], at: [0, 0], rot: 0, ground: 0,
+    ids: [1990, 2009, 1988, 1989, 1644, 1573],   // fort and palazzina shells, amphitheatre shells, Grotta del Buontalenti, Kaffeehaus (misdated records)
+    members: [{ key: 'grotta_buontalenti', name: 'Grotta del Buontalenti', from: 1583 }, { key: 'kaffeehaus', name: 'Kaffeehaus del Giardino di Boboli', from: 1776 },
+      { key: 'forte_belvedere', name: 'Forte di Belvedere', from: 1590 }],
+    source: 'Landmark model v1 – Boboli and Forte Belvedere (Blender; OSM outlines, LiDAR 2023; amphitheatre 1599–1637, Grotta del Buontalenti 1583, Kaffeehaus 1776, Neptune basin 1778, Forte Belvedere 1590)' },
   // the sixth circle of walls: absolute scene coordinates, one model for walls, towers, gates, bastions and the Fortezza
   { file: 'mura', replaces: ["Cerchia d'Arnolfo", 'Cerchia di Arnolfo', 'Baluardo del Mongibello', 'Baluardo della serpe', "Baluardo a' tre canti", 'Baluardo a San Gallo',
       // the earlier circles, drawn by the model on the ground line (the records stood on one height and sank into the slopes)
@@ -142,5 +172,16 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
   }
   /** every year a landmark part appears or goes (for the timeline's fast-forward through quiet stretches) */
   const changes = parts.flatMap(p => [p.from, p.to]).filter(y => y < 9999);
-  return { group, update, paint, replaced, replacedIds, pick, changes };
+  /** Parts standing now, with their world boxes (for the x-ray of close views, scene/xray.ts). */
+  const boxes = new Map<THREE.Object3D, THREE.Box3>();
+  function xrayParts() {
+    const out: { obj: THREE.Object3D; box: THREE.Box3 }[] = [];
+    for (const p of parts) {
+      if (!p.obj.visible) continue;
+      let b = boxes.get(p.obj); if (!b) { p.obj.updateWorldMatrix(true, true); b = new THREE.Box3().setFromObject(p.obj); boxes.set(p.obj, b); }
+      if (!b.isEmpty()) out.push({ obj: p.obj, box: b });
+    }
+    return out;
+  }
+  return { group, update, paint, replaced, replacedIds, pick, changes, xrayParts };
 }

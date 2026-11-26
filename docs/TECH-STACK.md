@@ -18,6 +18,27 @@ Lean, DRY, reusable shared modules, standard formats, so other tools can plug in
 | App shell | Vite + TypeScript, small UI layer (Svelte or plain web components), i18n IT/EN | Static hosting, no backend for v1. |
 | Audio | WebAudio + positional audio (bells, market, hooves) | Optional. |
 
+## 1b. Device tiers, flicker and close views (2026-11-26)
+
+- `web/src/quality.ts` runs before the renderer starts: WebGPU adapter (vendor, fallback adapter, buffer limits) or the
+  WebGL renderer string, `navigator.deviceMemory`, core count, coarse pointer and screen size give a score and a tier.
+  **high**: device pixel ratio up to 2, antialiasing, 4096 px shadows, tilt-shift, the whole city, 280 + 40 people, all
+  trees. **mid**: ratio 1.5, 2048 px shadows, structures within 1.8 km, 160 + 25 people, 60 % of the trees. **low**
+  (phones, 2–4 GB devices, software GPUs): ratio 1, no antialiasing, no shadows, no tilt-shift, structures within 1.25 km,
+  70 + 12 people, 30 % of the trees. `?q=low|mid|high` forces a tier (`?lite` = low); the loading screen shows the tier.
+- Flicker: decoration boxes in the Blender kit (`pbox`) have no back face when they sit on a wall; camera near plane =
+  3 % of the distance to the target (0.5–20 m); the sun's shadow camera covers 1.25 × that distance (90–700 m, in 30 m
+  steps) and its centre is snapped to the shadow-map texel grid; normal bias scales with the texel size.
+- Close views (`web/src/scene/xray.ts`): only near the ground (from ~45 m camera height above the target, full at
+  ~25 m). Every 0.15 s nine rays through the middle of the screen are tested against one box per city record and per
+  landmark part; a structure is an occluder only if a ray passes right through it (enters in the first 45 % of the way
+  to the target, leaves before 65 %, above its own ground). Occluding city buildings (up to 12 record ids, uniforms) and
+  landmark parts (a dithered copy of their materials is swapped in) fade with a screen-door dither inside a soft disc in
+  the middle of the screen; whatever is being looked at stays solid.
+- Ground: orthophoto → Sentinel-2 blend over an irregular ring (74–99 % of the core half-width), not the square tile edge.
+- Roofs: the tile UV comes from each face's own normal (screen derivatives), v down the slope in true length.
+- Dev: `vite.config.ts` reloads open pages when `public/models`, `data`, `textures` or `materials` change.
+
 ## 2. Data pipeline (offline, reproducible — `pipeline/`)
 
 Python (pyproj, shapely/geopandas, numpy, Pillow) → **Blender headless** (procedural buildings per era, landmark phases, LODs) → **gltf-transform** (meshopt, KTX2) → **3D Tiles 1.1** tileset with metadata.
