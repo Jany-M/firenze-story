@@ -15,6 +15,7 @@ export interface Rec {
   id: number; kind: string; name: string; start: number; end: number | null; ramp: number; conf: string; src: string[];
   qid: string; wiki: string; ground: number; h: number; phases: number[][]; roof: string; c: [number, number]; sub?: string;
   hidden?: boolean;                              // shell replaced by a landmark model: not drawn, not picked
+  of?: string; about?: string; also?: string[]; virtual?: boolean;   // a part of a landmark with no record of its own (cloisters): its building, a few facts
   style?: { gf: number; fh: number; sp: number; win: number; grd: number; shut: number; mat: number; balc?: number }; rgb?: number[];
 }
 const TEXW = 256;
@@ -30,7 +31,7 @@ const cutTex = texture(cutBlank);
 const uCutBox = uniform(new THREE.Vector4(0, 0, 1, 1));   // x0, z0, width, depth (m)
 const uCutFrom = uniform(99999);
 /** Build the cut raster from corridor runs (centre line, floor per point, width), shown from year `from`. */
-export function setCorridorCut(runs: { pts: [number, number][]; floor: number[]; w: number }[], from: number, res = 0.5, margin = 0.35) {
+export function setCorridorCut(runs: { pts: [number, number][]; floor: number[]; w: number }[], from: number, res = 0.25, margin = -0.12) {   // the cut stays just inside the corridor's walls, so its edge hides behind them
   let x0 = Infinity, z0 = Infinity, x1 = -Infinity, z1 = -Infinity;
   for (const r of runs) for (const [x, z] of r.pts) { x0 = Math.min(x0, x - r.w); z0 = Math.min(z0, z - r.w); x1 = Math.max(x1, x + r.w); z1 = Math.max(z1, z + r.w); }
   const W = Math.ceil((x1 - x0) / res), H = Math.ceil((z1 - z0) / res), d = new Float32Array(W * H).fill(-1e4);
@@ -62,40 +63,46 @@ const corridorKeep = Fn(() => {
   return cut.not();
 });
 
-export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSet, opts: { radius?: number } = {}) {
+/** Tiles of the city mesh (pipeline/23_city_tiles.py): loaded round the camera as it moves, nearest first. */
+interface TileInfo { f: string; i: number; j: number; x0: number; z0: number; q: number; big: boolean; nv: number; nt: number; i32: boolean }
+
+export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSet,
+  opts: { radius?: number; center?: [number, number]; first?: number } = {}) {
   void orthoTex;   // roofs are tinted per building from the orthophoto in the pipeline (no per-pixel photo smear)
-  const bin = async (n: string) => (await fetch(`${base}/structures.${n}.bin`)).arrayBuffer();
-  const [meta, pos, nrm, bid, fu, fv, idx] = await Promise.all([
-    fetch(`${base}/structures.json`).then(r => r.json()), bin('pos'), bin('nrm'), bin('bid'), bin('fu'), bin('fv'), bin('idx')]);
+  const [meta, tindex] = await Promise.all([fetch(`${base}/structures.json`).then(r => r.json()), fetch(`${base}/tiles/index.json`).then(r => r.json())]);
   const recs: Rec[] = meta.items;
-
-  // normals: int8 x4 -> float32 x3
-  const n8 = new Int8Array(nrm), nv = n8.length / 4, n32 = new Float32Array(nv * 3);
-  for (let i = 0; i < nv; i++) { n32[i * 3] = n8[i * 4] / 127; n32[i * 3 + 1] = n8[i * 4 + 1] / 127; n32[i * 3 + 2] = n8[i * 4 + 2] / 127; }
-  let P3 = new Float32Array(pos), N3 = n32, B1 = new Float32Array(bid), U1 = new Float32Array(fu), V1 = new Float32Array(fv), I = new Uint32Array(idx);
-  // small devices (quality.ts): only the structures within opts.radius of the centre go to the GPU
-  if (opts.radius) {
-    const keepRec = new Uint8Array(recs.length);
-    for (const r of recs) keepRec[r.id] = Math.hypot(r.c[0], r.c[1]) <= opts.radius ? 1 : 0;
-    const remap = new Int32Array(B1.length).fill(-1); let k = 0;
-    for (let i = 0; i < B1.length; i++) if (keepRec[Math.round(B1[i])]) remap[i] = k++;
-    const p2 = new Float32Array(k * 3), n2 = new Float32Array(k * 3), b2 = new Float32Array(k), u2 = new Float32Array(k), v2 = new Float32Array(k);
-    for (let i = 0; i < B1.length; i++) { const j = remap[i]; if (j < 0) continue;
-      p2.set(P3.subarray(i * 3, i * 3 + 3), j * 3); n2.set(N3.subarray(i * 3, i * 3 + 3), j * 3); b2[j] = B1[i]; u2[j] = U1[i]; v2[j] = V1[i]; }
-    const tri: number[] = [];
-    for (let t = 0; t < I.length; t += 3) { const a = remap[I[t]], b = remap[I[t + 1]], c = remap[I[t + 2]]; if (a >= 0 && b >= 0 && c >= 0) tri.push(a, b, c); }
-    P3 = p2; N3 = n2; B1 = b2; U1 = u2; V1 = v2; I = new Uint32Array(tri);
-    for (const r of recs) if (!keepRec[r.id]) r.hidden = true;
+  const TILE: number = tindex.tile, YOFF: number = tindex.yoff, tiles: TileInfo[] = tindex.tiles;
+  // one box per record, filled in as its tile arrives (the x-ray of close views, scene/xray.ts)
+  const boxes = new Float32Array(recs.length * 6);
+  for (let i = 0; i < recs.length; i++) boxes.set([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity], i * 6);
+  const group = new THREE.Group(); group.name = 'city';
+  async function tileMesh(t: TileInfo) {
+    const buf = await (await fetch(`${base}/tiles/${t.f}`)).arrayBuffer(), nv = t.nv;
+    let o = 0; const take = <T>(C: new (b: ArrayBuffer, o: number, n: number) => T, n: number, bytes: number) => { const a = new C(buf, o, n); o += n * bytes; return a; };
+    const q16 = take(Int16Array, nv * 3, 2), n8 = take(Int8Array, nv * 4, 1), b16 = take(Uint16Array, nv, 2);
+    if (o % 4) o += 4 - (o % 4);                                            // never needed (nv*6+nv*4+nv*2 = 12·nv), kept for safety
+    const U1 = take(Float32Array, nv, 4), V1 = take(Float32Array, nv, 4);
+    const I = t.i32 ? take(Uint32Array, t.nt * 3, 4) : take(Uint16Array, t.nt * 3, 2);
+    const P3 = new Float32Array(nv * 3), N3 = new Float32Array(nv * 3), B1 = new Float32Array(nv), k = 1 / t.q;
+    for (let v = 0; v < nv; v++) {
+      const x = t.x0 + q16[v * 3] * k, y = q16[v * 3 + 1] * k - YOFF, z = t.z0 + q16[v * 3 + 2] * k, id = b16[v];
+      P3[v * 3] = x; P3[v * 3 + 1] = y; P3[v * 3 + 2] = z; B1[v] = id;
+      N3[v * 3] = n8[v * 4] / 127; N3[v * 3 + 1] = n8[v * 4 + 1] / 127; N3[v * 3 + 2] = n8[v * 4 + 2] / 127;
+      const b = id * 6;
+      if (x < boxes[b]) boxes[b] = x; if (y < boxes[b + 1]) boxes[b + 1] = y; if (z < boxes[b + 2]) boxes[b + 2] = z;
+      if (x > boxes[b + 3]) boxes[b + 3] = x; if (y > boxes[b + 4]) boxes[b + 4] = y; if (z > boxes[b + 5]) boxes[b + 5] = z;
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(P3, 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(N3, 3));
+    g.setAttribute('bid', new THREE.BufferAttribute(B1, 1));
+    g.setAttribute('fu', new THREE.BufferAttribute(U1, 1));
+    g.setAttribute('fv', new THREE.BufferAttribute(V1, 1));
+    g.setIndex(new THREE.BufferAttribute(I, 1));
+    g.computeBoundingSphere(); g.computeBoundingBox();
+    const m = new THREE.Mesh(g, mat); m.castShadow = m.receiveShadow = true; m.name = t.f;
+    return m;
   }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.BufferAttribute(P3, 3));
-  g.setAttribute('normal', new THREE.BufferAttribute(N3, 3));
-  g.setAttribute('bid', new THREE.BufferAttribute(B1, 1));
-  g.setAttribute('fu', new THREE.BufferAttribute(U1, 1));
-  g.setAttribute('fv', new THREE.BufferAttribute(V1, 1));
-  g.setIndex(new THREE.BufferAttribute(I, 1));
-  g.computeBoundingSphere(); g.computeBoundingBox();
-
   // per-structure data textures
   const rows = Math.ceil(recs.length / TEXW);
   const d0 = new Float32Array(TEXW * rows * 4), d1 = new Float32Array(TEXW * rows * 4);
@@ -294,15 +301,41 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
   mat.maskNode = (cityKeep(aBid) as any).and(corridorKeep());
   mat.roughnessNode = select(aFu.lessThan(0).and(aFu.greaterThan(-500)), float(0.78), float(0.92));
 
-  const mesh = new THREE.Mesh(g, mat);
-  mesh.frustumCulled = false;
-  mesh.castShadow = true; mesh.receiveShadow = true;
+  // ---- streaming: the tiles within `radius` of the view's centre (all of them when radius is 0), nearest first; far
+  // tiles are dropped again on small devices
+  const R = opts.radius || Infinity, loaded = new Map<string, THREE.Mesh>(), pending = new Set<string>();
+  const dist = (t: TileInfo, x: number, z: number) => t.big ? 0 : Math.hypot(Math.max(0, Math.abs(x - (t.i + 0.5) * TILE) - TILE / 2), Math.max(0, Math.abs(z - (t.j + 0.5) * TILE) - TILE / 2));
+  let busy = 0; let cx = opts.center?.[0] ?? 0, cz = opts.center?.[1] ?? 0;
+  function pump() {
+    while (busy < 3) {
+      const next = tiles.filter(t => !loaded.has(t.f) && !pending.has(t.f) && dist(t, cx, cz) <= R).sort((a, b) => dist(a, cx, cz) - dist(b, cx, cz))[0];
+      if (!next) return;
+      busy++; pending.add(next.f);
+      tileMesh(next).then(m => { loaded.set(next.f, m); group.add(m); }).catch(e => console.warn('tile', next.f, e))
+        .finally(() => { busy--; pending.delete(next.f); pump(); });
+    }
+  }
+  /** Follow the view: call with the camera target (cheap; loads and drops tiles as needed). */
+  function follow(x: number, z: number) {
+    if (Math.hypot(x - cx, z - cz) < 40) return;
+    cx = x; cz = z;
+    if (R < Infinity) for (const [f, m] of loaded) {
+      const t = tiles.find(t => t.f === f)!;
+      if (dist(t, x, z) > R * 1.6) { group.remove(m); m.geometry.dispose(); loaded.delete(f); }
+    }
+    pump();
+  }
+  // the first view waits for the tiles right round it, the rest stream in
+  const first = tiles.filter(t => dist(t, cx, cz) <= Math.min(R, opts.first ?? 450));
+  await Promise.all(first.map(async t => { pending.add(t.f); const m = await tileMesh(t); loaded.set(t.f, m); group.add(m); pending.delete(t.f); }));
+  pump();
+  const mesh = group;
   /** Hide the shells of structures that a landmark model replaces (they stay pickable and keep their record). */
   function hide(names: Set<string>, ids: Set<number> = new Set()) {
     for (const r of recs) if (names.has(r.name) || ids.has(r.id)) { d0[r.id * 4] = 99998; d0[r.id * 4 + 1] = 99999; r.hidden = true; }
     T0.needsUpdate = true;
   }
-  return { mesh, recs, hide };
+  return { mesh, recs, hide, boxes, follow, tileCount: () => loaded.size };
 }
 
 /** Cheap 2D noise for material variation (0..1). */
@@ -324,12 +357,12 @@ export const isAlive = (r: Rec, y: number) => y >= r.start && y < (r.end ?? 9999
 export const periodOf = (y: number) => PERIODS.findIndex(p => y <= p.to);
 
 /** CPU pick: first visible structure under the ray (geometry is static, visibility by year). */
-export function pick(mesh: THREE.Mesh, recs: Rec[], ray: THREE.Raycaster, year: number): number { return pickHit(mesh, recs, ray, year).id; }
+export function pick(mesh: THREE.Object3D, recs: Rec[], ray: THREE.Raycaster, year: number): number { return pickHit(mesh, recs, ray, year).id; }
 /** Nearest standing structure under the ray (hidden landmark shells are skipped), with its distance. */
-export function pickHit(mesh: THREE.Mesh, recs: Rec[], ray: THREE.Raycaster, year: number): { id: number; dist: number } {
-  const hits = ray.intersectObject(mesh, false);
-  const bidA = mesh.geometry.getAttribute('bid') as THREE.BufferAttribute;
+export function pickHit(mesh: THREE.Object3D, recs: Rec[], ray: THREE.Raycaster, year: number): { id: number; dist: number } {
+  const hits = ray.intersectObject(mesh, true);
   for (const h of hits) {
+    const bidA = (h.object as THREE.Mesh).geometry.getAttribute('bid') as THREE.BufferAttribute;
     const id = Math.round(bidA.getX(h.face!.a));
     const r = recs[id];
     if (r.hidden || !isAlive(r, year)) continue;

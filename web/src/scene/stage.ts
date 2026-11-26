@@ -29,6 +29,8 @@ export async function createStage(container: HTMLElement, q: Quality) {
   camera.position.set(-520, 620, 820);
   const controls = new MapControls(camera, renderer.domElement);
   controls.target.set(0, 0, 60); controls.enableDamping = true; controls.dampingFactor = 0.08;
+  // touch screens: no inertia – the view stops the moment the fingers lift (damping only for the mouse)
+  renderer.domElement.addEventListener('pointerdown', e => { controls.enableDamping = e.pointerType === 'mouse'; }, { capture: true });
   controls.maxPolarAngle = 1.15; controls.minDistance = 25; controls.maxDistance = 11000; controls.screenSpacePanning = false;
 
   const hemi = new THREE.HemisphereLight(0xdfe8f2, 0x8a7a62, 1.15); scene.add(hemi);

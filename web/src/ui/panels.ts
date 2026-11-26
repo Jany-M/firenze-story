@@ -1,7 +1,7 @@
 // HUD, mode switch, Sources panel (colour modes, legend with counts, map overlays), live controls, events list,
 // inspector card, search, credits, toasts. Plain DOM, no framework.
 import { layout } from './layout';
-import { galleryHtml, wireGallery } from './gallery';
+import { galleryHtml, wireGallery, materialsFor } from './gallery';
 import { libraryUrl } from '../data/library';
 import { state, set, fmtYear, fmtDay, fmtHour, MONTHS, type Mode } from '../state';
 import { epochAt, EVENTS, EVENT_REFS, PERIODS, CONF_COLORS, MAP_OVERLAYS, CREDITS, SOURCE_LAYERS } from '../data/history';
@@ -12,8 +12,9 @@ import { linkSource, sceneToLatLon, streetNameIn, fmtNo, DATASET, A07_PAGES, typ
 const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.querySelector(s) as T;
 const esc = (s: string) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
-export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[] }) {
-  const hud = $('#hud'), modes = $('#modes'), side = $('#side'), card = $('#card'), live = $('#live'), evcard = $('#evcard');
+export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[];
+    catalogue?: { title: string; items: Rec[]; at: [number, number] | null; from: number }[] }) {
+  const hud = $('#hud'), modes = $('#modes'), side = $('#side'), card = $('#card'), live = $('#live'), evcard = $('#evcard'), lmk = $('#lmk');
   /** Event card (left, under the era box): summary, sources, Wikipedia. */
   function showEvent(i: number | null) {
     if (i == null) { evcard.hidden = true; return; }
@@ -29,7 +30,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     $('.x', evcard).onclick = () => showEvent(null); wireGallery(evcard);
     layout.open(evcard);
   }
-  modes.innerHTML = (['overview', 'live', 'sources'] as Mode[]).map(m => `<button data-m="${m}">${{ overview: 'Timeline', live: 'Live', sources: 'Sources' }[m]}</button>`).join('');
+  modes.innerHTML = (['overview', 'live', 'landmarks', 'sources'] as Mode[]).map(m => `<button data-m="${m}">${{ overview: 'Timeline', live: 'Events', landmarks: 'Landmarks', sources: 'Sources' }[m]}</button>`).join('');
   modes.onclick = ev => { const m = (ev.target as HTMLElement).dataset.m as Mode; if (m) set({ mode: m, color: m === 'sources' ? (state.color === 'real' ? 'period' : state.color) : 'real' }); };
 
   // ---- Sources side panel ----
@@ -41,7 +42,6 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     <h4>Historic map on the ground</h4>
     <select id="ov">${MAP_OVERLAYS.map(o => `<option value="${o.id}">${o.name}</option>`).join('')}</select>
     <label class="row">opacity <input id="ovo" type="range" min="0" max="1" step="0.05"></label>
-    <h4>Events</h4><div id="events"></div>
     <details><summary>Credits & data</summary><ul>${CREDITS.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
       <p><a href="docs/" target="_blank" rel="noopener">Documentation</a> · dataset ids, landmarks, sources, history</p>
       <p class="muted">Renderer: ${hooks.backend}. Drop a Gaussian splat (.ply/.spz/.splat/.ksplat) onto the page to place it at the focus point.</p></details>`;
@@ -49,22 +49,18 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   const ov = $<HTMLSelectElement>('#ov', side), ovo = $<HTMLInputElement>('#ovo', side);
   ov.value = state.overlay; ovo.value = String(state.overlayOpacity);
   ov.onchange = () => set({ overlay: ov.value }); ovo.oninput = () => set({ overlayOpacity: +ovo.value });
-  $('#events', side).innerHTML = EVENTS.map((e, i) => `<button data-i="${i}"><b>${fmtYear(e.year)}</b>${e.date ? ` <span class="muted">${fmtDay(e.date)}</span>` : ''} ${esc(e.title)}${e.live ? ' <span class="tag">live</span>' : ''}</button>`).join('');
-  $('#events', side).onclick = ev => { const b = (ev.target as HTMLElement).closest('button'); if (b) hooks.event(+b.dataset.i!); };
 
   // ---- Live controls ----
   live.innerHTML = `
-    <h3 class="ptitle" id="ltitle">Live</h3>
+    <h3 class="ptitle" id="ltitle">Events</h3>
     <div class="row when"><input id="dd" type="number" min="1" max="31" title="day"><select id="dm" title="month">${MONTHS.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('')}</select>
       <span class="muted">at</span><b id="hrv"></b></div>
-    <label class="row"><input id="ts" type="checkbox"> tilt-shift</label>
     <div class="muted" id="livenote"></div>
     <h4>Events</h4><div id="levents" class="events"></div>`;
-  const dd = $<HTMLInputElement>('#dd', live), dm = $<HTMLSelectElement>('#dm', live), ts = $<HTMLInputElement>('#ts', live);
+  const dd = $<HTMLInputElement>('#dd', live), dm = $<HTMLSelectElement>('#dm', live);
   const setDate = () => { const m = +dm.value, d = Math.min(Math.max(+dd.value || 1, 1), new Date(2001, m, 0).getDate());
     set({ date: `${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}` }); };
   dd.onchange = setDate; dm.onchange = setDate;
-  ts.onchange = () => set({ tiltShift: ts.checked });
   // every event with its year (and day for the yearly ones): a click moves the timeline and the camera there
   // the same live scene once only: the historical date wins over today's (e.g. Calcio 1530, not the 2026 final)
   const seenLive = new Set<string>();
@@ -72,6 +68,30 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     .filter(({ e }) => !e.live || (seenLive.has(e.live) ? false : (seenLive.add(e.live), true)));
   $('#levents', live).innerHTML = evList.map(({ e, i }) => `<button data-i="${i}"><b>${fmtYear(e.year)}</b>${e.date ? ` <span class="muted">${fmtDay(e.date)}</span>` : ''} ${esc(e.title)}${e.live ? ' <span class="tag">live</span>' : ''}</button>`).join('');
   $('#levents', live).onclick = ev => { const b = (ev.target as HTMLElement).closest('button'); if (b) hooks.event(+b.dataset.i!); };
+
+  // ---- Landmarks: every hand-built model and the buildings it holds; a tap goes there, today or in its last year ----
+  const thumbOf = (r: Rec) => materialsFor([`rec:${r.name}`, ...[r.of, ...(r.also ?? [])].filter(Boolean).map(n => `rec:${n}`)])[0]?.thumb;
+  const years = (r: Rec) => `${fmtYear(r.start)} → ${r.end ? fmtYear(r.end) : 'today'}`;
+  const cat = hooks.catalogue ?? [];
+  // built when the tab opens (the pictures' list loads in the background)
+  const renderLmk = () => { lmk.innerHTML = `<h3 class="ptitle">Landmarks</h3><p class="muted small">The buildings drawn by hand from photographs and
+    measurements. Tap one to go there – today, or in the last year it stood.</p><div class="lmk-list">${cat.map((g, gi) => {
+      const rows = g.items.length ? g.items : [];
+      const head = rows[0]?.name === g.title ? '' : `<h5>${esc(g.title)}</h5>`;
+      const btn = (r: Rec) => { const t = thumbOf(r);
+        return `<button class="lmk-item" data-id="${r.id}">${t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>'}
+          <span class="t"><b>${esc(r.name)}</b>${r.of ? `<em>${esc(r.of)}</em>` : ''}<small>${years(r)}</small></span></button>`; };
+      return rows.length ? `<section>${head}${rows.map(btn).join('')}</section>`
+        : `<section><button class="lmk-item" data-g="${gi}">${(t => t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>')(materialsFor([`rec:${g.title}`])[0]?.thumb)}<span class="t"><b>${esc(g.title)}</b><small>${fmtYear(g.from)} → today</small></span></button></section>`;
+    }).join('')}</div>`; };
+  renderLmk();
+  lmk.onclick = ev => {
+    const b = (ev.target as HTMLElement).closest<HTMLElement>('.lmk-item'); if (!b) return;
+    if (b.dataset.id) {
+      const r = recs[+b.dataset.id]; const y = r.end == null ? 2026 : r.end - 1;
+      set({ selected: r.id, year: y, playing: false }); hooks.flyTo(r.c[0], r.c[1], 260);
+    } else { const g = cat[+b.dataset.g!]; if (g.at) { set({ selected: -1, year: 2026, playing: false }); hooks.flyTo(g.at[0], g.at[1], 320); } }
+  };
 
   // ---- search: buildings, streets (every recorded name), events, pre-urban sites – any era ----
   const search = $<HTMLInputElement>('#search'), results = $('#results');
@@ -294,13 +314,13 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     const ll = sceneToLatLon(r.c[0], r.c[1]);
     const addr = addressHtml(id, state.year);
     const links = [...r.src.map(t => linkSource(t, { lat: ll.lat, lon: ll.lon, qid: r.qid })), ...addr.links];
-    card.innerHTML = `<button class="x" title="close">×</button><h3>${esc(title)}</h3>
-      <span class="tag ${r.conf}">${r.conf}</span><span class="tag">${fmtYear(r.start)} → ${r.end ? fmtYear(r.end) : 'today'}</span>
-      <dl>${addr.html}<dt>Height</dt><dd>${r.h.toFixed(1)} m${r.kind === 'building' ? ' (LiDAR 2023)' : ' (estimate)'}</dd>
+    card.innerHTML = `<button class="x" title="close">×</button><h3>${esc(title)}</h3>${r.of ? `<p class="sub">${esc(r.of)}</p>` : ''}
+      ${r.about ? `<p class="about">${esc(r.about)}</p>` : ''}<span class="tag ${r.conf}">${r.conf}</span><span class="tag">${fmtYear(r.start)} → ${r.end ? fmtYear(r.end) : 'today'}</span>
+      <dl>${addr.html}${r.virtual ? '' : `<dt>Height</dt><dd>${r.h.toFixed(1)} m${r.kind === 'building' ? ' (LiDAR 2023)' : ' (estimate)'}</dd>`}
       ${r.sub ? `<dt>Type</dt><dd>${esc(r.sub)}</dd>` : ''}
       ${dataHtml(links)}</dl>
-      ${galleryHtml([`rec:${r.name}`])}
-      <p>${r.qid && !links.some(l => l.url === `https://www.wikidata.org/wiki/${r.qid}`) ? `<a target="_blank" rel="noopener" href="https://www.wikidata.org/wiki/${r.qid}">Wikidata ${r.qid}</a> ` : ''}${libraryUrl(r.name) ? `<a target="_blank" rel="noopener" href="${libraryUrl(r.name)}">Library</a> ` : ''}${wiki ? `<a target="_blank" rel="noopener" href="${wiki}">Wikipedia</a> ` : ''}<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=19/${ll.lat.toFixed(6)}/${ll.lon.toFixed(6)}">Map</a></p>
+      ${galleryHtml([`rec:${r.name}`, ...[r.of, ...(r.also ?? [])].filter(Boolean).map(n => `rec:${n}`)])}
+      <p>${r.qid && !links.some(l => l.url === `https://www.wikidata.org/wiki/${r.qid}`) ? `<a target="_blank" rel="noopener" href="https://www.wikidata.org/wiki/${r.qid}">Wikidata ${r.qid}</a> ` : ''}${libraryUrl(r.name) || libraryUrl(r.of ?? '') ? `<a target="_blank" rel="noopener" href="${libraryUrl(r.name) || libraryUrl(r.of ?? '')}">Library</a> ` : ''}${wiki ? `<a target="_blank" rel="noopener" href="${wiki}">Wikipedia</a> ` : ''}<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=19/${ll.lat.toFixed(6)}/${ll.lon.toFixed(6)}">Map</a></p>
 `;
     $('.x', card).onclick = () => set({ selected: -1 }); wireData(); wireGallery(card);
     if (reveal) layout.open(card);
@@ -338,13 +358,14 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     }
     modes.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b as HTMLElement).dataset.m === state.mode));
     side.querySelectorAll('#cm button').forEach(b => b.classList.toggle('on', (b as HTMLElement).dataset.c === state.color));
-    side.hidden = state.mode !== 'sources'; live.hidden = state.mode !== 'live';
+    side.hidden = state.mode !== 'sources'; live.hidden = state.mode !== 'live'; lmk.hidden = state.mode !== 'landmarks';
     const [mm, dday] = state.date.split('-').map(Number);
     if (document.activeElement !== dd) dd.value = String(dday); if (document.activeElement !== dm) dm.value = String(mm);
-    $('#hrv', live).textContent = fmtHour(state.hour); ts.checked = state.tiltShift;
+    $('#hrv', live).textContent = fmtHour(state.hour);
     if ('selected' in changed) showCard(state.selected, true);
-    if ('mode' in changed) layout.open(state.mode === 'live' ? live : side);
-    $('#ltitle', live).textContent = `Live · ${fmtDay(state.date)} · ${fmtHour(state.hour)}`;
+    if ('mode' in changed && state.mode === 'landmarks') renderLmk();
+    if ('mode' in changed) layout.open(state.mode === 'live' ? live : state.mode === 'landmarks' ? lmk : side);
+    $('#ltitle', live).textContent = `Events · ${fmtDay(state.date)} · ${fmtHour(state.hour)}`;
   }
   /** Something on the map is selected (building, landmark, street or square, river site) or its card/strip is open. */
   const hasSelection = () => state.selected >= 0 || !card.hidden || !strip.hidden;

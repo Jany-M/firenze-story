@@ -1,5 +1,5 @@
 // Responsive layout: header bar (#topbar), two docks between the header and the timeline, bottom timeline.
-//   desktop (≥ 1100 px wide, ≥ 760 px high): left dock = event card + info card, right dock = Live / Sources panel;
+//   desktop (≥ 1100 px wide, ≥ 760 px high): left dock = event card + info card, right dock = Events / Landmarks / Sources panel;
 //     panels shrink and scroll to share the height
 //   laptop / tablet (< 1100 px wide or < 760 px high): same docks, one panel open per dock – the others fold to
 //     their title line
@@ -10,7 +10,7 @@
 const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
 const PHONE = matchMedia('(max-width: 699px)');
 const COMPACT = matchMedia('(max-width: 1099px), (max-height: 760px)');
-const PANELS = ['#evcard', '#card', '#side', '#live'];
+const PANELS = ['#evcard', '#card', '#side', '#live', '#lmk'];
 
 let dockL: HTMLElement, dockR: HTMLElement;
 const panels = () => PANELS.map(s => $(s)).filter(Boolean);
@@ -37,7 +37,7 @@ function ensureButton(el: HTMLElement) {
 }
 /** Mode panels live in the right dock, except on phones where everything shares one sheet. */
 function place() {
-  for (const s of ['#side', '#live']) { const el = $(s); const want = PHONE.matches ? dockL : dockR; if (el.parentElement !== want) want.appendChild(el); }
+  for (const s of ['#side', '#live', '#lmk']) { const el = $(s); const want = PHONE.matches ? dockL : dockR; if (el.parentElement !== want) want.appendChild(el); }
   document.body.classList.toggle('phone', PHONE.matches); document.body.classList.toggle('compact', COMPACT.matches);
   if (COMPACT.matches) {                                   // more than one open panel per dock: keep the last one open
     const open = panels().filter(p => shown(p) && !p.classList.contains('min'));

@@ -16,6 +16,8 @@ export function createTimeline(el: HTMLElement, recs: Rec[], onEvent: (i: number
       <select class="spd" title="playback speed">${[2, 10, 25, 60, 150].map(v => `<option value="${v}">${v} y/s</option>`).join('')}</select>
     </div>
     <div class="track" title="drag to change the year"><canvas></canvas><div class="pins"></div><div class="knob"></div></div>`;
+  // phones: the year sits apart, centred under the header (the timeline row keeps the play button and the track)
+  const yrTop = document.createElement('div'); yrTop.className = 'yr-top pill'; document.body.appendChild(yrTop);
   const cv = el.querySelector('canvas')!, ctx = cv.getContext('2d')!, knob = el.querySelector('.knob') as HTMLElement;
   const playBtn = el.querySelector('.play') as HTMLButtonElement, sel = el.querySelector('select')!;
   sel.value = String(state.speed);
@@ -94,7 +96,7 @@ export function createTimeline(el: HTMLElement, recs: Rec[], onEvent: (i: number
   return {
     update() {
       knob.style.left = `${yearToX(state.year) * 100}%`;
-      (el.querySelector('.yr') as HTMLElement).textContent = fmtYear(state.year);
+      (el.querySelector('.yr') as HTMLElement).textContent = yrTop.textContent = fmtYear(state.year);
       playBtn.textContent = state.playing ? '❚❚' : '▶';
     },
   };

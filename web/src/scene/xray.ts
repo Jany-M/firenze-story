@@ -41,16 +41,9 @@ function fadeClone(m: THREE.Material) {
 
 export interface LandmarkPart { obj: THREE.Object3D; box: THREE.Box3 }
 
-export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector3, city: { mesh: THREE.Mesh; recs: Rec[] }, landmarkParts: () => LandmarkPart[]) {
-  // one box per city record (from its triangles), computed once
-  const { recs } = city, n = recs.length;
-  const B = new Float32Array(n * 6); for (let i = 0; i < n; i++) B.set([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity], i * 6);
-  const pos = city.mesh.geometry.getAttribute('position'), bid = city.mesh.geometry.getAttribute('bid');
-  for (let v = 0; v < pos.count; v++) {
-    const i = Math.round(bid.getX(v)) * 6, x = pos.getX(v), y = pos.getY(v), z = pos.getZ(v);
-    if (x < B[i]) B[i] = x; if (y < B[i + 1]) B[i + 1] = y; if (z < B[i + 2]) B[i + 2] = z;
-    if (x > B[i + 3]) B[i + 3] = x; if (y > B[i + 4]) B[i + 4] = y; if (z > B[i + 5]) B[i + 5] = z;
-  }
+export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector3, city: { boxes: Float32Array; recs: Rec[] }, landmarkParts: () => LandmarkPart[]) {
+  // one box per city record (from its triangles), filled in by the city as its tiles load
+  const B = city.boxes, recs = city.recs;
   /** ray (origin o, unit dir d) against box → [tEnter, tExit] or null */
   const slab = (o: THREE.Vector3, d: THREE.Vector3, mn: number[], mx: number[]): [number, number] | null => {
     let t0 = 0, t1 = Infinity; const O = [o.x, o.y, o.z], D = [d.x, d.y, d.z];
@@ -80,7 +73,7 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
         if (!t) return false; const [a, b] = t;
         return a < D * 0.45 && b < D * 0.65 && cam.y + dir.y * b > groundY + 1;   // passes through, well short of the target
       };
-      for (let i = 0; i < n; i++) {
+      for (let i = 0, n = city.recs.length; i < n; i++) {
         const r = recs[i]; if (r.hidden || !isAlive(r, year)) continue;
         const o = i * 6; if (B[o] === Infinity) continue;
         const cx = (B[o] + B[o + 3]) / 2, cz = (B[o + 2] + B[o + 5]) / 2;

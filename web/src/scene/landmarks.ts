@@ -9,14 +9,19 @@ import type { Rec } from './city';
 
 export interface LandmarkDef {
   file: string; replaces: string[];            // names of the city records whose shell this model replaces
+  title?: string;                              // its name in the Landmarks tab when it replaces no named record
   at: [number, number]; rot: number;           // scene x/z of the model origin, rotation about Y (radians)
   ground?: number; source: string; from?: number;   // from: first year it stands (for search)
+  to?: number | null;                          // overrides the record's last year (null: still standing – for records a map test cut short)
   clear?: [number, number][];                  // scene x/z polygon: every record whose centre lies inside is replaced too
   clearFile?: boolean;                         // more such polygons in models/landmarks/<file>_clear.json
   ids?: number[];                              // single records replaced by id (stray shells no outline catches)
   /** A model holding several buildings: nodes named "<key>@…" / "<key>_…" belong to the record `name` (its card on click). */
-  members?: { key: string; name: string; from?: number; to?: number }[];
+  members?: { key: string; name: string; from?: number; to?: number; part?: Part }[];
 }
+/** A member with no city record of its own (a cloister, a courtyard): its card is made from the model – placed on its
+ *  nodes, titled with the building it belongs to (`of`), with a few facts (`about`) and that building's pictures. */
+export interface Part { of: string; about: string; wiki?: string; also?: string[] }   // also: more records whose pictures it shares
 const inPoly = (x: number, z: number, P: [number, number][]) => {
   let c = false;
   for (let i = 0, j = P.length - 1; i < P.length; j = i++) {
@@ -35,7 +40,7 @@ export const LANDMARKS: LandmarkDef[] = [
     source: 'Landmark model v1 – Baptistery (Blender, measured on LiDAR 2023; dated phases and doors)' },
   { file: 'palazzo_vecchio', replaces: ['Palazzo Vecchio'], at: [73.5, 276.5], rot: 0,
     source: 'Landmark model v1 – Palazzo Vecchio (Blender, measured on LiDAR 2023 + OSM outline; Arnolfo block, tower, Salone, ducal wings)' },
-  { file: 'ponte_vecchio', replaces: [], at: [-151.55, 425.45], rot: 0, ground: 0,
+  { file: 'ponte_vecchio', title: 'Ponte Vecchio', from: 1345, replaces: [], at: [-151.55, 425.45], rot: 0, ground: 0,
     clear: [[-117.2, 386.7], [-160.0, 472.6], [-184.1, 460.6], [-141.3, 374.7]],
     source: 'Landmark model v1 – Ponte Vecchio 1345 with shops and Vasari Corridor (Blender, measured on LiDAR 2023)' },
   { file: 'santa_croce', replaces: ['Basilica di Santa Croce'], at: [576.5, 335.0], rot: -0.4960, ground: 7.6,
@@ -74,15 +79,53 @@ export const LANDMARKS: LandmarkDef[] = [
   { file: 'pitti', from: 1458, replaces: ['Palazzo Pitti'], at: [0, 0], rot: 0, ground: 0,
     clear: [[-491.3, 783.4], [-503.8, 766.0], [-508.2, 768.9], [-512.1, 763.7], [-507.9, 761.0], [-512.6, 753.7], [-497.9, 743.5], [-472.1, 784.0], [-400.9, 738.0], [-327.2, 689.4], [-328.3, 687.9], [-354.6, 649.9], [-340.8, 640.8], [-336.7, 647.0], [-320.6, 671.4], [-319.3, 673.3], [-321.0, 674.5], [-317.3, 680.5], [-311.6, 688.8], [-302.4, 703.4], [-339.6, 728.2], [-324.1, 751.1], [-321.3, 755.3], [-334.3, 764.0], [-324.4, 779.0], [-343.7, 790.7], [-335.7, 803.4], [-336.5, 803.9], [-353.6, 814.6], [-355.3, 815.7], [-364.5, 820.6], [-371.9, 809.8], [-379.9, 814.6], [-391.6, 821.7], [-401.4, 807.3], [-413.0, 812.5], [-419.1, 803.0], [-420.9, 804.0], [-423.3, 805.4], [-461.9, 828.8], [-478.3, 801.5]],   // OSM relation 1637338
     ids: [3317, 15772],   // Palazzina della Meridiana, a tracing inside the palace
-    members: [{ key: 'meridiana', name: 'Palazzina della Meridiana', from: 1776 }],
+    members: [{ key: 'meridiana', name: 'Palazzina della Meridiana', from: 1776 },
+      { key: 'cortile_ammannati', name: "Cortile dell'Ammannati", from: 1560, part: { of: 'Palazzo Pitti',
+        about: "Bartolomeo Ammannati's courtyard (1558–70), open on the garden side towards the Boboli amphitheatre: three storeys of rusticated orders, Tuscan, Ionic and Corinthian." } }],
     source: 'Landmark model v1 – Palazzo Pitti (Blender; OSM outline, LiDAR 2023 heights; Luca Pitti 1458, Ammannati 1560, Parigi 1618–1640, rondò 1765/1783, Meridiana 1776)' },
   { file: 'boboli', from: 1550, replaces: ['Forte di Belvedere'], at: [0, 0], rot: 0, ground: 0,
     ids: [1990, 2009, 1988, 1989, 1644, 1573],   // fort and palazzina shells, amphitheatre shells, Grotta del Buontalenti, Kaffeehaus (misdated records)
     members: [{ key: 'grotta_buontalenti', name: 'Grotta del Buontalenti', from: 1583 }, { key: 'kaffeehaus', name: 'Kaffeehaus del Giardino di Boboli', from: 1776 },
       { key: 'forte_belvedere', name: 'Forte di Belvedere', from: 1590 }],
     source: 'Landmark model v1 – Boboli and Forte Belvedere (Blender; OSM outlines, LiDAR 2023; amphitheatre 1599–1637, Grotta del Buontalenti 1583, Kaffeehaus 1776, Neptune basin 1778, Forte Belvedere 1590)' },
+  // Palazzo Strozzi, the Arcone block of Piazza della Repubblica, the Mercato Centrale: absolute scene coordinates
+  { file: 'strozzi', from: 1489, replaces: ['Palazzo Strozzi'], at: [0, 0], rot: 0, ground: 0, ids: [3395],
+    source: 'Landmark model v1 – Palazzo Strozzi (Blender; OSM outline, LiDAR 2023 heights; begun 1489, Cronaca cornice 1502 and courtyard 1503, Caparra lanterns, west cornice completed 1938–40)' },
+  { file: 'repubblica', from: 1895, replaces: ["Palazzo dell'Arcone di Piazza"], at: [0, 0], rot: 0, ground: 0, ids: [3431],   // the block's LiDAR shell (unnamed, dated 1890): takes the palace's name and 1895
+    source: 'Landmark model v1 – Piazza della Repubblica, Palazzo dell\'Arcone (Blender; OSM outline, LiDAR 2023 heights; Vincenzo Micheli 1895, crowning group removed 1904)' },
+  { file: 'mercato_centrale', title: 'Mercato Centrale', from: 1874, replaces: [], at: [0, 0], rot: 0, ground: 0, ids: [9177],
+    members: [{ key: 'mercato', name: 'Mercato di San Lorenzo', from: 1874 }],   // record dated 1320 in the city data
+    source: 'Landmark model v1 – Mercato Centrale (Blender; OSM outline, LiDAR 2023 heights; Giuseppe Mengoni 1870–74)' },
+  // Piazza Santissima Annunziata: the Innocenti, the Loggia dei Servi and the church front, absolute scene coordinates
+  { file: 'annunziata', from: 1419, to: null, replaces: ['Spedale degli Innocenti'], at: [0, 0], rot: 0, ground: 0,
+    ids: [14138, 11158, 14130, 16013],   // the three LiDAR shells (the Innocenti's ends in 1875 in the city data) and a 1320 tracing inside it
+    members: [{ key: 'chiesa', name: 'Basilica della Santissima Annunziata', from: 1250 }, { key: 'servi', name: 'Loggia dei Servi di Maria', from: 1516 },
+      { key: 'chiostrino', name: 'Chiostrino dei Voti', from: 1455, part: { of: 'Basilica della Santissima Annunziata',
+        about: 'The atrium between the portico and the church, begun 1447 to a design by Michelozzo and named after the wax ex-votos once hung there. Frescoes by Andrea del Sarto, Pontormo and Rosso Fiorentino (1510s); closed with an iron and glass roof under Leopold II.' } }],
+    source: 'Landmark model v1 – Piazza Santissima Annunziata (Blender; OSM outlines, LiDAR 2023; Innocenti portico 1419–27, upper floor c. 1439, tondi 1487; church 1250, tribuna 1477, nave 1481, portico 1601; Loggia dei Servi 1516–25, 1574, 1720)' },
+  // Vasari's Loggia del Pesce: in the Mercato Vecchio 1569–1889, rebuilt in Piazza dei Ciompi 1955 (both places in one model)
+  { file: 'loggia_pesce', from: 1569, to: null, replaces: ['Loggia del Pesce'], at: [0, 0], rot: 0, ground: 0,
+    ids: [14785],   // the 1830s-cadastre tracing of the loggia, taken for a medieval house (1150–1888)
+    source: 'Landmark model v1 – Loggia del Pesce (Blender; 1830s cadastre and OSM outline, LiDAR 2023; Vasari 1568–69, enlarged 1699, dismantled 1889, rebuilt in Piazza dei Ciompi 1955)' },
+  // Santo Spirito and San Marco, with their convents (pipeline/45_chiese.py): absolute scene coordinates
+  { file: 'santo_spirito', from: 1269, replaces: ['Basilica di Santa Maria del Santo Spirito'], at: [0, 0], rot: 0, ground: 0,
+    ids: [3296, 1791],   // the convent's LiDAR shell (unnamed) and the bell tower's (a 60 m shell dated 1865 in the city data)
+    members: [{ key: 'sagrestia', name: 'Sagrestia di Santo Spirito', from: 1495 }, { key: 'cenacolo', name: 'Cenacolo di Santo Spirito', from: 1350 },
+      { key: 'chiostro_morti', name: 'Chiostro dei Morti', from: 1620, part: { of: 'Basilica di Santa Maria del Santo Spirito',
+        about: 'The smaller cloister beside the church, rebuilt by Giulio and Alfonso Parigi around 1620: round arches on columns, an upper floor of plain windows, a basin in the middle of the lawn.' } },
+      { key: 'chiostro_grande', name: 'Chiostro Grande', from: 1569, part: { of: 'Basilica di Santa Maria del Santo Spirito',
+        about: "Bartolomeo Ammannati's great cloister of the Augustinian convent, built 1564–69: wide arches on Tuscan columns, round-headed windows between pilaster strips above, a well in the middle." } }],
+    source: 'Landmark model v1 – Santo Spirito (Blender; OSM outlines, LiDAR 2023; Augustinian church 1269, Brunelleschi 1444–81, plastered front 18th c., sacristy 1489, bell tower 1503–70)' },
+  { file: 'san_marco', from: 1300, replaces: ['Basilica di San Marco'], at: [0, 0], rot: 0, ground: 0,
+    ids: [16099, 16107],   // cadastre tracings inside the convent
+    members: [{ key: 'convento', name: 'Ex convento di San Marco', from: 1444 },
+      { key: 'chiostro_antonino', name: "Chiostro di Sant'Antonino", from: 1444, part: { of: 'Basilica di San Marco', also: ['Ex convento di San Marco'],
+        about: "Michelozzo's cloister for the Dominicans (before 1440), named after Antonino Pierozzi, prior of San Marco and later archbishop of Florence; arches on columns under a lean-to roof. Today the entrance court of the Museo di San Marco." } },
+      { key: 'chiostro_domenico', name: 'Chiostro di San Domenico', from: 1444, part: { of: 'Basilica di San Marco', also: ['Ex convento di San Marco'],
+        about: "The convent's second cloister, behind Sant'Antonino's: arches on columns with two floors of shuttered windows above." } }],
+    source: 'Landmark model v1 – San Marco (Blender; OSM outlines, LiDAR 2023; Michelozzo 1437–44, bell tower 1512, Silvani 1679, front 1777–78)' },
   // the sixth circle of walls: absolute scene coordinates, one model for walls, towers, gates, bastions and the Fortezza
-  { file: 'mura', replaces: ["Cerchia d'Arnolfo", 'Cerchia di Arnolfo', 'Baluardo del Mongibello', 'Baluardo della serpe', "Baluardo a' tre canti", 'Baluardo a San Gallo',
+  { file: 'mura', title: 'City walls and gates', replaces: ["Cerchia d'Arnolfo", 'Cerchia di Arnolfo', 'Baluardo del Mongibello', 'Baluardo della serpe', "Baluardo a' tre canti", 'Baluardo a San Gallo',
       // the earlier circles, drawn by the model on the ground line (the records stood on one height and sank into the slopes)
       'citywalls', 'mura carolinge', 'mura matildine', 'prima cerchia comunale', 'prima cerchia comunale 1172', 'prima cerchia comunale (ampliamento1260)'],
     at: [0, 0], rot: 0, ground: 0, clearFile: true, ids: [2462, 1362, 2108],   // stray LiDAR shells on the wall line (records of pipeline step 20)
@@ -115,6 +158,16 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
       clearIds.push(...inside.map(r => r.id));
       // members: the record of each gate / tower (prefer the LiDAR shell over a mapped point), dated by the model
       const members = (def.members ?? []).map(m => {
+        if (m.part) {                                         // no city record: one made from the model's own nodes
+          const box = new THREE.Box3();
+          gltf.scene.traverse((o: any) => { if (o.isMesh && (o.name.startsWith(m.key + '@') || o.name.startsWith(m.key + '_') || o.parent?.name.startsWith(m.key + '@'))) box.expandByObject(o); });
+          if (box.isEmpty()) return { key: m.key, rec: undefined };
+          const ctr = box.getCenter(new THREE.Vector3());
+          const rv: Rec = { id: recs.length, kind: 'building', name: m.name, start: m.from ?? def.from ?? 1300, end: m.to ?? null, ramp: 0, conf: 'documented',
+            src: [def.source], qid: '', wiki: m.part.wiki ?? '', ground: box.min.y, h: box.max.y - box.min.y, phases: [], roof: '',
+            c: [ctr.x + def.at[0], ctr.z + def.at[1]], of: m.part.of, about: m.part.about, also: m.part.also, virtual: true };
+          recs.push(rv); return { key: m.key, rec: rv };
+        }
         const rr = recs.filter(r => r.name === m.name).sort((a, b) => +(b.kind === 'building') - +(a.kind === 'building'))[0];
         if (rr && m.from != null) rr.start = m.from;
         if (rr && m.to != null) rr.end = m.to;
@@ -125,6 +178,7 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
       // a landmark found only by its outline takes its name and first year onto the record its card shows
       if (rec && def.replaces[0] && rec.name !== def.replaces[0] && !recs.some(r => r.name === def.replaces[0])) rec.name = def.replaces[0];
       if (rec && def.from != null && rec.name === def.replaces[0]) rec.start = def.from;
+      if (rec && def.to !== undefined && rec.name === def.replaces[0]) rec.end = def.to;
       root.position.set(def.at[0], def.ground ?? rec?.ground ?? 8.4, def.at[1]); root.rotation.y = def.rot;
       root.traverse((o: any) => {
         if (o.isMesh) { o.material = mats[o.material.name] ?? o.material; o.castShadow = o.receiveShadow = true; o.userData.mat0 = o.material; }
@@ -152,7 +206,7 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
     }
   }
   /** Names of records whose LiDAR shell must not be drawn. */
-  const replaced = new Set(items.flatMap(i => [...i.def.replaces, ...(i.def.members ?? []).map(m => m.name)]));
+  const replaced = new Set(items.flatMap(i => [...i.def.replaces, ...(i.def.members ?? []).filter(m => !m.part).map(m => m.name)]));
   const replacedIds = new Set(clearIds);
   /** The landmark model under the ray (only its parts standing in the current year) → its record id and distance. */
   const ray0: THREE.Object3D[] = [];

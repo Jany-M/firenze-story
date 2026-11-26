@@ -16,6 +16,13 @@ const PAGES: [RegExp, string][] = [
   [/medici riccardi|^palazzo medici$/i, 'medici-riccardi'],
   [/corridoio vasariano|vasari corridor|torre dei mannelli/i, 'vasari-corridor'],
   [/palazzo pitti|meridiana|boboli|buontalenti|kaffeehaus|forte di belvedere/i, 'pitti-boboli'],
+  [/palazzo strozzi/i, 'palazzo-strozzi'],
+  [/piazza della repubblica|arcone|colonna dell'abbondanza/i, 'piazza-della-repubblica'],
+  [/mercato centrale|mercato di san lorenzo/i, 'mercato-centrale'],
+  [/annunziata|innocenti|servi di maria|serviti|mostri marini/i, 'santissima-annunziata'],
+  [/loggia del pesce|piazza dei ciompi/i, 'loggia-del-pesce'],
+  [/santo spirito/i, 'santo-spirito'],
+  [/san marco/i, 'san-marco'],
   [/^porta |^torre (della zecca|san niccol|della serpe)|torrino di santa rosa|arco di trionfo|cerchia|baluardo/i, 'walls-and-gates'],
 ];
 export const libraryUrl = (name: string) => {

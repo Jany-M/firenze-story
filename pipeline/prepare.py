@@ -3,7 +3,8 @@
 A step runs only when one of its inputs is newer than its outputs (or an output is missing):
   textures   pipeline/30_textures.py                          -> web/public/textures/*
   props      blender/scripts/*.py + textures                  -> web/public/models/*.glb, blender/*.blend
-  city/env   pipeline/common.py, 20_build_city.py, 21_build_env.py (+ raw data in _dev/data) -> web/public/data/*
+  city/env   pipeline/common.py, 20_build_city.py, 21_build_env.py (+ raw data in _dev/data) -> web/public/data/*;
+             23_city_tiles.py splits the city mesh into the tiles the app streams (web/public/data/tiles)
   docs       mkdocs.yml + docs/*.md + CHANGELOG.md            -> web/public/docs/  (Zensical; optional)
   library    mkdocs.library.yml + docs/encyclopedia + materials -> web/public/library/ (Zensical; optional)
 Steps whose tools are missing (Blender, Python packages, raw data, zensical) are skipped with a warning; the app then uses the
@@ -72,12 +73,15 @@ else: print("  = textures up to date")
 # Blender's export is not byte-identical from run to run, so rebuilding everything on any script edit made every .blend/.glb
 # show as modified in git without a real change.
 TEXS = J("web", "public", "textures", "*_col.jpg")
+DATA_OF = {"boboli": "pitti", "strozzi": "centro", "repubblica": "centro", "mercato_centrale": "centro", "santo_spirito": "chiese", "san_marco": "chiese"}   # models sharing a geometry file
 def blender_target(script):
     stem = os.path.basename(script)[6:-3]                                   # build_<stem>.py
     if stem == "assets": return [script, TEXS], J("web", "public", "models", "materials.json")      # written last = build stamp
     if stem == "characters": return [script], J("web", "public", "models", "costumes.glb")
-    return [script, J("blender", "scripts", "landmark_kit.py"), J("blender", "scripts", "landmark_detail.py"), TEXS,
-            J("blender", "data", ("pitti" if stem == "boboli" else stem) + ".json")], J("web", "public", "models", "landmarks", stem + ".glb")     # + its geometry data, if any
+    src = open(script, encoding="utf-8").read()
+    extra = [J("blender", "scripts", m + ".py") for m in ("landmark_text", "landmark_church", "landmark_mass") if m in src]
+    return [script, J("blender", "scripts", "landmark_kit.py"), J("blender", "scripts", "landmark_detail.py"), TEXS, *extra,
+            J("blender", "data", DATA_OF.get(stem, stem) + ".json")], J("web", "public", "models", "landmarks", stem + ".glb")     # + its geometry data, if any
 def needs_build(script):
     ins, out = blender_target(script); return stale(ins, [out])
 todo = [s for s in sorted(glob.glob(J("blender", "scripts", "build_*.py"))) if needs_build(s)]
@@ -102,6 +106,12 @@ else:
                 run([PY, J("pipeline", "19_resample_maps.py")], "historic map rasters (19_resample_maps.py)")
             run([PY, J("pipeline", "20_build_city.py")], "city (20_build_city.py, ~2 min)")
     else: print("  = city data up to date")
+tiles_in = [J("pipeline", "23_city_tiles.py"), J("web", "public", "data", "structures.json"), J("web", "public", "data", "structures.pos.bin")]
+if os.path.exists(J("web", "public", "data", "structures.pos.bin")):
+    if stale(tiles_in, [J("web", "public", "data", "tiles", "index.json")]):
+        if have("numpy"): run([PY, J("pipeline", "23_city_tiles.py")], "city tiles (23_city_tiles.py)")
+    else: print("  = city tiles up to date")
+if os.path.isdir(J("_dev", "data", "raw")):
     if stale(env_in, [J("web", "public", "data", "meta.json")]):
         if have(*pkgs): run([PY, J("pipeline", "21_build_env.py")], "environment (21_build_env.py)")
     else: print("  = environment data up to date")

@@ -15,6 +15,7 @@ go to `_dev/data/` (work cache, not published); results go to `web/public/`. **`
 | 08 | `08_wide_area.py` | `_dev/data/raw/wide/` Copernicus DEM tile, Sentinel-2 cloudless mosaic; `osm/wide_water.json`, `wide_weirs.json` |
 | 19 | `19_resample_maps.py` | `_dev/data/build/*_05.npy` (historic maps + orthophoto on the 0.5 m grid, ~400 MB) |
 | 20 | `20_build_city.py` (+ `roofs.py`) | `web/public/data/structures.*` – all dated structures, one merged mesh, façade styles, roof colours; `footprints.u16` – walkability grid (2 m cells, record id + 1, layer 0 present-day buildings, layer 1 historic; gates and city walls left open). Map tracings lying in today's river bed are skipped (~5 min) |
+| 23 | `23_city_tiles.py` | `web/public/data/tiles/` – the city mesh cut into 300 m tiles (positions int16 at 2 cm, ids uint16; ~150 MB instead of ~210 MB) that the app streams round the view, nearest first; small devices keep only the tiles near the view (runs after 20, a few seconds) |
 | 21 | `21_build_env.py` | `web/public/data/{terrain,wide,land_s2,water,weirs,river,bridges,streets,trees,urban,meta}` + map textures (~1 min) |
 | 30 | `30_textures.py` | `web/public/textures/*_{col,nrm,rgh}.jpg` – tileable materials (docs/MATERIALS.md) |
 
@@ -50,6 +51,23 @@ The palace's roof heights as a 1 m raster in the palace's own frame (OSM outline
 Meridiana, and the outlines, ground and heights of the amphitheatre, the Grotta del Buontalenti, the Kaffeehaus, the Neptune
 basin and Forte Belvedere → `blender/data/pitti.json`, read by `build_pitti.py` and `build_boboli.py`
 (docs/landmarks/PITTI-BOBOLI.md). Run by hand like 40/41.
+
+### 43_centro.py – geometry for Palazzo Strozzi, the Arcone and the Mercato Centrale
+The OSM outlines (relations 2951949 and 1593627, way 480015428) with the app terrain under each corner, the LiDAR DSM
+heights inside them and the Via degli Strozzi passage under the Arcone → `blender/data/centro.json`, read by
+`build_strozzi.py`, `build_repubblica.py` and `build_mercato_centrale.py` (docs/landmarks/STROZZI.md, REPUBBLICA.md,
+MERCATO-CENTRALE.md). Run by hand like 40–42.
+
+### 44_annunziata.py – geometry for Piazza Santissima Annunziata
+The square's own frame (along the Innocenti front and across the square), the OSM outlines of the Innocenti, the church and
+the Loggia dei Servi, the ground under each front and a 1 m DSM raster of everything behind the fronts →
+`blender/data/annunziata.json`, read by `build_annunziata.py` (docs/landmarks/ANNUNZIATA.md). Run by hand like 40–43.
+
+### 45_chiese.py – geometry for the churches of §12 item 6
+For each site (Santo Spirito, San Marco so far): a frame on the façade, the OSM outlines of the complex, the ground along the
+front, a DSM profile along the axis and a 1 m DSM raster of the whole complex → `blender/data/chiese.json`, read by
+`build_santo_spirito.py`, `build_san_marco.py` with the helpers in `landmark_church.py`; the parts not built by hand (here and in
+`build_annunziata.py`, `build_pitti.py`) are massed from the DSM raster by `landmark_mass.py` (hipped roofs, walls, cornices, windows). Run by hand like 40–44.
 
 ### 50_materials.py, 51_walls_map.py, 52_encyclopedia.py – pictures and the library
 `docs/materials/manifest.json` lists the pictures (topic, subject key `rec:<record>` / `event:<title>` / `map`, a Commons file name, a `prefix:` or `search:` query, or a `local:` file). 50 resolves them on Wikimedia Commons, accepts only public domain and CC licences, saves a 1280 px picture and a 360 px thumbnail and writes `materials.json`. 51 draws the map of the circles of walls on the terrain. 52 fills the gallery blocks of `docs/encyclopedia/*.md` and builds the events and maps pages. prepare.py copies the pictures to `web/public/materials` and builds `/library/`.

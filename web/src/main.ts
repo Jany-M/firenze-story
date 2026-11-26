@@ -4,7 +4,7 @@ import { createStage, uTilt, DEFAULT_HOUR } from './scene/stage';
 import { detectQuality } from './quality';
 import { createXray } from './scene/xray';
 import { createStatues } from './scene/statues';
-import { loadCity, setCorridorCut, uYear, uColorMode, uSelected, pickHit, periodOf } from './scene/city';
+import { type Rec, loadCity, setCorridorCut, uYear, uColorMode, uSelected, pickHit, periodOf } from './scene/city';
 import { loadLandmarks, LANDMARKS } from './scene/landmarks';
 import { createStreetHighlight } from './scene/streetview';
 import { loadEnvironment, makeHeight, uOverlayOpacity, uTime, uSky } from './scene/environment';
@@ -30,11 +30,13 @@ const steps = document.createElement('ul'); steps.className = 'steps'; loading.q
 let cur: { li: HTMLLIElement; t0: number } | null = null;
 function done(extra = '') {
   if (!cur) return;
-  cur.li.classList.add('ok'); cur.li.querySelector('i')!.textContent = `${extra ? extra + ' · ' : ''}${((performance.now() - cur.t0) / 1000).toFixed(1)} s`; cur = null;
+  cur.li.classList.add('ok');
+  cur.li.querySelector('i')!.textContent = extra; cur.li.querySelector('b')!.textContent = `${((performance.now() - cur.t0) / 1000).toFixed(1)} s`; cur = null;
 }
+// label, details and time are separate boxes that wrap onto their own full-width lines when a row is too narrow (phones)
 const say = (t: string) => {
   done(); loading.querySelector('p')!.textContent = t;
-  const li = document.createElement('li'); li.innerHTML = `<span></span><i>…</i>`; li.querySelector('span')!.textContent = t;
+  const li = document.createElement('li'); li.innerHTML = `<em></em><span></span><i></i><b>…</b>`; li.querySelector('span')!.textContent = t;
   steps.appendChild(li); cur = { li, t0: performance.now() };
 };
 
@@ -44,7 +46,7 @@ async function main() {
   done(`${q.tier} detail (${q.reason})`);
   const stage = await createStage(document.getElementById('app')!, q);
   const { scene, camera, controls, renderer, pipeline } = stage;
-  say('Materials and the 2017 orthophoto');
+  say('Materials and map data');
   const texLoader = new THREE.TextureLoader();
   const loadTex = (u: string) => texLoader.loadAsync(`${DATA}/${u}`).then(t => { t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = q.anisotropy; t.generateMipmaps = true; return t; });
   const [ortho, mtex] = await Promise.all([loadTex('ortho2017.jpg'), loadTextures('./textures', q.anisotropy)]);
@@ -54,12 +56,15 @@ async function main() {
   meta.streets = streets;
   done(`${((meta.bbox_utm[2] - meta.bbox_utm[0]) / 1000).toFixed(1)} × ${((meta.bbox_utm[3] - meta.bbox_utm[1]) / 1000).toFixed(1)} km, ${streets.edges.length.toLocaleString()} street segments`);
   say('Dated buildings and structures');
-  const { mesh, recs, hide } = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius });
+  // the city streams in tiles round the view; small devices keep only those near it (quality.ts cityRadius)
+  const c0: [number, number] = state.cam.length === 6 ? [state.cam[3], state.cam[5]] : [0, 60];
+  const city = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius, center: c0, first: q.tier === 'low' ? 350 : 600 });
+  const { mesh, recs, hide } = city;
   done(`${recs.length.toLocaleString()} structures`);
   say('Landmark models');
   const landmarks = await loadLandmarks(scene, mtex, recs); hide(landmarks.replaced, landmarks.replacedIds);
   fetch('./models/landmarks/corridoio_path.json').then(r => r.ok ? r.json() : null).then(c => { if (c) setCorridorCut(c.runs, c.from); }).catch(() => {});
-  const xray = createXray(camera, controls.target, { mesh, recs }, landmarks.xrayParts);
+  const xray = createXray(camera, controls.target, { boxes: city.boxes, recs }, landmarks.xrayParts);
   // Years where something visibly changes: a structure rising (start → start + ramp) or going, a landmark part, an event.
   // Playback rushes through the stretches in between, so nobody stares at decades where nothing moves.
   const busy: [number, number][] = [];
@@ -119,7 +124,7 @@ async function main() {
   function applyMode() {
     const live = state.mode === 'live';
     controls.maxPolarAngle = live ? 1.45 : 1.15; controls.minDistance = live ? 8 : 25;
-    uTilt.value = state.tiltShift && state.mode === 'overview' ? 1 : (state.tiltShift && live ? 0.35 : 0);
+    uTilt.value = state.tiltShift && (state.mode === 'overview' || state.mode === 'landmarks') ? 1 : (state.tiltShift && live ? 0.35 : 0);
     people.setEnabled(live); riverPeople.setEnabled(true);   // river and pre-urban figures show in every mode
     if (live) {
       refreshLive(true, true);
@@ -165,7 +170,13 @@ async function main() {
       // models holding several buildings (the walls): one entry per gate / tower, where its record stands
       ...LANDMARKS.flatMap(l => (l.members ?? []).map(m => { const r = recs.find(r => r.name === m.name); return r ? { name: m.name, x: r.c[0], z: r.c[1], from: m.from ?? r.start } : null; }))
         .filter((e): e is { name: string; x: number; z: number; from: number } => !!e),
-    ] });
+    ],
+    // the Landmarks tab: every hand-built model and each building it holds, with its record (card, place, years)
+    catalogue: LANDMARKS.map(l => {
+      const names = [...new Set([l.title ?? l.replaces[0], ...(l.members ?? []).map(m => m.name)].filter(Boolean) as string[])];
+      const items = names.map(n => recs.find(r => r.name === n)).filter((r): r is Rec => !!r);
+      return { title: l.title ?? l.replaces[0] ?? items[0]?.name ?? l.file, items, at: l.at[0] || l.at[1] ? l.at : null, from: l.from ?? 1300 };
+    }).filter(g => g.items.length || g.at) });
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
   on((s, ch) => {
     if (eventLight && ((('year' in ch) && Math.round(s.year) !== eventLight.year) || (('date' in ch) && s.date !== eventLight.date) || ('mode' in ch))) endEventLight();
@@ -229,12 +240,14 @@ async function main() {
       if (fast) y = Math.min(y, state.year + gap - 2);
       if (y >= 2026) set({ year: 2026, playing: false }); else set({ year: y });
     } else tlEl.classList.remove('fast');
-    view.update(dt); controls.update(); uTime.value += dt;
+    view.update(dt); controls.update(); uTime.value += dt; city.follow(controls.target.x, controls.target.z);
     if (eventLight && performance.now() > eventLight.until) endEventLight();
     stage.setSun(state.hour, state.year); uSky.value.copy(scene.background as THREE.Color);
     { // haze scales with zoom: close views stay crisp, the whole valley only fades at the horizon
       const d = camera.position.distanceTo(controls.target), f = scene.fog as THREE.Fog;
-      f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); stage.fitClip(f.far); }
+      if (q.tier === 'low') { f.near = Math.max(120, d * 0.7); f.far = Math.min(q.cityRadius * 0.95, Math.max(600, d * 2.2 + 300)); }   // small devices: a tight circle of focus, the rest in haze
+      else { f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); }
+      stage.fitClip(f.far); }
     xray.update(dt, state.year);
     river.update(dt, state.year, true); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => PERIODS[periodOf(r.start)]?.color ?? '#888'));

@@ -1,5 +1,5 @@
 // Single app state + tiny pub/sub + URL-hash persistence (shareable moments).
-export type Mode = 'overview' | 'live' | 'sources';
+export type Mode = 'overview' | 'live' | 'landmarks' | 'sources';
 export type ColorMode = 'real' | 'period' | 'confidence';
 export interface State {
   year: number; date: string; hour: number; playing: boolean; speed: number;  // speed = years per second

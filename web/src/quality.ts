@@ -9,7 +9,7 @@ export interface Quality {
   antialias: boolean;
   shadows: boolean; shadowSize: number;
   tilt: boolean;             // tilt-shift post pass
-  cityRadius: number;        // structures farther than this from the centre are not uploaded (0 = all)
+  cityRadius: number;        // city tiles farther than this from the view's centre are not loaded (0 = all, streamed nearest first)
   people: number; riverPeople: number;
   treeShare: number;         // share of the trees drawn
   anisotropy: number;
@@ -19,7 +19,7 @@ export interface Quality {
 const TIERS: Record<Tier, Omit<Quality, 'tier' | 'reason'>> = {
   high: { dpr: 2, antialias: true, shadows: true, shadowSize: 4096, tilt: true, cityRadius: 0, people: 280, riverPeople: 40, treeShare: 1, anisotropy: 8, landmarks: true },
   mid: { dpr: 1.5, antialias: true, shadows: true, shadowSize: 2048, tilt: true, cityRadius: 1800, people: 160, riverPeople: 25, treeShare: 0.6, anisotropy: 4, landmarks: true },
-  low: { dpr: 1, antialias: false, shadows: false, shadowSize: 1024, tilt: false, cityRadius: 1250, people: 70, riverPeople: 12, treeShare: 0.3, anisotropy: 2, landmarks: true },
+  low: { dpr: 1, antialias: true, shadows: false, shadowSize: 1024, tilt: false, cityRadius: 800, people: 70, riverPeople: 12, treeShare: 0.3, anisotropy: 2, landmarks: true },
 };
 
 function webglRenderer(): string {
