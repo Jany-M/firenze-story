@@ -68,15 +68,26 @@ if stale([J("pipeline", "30_textures.py")], [J("web", "public", "textures", "*_c
     if have("numpy", "PIL", "scipy"): run([PY, J("pipeline", "30_textures.py")], "textures")
 else: print("  = textures up to date")
 
-# 2. Blender asset library (props, costume kit)
-if stale([J("blender", "scripts", "*.py"), J("web", "public", "textures", "*_col.jpg")],
-         [J("web", "public", "models", "materials.json")]):          # written last by build_assets.py = build stamp
+# 2. Blender asset library (props, costume kit) and landmark models – each script only when its own inputs changed.
+# Blender's export is not byte-identical from run to run, so rebuilding everything on any script edit made every .blend/.glb
+# show as modified in git without a real change.
+TEXS = J("web", "public", "textures", "*_col.jpg")
+def blender_target(script):
+    stem = os.path.basename(script)[6:-3]                                   # build_<stem>.py
+    if stem == "assets": return [script, TEXS], J("web", "public", "models", "materials.json")      # written last = build stamp
+    if stem == "characters": return [script], J("web", "public", "models", "costumes.glb")
+    return [script, J("blender", "scripts", "landmark_kit.py"), J("blender", "scripts", "landmark_detail.py"), TEXS,
+            J("blender", "data", ("pitti" if stem == "boboli" else stem) + ".json")], J("web", "public", "models", "landmarks", stem + ".glb")     # + its geometry data, if any
+def needs_build(script):
+    ins, out = blender_target(script); return stale(ins, [out])
+todo = [s for s in sorted(glob.glob(J("blender", "scripts", "build_*.py"))) if needs_build(s)]
+if todo:
     exe = blender_exe()
-    if not exe: print("  ! Blender not found (set BLENDER_PATH) – props not rebuilt")
+    if not exe: print("  ! Blender not found (set BLENDER_PATH) – models not rebuilt")
     else:
-        for s in sorted(glob.glob(J("blender", "scripts", "build_*.py"))):
+        for s in todo:
             run([exe, "-b", "--factory-startup", "--python", s], f"blender {os.path.basename(s)}", quiet=True)
-else: print("  = Blender props up to date")
+else: print("  = Blender props and landmark models up to date")
 
 # 3. city + environment data (needs the raw data cache in _dev/data, see pipeline/README.md)
 city_in = [J("pipeline", "common.py"), J("pipeline", "20_build_city.py")]
@@ -144,6 +155,9 @@ if stale(docs_in, docs_out):
 else:
     print("  = docs site up to date")
 
+# 4a. the refinement list gathered from the landmark pages' review lists
+if stale([J("docs", "landmarks", "*.md"), J("pipeline", "53_refinements.py")], [J("docs", "REFINEMENTS.md")]):
+    run([sys.executable, J("pipeline", "53_refinements.py")], "refinement list (53_refinements.py)")
 # 4b. fill encyclopedia gallery blocks + events/maps pages (needs materials.json + history.ts)
 enc_gen_in = [J("pipeline", "52_encyclopedia.py"), J("docs", "materials", "materials.json"),
               J("web", "src", "data", "history.ts"), J("docs", "encyclopedia", "*.md")]

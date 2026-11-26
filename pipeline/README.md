@@ -38,3 +38,18 @@ when its inputs change. Needs `pyshp`.
 The sixth circle (OHM dated lines, OSM surviving stretches and gate footprints) with LiDAR ground and today's heights →
 `blender/data/walls.json`, read by `blender/scripts/build_mura.py` (docs/landmarks/MURA.md). Run by hand after the raw
 OSM / OHM data or the LiDAR change; the JSON is kept in the repository.
+
+### 41_corridoio.py – geometry for the Vasari Corridor model
+Centre lines of the corridor from its OSM outline (relations 21744598–601), the roof height where it stands free (lower
+envelope of the LiDAR DSM) and the ground from the app's terrain → `blender/data/corridoio.json`, read by
+`blender/scripts/build_corridoio.py` (docs/landmarks/CORRIDOIO-VASARIANO.md). Run by hand like 40_walls.py; prepare.py rebuilds the
+model when the JSON changes.
+
+### 42_pitti.py – geometry for Palazzo Pitti and Boboli
+The palace's roof heights as a 1 m raster in the palace's own frame (OSM outline minus its courtyards, LiDAR DSM), the
+Meridiana, and the outlines, ground and heights of the amphitheatre, the Grotta del Buontalenti, the Kaffeehaus, the Neptune
+basin and Forte Belvedere → `blender/data/pitti.json`, read by `build_pitti.py` and `build_boboli.py`
+(docs/landmarks/PITTI-BOBOLI.md). Run by hand like 40/41.
+
+### 50_materials.py, 51_walls_map.py, 52_encyclopedia.py – pictures and the library
+`docs/materials/manifest.json` lists the pictures (topic, subject key `rec:<record>` / `event:<title>` / `map`, a Commons file name, a `prefix:` or `search:` query, or a `local:` file). 50 resolves them on Wikimedia Commons, accepts only public domain and CC licences, saves a 1280 px picture and a 360 px thumbnail and writes `materials.json`. 51 draws the map of the circles of walls on the terrain. 52 fills the gallery blocks of `docs/encyclopedia/*.md` and builds the events and maps pages. prepare.py copies the pictures to `web/public/materials` and builds `/library/`.

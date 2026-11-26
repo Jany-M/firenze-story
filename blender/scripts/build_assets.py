@@ -511,5 +511,5 @@ for name in ASSETS:
     n = sum(len(o.data.polygons) for o in bpy.data.collections[name].objects)
     print(f"ASSET {name}: {len(bpy.data.collections[name].objects)} parts, {n} faces")
 import json
-json.dump(MATDEF, open(os.path.join(OUT, "materials.json"), "w"), indent=1)
+json.dump(MATDEF, open(os.path.join(OUT, "materials.json"), "w", newline="\n"), indent=1)
 print("BLEND", BLEND)

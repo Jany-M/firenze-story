@@ -15,6 +15,10 @@ MAT = os.path.join(ROOT, "docs", "materials")
 UA = {"User-Agent": "firenze-story/0.4 (open-source research project; https://github.com/Jany-M/firenze-story)"}
 OK = re.compile(r"public domain|^pd|cc0|cc by|cc-by|no restrictions", re.I)
 
+def clean_date(t):
+    """Drop the Wikidata date code Commons appends to template dates ("circa 1617date QS:P571,+1617-…")."""
+    return re.sub(r"\s*date QS:\S*", "", t or "").strip()
+
 def api(**p):
     p.update(format="json", formatversion=2)
     for k in range(4):
@@ -50,13 +54,13 @@ for m in man:
         os.makedirs(os.path.join(MAT, d, "thumbs"), exist_ok=True); t = im.copy(); t.thumbnail((360, 360))
         t.save(os.path.join(MAT, d, "thumbs", f), quality=78, optimize=True)
         out.append({"topic": m["topic"], "subjects": m["subjects"], "caption": m["caption"], "src_file": m["file"], "img": rel,
-                    "thumb": f"{d}/thumbs/{f}", "w": im.width, "h": im.height, "author": m["author"], "date": m.get("date", ""),
+                    "thumb": f"{d}/thumbs/{f}", "w": im.width, "h": im.height, "author": m["author"], "date": clean_date(m.get("date", "")),
                     "license": m["license"], "license_url": m.get("license_url", ""), "page": m.get("page", ""), "credit": ""})
         continue
     name = resolve(m["file"])
     if not name: print("!! not found", m["file"]); continue
     if name in old and os.path.exists(os.path.join(MAT, old[name]["img"])):
-        out.append({**old[name], "topic": m["topic"], "subjects": m["subjects"], "caption": m["caption"]}); continue
+        out.append({**old[name], "topic": m["topic"], "subjects": m["subjects"], "caption": m["caption"], "date": clean_date(old[name].get("date", ""))}); continue
     r = api(action="query", titles="File:" + name, prop="imageinfo", iiprop="extmetadata|url|size", iiurlwidth=1280)
     p = r["query"]["pages"][0]
     if "imageinfo" not in p: print("!! no info", name); continue
@@ -68,10 +72,10 @@ for m in man:
     t = im.copy(); t.thumbnail((360, 360)); t.save(os.path.join(d, "thumbs", s + ".jpg"), quality=78, optimize=True)
     out.append({"topic": m["topic"], "subjects": m["subjects"], "caption": m["caption"], "src_file": name,
                 "img": f"{m['topic']}/{s}.jpg", "thumb": f"{m['topic']}/thumbs/{s}.jpg", "w": im.width, "h": im.height,
-                "author": strip(md.get("Artist", {}).get("value"))[:160] or "unknown", "date": strip(md.get("DateTimeOriginal", {}).get("value"))[:60],
+                "author": strip(md.get("Artist", {}).get("value"))[:160] or "unknown", "date": clean_date(strip(md.get("DateTimeOriginal", {}).get("value")))[:60],
                 "license": lic, "license_url": md.get("LicenseUrl", {}).get("value", ""), "page": ii["descriptionurl"],
                 "credit": strip(md.get("Credit", {}).get("value"))[:200]})
     print(f"ok {m['topic']:10s} {lic:14s} {name[:70]}")
     time.sleep(0.5)
-json.dump(out, open(os.path.join(MAT, "materials.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+json.dump(out, open(os.path.join(MAT, "materials.json"), "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=1)
 print(len(out), "materials")
