@@ -29,8 +29,11 @@ and the rope ferry runs in the gap 1333–1345. It replaces every city record wh
 
 ## Known limits of v1 (review list)
 - Shop widths, heights and colours are randomised within the measured envelope, not surveyed shop by shop.
-- The corridor's run around the Torre dei Mannelli on corbels and its windows over the central arcade
-  (the three large windows of 1939) are not modelled; the corridor ends at the bridge.
+- The three large windows over the central arcade are not modelled. The "1939" given here before follows the story that
+  Mussolini opened them for Hitler's visit (May 1938); it.wikipedia calls that a legend (central opening 1860, side ones only
+  plastered in 1938) – see [CORRIDOIO-VASARIANO.md](CORRIDOIO-VASARIANO.md#where-the-sources-disagree).
 - The clock and sundial, the inscriptions of the 1333 flood and the padlock fence around the bust are missing.
 - 1944: the bridge was spared, but its approaches were mined; the destroyed blocks at both ends are handled by the
   city records, not by this model.
+
+**Vasari Corridor beyond the bridge:** its own model since 2026-11-26 ([CORRIDOIO-VASARIANO.md](CORRIDOIO-VASARIANO.md), M19): Via della Ninna, the Lungarno loggia, the Oltrarno stretch round Torre dei Mannelli, Via de' Bardi, Santa Felicita and Boboli; it joins this model's corridor at both ends of the bridge.
