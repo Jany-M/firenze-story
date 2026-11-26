@@ -44,7 +44,7 @@ def loggia(part, tracery_part):
         for u in P:
             box(bm_for(part, "stone"), F, u, u + w, -1.5, 13.0, -1.2, 0.0)
             # tabernacle: marble frame, pointed top, dark recess
-            box(bm_for(part, "white"), F, u + 0.35, u + w - 0.35, 2.4, 7.6, 0.0, 0.35)
+            pbox(bm_for(part, "white"), F, u + 0.35, u + w - 0.35, 2.4, 7.6, 0.0, 0.35)
             poly(bm_for(part, "white"), [F.p(u + 0.35, 7.6, 0.36), F.p(u + w - 0.35, 7.6, 0.36), F.p(u + w / 2, 9.2, 0.36)])
             box(bm_for(part, "dark"), F, u + 0.7, u + w - 0.7, 2.8, 7.2, 0.36, 0.38)
         for a, b in zip(P[:-1], P[1:]):

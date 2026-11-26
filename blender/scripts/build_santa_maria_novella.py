@@ -61,7 +61,7 @@ def nave(part, t0, t1):
             opening(part, F, u - 0.9, u + 0.9, 6.5, 14.0, frame=0.3, pointed=True, fill="glass", frame_mat="stone")
             poly(bm_for(part, "glass"), [Fc.p(u + 1.1 * math.cos(a), 23.0 + 1.1 * math.sin(a), 0.06) for a in [j / 16 * 2 * math.pi for j in range(16)]])
             ub = (t1 - (t0 + i * (t1 - t0) / k)) if sgn < 0 else (i * (t1 - t0) / k)
-            box(bm_for(part, "stone"), F, ub - 0.7, ub + 0.7, -1.5, 15.5, 0, 0.8)
+            pbox(bm_for(part, "stone"), F, ub - 0.7, ub + 0.7, -1.5, 15.5, 0, 0.8)
 
 def east_end(part):
     block(part, rect(79.0, 92.0, -24.0, 24.0), -1.5, 25.0); gable_o(part, 79.0, 92.0, -24.5, 24.5, 25.0, 28.0)
@@ -88,9 +88,9 @@ def facade_lower(part):
         opening(part, F, u - 0.75, u + 0.75, 0.3, 3.2, depth=0.2, frame=0.18, pointed=True, fill="green", frame_mat="white")
     for o in (12.0, -12.0):
         opening(part, F, U(o) - 1.0, U(o) + 1.0, 0.0, 5.4, frame=0.45, pointed=True, fill="wood", frame_mat="green")
-    for v in (4.0, 8.0, 12.0): box(bm_for(part, "green"), F, 0.2, n - 0.2, v, v + 0.25, 0, 0.05)
+    for v in (4.0, 8.0, 12.0): pbox(bm_for(part, "green"), F, 0.2, n - 0.2, v, v + 0.25, 0, 0.05)
     panels(part, F, U(-7.7), U(7.7), 6.0, 15.5, 4, 2, accent=lambda i, j: False)
-    box(bm_for(part, "green"), F, 0, n, 17.3, 18.0, 0, 0.35)
+    pbox(bm_for(part, "green"), F, 0, n, 17.3, 18.0, 0, 0.35)
     for i in range(16):                                              # frieze of inlaid squares
         u = (i + 0.5) * n / 16; box(bm_for(part, "white"), F, u - 0.5, u + 0.5, 17.4, 17.9, 0.35, 0.4)
 
@@ -108,7 +108,7 @@ def facade_upper(part):
     if K.BARE: return
     panels(part, F, 0.4, n - 0.4, 18.3, 20.7, 14, 1, accent=lambda i, j: False)
     for o in (7.6, 3.2, -3.2, -7.6): pilaster(part, F, U(o), 21.0, 28.6, w=0.9, proj=0.35)
-    box(bm_for(part, "green"), F, U(-8.8), U(8.8), 28.6, 29.2, 0, 0.45)
+    pbox(bm_for(part, "green"), F, U(-8.8), U(8.8), 28.6, 29.2, 0, 0.45)
     for s in (1, -1):                                                # scroll volutes: high at the temple front, down to the attic ends
         cx = 8.0 * s; R = 6.2; H = 6.0
         curve = [F.p(U(cx + s * R * math.sin(a)), 21.0 + H * math.cos(a), 0.05) for a in [k / 16 * math.pi / 2 for k in range(17)]]
@@ -118,7 +118,7 @@ def facade_upper(part):
     for r_, m in ((1.3, "white"), (0.9, "gold")):                    # the Rucellai sun in the pediment
         poly(bm_for(part, m), [F.p(U(0) + r_ * math.cos(a), 31.0 + r_ * math.sin(a), 0.1) for a in [i / 16 * 2 * math.pi for i in range(16)]])
     opening(part, F, U(0) - 1.8, U(0) + 1.8, 0.0, 8.6, frame=0.6, pointed=False, fill="wood", frame_mat="green")
-    for o in (3.0, -3.0): box(bm_for(part, "green"), F, U(o) - 0.35, U(o) + 0.35, 0.0, 9.8, 0, 0.6)   # half-columns by the portal
+    for o in (3.0, -3.0): pbox(bm_for(part, "green"), F, U(o) - 0.35, U(o) + 0.35, 0.0, 9.8, 0, 0.6)   # half-columns by the portal
 
 def campanile(part):
     t, o, h = 80.2, -23.0, 3.25

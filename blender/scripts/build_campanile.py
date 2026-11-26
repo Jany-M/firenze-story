@@ -32,8 +32,8 @@ def faces():
         yield Frame(n * S - t * S, t, n), 2 * S
 
 def band(part, F, W, z):
-    box(bm_for(part, "white"), F, 0, W, z - 0.35, z + 0.35, 0, 0.35)
-    box(bm_for(part, "green"), F, 0, W, z - 0.12, z + 0.12, 0, 0.4)
+    pbox(bm_for(part, "white"), F, 0, W, z - 0.35, z + 0.35, 0, 0.35)
+    pbox(bm_for(part, "green"), F, 0, W, z - 0.12, z + 0.12, 0, 0.4)
 
 def hexagon(part, F, cu, cv, r):
     poly(bm_for(part, "white"), [F.p(cu + r * math.cos(a), cv + r * math.sin(a), 0.08) for a in [math.pi / 6 + i * math.pi / 3 for i in range(6)]])
@@ -48,7 +48,7 @@ def level(part, z0, z1, kind):
     for F, W in faces():
         wall(part, F, 0, W, z0, z1, 1.6)
         if kind == "giotto":
-            box(bm_for(part, "white"), F, 0, W, 0, 1.0, 0, 0.5)                                   # plinth
+            pbox(bm_for(part, "white"), F, 0, W, 0, 1.0, 0, 0.5)                                   # plinth
             panels(part, F, 1.2, W - 1.2, 1.0, 7.4, 7, 1, accent=lambda i, j: True)
             for i in range(7): hexagon(part, F, 1.2 + (i + 0.5) * (W - 2.4) / 7, 4.2, 0.78)
             band(part, F, W, 7.6)
@@ -75,17 +75,17 @@ def level(part, z0, z1, kind):
             u0, u1 = W / 2 - 2.5, W / 2 + 2.5
             opening(part, F, u0, u1, z0 + 2.0, 75.5, frame=0.6)
             for m in (1 / 3, 2 / 3):                                                                   # two mullions
-                u = u0 + (u1 - u0) * m; box(bm_for(part, "white"), F, u - 0.13, u + 0.13, z0 + 2.0, 72.6, 0, 0.12)
+                u = u0 + (u1 - u0) * m; pbox(bm_for(part, "white"), F, u - 0.13, u + 0.13, z0 + 2.0, 72.6, 0, 0.12)
             for m in (1 / 6, 1 / 2, 5 / 6):
                 poly(bm_for(part, "white"), [F.p(u0 + (u1 - u0) * m + 0.45 * math.cos(a), 73.6 + 0.45 * math.sin(a), 0.1) for a in [i / 12 * 2 * math.pi for i in range(12)]])
             band(part, F, W, 77.0)
             panels(part, F, 1.2, W - 1.2, 77.4, 81.8, 8, 1, accent=lambda i, j: i % 2 == 0)
             # crown: corbels, projecting cornice, parapet
             for i in range(14):
-                u = 0.4 + i * (W - 0.8) / 13; box(bm_for(part, "white"), F, u - 0.18, u + 0.18, 81.8, 82.6, 0, 0.75)
-            box(bm_for(part, "white"), F, -0.75, W + 0.75, 82.6, 83.4, 0, 0.8)
-            box(bm_for(part, "green"), F, -0.75, W + 0.75, 83.4, 83.6, 0, 0.75)
-            box(bm_for(part, "white"), F, -0.75, W + 0.75, 83.6, 84.4, 0, 0.8)
+                u = 0.4 + i * (W - 0.8) / 13; pbox(bm_for(part, "white"), F, u - 0.18, u + 0.18, 81.8, 82.6, 0, 0.75)
+            pbox(bm_for(part, "white"), F, -0.75, W + 0.75, 82.6, 83.4, 0, 0.8)
+            pbox(bm_for(part, "green"), F, -0.75, W + 0.75, 83.4, 83.6, 0, 0.75)
+            pbox(bm_for(part, "white"), F, -0.75, W + 0.75, 83.6, 84.4, 0, 0.8)
             box(bm_for(part, "white"), F, -0.55, W + 0.55, 84.4, 85.6, 0.45, 0.75)               # parapet
     # octagonal corner buttresses, banded at the storey lines
     for cx, cy in ((S, S), (-S, S), (-S, -S), (S, -S)):

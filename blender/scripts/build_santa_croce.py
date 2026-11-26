@@ -63,7 +63,7 @@ def nave_segment(part, t0, t1):
         for b in BAYS:
             if not (t0 - 0.1 <= b <= t1 + 0.1): continue
             u = (t1 - b) if side < 0 else (b - t0)
-            box(bm_for(part, "stone"), F, u - 0.9, u + 0.9, -1.5, 21.5, 0, 0.9)                    # buttress
+            pbox(bm_for(part, "stone"), F, u - 0.9, u + 0.9, -1.5, 21.5, 0, 0.9)                    # buttress
         for k in range(len(BAYS) - 1):
             m = (BAYS[k] + BAYS[k + 1]) / 2
             if not (t0 <= m <= t1): continue

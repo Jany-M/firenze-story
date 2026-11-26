@@ -68,7 +68,7 @@ def is_inner(F, L): return kind_of(F, L) == "court"
 def bifora(part, F, u, v0, v1, w=2.4):
     """Gothic two-light window: round outer arch, central colonnette, pietra forte frame."""
     opening(part, F, u - w / 2, u + w / 2, v0, v1, frame=0.35, pointed=False, fill="glass", frame_mat="stone")
-    box(bm_for(part, "stone"), F, u - 0.09, u + 0.09, v0, v1 - w * 0.5, 0.0, 0.14)
+    pbox(bm_for(part, "stone"), F, u - 0.09, u + 0.09, v0, v1 - w * 0.5, 0.0, 0.14)
 def gallery(part, F, L, v0, crown, proj=1.0, merlon=(1.0, 0.8, 1.9)):
     """Battlements on corbels (beccatelli) with small arches, square Guelph merlons."""
     n = max(2, int(L / 1.6)); du = L / n
@@ -97,21 +97,21 @@ def facades(part, outline, z0, z1, kind):
                 for i in range(n):
                     opening(part, F, i * du + 0.55, (i + 1) * du - 0.55, 0.0, 6.2, depth=1.4, frame=0.3, pointed=False, fill="dark", frame_mat="serena")
                 continue
-            box(bm_for(part, "stone"), F, 0, L, 0, 0.9, 0, 0.3)                  # bench
+            pbox(bm_for(part, "stone"), F, 0, L, 0, 0.9, 0, 0.3)                  # bench
             n = max(1, int(L / 8.5))
             for i in range(n):
                 u = L * (i + 0.5) / n
-                box(bm_for(part, "dark"), F, u - 0.55, u + 0.55, 5.6, 7.0, 0, 0.06)   # small barred windows
-                box(bm_for(part, "stone"), F, u - 0.75, u + 0.75, 5.4, 5.6, 0, 0.18)
+                pbox(bm_for(part, "dark"), F, u - 0.55, u + 0.55, 5.6, 7.0, 0, 0.06)   # small barred windows
+                pbox(bm_for(part, "stone"), F, u - 0.75, u + 0.75, 5.4, 5.6, 0, 0.18)
                 opening(part, F, u - 0.8, u + 0.8, 10.0, 13.4, depth=0.4, frame=0.3, pointed=False, fill="glass", frame_mat="stone")
-            box(bm_for(part, "stone"), F, -0.2, L + 0.2, 9.4, 9.75, 0, 0.25)       # string course
+            pbox(bm_for(part, "stone"), F, -0.2, L + 0.2, 9.4, 9.75, 0, 0.25)       # string course
         else:
             n = max(1, int(L / (9.0 if kind == "front_high" else 7.5)))
             for i in range(n):
                 u = L * (i + 0.5) / n
                 if inner: opening(part, F, u - 0.9, u + 0.9, z0 + 1.2, z0 + 4.4, depth=0.4, frame=0.3, pointed=True, fill="glass", frame_mat="stone")
                 else: bifora(part, F, u, z0 + 1.0, z0 + 5.4 if kind == "wing_high" else z0 + 5.0)
-            box(bm_for(part, "stone"), F, -0.2, L + 0.2, z0 + 0.2, z0 + 0.55, 0, 0.25)
+            pbox(bm_for(part, "stone"), F, -0.2, L + 0.2, z0 + 0.2, z0 + 0.55, 0, 0.25)
 
 # ---- the Boscoli tower before the palace, then the Volognana ----
 def tower(part, z0, z1, crown):
@@ -119,7 +119,7 @@ def tower(part, z0, z1, crown):
     prism(part, T, z0, z1, "stone")
     for F, L in edges(T):
         for v in range(int(z0) + 8, int(z1) - 3, 7):
-            box(bm_for(part, "dark"), F, L / 2 - 0.25, L / 2 + 0.25, v, v + 1.4, 0, 0.05)        # slit windows
+            pbox(bm_for(part, "dark"), F, L / 2 - 0.25, L / 2 + 0.25, v, v + 1.4, 0, 0.05)        # slit windows
     if crown:                                                                     # corbelled crown with merlons
         for F, L in edges(T): gallery(part, F, L, z1, z1 + 2.6, proj=0.9, merlon=(0.9, 0.7, 1.6))
         prism(part, [(-1.6, -1.6), (1.6, -1.6), (1.6, 1.6), (-1.6, 1.6)], z1, z1 + 4.2, "stone")   # bell cell
@@ -154,7 +154,7 @@ for nm, O in (("north", NORTH), ("south", SOUTH), ("east", EAST)):
 
 # ---- courtyard: paving, well, the Verone (first-floor loggia on the north side) and the open staircase ----
 (cx0, cy0), (cx1, cy1) = COURT                      # cy0 south (lower Y), cy1 north
-box(bm_for(f"court@1280-{NOW}", "stone"), Frame((0, 0, 0), (1, 0, 0), (0, 1, 0)), cx0, cx1, 0, 0.12, cy0, cy1)
+pbox(bm_for(f"court@1280-{NOW}", "stone"), Frame((0, 0, 0), (1, 0, 0), (0, 1, 0)), cx0, cx1, 0, 0.12, cy0, cy1)
 for a in range(10):                                  # the well in the middle
     c = Vector(((cx0 + cx1) / 2, (cy0 + cy1) / 2, 0)); ang = a / 10 * 2 * math.pi
     box(bm_for(f"court@1280-{NOW}", "stone"), Frame(c, (math.cos(ang + math.pi / 2), math.sin(ang + math.pi / 2), 0), (math.cos(ang), math.sin(ang), 0)), -0.4, 0.4, 0, 0.95, 0.75, 1.0)

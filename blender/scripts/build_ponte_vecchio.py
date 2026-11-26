@@ -82,17 +82,17 @@ def shop_row(part_core, part_back, side, s_from, s_to, rnd, top_range, east=Fals
         mat = rnd.choice(("ochre", "rose", "yellow", "ochre", "rust"))
         Fs = Frame(P(s, side * 4.2, 0), U, -E * side)                                  # street front, n towards the street
         box(bm_for(part_core, mat), Fs, 0, w, z0, top, -4.4, 0)                          # body from the street to w = ±8.6
-        box(bm_for(part_core, "wood"), Fs, 0.3, w - 0.3, z0, z0 + 2.9, 0, 0.55)           # madielle (closed shutter box)
+        pbox(bm_for(part_core, "wood"), Fs, 0.3, w - 0.3, z0, z0 + 2.9, 0, 0.55)           # madielle (closed shutter box)
         box(bm_for(part_core, "dark"), Fs, 0.6, w - 0.6, z0 + 0.4, z0 + 2.5, 0.55, 0.58)
         for v in (z0 + 4.0,) + ((z0 + 6.4,) if top - z0 > 7.5 else ()):
-            box(bm_for(part_core, "dark"), Fs, w / 2 - 0.45, w / 2 + 0.45, v, v + 1.3, 0, 0.05)
+            pbox(bm_for(part_core, "dark"), Fs, w / 2 - 0.45, w / 2 + 0.45, v, v + 1.3, 0, 0.05)
         if not east:                                                                   # tiled lean-to roof over each shop
             rb = bm_for(part_core, "roof")
             poly(rb, [P(s, side * 3.9, top + 1.0), P(s1, side * 3.9, top + 1.0), P(s1, side * 9.0, top - 0.1), P(s, side * 9.0, top - 0.1)])
             box(rb, Fs, 0, w, top - 0.1, top + 1.0, -0.05, 0.3)   # eave towards the street
         Fr = Frame(P(s, side * 8.6, 0), U, E * side)                                    # river side of the shop
         for v in (z0 + 4.2,) + ((top - 2.2,) if top - z0 > 7.5 else ()):
-            box(bm_for(part_core, "dark"), Fr, w / 2 - 0.4, w / 2 + 0.4, v, v + 1.2, 0, 0.04)
+            pbox(bm_for(part_core, "dark"), Fr, w / 2 - 0.4, w / 2 + 0.4, v, v + 1.2, 0, 0.04)
         # back room (retrochetto) cantilevered over the river on timber struts
         if backs and rnd.random() < 0.8:
             d = rnd.uniform(1.8, 3.2); b0 = rnd.uniform(10.6, 12.2); b1 = min(top - 0.3, b0 + rnd.uniform(3.0, 5.0))
@@ -126,14 +126,14 @@ def corridor(part):
         box(bm_for(part, "corr"), Frame(P(s0, W0, 0), U, -E), 0, s1 - s0, zz0, z1, -(W1 - W0), 0)
         for w, nn in ((W1, 1), (W0, -1)):
             Fw = Frame(P(s0, w, 0), U, E * nn)
-            box(bm_for(part, "stone"), Fw, 0, s1 - s0, zz0 - 0.4, zz0, 0, 0.25)          # corbel course
+            pbox(bm_for(part, "stone"), Fw, 0, s1 - s0, zz0 - 0.4, zz0, 0, 0.25)          # corbel course
             k = int((s1 - s0) / 3.6)
             for i in range(k):
                 uu = (i + 0.5) * (s1 - s0) / k
                 if i % 3 == 1:
                     poly(bm_for(part, "dark"), [Fw.p(uu + 0.45 * math.cos(a), z1 - 1.9 + 0.45 * math.sin(a), 0.03) for a in [j / 10 * 2 * math.pi for j in range(10)]])
                 else:
-                    box(bm_for(part, "dark"), Fw, uu - 0.35, uu + 0.35, z1 - 2.6, z1 - 1.2, 0, 0.03)
+                    pbox(bm_for(part, "dark"), Fw, uu - 0.35, uu + 0.35, z1 - 2.6, z1 - 1.2, 0, 0.03)
         rb = bm_for(part, "roof")
         poly(rb, [P(s0, W0 - 0.3, z1), P(s1, W0 - 0.3, z1), P(s1, (W0 + W1) / 2, z1 + 1.1), P(s0, (W0 + W1) / 2, z1 + 1.1)])
         poly(rb, [P(s1, W1 + 0.3, z1), P(s0, W1 + 0.3, z1), P(s0, (W0 + W1) / 2, z1 + 1.1), P(s1, (W0 + W1) / 2, z1 + 1.1)])

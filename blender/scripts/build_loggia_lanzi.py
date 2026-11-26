@@ -61,7 +61,7 @@ def arcade(part, F, Lf, n_arches, depth=1.2):
     box(bm_for(part, "stone"), F, -0.3, Lf + 0.3, TOP - 3.0, TOP, -depth, 0)                    # frieze band
     box(bm_for(part, "serena"), F, -0.6, Lf + 0.6, TOP - 0.8, TOP, -depth, 0.55)                # cornice
     for i in range(int(Lf / 1.1)):                                                               # small corbels under it
-        u = 0.5 + i * 1.1; box(bm_for(part, "serena"), F, u - 0.15, u + 0.15, TOP - 1.4, TOP - 0.8, 0, 0.45)
+        u = 0.5 + i * 1.1; pbox(bm_for(part, "serena"), F, u - 0.15, u + 0.15, TOP - 1.4, TOP - 0.8, 0, 0.45)
     return span
 
 def virtues(part, F, Lf, n_arches):

@@ -25,7 +25,7 @@ def lower(part):
         F, W = oct_face(k, A)
         wall(part, F, 0, W, 0, Z1, 2.0)
         for b in range(3):                                                                         # plinth (not across the doors)
-            if not (b == 1 and k in DOORS): box(bm_for(part, "white"), F, b * W / 3, (b + 1) * W / 3, 0, 0.9, 0, 0.5)
+            if not (b == 1 and k in DOORS): pbox(bm_for(part, "white"), F, b * W / 3, (b + 1) * W / 3, 0, 0.9, 0, 0.5)
         for u in (0.0, W / 3, 2 * W / 3, W):                                                       # pilasters, corners striped
             pilaster(part, F, u, 0.9, Z1 - 0.6, 1.0 if 0 < u < W else 1.3, 0.4, stripes=u in (0.0, W))
         for b in range(3):
@@ -39,8 +39,8 @@ def doors(k, part_frame, part_door):
     u0, u1 = W / 2 - 1.6, W / 2 + 1.6
     w = bm_for(part_frame, "white")                                                                  # marble door frame (jambs + lintel)
     box(w, F, u0 - 0.7, u0, 0, 7.4, 0, 0.55); box(w, F, u1, u1 + 0.7, 0, 7.4, 0, 0.55); box(w, F, u0, u1, 7.2, 7.4, 0, 0.55)
-    box(bm_for(part_frame, "green"), F, u0 - 0.7, u1 + 0.7, 7.4, 7.8, 0, 0.65)
-    box(bm_for(part_frame, "white"), F, u0 - 0.9, u1 + 0.9, 7.8, 8.4, 0, 0.75)                      # architrave (bronze groups above not modelled)
+    pbox(bm_for(part_frame, "green"), F, u0 - 0.7, u1 + 0.7, 7.4, 7.8, 0, 0.65)
+    pbox(bm_for(part_frame, "white"), F, u0 - 0.9, u1 + 0.9, 7.8, 8.4, 0, 0.75)                      # architrave (bronze groups above not modelled)
     return F, u0, u1
 
 def upper(part):
@@ -67,7 +67,7 @@ def attic(part):
         n = 14
         for i in range(n):                                                                         # white / green striped pilasters
             u = (i + 0.5) * W / n
-            box(bm_for(part, "green" if i % 2 else "white"), F, u - 0.32, u + 0.32, Z2 + 0.5, Z3 - 0.6, 0, 0.18)
+            pbox(bm_for(part, "green" if i % 2 else "white"), F, u - 0.32, u + 0.32, Z2 + 0.5, Z3 - 0.6, 0, 0.18)
         cornice(part, F, -0.35, W + 0.35, Z3 - 0.6, 0.6, 0.55, arches=False)
 
 def roof(part):

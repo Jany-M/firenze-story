@@ -62,7 +62,7 @@ def hip_roof(part, outline, z0, rise, mat="roof", inset=0.0):
 def bifora(part, F, u, v0, v1, w=2.6):
     """Gothic two-light window of the palace: round outer arch, colonnette, trefoil oculus, pietra forte frame."""
     opening(part, F, u - w / 2, u + w / 2, v0, v1, frame=0.4, pointed=False, fill="glass", frame_mat="stone")
-    box(bm_for(part, "stone"), F, u - 0.1, u + 0.1, v0, v1 - w * 0.55, 0.0, 0.14)
+    pbox(bm_for(part, "stone"), F, u - 0.1, u + 0.1, v0, v1 - w * 0.55, 0.0, 0.14)
     for s in (-1, 1):                                                          # the two small arches
         c = u + s * w / 4
         poly(bm_for(part, "stone"), [F.p(c + w / 4 * math.cos(a), v1 - w * 0.55 + w / 4 * math.sin(a), 0.1) for a in [i / 10 * math.pi for i in range(11)]]
@@ -100,11 +100,11 @@ def block_facades(part, z0, z1, stage):
         wall(part, F, 0, L, z0, z1, 1.8, "stone")
         west = abs(F.n.x) > 0.9 and F.n.x < 0
         if stage == 0:
-            box(bm_for(part, "stone"), F, 0, L, 0, 1.2, 0, 0.35)                 # plinth bench
+            pbox(bm_for(part, "stone"), F, 0, L, 0, 1.2, 0, 0.35)                 # plinth bench
             for u in [L * (i + 0.5) / max(2, int(L / 9)) for i in range(max(2, int(L / 9)))]:
                 if west and 20 < u < 31: continue
-                box(bm_for(part, "dark"), F, u - 0.6, u + 0.6, 7.6, 9.2, 0.0, 0.06)   # small barred windows
-                box(bm_for(part, "stone"), F, u - 0.8, u + 0.8, 7.4, 7.6, 0, 0.2)
+                pbox(bm_for(part, "dark"), F, u - 0.6, u + 0.6, 7.6, 9.2, 0.0, 0.06)   # small barred windows
+                pbox(bm_for(part, "stone"), F, u - 0.8, u + 0.8, 7.4, 7.6, 0, 0.2)
             string_course(part, F, L, 11.0)
         else:
             v0, v1 = (13.4, 19.8) if stage == 1 else (23.4, 29.8)
@@ -117,7 +117,7 @@ def block_facades(part, z0, z1, stage):
     if stage == 0:                                                             # main portal on the piazza
         F, L = next((F, L) for F, L in edges(ARNOLFO) if F.n.x < -0.9)
         opening(part, F, 23.9, 27.1, 0, 7.6, frame=0.55, pointed=False, fill="wood", frame_mat="stone")
-        box(bm_for(part, "serena"), F, 23.1, 27.9, 9.0, 10.4, 0, 0.35)          # frieze over the door (Medici monogram, 1528)
+        pbox(bm_for(part, "serena"), F, 23.1, 27.9, 9.0, 10.4, 0, 0.35)          # frieze over the door (Medici monogram, 1528)
 
 # ------------------------------------------------------------------ the parts
 # Torre dei Foraboschi ("della Vacca"): its stump carries Arnolfo's tower – height and shape conjectural
@@ -194,15 +194,15 @@ statue(f"hercules@1534-{NOW}", 29.6, 2.0, 5.0)
 def wing(part, poly_, eaves, rise):
     prism(part, poly_, 0, eaves, "plaster")
     for F, L in edges(poly_):
-        box(bm_for(part, "stone"), F, 0, L, 0, 4.5, 0, 0.12)                     # rusticated base
+        pbox(bm_for(part, "stone"), F, 0, L, 0, 4.5, 0, 0.12)                     # rusticated base
         string_course(part, F, L, eaves - 0.6, 0.6, 0.6, "serena")
         floors = [6.5, 14.5, 23.0] if eaves > 25 else [3.5, 8.0]
         n = max(1, int(L / 4.2))
         for v in floors:
             for i in range(n):
                 u = L * (i + 0.5) / n
-                box(bm_for(part, "serena"), F, u - 0.85, u + 0.85, v - 0.2, v + 3.0, 0, 0.1)
-                box(bm_for(part, "glass"), F, u - 0.6, u + 0.6, v, v + 2.7, 0, 0.13)
+                pbox(bm_for(part, "serena"), F, u - 0.85, u + 0.85, v - 0.2, v + 3.0, 0, 0.1)
+                pbox(bm_for(part, "glass"), F, u - 0.6, u + 0.6, v, v + 2.7, 0, 0.13)
     hip_roof(part, poly_, eaves, rise, inset=0.0)
 def inside(pt, outline):
     x, y = pt; c = False; p = outline
@@ -227,7 +227,7 @@ def houses(part, outline, seed):
                 for sgn in (-1, 1):
                     Fe = Frame(c + E_DIR * sgn * w - N_DIR * sgn * d, N_DIR * sgn, E_DIR * sgn)
                     for u in (2.5, 5.2, 7.9):
-                        box(bm_for(part, "dark"), Fe, u - 0.4, u + 0.4, 1.4 + k * 3.2, 2.6 + k * 3.2, 0, 0.05)
+                        pbox(bm_for(part, "dark"), Fe, u - 0.4, u + 0.4, 1.4 + k * 3.2, 2.6 + k * 3.2, 0, 0.05)
             bm = bm_for(part, "roof")
             a = [c + E_DIR * sx * (w + 0.4) + N_DIR * sy * (d + 0.4) for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
             top0, top1 = c - N_DIR * (d + 0.4), c + N_DIR * (d + 0.4)

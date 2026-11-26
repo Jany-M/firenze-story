@@ -41,7 +41,7 @@ def nave_bay(part, b):
         F = Frame((x0, yw, 0) if side > 0 else (x1, yw, 0), (1, 0, 0) if side > 0 else (-1, 0, 0), (0, side, 0))
         L = BAY_W
         wall(part, F, 0, L, 0, AISLE_H - 0.9)
-        box(bm_for(part, "white"), F, 0, L, 0, 1.2, 0, 0.45)                                  # plinth
+        pbox(bm_for(part, "white"), F, 0, L, 0, 1.2, 0, 0.45)                                  # plinth
         pilaster(part, F, 0.8, 1.2, AISLE_H - 1.2); pilaster(part, F, L - 0.8, 1.2, AISLE_H - 1.2)
         # lower register: two tall panels; upper: the big Gothic window (bifora) in the middle of the bay
         panels(part, F, 1.8, L - 1.8, 1.2, 14.0, 4, 3, accent=lambda i, j: (i in (1, 2) and j == 1))
@@ -156,7 +156,7 @@ def exedrae():
             if out.dot(n) < 0: out = -out
             F = Frame(p0, tdir, out); L = (p1 - p0).length
             wall(part, F, 0, L, DRUM_Z0 - 10.5, DRUM_Z0 - 1.0, 1.0)
-            if i % 2 == 0: box(bm_for(part, "white"), F, L - 0.25, L + 0.25, DRUM_Z0 - 10.5, DRUM_Z0 - 1.0, 0, 0.5)   # half-columns
+            if i % 2 == 0: pbox(bm_for(part, "white"), F, L - 0.25, L + 0.25, DRUM_Z0 - 10.5, DRUM_Z0 - 1.0, 0, 0.5)   # half-columns
         # conical shell roof
         r = bm_for(part, "roof"); apex = c + Vector((0, 0, DRUM_Z0 + 2.2))
         for i in range(seg): poly(r, [ring[i] + Vector((0, 0, DRUM_Z0 - 1.0)), ring[i + 1] + Vector((0, 0, DRUM_Z0 - 1.0)), apex])
@@ -187,12 +187,12 @@ def drum_band():
         n = oct_dir(k); t = Vector((-n.y, n.x, 0)); half = (OCT_A - 0.3) * T22
         F = Frame(n * (OCT_A - 0.3) - t * half, t, n)
         wall(part, F, 0, 2 * half, DRUM_Z1, DOME_Z0 + 0.3, 1.5)
-        box(bm_for(part, "green"), F, 0, 2 * half, DRUM_Z1 + 1.2, DRUM_Z1 + 1.45, 0, 0.05)
+        pbox(bm_for(part, "green"), F, 0, 2 * half, DRUM_Z1 + 1.2, DRUM_Z1 + 1.45, 0, 0.05)
     F = Frame(oct_dir(7) * (OCT_A + 0.4) - Vector((-oct_dir(7).y, oct_dir(7).x, 0)) * OCT_A * T22, Vector((-oct_dir(7).y, oct_dir(7).x, 0)), oct_dir(7))
     for i in range(14):                                           # Baccio d'Agnolo's gallery on the south-east face (1507–15)
         u = 0.8 + i * (2 * OCT_A * T22 - 1.6) / 13
         box(bm_for(f"ballatoio@1515-{NOW}", "white"), F, u - 0.25, u + 0.25, DRUM_Z1 + 0.4, DRUM_Z1 + 2.4, 0.2, 0.7)
-    box(bm_for(f"ballatoio@1515-{NOW}", "white"), F, 0, 2 * OCT_A * T22, DRUM_Z1 + 2.4, DRUM_Z1 + 2.8, 0, 0.9)
+    pbox(bm_for(f"ballatoio@1515-{NOW}", "white"), F, 0, 2 * OCT_A * T22, DRUM_Z1 + 2.4, DRUM_Z1 + 2.8, 0, 0.9)
 drum()
 
 # ------------------------------------------------------------------ dome (1420–1436): octagonal cloister vault, pointed profile, 8 ribs

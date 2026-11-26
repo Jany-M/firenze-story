@@ -82,7 +82,7 @@ for w in D["walls"]:
                 prism(tb, p0, p1, n, -THICK / 2, THICK / 2 + 6.0, gr, gr, -2.5, top, -2.5, top)
                 F = Frame(V(x + n[0] * (THICK / 2 + 6.0), z + n[1] * (THICK / 2 + 6.0), gr), V(tx, tz, 0), V(n[0], n[1], 0))
                 for v in ([4.5, 10.0, 15.5] if crenel else [4.5]):
-                    if v < top - 2: box(bm_for(pn, "dark"), F, -0.15, 0.15, v, v + 1.6, 0, 0.05)      # arrow slits
+                    if v < top - 2: pbox(bm_for(pn, "dark"), F, -0.15, 0.15, v, v + 1.6, 0, 0.05)      # arrow slits
                 if crenel:                                                                          # merlons round the top
                     for u in (-3.6, -1.2, 1.2, 3.6): box(bm_for(pn, "rubble"), F, u - 0.65, u + 0.65, top, top + 1.7, -0.6, 0)
                     for side in (-1, 1):
@@ -160,8 +160,8 @@ def faces(part, Fo, Fi, aw, ah, arms=True, lunette=True, round_arch=False):
     opening(part, Fo, -aw / 2, aw / 2, 0, ah, depth=0.3, frame=0.7, pointed=not round_arch, fill="dark", frame_mat="stone")
     opening(part, Fi, -aw / 2, aw / 2, 0, ah, depth=0.3, frame=0.6, pointed=not round_arch, fill="dark", frame_mat="stone")
     if arms:     # the lily of Florence carved in stone above the arch (outer face)
-        box(bm_for(part, "stone"), Fo, -1.0, 1.0, ah + 1.6, ah + 4.0, 0, 0.35)
-        box(bm_for(part, "stone"), Fo, -1.3, 1.3, ah + 4.0, ah + 4.4, 0, 0.5)
+        pbox(bm_for(part, "stone"), Fo, -1.0, 1.0, ah + 1.6, ah + 4.0, 0, 0.35)
+        pbox(bm_for(part, "stone"), Fo, -1.3, 1.3, ah + 4.0, ah + 4.4, 0, 0.5)
     if lunette:  # frescoed lunette over the inner arch (Madonna and saints, 14th–16th c.)
         poly(bm_for(part, "fresco"), [Fi.p(aw * 0.42 * math.cos(a), ah - aw * 0.42 + aw * 0.5 * math.sin(a) + 0.4, 0.12)
                                       for a in [math.pi * k / 12 for k in range(13)]])
@@ -210,7 +210,7 @@ for key, (fr, hi, to, size, (aw, ah), roof) in SPEC.items():
         elif roof == "hip": hip_roof(pn, Fc, L, Dp, H, roof_h)
         else: crenels(pn, Fc, L, Dp, H)
         if key == "giorgio":   # St George and the dragon, relief on the outer face (copy; original in Palazzo Vecchio)
-            box(bm_for(pn, "stone"), Fo, -1.2, 1.2, ah + 1.2, ah + 3.0, 0, 0.3)
+            pbox(bm_for(pn, "stone"), Fo, -1.2, 1.2, ah + 1.2, ah + 3.0, 0, 0.3)
 
 # Porta San Miniato: an arch through the wall, no tower (1320)
 g = GD["miniato"]; Fo, Fi, Fc = frames(g, 8.0, 3.4)
@@ -275,4 +275,4 @@ for g in D["gates"]:
     if g["foot"]:
         cx = sum(p[0] for p in g["foot"]) / len(g["foot"]); cz = sum(p[1] for p in g["foot"]) / len(g["foot"])
         clear.append([[round(cx + (p[0] - cx) * 1.25, 1), round(cz + (p[1] - cz) * 1.25, 1)] for p in g["foot"]])
-json.dump(clear, open(os.path.join(OUT, "mura_clear.json"), "w"))
+json.dump(clear, open(os.path.join(OUT, "mura_clear.json"), "w", newline="\n"))
