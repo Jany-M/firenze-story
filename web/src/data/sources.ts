@@ -41,6 +41,7 @@ const RULES: { re: RegExp; id: string; url: (m: RegExpMatchArray, c: Ctx) => str
   { re: /Landmark model v1 – Orsanmichele/i, id: 'M10', url: () => REPO + 'docs/landmarks/ORSANMICHELE.md' },
   { re: /Landmark model v1 – Bargello/i, id: 'M11', url: () => REPO + 'docs/landmarks/BARGELLO.md' },
   { re: /Landmark model v1 – Loggia dei Lanzi/i, id: 'M12', url: () => REPO + 'docs/landmarks/LOGGIA-DEI-LANZI.md' },
+  { re: /Landmark model v1 – Le mura/i, id: 'M14', url: () => REPO + 'docs/landmarks/MURA.md' },
   { re: /Landmark model/i, id: 'M04', url: () => REPO + 'docs/landmarks/DUOMO.md' },
   { re: /Risanamento/i, id: 'H11', url: () => REPO + 'docs/HISTORY.md' },
   { re: /A07|florencecity|tuttatoscana|visittuscany|conoscifirenze/i, id: 'A07', url: m => A07_PAGES.find(([r]) => r.test(m.input ?? ''))?.[1] ?? DATASET.a07.url },

@@ -33,3 +33,8 @@ Street name history (Stradario storico, H20), today's house numbers (Civici, H21
 (landmarks prefer the *piazza* and the lowest black number); records also get their position along the street
 (`pos` = metres along, side, frontage) for the strip view, corner buildings also for the cross street, French numbers by distance (16 m). Run by `prepare.py`
 when its inputs change. Needs `pyshp`.
+
+### 40_walls.py – geometry for the city walls model
+The sixth circle (OHM dated lines, OSM surviving stretches and gate footprints) with LiDAR ground and today's heights →
+`blender/data/walls.json`, read by `blender/scripts/build_mura.py` (docs/landmarks/MURA.md). Run by hand after the raw
+OSM / OHM data or the LiDAR change; the JSON is kept in the repository.

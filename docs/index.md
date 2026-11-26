@@ -12,7 +12,7 @@ Florence in 4D: a three.js city that grows from the Iron Age huts by the ford to
 | [Data sources](DATA-SOURCES.md) | Register of every dataset: use, period, licence, status, local path |
 | [Buildings](BUILDINGS.md) | How buildings are made: dating, roofs, façades |
 | [Materials](MATERIALS.md) | Pietra forte, pietra serena, intonaco, coppi, marble, … |
-| [Landmarks](landmarks/DUOMO.md) | Duomo, Campanile, Baptistery, Palazzo Vecchio, Ponte Vecchio, Santa Croce, Santa Maria Novella, Orsanmichele, Bargello, Loggia dei Lanzi |
+| [Landmarks](landmarks/DUOMO.md) | Duomo, Campanile, Baptistery, Palazzo Vecchio, Ponte Vecchio, Santa Croce, Santa Maria Novella, Orsanmichele, Bargello, Loggia dei Lanzi, [city walls and gates](landmarks/MURA.md) |
 | [River & landscape](RIVER-LANDSCAPE.md) | Terrain, Arno, weirs, bridges, river life, early settlement |
 | [History](HISTORY.md) | Epochs, urban changes, events, vignettes |
 | [Events & costumes](EVENTS-COSTUMES.md) | Scoppio, carnival, police, army, costume palette |
