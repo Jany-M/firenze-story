@@ -19,7 +19,7 @@ statues of their patron saints by Ghiberti, Donatello, Verrocchio and Giambologn
 
 <figure markdown>
 [![Orcagna&#x27;s tabernacle inside Orsanmichele](/materials/landmarks/thumbs/firenze-chiesa-di-orsammichele-tabernacolo-dell-orcagna-edit.jpg)](/materials/landmarks/firenze-chiesa-di-orsammichele-tabernacolo-dell-orcagna-edit.jpg)
-<figcaption markdown>Orcagna&#x27;s tabernacle inside Orsanmichele<br><small>Luca Aless, edited by MenkinAlRire · between 1349 and 1359date QS:P,+1350-00-00T00:00:00Z/7,P1319 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Chiesa_di_Orsammichele,_tabernacolo_dell%27Orcagna-edit.jpg)</small></figcaption>
+<figcaption markdown>Orcagna&#x27;s tabernacle inside Orsanmichele<br><small>Luca Aless, edited by MenkinAlRire · between 1349 and 1359 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Chiesa_di_Orsammichele,_tabernacolo_dell%27Orcagna-edit.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>

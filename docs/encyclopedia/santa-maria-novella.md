@@ -18,7 +18,7 @@ Tornabuoni chapel and Brunelleschi's crucifix, and a façade begun in Gothic mar
 
 <figure markdown>
 [![Inside Santa Maria Novella, painted by Fabio Borbottoni](/materials/landmarks/thumbs/fabio-borbottoni-1820-1902-interno-di-santa-maria-novella.jpg)](/materials/landmarks/fabio-borbottoni-1820-1902-interno-di-santa-maria-novella.jpg)
-<figcaption markdown>Inside Santa Maria Novella, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · before 1902date QS:P571,+1902-00-00T00:00:00Z/7,P1326,+1902- · Public domain · [source](https://commons.wikimedia.org/wiki/File:Fabio_borbottoni,_1820-1902,_interno_di_santa_maria_novella.JPG)</small></figcaption>
+<figcaption markdown>Inside Santa Maria Novella, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · before 1902 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Fabio_borbottoni,_1820-1902,_interno_di_santa_maria_novella.JPG)</small></figcaption>
 </figure>
 
 <figure markdown>

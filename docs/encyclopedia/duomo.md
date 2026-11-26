@@ -9,7 +9,7 @@ Brunelleschi's dome, the largest masonry dome ever built.
 
 <figure markdown>
 [![Santa Maria del Fiore in the Codex Rustici, 1440s](/materials/landmarks/thumbs/codice-rustici-santa-maria-del-fiore.jpg)](/materials/landmarks/codice-rustici-santa-maria-del-fiore.jpg)
-<figcaption markdown>Santa Maria del Fiore in the Codex Rustici, 1440s<br><small>see filename or category · 1440sdate QS:P,+1440-00-00T00:00:00Z/8 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Codice_rustici,_santa_maria_del_fiore.jpg)</small></figcaption>
+<figcaption markdown>Santa Maria del Fiore in the Codex Rustici, 1440s<br><small>see filename or category · 1440s · Public domain · [source](https://commons.wikimedia.org/wiki/File:Codice_rustici,_santa_maria_del_fiore.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -24,12 +24,12 @@ Brunelleschi's dome, the largest masonry dome ever built.
 
 <figure markdown>
 [![The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)](/materials/landmarks/thumbs/giovan-battista-nelli-attr-ricostruzione-dei-ponteggi-interni-della-cu.jpg)](/materials/landmarks/giovan-battista-nelli-attr-ricostruzione-dei-ponteggi-interni-della-cu.jpg)
-<figcaption markdown>The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)<br><small>see filename or category · between 1366 and 1368date QS:P,+1366-00-00T00:00:00Z/8,P1319 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg)</small></figcaption>
+<figcaption markdown>The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)<br><small>see filename or category · between 1366 and 1368 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Paolo Uccello&#x27;s clock inside the Duomo, 1443](/materials/landmarks/thumbs/paolo-uccello-orologio-di-smf.jpg)](/materials/landmarks/paolo-uccello-orologio-di-smf.jpg)
-<figcaption markdown>Paolo Uccello&#x27;s clock inside the Duomo, 1443<br><small>Paolo Uccello · 1443date QS:P571,+1443-00-00T00:00:00Z/9 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Paolo_uccello,_orologio_di_smf.jpg)</small></figcaption>
+<figcaption markdown>Paolo Uccello&#x27;s clock inside the Duomo, 1443<br><small>Paolo Uccello · 1443 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Paolo_uccello,_orologio_di_smf.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>

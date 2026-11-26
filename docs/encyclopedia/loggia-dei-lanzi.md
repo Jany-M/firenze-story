@@ -13,7 +13,7 @@ landsknechts (*Lanzi*) of Cosimo I's guard, who were quartered here. Since the 1
 
 <figure markdown>
 [![The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)](/materials/landmarks/thumbs/the-lodge-of-the-lancers-i-e-loggia-dei-lanzi-florence-italy-lccn20017.jpg)](/materials/landmarks/the-lodge-of-the-lancers-i-e-loggia-dei-lanzi-florence-italy-lccn20017.jpg)
-<figcaption markdown>The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)<br><small>Photochrom Print Collection · between 1890 and 1900date QS:P571,+1500-00-00T00:00:00Z/6,P1 · Public domain · [source](https://commons.wikimedia.org/wiki/File:The_Lodge_of_the_Lancers_(i.e._Loggia_dei_Lanzi),_Florence,_Italy-LCCN2001700796.jpg)</small></figcaption>
+<figcaption markdown>The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)<br><small>Photochrom Print Collection · between 1890 and 1900 · Public domain · [source](https://commons.wikimedia.org/wiki/File:The_Lodge_of_the_Lancers_(i.e._Loggia_dei_Lanzi),_Florence,_Italy-LCCN2001700796.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>

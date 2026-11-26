@@ -39,6 +39,13 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/BARGELLO.md](docs/landmarks/BARGELLO.md) | Landmark model: Bargello – measurements, phases, review list |
 | [docs/landmarks/LOGGIA-DEI-LANZI.md](docs/landmarks/LOGGIA-DEI-LANZI.md) | Landmark model: Loggia dei Lanzi and its statues – measurements, phases, review list |
 | [docs/landmarks/MURA.md](docs/landmarks/MURA.md) | Landmark model: the city walls, gates and towers over the eras – sources, dates, review list |
+| [docs/landmarks/UFFIZI.md](docs/landmarks/UFFIZI.md) | Landmark model: the Uffizi – measurements, phases, conflicting sources, review list |
+| [docs/landmarks/SAN-LORENZO.md](docs/landmarks/SAN-LORENZO.md) | Landmark model: San Lorenzo with its sacristies, cloister, library and Cappella dei Principi |
+| [docs/landmarks/MEDICI-RICCARDI.md](docs/landmarks/MEDICI-RICCARDI.md) | Landmark model: Palazzo Medici Riccardi |
+| [docs/landmarks/CORRIDOIO-VASARIANO.md](docs/landmarks/CORRIDOIO-VASARIANO.md) | Landmark model: the Vasari Corridor beyond the bridge and Torre dei Mannelli |
+| [docs/landmarks/PITTI-BOBOLI.md](docs/landmarks/PITTI-BOBOLI.md) | Landmark models: Palazzo Pitti, the Boboli garden and Forte Belvedere |
+| [docs/REFINEMENTS.md](docs/REFINEMENTS.md) | Refinement list: the open points of every landmark model, gathered from their review lists |
+| [docs/STATUES.md](docs/STATUES.md) | Statues, columns and fountains in the squares: dated placeholders and the list to refine |
 | [docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md) | Terrain, land cover, vegetation, the Arno, weirs, bridges, crossings, river life, early settlement |
 | [docs/HISTORY.md](docs/HISTORY.md) | Epochs, urban changes, recurring and one-off events, daily-life vignettes |
 | [docs/EVENTS-COSTUMES.md](docs/EVENTS-COSTUMES.md) | Scoppio del Carro, carnival, police patrols, army, costume palette, interactions |

@@ -17,6 +17,11 @@ In the app, the same pictures appear as thumbnails in a building's or event's ca
 | [The Baptistery of San Giovanni](baptistery.md) | The octagon consecrated in 1059 and its three bronze doors |
 | [Palazzo Vecchio](palazzo-vecchio.md) | Palace of the Priors from 1299, the tower, the Salone dei Cinquecento |
 | [Loggia dei Lanzi](loggia-dei-lanzi.md) | The Republic's loggia of 1376–82 and its statues |
+| [The Uffizi](uffizi.md) | Vasari's palace of the magistracies, 1560–81 |
+| [San Lorenzo](san-lorenzo.md) | The Medici parish church, its sacristies, library and the Cappella dei Principi |
+| [Palazzo Medici Riccardi](medici-riccardi.md) | Michelozzo's palace for Cosimo il Vecchio, enlarged by the Riccardi |
+| [The Vasari Corridor](vasari-corridor.md) | The Medici's private way from Palazzo Vecchio to Palazzo Pitti, 1565 |
+| [Palazzo Pitti and the Boboli Garden](pitti-boboli.md) | The grand dukes' palace, its garden and Forte Belvedere |
 | [Ponte Vecchio](ponte-vecchio.md) | The bridge of 1345, its shops and Vasari's corridor |
 | [Orsanmichele](orsanmichele.md) | Grain market, granary and the guilds' church |
 | [The Bargello](bargello.md) | The oldest public palace: Capitano del Popolo, Podestà, prison, museum |

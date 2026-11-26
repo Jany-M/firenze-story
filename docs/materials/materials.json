@@ -6,7 +6,8 @@
    "rec:Cerchia d'Arnolfo",
    "rec:citywalls",
    "rec:mura matildine",
-   "rec:prima cerchia comunale"
+   "rec:prima cerchia comunale",
+   "map:circles"
   ],
   "caption": "The circles of walls of Florence on today's terrain: Roman, Carolingian, Matildine, the first communal circle (1172) and the sixth circle (1284–1333) with its gates, towers and bastions. Firenze Story, from OpenHistoricalMap and OpenStreetMap",
   "src_file": "local:maps/circles-of-walls.jpg",
@@ -52,7 +53,7 @@
   "w": 1280,
   "h": 850,
   "author": "AnonymousUnknown author",
-  "date": "14th centurydate QS:P571,+1350-00-00T00:00:00Z/7",
+  "date": "14th century",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Madonna_bigallo,_firenze_view.jpg",
@@ -70,7 +71,7 @@
   "w": 833,
   "h": 1280,
   "author": "see filename or category",
-  "date": "15th centurydate QS:P,+1450-00-00T00:00:00Z/7 (1450s-1470s)",
+  "date": "15th century (1450s-1470s)",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Miniatore_fiorentino,_pianta_di_firenze_da_poggio_bracciolini_historia_florentina,_bibl_ap_vaticana,_ms._urb_lat_491_f_4v.jpg",
@@ -88,7 +89,7 @@
   "w": 1280,
   "h": 642,
   "author": "Hartmann Schedel",
-  "date": "drawing: circa 1490date QS:P571,+1490-00-00T00:00:00Z/9,P148",
+  "date": "drawing: circa 1490",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Florence1493.png",
@@ -124,7 +125,7 @@
   "w": 1280,
   "h": 834,
   "author": "Wenceslaus Hollar",
-  "date": "circa 1660date QS:P,+1660-00-00T00:00:00Z/9,P1480,Q5727902",
+  "date": "circa 1660",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Ca._1660_map_of_Florence_by_Wenceslaus_Hollar.jpg",
@@ -142,7 +143,7 @@
   "w": 1280,
   "h": 974,
   "author": "After: Ferdinando Ruggieri Published by: Giuseppe Bouchard",
-  "date": "1731date QS:P571,+1731-00-00T00:00:00Z/9",
+  "date": "1731",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Pianta_della_Citt%C3%A0_di_Firenze_nelle_sue_vere_misure_colla_descrizione_dei_luoghi_pi%C3%B9_notabili_di_ciascun_quartiere_(BM_1922,0410.142.3).jpg",
@@ -295,7 +296,7 @@
   "w": 900,
   "h": 634,
   "author": "Michelangelo",
-  "date": "circa 1525date QS:P571,+1525-00-00T00:00:00Z/9,P1480,Q572790",
+  "date": "circa 1525",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg",
@@ -442,7 +443,7 @@
   "w": 770,
   "h": 531,
   "author": "Fabio Borbottoni",
-  "date": "19th centurydate QS:P,+1850-00-00T00:00:00Z/7",
+  "date": "19th century",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(19).jpg",
@@ -622,7 +623,7 @@
   "w": 790,
   "h": 558,
   "author": "Fabio Borbottoni",
-  "date": "19th centurydate QS:P,+1850-00-00T00:00:00Z/7",
+  "date": "19th century",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(17).jpg",
@@ -748,7 +749,7 @@
   "w": 797,
   "h": 554,
   "author": "Fabio Borbottoni",
-  "date": "19th centurydate QS:P,+1850-00-00T00:00:00Z/7",
+  "date": "19th century",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(54).jpg",
@@ -784,7 +785,7 @@
   "w": 824,
   "h": 577,
   "author": "Fabio Borbottoni",
-  "date": "19th centurydate QS:P,+1850-00-00T00:00:00Z/7",
+  "date": "19th century",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(35).jpg",
@@ -894,7 +895,7 @@
   "w": 907,
   "h": 1280,
   "author": "see filename or category",
-  "date": "1440sdate QS:P,+1440-00-00T00:00:00Z/8",
+  "date": "1440s",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Codice_rustici,_santa_maria_del_fiore.jpg",
@@ -949,7 +950,7 @@
   "w": 1280,
   "h": 953,
   "author": "see filename or category",
-  "date": "between 1366 and 1368date QS:P,+1366-00-00T00:00:00Z/8,P1319",
+  "date": "between 1366 and 1368",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg",
@@ -967,7 +968,7 @@
   "w": 945,
   "h": 930,
   "author": "Paolo Uccello",
-  "date": "1443date QS:P571,+1443-00-00T00:00:00Z/9",
+  "date": "1443",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Paolo_uccello,_orologio_di_smf.jpg",
@@ -1204,7 +1205,7 @@
   "w": 779,
   "h": 528,
   "author": "Fabio Borbottoni",
-  "date": "19th centurydate QS:P,+1850-00-00T00:00:00Z/7",
+  "date": "19th century",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(3).jpg",
@@ -1222,7 +1223,7 @@
   "w": 1280,
   "h": 391,
   "author": "unknown",
-  "date": "1909date QS:P571,+1909-00-00T00:00:00Z/9",
+  "date": "1909",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Ponto_Vecchio,_Florence,_Italy_LCCN2007663196.tif",
@@ -1259,7 +1260,7 @@
   "w": 1280,
   "h": 968,
   "author": "Dominique Roger",
-  "date": "1966date QS:P571,+1966-00-00T00:00:00Z/9",
+  "date": "1966",
   "license": "CC BY-SA 3.0 igo",
   "license_url": "https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en",
   "page": "https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff",
@@ -1406,7 +1407,7 @@
   "w": 1280,
   "h": 973,
   "author": "Fabio Borbottoni",
-  "date": "before 1902date QS:P571,+1902-00-00T00:00:00Z/7,P1326,+1902-",
+  "date": "before 1902",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Fabio_borbottoni,_1820-1902,_interno_di_santa_maria_novella.JPG",
@@ -1496,7 +1497,7 @@
   "w": 676,
   "h": 1280,
   "author": "Luca Aless, edited by MenkinAlRire",
-  "date": "between 1349 and 1359date QS:P,+1350-00-00T00:00:00Z/7,P1319",
+  "date": "between 1349 and 1359",
   "license": "CC BY-SA 4.0",
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Chiesa_di_Orsammichele,_tabernacolo_dell%27Orcagna-edit.jpg",
@@ -1622,7 +1623,7 @@
   "w": 1280,
   "h": 942,
   "author": "Photochrom Print Collection",
-  "date": "between 1890 and 1900date QS:P571,+1500-00-00T00:00:00Z/6,P1",
+  "date": "between 1890 and 1900",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:The_Lodge_of_the_Lancers_(i.e._Loggia_dei_Lanzi),_Florence,_Italy-LCCN2001700796.jpg",
@@ -1748,7 +1749,7 @@
   "w": 1173,
   "h": 770,
   "author": "Francesco Granacci",
-  "date": "1518date QS:P571,+1518-00-00T00:00:00Z/9",
+  "date": "1518",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Francesco_granacci,_entrata_di_Carlo_VIII_a_Firenze.jpg",
@@ -1860,10 +1861,921 @@
   "w": 1280,
   "h": 887,
   "author": "Stefano Ussi",
-  "date": "circa 1850date QS:P571,+1850-00-00T00:00:00Z/9,P1480,Q572790",
+  "date": "circa 1850",
   "license": "Public domain",
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Stefano_Ussi_-_The_Execution_of_Savonarola_-_WGA24194.jpg",
   "credit": "Web Gallery of Art: Image Info about artworkwga QS:P11807,\"u/ussi/executio\""
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "The Piazzale degli Uffizi from Piazza della Signoria towards the Arno",
+  "src_file": "Piazzale degli Uffizi perspective view, Florence, Italy, August 2025.jpg",
+  "img": "landmarks/piazzale-degli-uffizi-perspective-view-florence-italy-august-2025.jpg",
+  "thumb": "landmarks/thumbs/piazzale-degli-uffizi-perspective-view-florence-italy-august-2025.jpg",
+  "w": 1280,
+  "h": 720,
+  "author": "Verum3414",
+  "date": "2025-08-30 14:03:05",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazzale_degli_Uffizi_perspective_view,_Florence,_Italy,_August_2025.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "The Uffizi courtyard: portico, mezzanine, piano nobile and top loggia",
+  "src_file": "Uffizi courtyard, Florence.jpg",
+  "img": "landmarks/uffizi-courtyard-florence.jpg",
+  "thumb": "landmarks/thumbs/uffizi-courtyard-florence.jpg",
+  "w": 960,
+  "h": 1280,
+  "author": "Armin Kleiner",
+  "date": "2021-09-14 13:01:54",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Uffizi_courtyard,_Florence.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Galleria degli Uffizi",
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The Uffizi and the Vasari Corridor seen from the Arno",
+  "src_file": "Uffizi visti dal fiume 11 vasariano.JPG",
+  "img": "landmarks/uffizi-visti-dal-fiume-11-vasariano.jpg",
+  "thumb": "landmarks/thumbs/uffizi-visti-dal-fiume-11-vasariano.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "26 July 2013, 17:40:26",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Uffizi_visti_dal_fiume_11_vasariano.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "Giuseppe Zocchi's view of the Uffizi, 18th century (Rijksmuseum)",
+  "src_file": "Palazzo degli Uffizi te Florence Veduta degli Ufizi, o sia Curia Fiorentina presa dalla Loggia presso Arno (titel op object), RP-P-1950-350.jpg",
+  "img": "history/palazzo-degli-uffizi-te-florence-veduta-degli-ufizi-o-sia-curia-fioren.jpg",
+  "thumb": "history/thumbs/palazzo-degli-uffizi-te-florence-veduta-degli-ufizi-o-sia-curia-fioren.jpg",
+  "w": 1280,
+  "h": 962,
+  "author": "Rijksmuseum",
+  "date": "between 1720 and 1782",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_degli_Uffizi_te_Florence_Veduta_degli_Ufizi,_o_sia_Curia_Fiorentina_presa_dalla_Loggia_presso_Arno_(titel_op_object),_RP-P-1950-350.jpg",
+  "credit": "http://hdl.handle.net/10934/RM0001.COLLECT.186885"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Galleria degli Uffizi",
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The Vasari Corridor on its arcade along Lungarno degli Archibusieri",
+  "src_file": "Firenze - Florence - Lungarno degli Archibugieri - Passage below the Vasari Corridor 1564 connecting Ponte Vecchio with Uffizi - View ESE on Piazzale degli Uffizi.jpg",
+  "img": "landmarks/firenze-florence-lungarno-degli-archibugieri-passage-below-the-vasari.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-lungarno-degli-archibugieri-passage-below-the-vasari.jpg",
+  "w": 853,
+  "h": 1280,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-20 13:56:49",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Lungarno_degli_Archibugieri_-_Passage_below_the_Vasari_Corridor_1564_connecting_Ponte_Vecchio_with_Uffizi_-_View_ESE_on_Piazzale_degli_Uffizi.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "Jacques Callot, an interlude in the Teatro Mediceo of the Uffizi, c. 1617",
+  "src_file": "Jacques Callot - Interlude in the Medici Theater - WGA3781.jpg",
+  "img": "history/jacques-callot-interlude-in-the-medici-theater-wga3781.jpg",
+  "thumb": "history/thumbs/jacques-callot-interlude-in-the-medici-theater-wga3781.jpg",
+  "w": 750,
+  "h": 991,
+  "author": "Jacques Callot",
+  "date": "circa 1617",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Jacques_Callot_-_Interlude_in_the_Medici_Theater_-_WGA3781.jpg",
+  "credit": "Web Gallery of Art: Image Info about artworkwga QS:P11807,\"c/callot/interlud\""
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "San Pier Scheraggio on Buonsignori's map of 1584, already inside the Uffizi",
+  "src_file": "Pianta del buonsignori, dettaglio 128 san piero scheraggio.jpg",
+  "img": "history/pianta-del-buonsignori-dettaglio-128-san-piero-scheraggio.jpg",
+  "thumb": "history/thumbs/pianta-del-buonsignori-dettaglio-128-san-piero-scheraggio.jpg",
+  "w": 394,
+  "h": 424,
+  "author": "sailko",
+  "date": "Unknown date",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pianta_del_buonsignori,_dettaglio_128_san_piero_scheraggio.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "What is left of San Pier Scheraggio: the old apse in Via della Ninna",
+  "src_file": "San pier scheraggio, veduta dell'ex-abside.JPG",
+  "img": "landmarks/san-pier-scheraggio-veduta-dell-ex-abside.jpg",
+  "thumb": "landmarks/thumbs/san-pier-scheraggio-veduta-dell-ex-abside.jpg",
+  "w": 853,
+  "h": 1280,
+  "author": "Sailko",
+  "date": "15 August 2013, 13:19:37",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:San_pier_scheraggio,_veduta_dell%27ex-abside.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "Inside the Vasari Corridor",
+  "src_file": "Corridoio Vasariano, curva.JPG",
+  "img": "landmarks/corridoio-vasariano-curva.jpg",
+  "thumb": "landmarks/thumbs/corridoio-vasariano-curva.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "31 August 2006 (according to Exif data)",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Corridoio_Vasariano,_curva.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The Vasari Corridor crossing Piazza di Santa Felicita",
+  "src_file": "Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01.jpg",
+  "img": "landmarks/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg",
+  "thumb": "landmarks/thumbs/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg",
+  "w": 858,
+  "h": 1280,
+  "author": "Francesco Bini",
+  "date": "2021-04-15 13:50:22",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_di_santa_felicita,_cavalcavia_del_corridoio_vasariano_(arco_dei_rossi)_01.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "San Lorenzo's bare brick façade on Piazza San Lorenzo",
+  "src_file": "Firenze Basilica di San Lorenzo Esterno Facciata 1.jpg",
+  "img": "landmarks/firenze-basilica-di-san-lorenzo-esterno-facciata-1.jpg",
+  "thumb": "landmarks/thumbs/firenze-basilica-di-san-lorenzo-esterno-facciata-1.jpg",
+  "w": 1280,
+  "h": 856,
+  "author": "Zairon",
+  "date": "2023-04-17 15:44:10",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Lorenzo_Esterno_Facciata_1.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "Model after Michelangelo's design for the façade, c. 1518 – never built (Casa Buonarroti)",
+  "src_file": "Michelangelo (disegno), modellino per la facciata di san lorenzo, 1518 ca..JPG",
+  "img": "history/michelangelo-disegno-modellino-per-la-facciata-di-san-lorenzo-1518-ca.jpg",
+  "thumb": "history/thumbs/michelangelo-disegno-modellino-per-la-facciata-di-san-lorenzo-1518-ca.jpg",
+  "w": 1280,
+  "h": 1099,
+  "author": "Sailko",
+  "date": "27 October 2013, 14:56:28",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Michelangelo_(disegno),_modellino_per_la_facciata_di_san_lorenzo,_1518_ca..JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Basilica di San Lorenzo",
+   "rec:Cappella dei Principi"
+  ],
+  "caption": "The basilica from the piazza, with the domes of the crossing and of the Cappella dei Principi behind",
+  "src_file": "Firenze - Florence - Piazza di San Lorenzo - View West on Basilica di San Lorenzo & Statue of Giovanni delle Bande Nere 1544 by Baccio Bandinelli.jpg",
+  "img": "landmarks/firenze-florence-piazza-di-san-lorenzo-view-west-on-basilica-di-san-lo.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-piazza-di-san-lorenzo-view-west-on-basilica-di-san-lo.jpg",
+  "w": 1280,
+  "h": 853,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-21 10:47:34",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazza_di_San_Lorenzo_-_View_West_on_Basilica_di_San_Lorenzo_%26_Statue_of_Giovanni_delle_Bande_Nere_1544_by_Baccio_Bandinelli.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "Brunelleschi's Old Sacristy, 1421–28",
+  "src_file": "Filippo Brunelleschi, Sacrestia Vecchia.JPG",
+  "img": "landmarks/filippo-brunelleschi-sacrestia-vecchia.jpg",
+  "thumb": "landmarks/thumbs/filippo-brunelleschi-sacrestia-vecchia.jpg",
+  "w": 960,
+  "h": 1280,
+  "author": "Sailko",
+  "date": "25 July 2006 (according to Exif data)",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Filippo_Brunelleschi,_Sacrestia_Vecchia.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The canons' cloister, 1457–60",
+  "src_file": "Firenze Basilica di San Lorenzo Esterno Chiostro 1.jpg",
+  "img": "landmarks/firenze-basilica-di-san-lorenzo-esterno-chiostro-1.jpg",
+  "thumb": "landmarks/thumbs/firenze-basilica-di-san-lorenzo-esterno-chiostro-1.jpg",
+  "w": 1280,
+  "h": 979,
+  "author": "Zairon",
+  "date": "2023-04-17 15:58:43",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Lorenzo_Esterno_Chiostro_1.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Basilica di San Lorenzo",
+   "rec:Cappella dei Principi"
+  ],
+  "caption": "The dome of Michelangelo's New Sacristy from inside",
+  "src_file": "Sagrestia nuova di michelangelo, cupola 02.jpg",
+  "img": "landmarks/sagrestia-nuova-di-michelangelo-cupola-02.jpg",
+  "thumb": "landmarks/thumbs/sagrestia-nuova-di-michelangelo-cupola-02.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Francesco Bini",
+  "date": "2014-06-19 15:21:27",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sagrestia_nuova_di_michelangelo,_cupola_02.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "16th-century drawing of a window of the Laurentian Library's vestibule (ricetto)",
+  "src_file": "San Lorenzo, Library, Ricetto, window, elevation (recto) San Lorenzo, Library, Ricetto, column, elevation; details, elevation (verso) MET DP810574.jpg",
+  "img": "history/san-lorenzo-library-ricetto-window-elevation-recto-san-lorenzo-library.jpg",
+  "thumb": "history/thumbs/san-lorenzo-library-ricetto-window-elevation-recto-san-lorenzo-library.jpg",
+  "w": 872,
+  "h": 1280,
+  "author": "AnonymousUnknown author",
+  "date": "early to mid-16th century",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:San_Lorenzo,_Library,_Ricetto,_window,_elevation_(recto)_San_Lorenzo,_Library,_Ricetto,_column,_elevation;_details,_elevation_(verso)_MET_DP810574.jpg",
+  "credit": "This file was donated to Wikimedia Commons as part of a project by the Metropolitan Museum of Art. See the Image and Data Resources Open Access Policy"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Cappella dei Principi",
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The Cappella dei Principi from outside: the exterior finished to the Ruggieris' design in the 18th century",
+  "src_file": "Ferdinando e giuseppe ruggieri (progetto), esterno della cappella dei principi, 1740-42 (capp. medicee).jpg",
+  "img": "landmarks/ferdinando-e-giuseppe-ruggieri-progetto-esterno-della-cappella-dei-pri.jpg",
+  "thumb": "landmarks/thumbs/ferdinando-e-giuseppe-ruggieri-progetto-esterno-della-cappella-dei-pri.jpg",
+  "w": 690,
+  "h": 1280,
+  "author": "Francesco Bini",
+  "date": "2014-05-10 12:17:21",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ferdinando_e_giuseppe_ruggieri_(progetto),_esterno_della_cappella_dei_principi,_1740-42_(capp._medicee).jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Cappella dei Principi"
+  ],
+  "caption": "A cartouche dated 1642 over a window of the Cappella dei Principi",
+  "src_file": "Firenze, cappelle medicee, esterno, finestrone 06 cartiglio con data 1642.jpg",
+  "img": "landmarks/firenze-cappelle-medicee-esterno-finestrone-06-cartiglio-con-data-1642.jpg",
+  "thumb": "landmarks/thumbs/firenze-cappelle-medicee-esterno-finestrone-06-cartiglio-con-data-1642.jpg",
+  "w": 1280,
+  "h": 944,
+  "author": "Francesco Bini",
+  "date": "2024-04-10 11:07:25",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze,_cappelle_medicee,_esterno,_finestrone_06_cartiglio_con_data_1642.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "Michelozzo's front on Via Larga (Via Cavour)",
+  "src_file": "Firenze - Florence - Via Cavour - Palazzo Medici-Riccardi 1444-1460 by Michelozzo di Bartolomeo.jpg",
+  "img": "landmarks/firenze-florence-via-cavour-palazzo-medici-riccardi-1444-1460-by-miche.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-via-cavour-palazzo-medici-riccardi-1444-1460-by-miche.jpg",
+  "w": 853,
+  "h": 1280,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-21 10:43:39",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_Cavour_-_Palazzo_Medici-Riccardi_1444-1460_by_Michelozzo_di_Bartolomeo.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "One of the kneeling windows that closed the corner loggia in 1517",
+  "src_file": "Palazzo medici riccardi, finestra inginocchiata.JPG",
+  "img": "landmarks/palazzo-medici-riccardi-finestra-inginocchiata.jpg",
+  "thumb": "landmarks/thumbs/palazzo-medici-riccardi-finestra-inginocchiata.jpg",
+  "w": 960,
+  "h": 1280,
+  "author": "sailko",
+  "date": "2008-05-27 15:28:10",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_medici_riccardi,_finestra_inginocchiata.JPG",
+  "credit": "Self-photographed"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "Michelozzo's courtyard",
+  "src_file": "Firenze Palazzo Medici Riccardi Cortile Interno 1.jpg",
+  "img": "landmarks/firenze-palazzo-medici-riccardi-cortile-interno-1.jpg",
+  "thumb": "landmarks/thumbs/firenze-palazzo-medici-riccardi-cortile-interno-1.jpg",
+  "w": 1280,
+  "h": 1006,
+  "author": "Zairon",
+  "date": "2023-04-18 09:35:18",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_Palazzo_Medici_Riccardi_Cortile_Interno_1.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "The garden front, Medici side",
+  "src_file": "Palazzo medici riccardi, facciata interna sul giardino 01.JPG",
+  "img": "landmarks/palazzo-medici-riccardi-facciata-interna-sul-giardino-01.jpg",
+  "thumb": "landmarks/thumbs/palazzo-medici-riccardi-facciata-interna-sul-giardino-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "2013-08-10 16:22:33",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_medici_riccardi,_facciata_interna_sul_giardino_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "Palazzo Medici Riccardi, 19th-century etching",
+  "src_file": "Palazzo Medici-Riccardi etching.jpg",
+  "img": "history/palazzo-medici-riccardi-etching.jpg",
+  "thumb": "history/thumbs/palazzo-medici-riccardi-etching.jpg",
+  "w": 1280,
+  "h": 726,
+  "author": "Unknown authorUnknown author",
+  "date": "19th century",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_Medici-Riccardi_etching.jpg",
+  "credit": "Dorotheum: Info about artwork"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The north flank: blind arches of the chapels, oculi, clerestory, the crossing tiburio and the domes",
+  "src_file": "Firenze Basilica di San Lorenzo Esterno Angolo Nord-Ovest.jpg",
+  "img": "landmarks/firenze-basilica-di-san-lorenzo-esterno-angolo-nord-ovest.jpg",
+  "thumb": "landmarks/thumbs/firenze-basilica-di-san-lorenzo-esterno-angolo-nord-ovest.jpg",
+  "w": 1280,
+  "h": 840,
+  "author": "Zairon",
+  "date": "2023-04-17 15:43:50",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Lorenzo_Esterno_Angolo_Nord-Ovest.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Cappella dei Principi",
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The Cappella dei Principi and Ruggieri's bell tower from Piazza Madonna degli Aldobrandini",
+  "src_file": "Esterno della Cappella dei Principi.jpg",
+  "img": "landmarks/esterno-della-cappella-dei-principi.jpg",
+  "thumb": "landmarks/thumbs/esterno-della-cappella-dei-principi.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Teo Pollastrini",
+  "date": "2021-03-16 16:48:56",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Esterno_della_Cappella_dei_Principi.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "The corner of the palace: rusticated bosses, the loggia arch and the great cornice",
+  "src_file": "Firenze - Florence - Via de' Gori - View Up on Palazzo Medici Riccardi 1460 by Michelozzo di Bartolomeo.jpg",
+  "img": "landmarks/firenze-florence-via-de-gori-view-up-on-palazzo-medici-riccardi-1460-b.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-via-de-gori-view-up-on-palazzo-medici-riccardi-1460-b.jpg",
+  "w": 1280,
+  "h": 853,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-21 10:45:27",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_de%27_Gori_-_View_Up_on_Palazzo_Medici_Riccardi_1460_by_Michelozzo_di_Bartolomeo.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The loggia on the Lungarno degli Archibusieri from the Arno: arches on piers, the corridor above with its windows to the river",
+  "src_file": "Lungarno degli archibugieri (corridoio vasariano) visto dal fiume 02.JPG",
+  "img": "landmarks/lungarno-degli-archibugieri-corridoio-vasariano-visto-dal-fiume-02.jpg",
+  "thumb": "landmarks/thumbs/lungarno-degli-archibugieri-corridoio-vasariano-visto-dal-fiume-02.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "26 July 2013, 17:13:31",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lungarno_degli_archibugieri_(corridoio_vasariano)_visto_dal_fiume_02.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "Looking along the Lungarno from a corridor window: the loggia's arches and the oculi on the city side",
+  "src_file": "Corridoio vasariano, veduta di lungarno archibugieri.JPG",
+  "img": "landmarks/corridoio-vasariano-veduta-di-lungarno-archibugieri.jpg",
+  "thumb": "landmarks/thumbs/corridoio-vasariano-veduta-di-lungarno-archibugieri.jpg",
+  "w": 960,
+  "h": 1280,
+  "author": "sailko",
+  "date": "30 June 2010, 11:18:04",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Corridoio_vasariano,_veduta_di_lungarno_archibugieri.JPG",
+  "credit": "Self-photographed"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The loggia still walled up into shops, before 1890",
+  "src_file": "Lungarno degli archibusieri con la loggia del corridoio vasariano ancora tamponata, ante 1890.jpg",
+  "img": "history/lungarno-degli-archibusieri-con-la-loggia-del-corridoio-vasariano-anco.jpg",
+  "thumb": "history/thumbs/lungarno-degli-archibusieri-con-la-loggia-del-corridoio-vasariano-anco.jpg",
+  "w": 772,
+  "h": 1024,
+  "author": "see filename or category",
+  "date": "1890s",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Lungarno_degli_archibusieri_con_la_loggia_del_corridoio_vasariano_ancora_tamponata,_ante_1890.jpg",
+  "credit": "http://opacmuseicivicifiorentini.comune.fi.it"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The overpass on Via della Ninna between the Uffizi and Palazzo Vecchio",
+  "src_file": "Via della ninna, veduta col cavalcavia del corridoio vasariano.jpg",
+  "img": "landmarks/via-della-ninna-veduta-col-cavalcavia-del-corridoio-vasariano.jpg",
+  "thumb": "landmarks/thumbs/via-della-ninna-veduta-col-cavalcavia-del-corridoio-vasariano.jpg",
+  "w": 804,
+  "h": 1280,
+  "author": "Francesco Bini",
+  "date": "2021-03-16 11:43:29",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_della_ninna,_veduta_col_cavalcavia_del_corridoio_vasariano.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Torre dei Mannelli",
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "Torre dei Mannelli: the corridor goes round it on pietra serena corbels",
+  "src_file": "Torre dei Mannelli-Vasari Corridor.jpg",
+  "img": "landmarks/torre-dei-mannelli-vasari-corridor.jpg",
+  "thumb": "landmarks/thumbs/torre-dei-mannelli-vasari-corridor.jpg",
+  "w": 720,
+  "h": 1280,
+  "author": "Yair Haklai",
+  "date": "2019-04-19 18:32:24",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Torre_dei_Mannelli-Vasari_Corridor.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The stretch over Via de' Bardi, rebuilt after 1944 with a wider arch",
+  "src_file": "Via guicciadini, veduta sul cavalcavia del corridoio vasariano su via de' bardi.jpg",
+  "img": "landmarks/via-guicciadini-veduta-sul-cavalcavia-del-corridoio-vasariano-su-via-d.jpg",
+  "thumb": "landmarks/thumbs/via-guicciadini-veduta-sul-cavalcavia-del-corridoio-vasariano-su-via-d.jpg",
+  "w": 1280,
+  "h": 915,
+  "author": "Francesco Bini",
+  "date": "2021-03-21 15:29:58",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_guicciadini,_veduta_sul_cavalcavia_del_corridoio_vasariano_su_via_de%27_bardi.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Corridoio Vasariano",
+   "rec:Torre dei Mannelli"
+  ],
+  "caption": "Via de' Guicciardini at the bridge before the German mines of 1944 (1890s)",
+  "src_file": "Via guicciardini prima delle demolizioni del 1944 (anni 1890s).jpg",
+  "img": "history/via-guicciardini-prima-delle-demolizioni-del-1944-anni-1890s.jpg",
+  "thumb": "history/thumbs/via-guicciardini-prima-delle-demolizioni-del-1944-anni-1890s.jpg",
+  "w": 786,
+  "h": 1024,
+  "author": "Unknown",
+  "date": "1890s",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_guicciardini_prima_delle_demolizioni_del_1944_(anni_1890s).jpg",
+  "credit": "http://opacmuseicivicifiorentini.comune.fi.it"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "Santa Felicita: the corridor on Vasari's portico, the Arco dei Rossi on the left",
+  "src_file": "Santafelicita.jpg",
+  "img": "landmarks/santafelicita.jpg",
+  "thumb": "landmarks/thumbs/santafelicita.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "No machine-readable author provided. Ettore Timi assumed (based on copyright claims).",
+  "date": "6 May 2006 (according to Exif data)",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Santafelicita.jpg",
+  "credit": "No machine-readable source provided. Own work assumed (based on copyright claims)."
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The Arco dei Rossi, where the corridor crosses the lane beside Santa Felicita",
+  "src_file": "Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01.jpg",
+  "img": "landmarks/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg",
+  "thumb": "landmarks/thumbs/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg",
+  "w": 858,
+  "h": 1280,
+  "author": "Francesco Bini",
+  "date": "2021-04-15 13:50:22",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Piazza_di_santa_felicita,_cavalcavia_del_corridoio_vasariano_(arco_dei_rossi)_01.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The grand-ducal window from the corridor into Santa Felicita",
+  "src_file": "Corridoio vasariano, affaccio su santa felicita.JPG",
+  "img": "landmarks/corridoio-vasariano-affaccio-su-santa-felicita.jpg",
+  "thumb": "landmarks/thumbs/corridoio-vasariano-affaccio-su-santa-felicita.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "30 June 2010, 11:55:56",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Corridoio_vasariano,_affaccio_su_santa_felicita.JPG",
+  "credit": "Self-photographed"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The last stretch along the Boboli garden: small windows and oculi over a row of corbels",
+  "src_file": "Boboli, corridoio vasariano.JPG",
+  "img": "landmarks/boboli-corridoio-vasariano.jpg",
+  "thumb": "landmarks/thumbs/boboli-corridoio-vasariano.jpg",
+  "w": 1280,
+  "h": 930,
+  "author": "sailko",
+  "date": "2007-08-22 14:10:28",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Boboli,_corridoio_vasariano.JPG",
+  "credit": "Self-photographed"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The \"corridore del Gran Duca\" on Buonsignori's map of 1584",
+  "src_file": "Pianta del buonsignori, dettaglio 046 corridore del gran duca (corridoio vasariano).jpg",
+  "img": "history/pianta-del-buonsignori-dettaglio-046-corridore-del-gran-duca-corridoio.jpg",
+  "thumb": "history/thumbs/pianta-del-buonsignori-dettaglio-046-corridore-del-gran-duca-corridoio.jpg",
+  "w": 567,
+  "h": 1280,
+  "author": "sailko",
+  "date": "Unknown date",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pianta_del_buonsignori,_dettaglio_046_corridore_del_gran_duca_(corridoio_vasariano).jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The front on Piazza Pitti: rusticated stone, arched windows on two and three storeys",
+  "src_file": "Palazzo Pitti (Florence) - Facade.jpg",
+  "img": "landmarks/palazzo-pitti-florence-facade.jpg",
+  "thumb": "landmarks/thumbs/palazzo-pitti-florence-facade.jpg",
+  "w": 1280,
+  "h": 720,
+  "author": "Yair Haklai",
+  "date": "2019-04-21 08:31:41",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_Pitti_(Florence)_-_Facade.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "history",
+  "subjects": [
+   "rec:Palazzo Pitti",
+   "rec:Forte di Belvedere",
+   "rec:Grotta del Buontalenti"
+  ],
+  "caption": "Giusto Utens's lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort",
+  "src_file": "Pitti boboli utens.jpg",
+  "img": "history/pitti-boboli-utens.jpg",
+  "thumb": "history/thumbs/pitti-boboli-utens.jpg",
+  "w": 1280,
+  "h": 749,
+  "author": "Giusto Utens",
+  "date": "circa 1599",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Pitti_boboli_utens.jpg",
+  "credit": "https://www.art.com/products/p17389893255-sa-i7043459/giusto-utens-belvedere-of-pitti-palace-and-the-boboli-gardens-florence-italy-from-series.htm; https://www.teggelaar.com/en/florence-day-2-continua"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "Ammannati's courtyard: banded orders of rustication",
+  "src_file": "Palazzo Pitti, cortile dell'ammannati 22.jpg",
+  "img": "landmarks/palazzo-pitti-cortile-dell-ammannati-22.jpg",
+  "thumb": "landmarks/thumbs/palazzo-pitti-cortile-dell-ammannati-22.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "2007-01-05 18:01:30",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_Pitti,_cortile_dell%27ammannati_22.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "A kneeling window in Ammannati's style",
+  "src_file": "Palazzo pitti, cortile dell'ammannati, lato nord, finestra inginocchiata.jpg",
+  "img": "landmarks/palazzo-pitti-cortile-dell-ammannati-lato-nord-finestra-inginocchiata.jpg",
+  "thumb": "landmarks/thumbs/palazzo-pitti-cortile-dell-ammannati-lato-nord-finestra-inginocchiata.jpg",
+  "w": 693,
+  "h": 1280,
+  "author": "Francesco Bini",
+  "date": "2022-05-11 17:05:16",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_pitti,_cortile_dell%27ammannati,_lato_nord,_finestra_inginocchiata.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The long front with a rondò wing projecting into the piazza",
+  "src_file": "Palazzo Pitti Nebenflügel mit Hauptbau.jpg",
+  "img": "landmarks/palazzo-pitti-nebenfl-gel-mit-hauptbau.jpg",
+  "thumb": "landmarks/thumbs/palazzo-pitti-nebenfl-gel-mit-hauptbau.jpg",
+  "w": 1280,
+  "h": 451,
+  "author": "Ricardalovesmonuments",
+  "date": "2021-09-30 11:21:02",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Palazzo_Pitti_Nebenfl%C3%BCgel_mit_Hauptbau.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzina della Meridiana",
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The Palazzina della Meridiana on the garden side",
+  "src_file": "Boboli, palazzina della meridiana, esterno 01.JPG",
+  "img": "landmarks/boboli-palazzina-della-meridiana-esterno-01.jpg",
+  "thumb": "landmarks/thumbs/boboli-palazzina-della-meridiana-esterno-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "2007-08-22 14:59:39",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Boboli,_palazzina_della_meridiana,_esterno_01.JPG",
+  "credit": "Self-photographed"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The Boboli amphitheatre with the Egyptian obelisk and the granite basin",
+  "src_file": "Boboli, anfiteatro, obelisco 01.JPG",
+  "img": "landmarks/boboli-anfiteatro-obelisco-01.jpg",
+  "thumb": "landmarks/thumbs/boboli-anfiteatro-obelisco-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "2010-09-04 10:29:52",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Boboli,_anfiteatro,_obelisco_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Grotta del Buontalenti"
+  ],
+  "caption": "The front of the Grotta del Buontalenti",
+  "src_file": "Grotta del buontalenti, festina lente sulla facciata.JPG",
+  "img": "landmarks/grotta-del-buontalenti-festina-lente-sulla-facciata.jpg",
+  "thumb": "landmarks/thumbs/grotta-del-buontalenti-festina-lente-sulla-facciata.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "1 August 2013, 17:20:44",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Grotta_del_buontalenti,_festina_lente_sulla_facciata.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Kaffeehaus del Giardino di Boboli"
+  ],
+  "caption": "Zanobi del Rosso's Kaffeehaus, 1776",
+  "src_file": "Kaffeehaus Boboli-Garten Florenz-01.jpg",
+  "img": "landmarks/kaffeehaus-boboli-garten-florenz-01.jpg",
+  "thumb": "landmarks/thumbs/kaffeehaus-boboli-garten-florenz-01.jpg",
+  "w": 1280,
+  "h": 842,
+  "author": "Rufus46",
+  "date": "2014-08-24",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kaffeehaus_Boboli-Garten_Florenz-01.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The Neptune basin in Boboli, Stoldo Lorenzi's Neptune on its rock",
+  "src_file": "Firenze - Florence - Giardino di Boboli - View SSE on La fontana del Nettuno 1571 by Stoldo Lorenzi.jpg",
+  "img": "landmarks/firenze-florence-giardino-di-boboli-view-sse-on-la-fontana-del-nettuno.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-giardino-di-boboli-view-sse-on-la-fontana-del-nettuno.jpg",
+  "w": 1280,
+  "h": 853,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-20 15:05:01",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Giardino_di_Boboli_-_View_SSE_on_La_fontana_del_Nettuno_1571_by_Stoldo_Lorenzi.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Forte di Belvedere"
+  ],
+  "caption": "The palazzina inside Forte Belvedere",
+  "src_file": "Forte belvedere, edificio principale 02.JPG",
+  "img": "landmarks/forte-belvedere-edificio-principale-02.jpg",
+  "thumb": "landmarks/thumbs/forte-belvedere-edificio-principale-02.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "14 August 2013, 12:53:43",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Forte_belvedere,_edificio_principale_02.JPG",
+  "credit": "Own work"
  }
 ]

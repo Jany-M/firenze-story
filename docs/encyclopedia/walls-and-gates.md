@@ -80,7 +80,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery](/materials/maps/thumbs/madonna-bigallo-firenze-view.jpg)](/materials/maps/madonna-bigallo-firenze-view.jpg)
-<figcaption markdown>The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery<br><small>AnonymousUnknown author · 14th centurydate QS:P571,+1350-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Madonna_bigallo,_firenze_view.jpg)</small></figcaption>
+<figcaption markdown>The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery<br><small>AnonymousUnknown author · 14th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:Madonna_bigallo,_firenze_view.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -110,7 +110,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![Michelangelo, study for the fortifications at Porta San Gallo, c. 1525](/materials/walls/thumbs/michelangelo-studio-per-porta-san-gallo.jpg)](/materials/walls/michelangelo-studio-per-porta-san-gallo.jpg)
-<figcaption markdown>Michelangelo, study for the fortifications at Porta San Gallo, c. 1525<br><small>Michelangelo · circa 1525date QS:P571,+1525-00-00T00:00:00Z/9,P1480,Q572790 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg)</small></figcaption>
+<figcaption markdown>Michelangelo, study for the fortifications at Porta San Gallo, c. 1525<br><small>Michelangelo · circa 1525 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -148,7 +148,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![Michelangelo, study for the fortifications at Porta San Gallo, c. 1525](/materials/walls/thumbs/michelangelo-studio-per-porta-san-gallo.jpg)](/materials/walls/michelangelo-studio-per-porta-san-gallo.jpg)
-<figcaption markdown>Michelangelo, study for the fortifications at Porta San Gallo, c. 1525<br><small>Michelangelo · circa 1525date QS:P571,+1525-00-00T00:00:00Z/9,P1480,Q572790 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg)</small></figcaption>
+<figcaption markdown>Michelangelo, study for the fortifications at Porta San Gallo, c. 1525<br><small>Michelangelo · circa 1525 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -178,7 +178,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![Porta San Frediano, painted by Fabio Borbottoni (19th century)](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-19.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-19.jpg)
-<figcaption markdown>Porta San Frediano, painted by Fabio Borbottoni (19th century)<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(19).jpg)</small></figcaption>
+<figcaption markdown>Porta San Frediano, painted by Fabio Borbottoni (19th century)<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(19).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -228,7 +228,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-17.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-17.jpg)
-<figcaption markdown>Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(17).jpg)</small></figcaption>
+<figcaption markdown>Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(17).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -263,7 +263,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![Porta San Miniato, painted by Fabio Borbottoni](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-54.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-54.jpg)
-<figcaption markdown>Porta San Miniato, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(54).jpg)</small></figcaption>
+<figcaption markdown>Porta San Miniato, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(54).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -273,7 +273,7 @@ How it is built: [landmark notes](/docs/landmarks/MURA/).
 
 <figure markdown>
 [![The Torre della Zecca on the river, painted by Fabio Borbottoni](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-35.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-35.jpg)
-<figcaption markdown>The Torre della Zecca on the river, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(35).jpg)</small></figcaption>
+<figcaption markdown>The Torre della Zecca on the river, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(35).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>

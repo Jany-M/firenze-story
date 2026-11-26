@@ -56,6 +56,12 @@ tile roof that slopes towards the city.
   stone coping. 66 in all.
 - **Bastions:** OpenHistoricalMap outlines raised as earth platforms faced in stone, about 10 m high.
 
+## Earlier circles
+The Carolingian, Matilda's (1078), the 1172–75 and the 1260 extension circles come from OpenHistoricalMap ways (ids 198777552–563, 571–573), drawn lower (7–9 m) and without towers' details, and valid from their start year until the sixth circle replaces them. The records for them are hidden by the model (`replaces`).
+
+## Ground
+Every wall sample is placed on the app's terrain mesh (`terrain.f32`, bilinear), not on the 0.5 m DTM: the two differ by up to 4 m on the Oltrarno slopes, which made stretches sink. `_dev/tmp/check_walls.py` checks it (difference ≤ 0.02 m).
+
 ## Review list
 - Pre-1529 heights of the gates (all *conjectural*: Villani's 40 braccia for the towers, about +10 m for the gates).
 - Exact course of the north-bank wall near the river at the Prato end, and of the wall from San Niccolò down to the Arno.

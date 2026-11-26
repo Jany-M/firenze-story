@@ -14,12 +14,12 @@ runs over the top.
 
 <figure markdown>
 [![Ponte Vecchio, painted by Fabio Borbottoni](/materials/landmarks/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-3.jpg)](/materials/landmarks/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-3.jpg)
-<figcaption markdown>Ponte Vecchio, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(3).jpg)</small></figcaption>
+<figcaption markdown>Ponte Vecchio, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(3).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)](/materials/landmarks/thumbs/ponto-vecchio-florence-italy-lccn2007663196.jpg)](/materials/landmarks/ponto-vecchio-florence-italy-lccn2007663196.jpg)
-<figcaption markdown>Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)<br><small>unknown · 1909date QS:P571,+1909-00-00T00:00:00Z/9 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Ponto_Vecchio,_Florence,_Italy_LCCN2007663196.tif)</small></figcaption>
+<figcaption markdown>Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)<br><small>unknown · 1909 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Ponto_Vecchio,_Florence,_Italy_LCCN2007663196.tif)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -29,12 +29,32 @@ runs over the top.
 
 <figure markdown>
 [![Ponte Vecchio after the flood of November 1966 (UNESCO)](/materials/landmarks/thumbs/florence-unesco-photo0000004875-0001.jpg)](/materials/landmarks/florence-unesco-photo0000004875-0001.jpg)
-<figcaption markdown>Ponte Vecchio after the flood of November 1966 (UNESCO)<br><small>Dominique Roger · 1966date QS:P571,+1966-00-00T00:00:00Z/9 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff)</small></figcaption>
+<figcaption markdown>Ponte Vecchio after the flood of November 1966 (UNESCO)<br><small>Dominique Roger · 1966 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Ponte Vecchio today](/materials/landmarks/thumbs/firenze-aka-florence-italy-42195674311.jpg)](/materials/landmarks/firenze-aka-florence-italy-42195674311.jpg)
 <figcaption markdown>Ponte Vecchio today<br><small>Larry Lamsa · 2018-05-08 10:19 · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_aka_Florence,_Italy_(42195674311).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Uffizi and the Vasari Corridor seen from the Arno](/materials/landmarks/thumbs/uffizi-visti-dal-fiume-11-vasariano.jpg)](/materials/landmarks/uffizi-visti-dal-fiume-11-vasariano.jpg)
+<figcaption markdown>The Uffizi and the Vasari Corridor seen from the Arno<br><small>sailko · 26 July 2013, 17:40:26 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Uffizi_visti_dal_fiume_11_vasariano.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Vasari Corridor on its arcade along Lungarno degli Archibusieri](/materials/landmarks/thumbs/firenze-florence-lungarno-degli-archibugieri-passage-below-the-vasari.jpg)](/materials/landmarks/firenze-florence-lungarno-degli-archibugieri-passage-below-the-vasari.jpg)
+<figcaption markdown>The Vasari Corridor on its arcade along Lungarno degli Archibusieri<br><small>Txllxt TxllxT · 2010-04-20 13:56:49 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Lungarno_degli_Archibugieri_-_Passage_below_the_Vasari_Corridor_1564_connecting_Ponte_Vecchio_with_Uffizi_-_View_ESE_on_Piazzale_degli_Uffizi.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Inside the Vasari Corridor](/materials/landmarks/thumbs/corridoio-vasariano-curva.jpg)](/materials/landmarks/corridoio-vasariano-curva.jpg)
+<figcaption markdown>Inside the Vasari Corridor<br><small>Sailko · 31 August 2006 (according to Exif data) · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Corridoio_Vasariano,_curva.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Vasari Corridor crossing Piazza di Santa Felicita](/materials/landmarks/thumbs/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg)](/materials/landmarks/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg)
+<figcaption markdown>The Vasari Corridor crossing Piazza di Santa Felicita<br><small>Francesco Bini · 2021-04-15 13:50:22 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_di_santa_felicita,_cavalcavia_del_corridoio_vasariano_(arco_dei_rossi)_01.jpg)</small></figcaption>
 </figure>
 
 </div>

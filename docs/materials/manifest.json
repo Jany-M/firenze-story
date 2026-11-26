@@ -836,7 +836,7 @@
  },
  {
   "topic": "history",
-  "file": "Unknown painter - Execution of Savonarola on the Piazza della Signoria - WGA23933.jpg",
+  "file": "prefix:Unknown painter - Execution of Savonarola on the Piazza della Signoria",
   "subjects": [
    "event:Execution of Savonarola",
    "event:Bonfire of the Vanities",
@@ -851,5 +851,416 @@
    "event:Execution of Savonarola"
   ],
   "caption": "Stefano Ussi, The Execution of Savonarola, c. 1850"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Piazzale degli Uffizi perspective view, Florence, Italy, August 2025.jpg",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "The Piazzale degli Uffizi from Piazza della Signoria towards the Arno"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Uffizi courtyard, Florence.jpg",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "The Uffizi courtyard: portico, mezzanine, piano nobile and top loggia"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Uffizi visti dal fiume 11 vasariano.JPG",
+  "subjects": [
+   "rec:Galleria degli Uffizi",
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The Uffizi and the Vasari Corridor seen from the Arno"
+ },
+ {
+  "topic": "history",
+  "file": "prefix:Palazzo degli Uffizi te Florence Veduta degli Ufizi",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "Giuseppe Zocchi's view of the Uffizi, 18th century (Rijksmuseum)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Firenze - Florence - Lungarno degli Archibugieri - Passage below the Vasari Corr",
+  "subjects": [
+   "rec:Galleria degli Uffizi",
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The Vasari Corridor on its arcade along Lungarno degli Archibusieri"
+ },
+ {
+  "topic": "history",
+  "file": "Jacques Callot - Interlude in the Medici Theater - WGA3781.jpg",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "Jacques Callot, an interlude in the Teatro Mediceo of the Uffizi, c. 1617"
+ },
+ {
+  "topic": "history",
+  "file": "Pianta del buonsignori, dettaglio 128 san piero scheraggio.jpg",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "San Pier Scheraggio on Buonsignori's map of 1584, already inside the Uffizi"
+ },
+ {
+  "topic": "landmarks",
+  "file": "San pier scheraggio, veduta dell'ex-abside.JPG",
+  "subjects": [
+   "rec:Galleria degli Uffizi"
+  ],
+  "caption": "What is left of San Pier Scheraggio: the old apse in Via della Ninna"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Corridoio Vasariano, curva.JPG",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "Inside the Vasari Corridor"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01.jpg",
+  "subjects": [
+   "rec:Ponte Vecchio"
+  ],
+  "caption": "The Vasari Corridor crossing Piazza di Santa Felicita"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze Basilica di San Lorenzo Esterno Facciata 1.jpg",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "San Lorenzo's bare brick façade on Piazza San Lorenzo"
+ },
+ {
+  "topic": "history",
+  "file": "Michelangelo (disegno), modellino per la facciata di san lorenzo, 1518 ca..JPG",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "Model after Michelangelo's design for the façade, c. 1518 – never built (Casa Buonarroti)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Firenze - Florence - Piazza di San Lorenzo - View West on Basilica di San Lorenz",
+  "subjects": [
+   "rec:Basilica di San Lorenzo",
+   "rec:Cappella dei Principi"
+  ],
+  "caption": "The basilica from the piazza, with the domes of the crossing and of the Cappella dei Principi behind"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Filippo Brunelleschi, Sacrestia Vecchia.JPG",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "Brunelleschi's Old Sacristy, 1421–28"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze Basilica di San Lorenzo Esterno Chiostro 1.jpg",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The canons' cloister, 1457–60"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Sagrestia nuova di michelangelo, cupola 02.jpg",
+  "subjects": [
+   "rec:Basilica di San Lorenzo",
+   "rec:Cappella dei Principi"
+  ],
+  "caption": "The dome of Michelangelo's New Sacristy from inside"
+ },
+ {
+  "topic": "history",
+  "file": "prefix:San Lorenzo, Library, Ricetto, window, elevation (recto)",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "16th-century drawing of a window of the Laurentian Library's vestibule (ricetto)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Ferdinando e giuseppe ruggieri (progetto), esterno della cappella dei principi",
+  "subjects": [
+   "rec:Cappella dei Principi",
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The Cappella dei Principi from outside: the exterior finished to the Ruggieris' design in the 18th century"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze, cappelle medicee, esterno, finestrone 06 cartiglio con data 1642.jpg",
+  "subjects": [
+   "rec:Cappella dei Principi"
+  ],
+  "caption": "A cartouche dated 1642 over a window of the Cappella dei Principi"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Firenze - Florence - Via Cavour - Palazzo Medici-Riccardi 1444-1460 by Michelozz",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "Michelozzo's front on Via Larga (Via Cavour)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo medici riccardi, finestra inginocchiata.JPG",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "One of the kneeling windows that closed the corner loggia in 1517"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze Palazzo Medici Riccardi Cortile Interno 1.jpg",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "Michelozzo's courtyard"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo medici riccardi, facciata interna sul giardino 01.JPG",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "The garden front, Medici side"
+ },
+ {
+  "topic": "history",
+  "file": "Palazzo Medici-Riccardi etching.jpg",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "Palazzo Medici Riccardi, 19th-century etching"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Firenze Basilica di San Lorenzo Esterno Angolo Nord",
+  "subjects": [
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The north flank: blind arches of the chapels, oculi, clerestory, the crossing tiburio and the domes"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Esterno della Cappella dei Principi.jpg",
+  "subjects": [
+   "rec:Cappella dei Principi",
+   "rec:Basilica di San Lorenzo"
+  ],
+  "caption": "The Cappella dei Principi and Ruggieri's bell tower from Piazza Madonna degli Aldobrandini"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Firenze - Florence - Via de' Gori - View Up on Palazzo Medici",
+  "subjects": [
+   "rec:Palazzo Medici Riccardi"
+  ],
+  "caption": "The corner of the palace: rusticated bosses, the loggia arch and the great cornice"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Lungarno degli archibugieri (corridoio vasariano) visto dal fiume 02.JPG",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The loggia on the Lungarno degli Archibusieri from the Arno: arches on piers, the corridor above with its windows to the river"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Corridoio vasariano, veduta di lungarno archibugieri.JPG",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "Looking along the Lungarno from a corridor window: the loggia's arches and the oculi on the city side"
+ },
+ {
+  "topic": "history",
+  "file": "prefix:Lungarno degli archibusieri con la loggia del corridoio vasariano ancora tamponata",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The loggia still walled up into shops, before 1890"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Via della ninna, veduta col cavalcavia del corridoio vasariano.jpg",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The overpass on Via della Ninna between the Uffizi and Palazzo Vecchio"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Torre dei Mannelli-Vasari Corridor.jpg",
+  "subjects": [
+   "rec:Torre dei Mannelli",
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "Torre dei Mannelli: the corridor goes round it on pietra serena corbels"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Via guicciadini, veduta sul cavalcavia del corridoio vasariano su via de' bardi",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The stretch over Via de' Bardi, rebuilt after 1944 with a wider arch"
+ },
+ {
+  "topic": "history",
+  "file": "Via guicciardini prima delle demolizioni del 1944 (anni 1890s).jpg",
+  "subjects": [
+   "rec:Corridoio Vasariano",
+   "rec:Torre dei Mannelli"
+  ],
+  "caption": "Via de' Guicciardini at the bridge before the German mines of 1944 (1890s)"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Santafelicita.jpg",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "Santa Felicita: the corridor on Vasari's portico, the Arco dei Rossi on the left"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The Arco dei Rossi, where the corridor crosses the lane beside Santa Felicita"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Corridoio vasariano, affaccio su santa felicita.JPG",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The grand-ducal window from the corridor into Santa Felicita"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Boboli, corridoio vasariano.JPG",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The last stretch along the Boboli garden: small windows and oculi over a row of corbels"
+ },
+ {
+  "topic": "history",
+  "file": "Pianta del buonsignori, dettaglio 046 corridore del gran duca (corridoio vasariano).jpg",
+  "subjects": [
+   "rec:Corridoio Vasariano"
+  ],
+  "caption": "The \"corridore del Gran Duca\" on Buonsignori's map of 1584"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo Pitti (Florence) - Facade.jpg",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The front on Piazza Pitti: rusticated stone, arched windows on two and three storeys"
+ },
+ {
+  "topic": "history",
+  "file": "Pitti boboli utens.jpg",
+  "subjects": [
+   "rec:Palazzo Pitti",
+   "rec:Forte di Belvedere",
+   "rec:Grotta del Buontalenti"
+  ],
+  "caption": "Giusto Utens's lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo Pitti, cortile dell'ammannati 22.jpg",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "Ammannati's courtyard: banded orders of rustication"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo pitti, cortile dell'ammannati, lato nord, finestra inginocchiata.jpg",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "A kneeling window in Ammannati's style"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo Pitti Nebenflügel mit Hauptbau.jpg",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The long front with a rondò wing projecting into the piazza"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Boboli, palazzina della meridiana, esterno 01.JPG",
+  "subjects": [
+   "rec:Palazzina della Meridiana",
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The Palazzina della Meridiana on the garden side"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Boboli, anfiteatro, obelisco 01.JPG",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The Boboli amphitheatre with the Egyptian obelisk and the granite basin"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Grotta del buontalenti, festina lente sulla facciata.JPG",
+  "subjects": [
+   "rec:Grotta del Buontalenti"
+  ],
+  "caption": "The front of the Grotta del Buontalenti"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Kaffeehaus Boboli-Garten Florenz-01.jpg",
+  "subjects": [
+   "rec:Kaffeehaus del Giardino di Boboli"
+  ],
+  "caption": "Zanobi del Rosso's Kaffeehaus, 1776"
+ },
+ {
+  "topic": "landmarks",
+  "file": "prefix:Firenze - Florence - Giardino di Boboli - View SSE on La fontana del Nettuno",
+  "subjects": [
+   "rec:Palazzo Pitti"
+  ],
+  "caption": "The Neptune basin in Boboli, Stoldo Lorenzi's Neptune on its rock"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Forte belvedere, edificio principale 02.JPG",
+  "subjects": [
+   "rec:Forte di Belvedere"
+  ],
+  "caption": "The palazzina inside Forte Belvedere"
  }
 ]

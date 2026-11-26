@@ -91,7 +91,7 @@ Sources: [M04 – Duomo landmark model](https://github.com/Jany-M/firenze-story/
 
 <figure markdown>
 [![The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)](/materials/landmarks/thumbs/giovan-battista-nelli-attr-ricostruzione-dei-ponteggi-interni-della-cu.jpg)](/materials/landmarks/giovan-battista-nelli-attr-ricostruzione-dei-ponteggi-interni-della-cu.jpg)
-<figcaption markdown>The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)<br><small>see filename or category · between 1366 and 1368date QS:P,+1366-00-00T00:00:00Z/8,P1319 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg)</small></figcaption>
+<figcaption markdown>The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)<br><small>see filename or category · between 1366 and 1368 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg)</small></figcaption>
 </figure>
 
 </div>
@@ -147,7 +147,7 @@ Sources: [History notes](https://github.com/Jany-M/firenze-story/blob/main/docs/
 
 <figure markdown>
 [![Stefano Ussi, The Execution of Savonarola, c. 1850](/materials/history/thumbs/stefano-ussi-the-execution-of-savonarola-wga24194.jpg)](/materials/history/stefano-ussi-the-execution-of-savonarola-wga24194.jpg)
-<figcaption markdown>Stefano Ussi, The Execution of Savonarola, c. 1850<br><small>Stefano Ussi · circa 1850date QS:P571,+1850-00-00T00:00:00Z/9,P1480,Q572790 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Stefano_Ussi_-_The_Execution_of_Savonarola_-_WGA24194.jpg)</small></figcaption>
+<figcaption markdown>Stefano Ussi, The Execution of Savonarola, c. 1850<br><small>Stefano Ussi · circa 1850 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Stefano_Ussi_-_The_Execution_of_Savonarola_-_WGA24194.jpg)</small></figcaption>
 </figure>
 
 </div>
@@ -294,7 +294,7 @@ Sources: [History notes](https://github.com/Jany-M/firenze-story/blob/main/docs/
 
 <figure markdown>
 [![Ponte Vecchio after the flood of November 1966 (UNESCO)](/materials/landmarks/thumbs/florence-unesco-photo0000004875-0001.jpg)](/materials/landmarks/florence-unesco-photo0000004875-0001.jpg)
-<figcaption markdown>Ponte Vecchio after the flood of November 1966 (UNESCO)<br><small>Dominique Roger · 1966date QS:P571,+1966-00-00T00:00:00Z/9 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff)</small></figcaption>
+<figcaption markdown>Ponte Vecchio after the flood of November 1966 (UNESCO)<br><small>Dominique Roger · 1966 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff)</small></figcaption>
 </figure>
 
 <figure markdown>

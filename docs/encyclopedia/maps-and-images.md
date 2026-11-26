@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 102 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 152 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -20,17 +20,17 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery](/materials/maps/thumbs/madonna-bigallo-firenze-view.jpg)](/materials/maps/madonna-bigallo-firenze-view.jpg)
-<figcaption markdown>The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery<br><small>AnonymousUnknown author · 14th centurydate QS:P571,+1350-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Madonna_bigallo,_firenze_view.jpg)</small></figcaption>
+<figcaption markdown>The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery<br><small>AnonymousUnknown author · 14th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:Madonna_bigallo,_firenze_view.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Plan of Florence in a 15th-century manuscript of Poggio Bracciolini&#x27;s Historia florentina](/materials/maps/thumbs/miniatore-fiorentino-pianta-di-firenze-da-poggio-bracciolini-historia.jpg)](/materials/maps/miniatore-fiorentino-pianta-di-firenze-da-poggio-bracciolini-historia.jpg)
-<figcaption markdown>Plan of Florence in a 15th-century manuscript of Poggio Bracciolini&#x27;s Historia florentina<br><small>see filename or category · 15th centurydate QS:P,+1450-00-00T00:00:00Z/7 (1450s-1470s) · Public domain · [source](https://commons.wikimedia.org/wiki/File:Miniatore_fiorentino,_pianta_di_firenze_da_poggio_bracciolini_historia_florentina,_bibl_ap_vaticana,_ms._urb_lat_491_f_4v.jpg)</small></figcaption>
+<figcaption markdown>Plan of Florence in a 15th-century manuscript of Poggio Bracciolini&#x27;s Historia florentina<br><small>see filename or category · 15th century (1450s-1470s) · Public domain · [source](https://commons.wikimedia.org/wiki/File:Miniatore_fiorentino,_pianta_di_firenze_da_poggio_bracciolini_historia_florentina,_bibl_ap_vaticana,_ms._urb_lat_491_f_4v.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Florence in the Nuremberg Chronicle, 1493](/materials/maps/thumbs/florence1493.jpg)](/materials/maps/florence1493.jpg)
-<figcaption markdown>Florence in the Nuremberg Chronicle, 1493<br><small>Hartmann Schedel · drawing: circa 1490date QS:P571,+1490-00-00T00:00:00Z/9,P148 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Florence1493.png)</small></figcaption>
+<figcaption markdown>Florence in the Nuremberg Chronicle, 1493<br><small>Hartmann Schedel · drawing: circa 1490 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Florence1493.png)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -40,12 +40,12 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Wenceslaus Hollar, plan of Florence, c. 1660](/materials/maps/thumbs/ca-1660-map-of-florence-by-wenceslaus-hollar.jpg)](/materials/maps/ca-1660-map-of-florence-by-wenceslaus-hollar.jpg)
-<figcaption markdown>Wenceslaus Hollar, plan of Florence, c. 1660<br><small>Wenceslaus Hollar · circa 1660date QS:P,+1660-00-00T00:00:00Z/9,P1480,Q5727902 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Ca._1660_map_of_Florence_by_Wenceslaus_Hollar.jpg)</small></figcaption>
+<figcaption markdown>Wenceslaus Hollar, plan of Florence, c. 1660<br><small>Wenceslaus Hollar · circa 1660 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Ca._1660_map_of_Florence_by_Wenceslaus_Hollar.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Ferdinando Ruggieri, plan of the city &#x27;in its true measures&#x27;, 1731](/materials/maps/thumbs/pianta-della-citt-di-firenze-nelle-sue-vere-misure-colla-descrizione-d.jpg)](/materials/maps/pianta-della-citt-di-firenze-nelle-sue-vere-misure-colla-descrizione-d.jpg)
-<figcaption markdown>Ferdinando Ruggieri, plan of the city &#x27;in its true measures&#x27;, 1731<br><small>After: Ferdinando Ruggieri Published by: Giuseppe Bouchard · 1731date QS:P571,+1731-00-00T00:00:00Z/9 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Pianta_della_Citt%C3%A0_di_Firenze_nelle_sue_vere_misure_colla_descrizione_dei_luoghi_pi%C3%B9_notabili_di_ciascun_quartiere_(BM_1922,0410.142.3).jpg)</small></figcaption>
+<figcaption markdown>Ferdinando Ruggieri, plan of the city &#x27;in its true measures&#x27;, 1731<br><small>After: Ferdinando Ruggieri Published by: Giuseppe Bouchard · 1731 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Pianta_della_Citt%C3%A0_di_Firenze_nelle_sue_vere_misure_colla_descrizione_dei_luoghi_pi%C3%B9_notabili_di_ciascun_quartiere_(BM_1922,0410.142.3).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -91,7 +91,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Michelangelo, study for the fortifications at Porta San Gallo, c. 1525](/materials/walls/thumbs/michelangelo-studio-per-porta-san-gallo.jpg)](/materials/walls/michelangelo-studio-per-porta-san-gallo.jpg)
-<figcaption markdown>Michelangelo, study for the fortifications at Porta San Gallo, c. 1525<br><small>Michelangelo · circa 1525date QS:P571,+1525-00-00T00:00:00Z/9,P1480,Q572790 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg)</small></figcaption>
+<figcaption markdown>Michelangelo, study for the fortifications at Porta San Gallo, c. 1525<br><small>Michelangelo · circa 1525 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Michelangelo,_studio_per_porta_san_gallo.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -131,7 +131,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Porta San Frediano, painted by Fabio Borbottoni (19th century)](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-19.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-19.jpg)
-<figcaption markdown>Porta San Frediano, painted by Fabio Borbottoni (19th century)<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(19).jpg)</small></figcaption>
+<figcaption markdown>Porta San Frediano, painted by Fabio Borbottoni (19th century)<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(19).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -181,7 +181,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-17.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-17.jpg)
-<figcaption markdown>Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(17).jpg)</small></figcaption>
+<figcaption markdown>Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(17).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -216,7 +216,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Porta San Miniato, painted by Fabio Borbottoni](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-54.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-54.jpg)
-<figcaption markdown>Porta San Miniato, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(54).jpg)</small></figcaption>
+<figcaption markdown>Porta San Miniato, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(54).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -226,7 +226,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![The Torre della Zecca on the river, painted by Fabio Borbottoni](/materials/walls/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-35.jpg)](/materials/walls/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-35.jpg)
-<figcaption markdown>The Torre della Zecca on the river, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(35).jpg)</small></figcaption>
+<figcaption markdown>The Torre della Zecca on the river, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(35).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -262,7 +262,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Santa Maria del Fiore in the Codex Rustici, 1440s](/materials/landmarks/thumbs/codice-rustici-santa-maria-del-fiore.jpg)](/materials/landmarks/codice-rustici-santa-maria-del-fiore.jpg)
-<figcaption markdown>Santa Maria del Fiore in the Codex Rustici, 1440s<br><small>see filename or category · 1440sdate QS:P,+1440-00-00T00:00:00Z/8 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Codice_rustici,_santa_maria_del_fiore.jpg)</small></figcaption>
+<figcaption markdown>Santa Maria del Fiore in the Codex Rustici, 1440s<br><small>see filename or category · 1440s · Public domain · [source](https://commons.wikimedia.org/wiki/File:Codice_rustici,_santa_maria_del_fiore.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -277,12 +277,12 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)](/materials/landmarks/thumbs/giovan-battista-nelli-attr-ricostruzione-dei-ponteggi-interni-della-cu.jpg)](/materials/landmarks/giovan-battista-nelli-attr-ricostruzione-dei-ponteggi-interni-della-cu.jpg)
-<figcaption markdown>The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)<br><small>see filename or category · between 1366 and 1368date QS:P,+1366-00-00T00:00:00Z/8,P1319 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg)</small></figcaption>
+<figcaption markdown>The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)<br><small>see filename or category · between 1366 and 1368 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giovan_battista_nelli_(attr.),_ricostruzione_dei_ponteggi_interni_della_cupola_di_brunelleschi,_seconda_met%C3%A0_del_XVII_sec.,_gabinetto_disegni_e_stampe.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Paolo Uccello&#x27;s clock inside the Duomo, 1443](/materials/landmarks/thumbs/paolo-uccello-orologio-di-smf.jpg)](/materials/landmarks/paolo-uccello-orologio-di-smf.jpg)
-<figcaption markdown>Paolo Uccello&#x27;s clock inside the Duomo, 1443<br><small>Paolo Uccello · 1443date QS:P571,+1443-00-00T00:00:00Z/9 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Paolo_uccello,_orologio_di_smf.jpg)</small></figcaption>
+<figcaption markdown>Paolo Uccello&#x27;s clock inside the Duomo, 1443<br><small>Paolo Uccello · 1443 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Paolo_uccello,_orologio_di_smf.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -347,12 +347,12 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Ponte Vecchio, painted by Fabio Borbottoni](/materials/landmarks/thumbs/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-3.jpg)](/materials/landmarks/view-of-ancient-florence-by-fabio-borbottoni-1820-1902-3.jpg)
-<figcaption markdown>Ponte Vecchio, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th centurydate QS:P,+1850-00-00T00:00:00Z/7 · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(3).jpg)</small></figcaption>
+<figcaption markdown>Ponte Vecchio, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:View_of_Ancient_Florence_by_Fabio_Borbottoni_1820-1902_(3).jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
 [![Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)](/materials/landmarks/thumbs/ponto-vecchio-florence-italy-lccn2007663196.jpg)](/materials/landmarks/ponto-vecchio-florence-italy-lccn2007663196.jpg)
-<figcaption markdown>Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)<br><small>unknown · 1909date QS:P571,+1909-00-00T00:00:00Z/9 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Ponto_Vecchio,_Florence,_Italy_LCCN2007663196.tif)</small></figcaption>
+<figcaption markdown>Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)<br><small>unknown · 1909 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Ponto_Vecchio,_Florence,_Italy_LCCN2007663196.tif)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -362,7 +362,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Ponte Vecchio after the flood of November 1966 (UNESCO)](/materials/landmarks/thumbs/florence-unesco-photo0000004875-0001.jpg)](/materials/landmarks/florence-unesco-photo0000004875-0001.jpg)
-<figcaption markdown>Ponte Vecchio after the flood of November 1966 (UNESCO)<br><small>Dominique Roger · 1966date QS:P571,+1966-00-00T00:00:00Z/9 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff)</small></figcaption>
+<figcaption markdown>Ponte Vecchio after the flood of November 1966 (UNESCO)<br><small>Dominique Roger · 1966 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Florence_-_UNESCO_-_PHOTO0000004875_0001.tiff)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -402,7 +402,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Inside Santa Maria Novella, painted by Fabio Borbottoni](/materials/landmarks/thumbs/fabio-borbottoni-1820-1902-interno-di-santa-maria-novella.jpg)](/materials/landmarks/fabio-borbottoni-1820-1902-interno-di-santa-maria-novella.jpg)
-<figcaption markdown>Inside Santa Maria Novella, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · before 1902date QS:P571,+1902-00-00T00:00:00Z/7,P1326,+1902- · Public domain · [source](https://commons.wikimedia.org/wiki/File:Fabio_borbottoni,_1820-1902,_interno_di_santa_maria_novella.JPG)</small></figcaption>
+<figcaption markdown>Inside Santa Maria Novella, painted by Fabio Borbottoni<br><small>Fabio Borbottoni · before 1902 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Fabio_borbottoni,_1820-1902,_interno_di_santa_maria_novella.JPG)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -427,7 +427,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Orcagna&#x27;s tabernacle inside Orsanmichele](/materials/landmarks/thumbs/firenze-chiesa-di-orsammichele-tabernacolo-dell-orcagna-edit.jpg)](/materials/landmarks/firenze-chiesa-di-orsammichele-tabernacolo-dell-orcagna-edit.jpg)
-<figcaption markdown>Orcagna&#x27;s tabernacle inside Orsanmichele<br><small>Luca Aless, edited by MenkinAlRire · between 1349 and 1359date QS:P,+1350-00-00T00:00:00Z/7,P1319 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Chiesa_di_Orsammichele,_tabernacolo_dell%27Orcagna-edit.jpg)</small></figcaption>
+<figcaption markdown>Orcagna&#x27;s tabernacle inside Orsanmichele<br><small>Luca Aless, edited by MenkinAlRire · between 1349 and 1359 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Chiesa_di_Orsammichele,_tabernacolo_dell%27Orcagna-edit.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -462,7 +462,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)](/materials/landmarks/thumbs/the-lodge-of-the-lancers-i-e-loggia-dei-lanzi-florence-italy-lccn20017.jpg)](/materials/landmarks/the-lodge-of-the-lancers-i-e-loggia-dei-lanzi-florence-italy-lccn20017.jpg)
-<figcaption markdown>The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)<br><small>Photochrom Print Collection · between 1890 and 1900date QS:P571,+1500-00-00T00:00:00Z/6,P1 · Public domain · [source](https://commons.wikimedia.org/wiki/File:The_Lodge_of_the_Lancers_(i.e._Loggia_dei_Lanzi),_Florence,_Italy-LCCN2001700796.jpg)</small></figcaption>
+<figcaption markdown>The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)<br><small>Photochrom Print Collection · between 1890 and 1900 · Public domain · [source](https://commons.wikimedia.org/wiki/File:The_Lodge_of_the_Lancers_(i.e._Loggia_dei_Lanzi),_Florence,_Italy-LCCN2001700796.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -478,6 +478,206 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![One of the Medici lions, placed in 1789](/materials/landmarks/thumbs/lion-of-loggia-de-lanzi-left.jpg)](/materials/landmarks/lion-of-loggia-de-lanzi-left.jpg)
 <figcaption markdown>One of the Medici lions, placed in 1789<br><small>Sailko · 16 August 2006 (according to Exif data) · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Lion_of_Loggia_de%27_Lanzi_left.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Piazzale degli Uffizi from Piazza della Signoria towards the Arno](/materials/landmarks/thumbs/piazzale-degli-uffizi-perspective-view-florence-italy-august-2025.jpg)](/materials/landmarks/piazzale-degli-uffizi-perspective-view-florence-italy-august-2025.jpg)
+<figcaption markdown>The Piazzale degli Uffizi from Piazza della Signoria towards the Arno<br><small>Verum3414 · 2025-08-30 14:03:05 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazzale_degli_Uffizi_perspective_view,_Florence,_Italy,_August_2025.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Uffizi courtyard: portico, mezzanine, piano nobile and top loggia](/materials/landmarks/thumbs/uffizi-courtyard-florence.jpg)](/materials/landmarks/uffizi-courtyard-florence.jpg)
+<figcaption markdown>The Uffizi courtyard: portico, mezzanine, piano nobile and top loggia<br><small>Armin Kleiner · 2021-09-14 13:01:54 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Uffizi_courtyard,_Florence.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Uffizi and the Vasari Corridor seen from the Arno](/materials/landmarks/thumbs/uffizi-visti-dal-fiume-11-vasariano.jpg)](/materials/landmarks/uffizi-visti-dal-fiume-11-vasariano.jpg)
+<figcaption markdown>The Uffizi and the Vasari Corridor seen from the Arno<br><small>sailko · 26 July 2013, 17:40:26 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Uffizi_visti_dal_fiume_11_vasariano.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Vasari Corridor on its arcade along Lungarno degli Archibusieri](/materials/landmarks/thumbs/firenze-florence-lungarno-degli-archibugieri-passage-below-the-vasari.jpg)](/materials/landmarks/firenze-florence-lungarno-degli-archibugieri-passage-below-the-vasari.jpg)
+<figcaption markdown>The Vasari Corridor on its arcade along Lungarno degli Archibusieri<br><small>Txllxt TxllxT · 2010-04-20 13:56:49 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Lungarno_degli_Archibugieri_-_Passage_below_the_Vasari_Corridor_1564_connecting_Ponte_Vecchio_with_Uffizi_-_View_ESE_on_Piazzale_degli_Uffizi.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![What is left of San Pier Scheraggio: the old apse in Via della Ninna](/materials/landmarks/thumbs/san-pier-scheraggio-veduta-dell-ex-abside.jpg)](/materials/landmarks/san-pier-scheraggio-veduta-dell-ex-abside.jpg)
+<figcaption markdown>What is left of San Pier Scheraggio: the old apse in Via della Ninna<br><small>Sailko · 15 August 2013, 13:19:37 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:San_pier_scheraggio,_veduta_dell%27ex-abside.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Inside the Vasari Corridor](/materials/landmarks/thumbs/corridoio-vasariano-curva.jpg)](/materials/landmarks/corridoio-vasariano-curva.jpg)
+<figcaption markdown>Inside the Vasari Corridor<br><small>Sailko · 31 August 2006 (according to Exif data) · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Corridoio_Vasariano,_curva.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Vasari Corridor crossing Piazza di Santa Felicita](/materials/landmarks/thumbs/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg)](/materials/landmarks/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg)
+<figcaption markdown>The Vasari Corridor crossing Piazza di Santa Felicita<br><small>Francesco Bini · 2021-04-15 13:50:22 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_di_santa_felicita,_cavalcavia_del_corridoio_vasariano_(arco_dei_rossi)_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![San Lorenzo&#x27;s bare brick façade on Piazza San Lorenzo](/materials/landmarks/thumbs/firenze-basilica-di-san-lorenzo-esterno-facciata-1.jpg)](/materials/landmarks/firenze-basilica-di-san-lorenzo-esterno-facciata-1.jpg)
+<figcaption markdown>San Lorenzo&#x27;s bare brick façade on Piazza San Lorenzo<br><small>Zairon · 2023-04-17 15:44:10 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Lorenzo_Esterno_Facciata_1.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The basilica from the piazza, with the domes of the crossing and of the Cappella dei Principi behind](/materials/landmarks/thumbs/firenze-florence-piazza-di-san-lorenzo-view-west-on-basilica-di-san-lo.jpg)](/materials/landmarks/firenze-florence-piazza-di-san-lorenzo-view-west-on-basilica-di-san-lo.jpg)
+<figcaption markdown>The basilica from the piazza, with the domes of the crossing and of the Cappella dei Principi behind<br><small>Txllxt TxllxT · 2010-04-21 10:47:34 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazza_di_San_Lorenzo_-_View_West_on_Basilica_di_San_Lorenzo_%26_Statue_of_Giovanni_delle_Bande_Nere_1544_by_Baccio_Bandinelli.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Brunelleschi&#x27;s Old Sacristy, 1421–28](/materials/landmarks/thumbs/filippo-brunelleschi-sacrestia-vecchia.jpg)](/materials/landmarks/filippo-brunelleschi-sacrestia-vecchia.jpg)
+<figcaption markdown>Brunelleschi&#x27;s Old Sacristy, 1421–28<br><small>Sailko · 25 July 2006 (according to Exif data) · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Filippo_Brunelleschi,_Sacrestia_Vecchia.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The canons&#x27; cloister, 1457–60](/materials/landmarks/thumbs/firenze-basilica-di-san-lorenzo-esterno-chiostro-1.jpg)](/materials/landmarks/firenze-basilica-di-san-lorenzo-esterno-chiostro-1.jpg)
+<figcaption markdown>The canons&#x27; cloister, 1457–60<br><small>Zairon · 2023-04-17 15:58:43 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Lorenzo_Esterno_Chiostro_1.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The dome of Michelangelo&#x27;s New Sacristy from inside](/materials/landmarks/thumbs/sagrestia-nuova-di-michelangelo-cupola-02.jpg)](/materials/landmarks/sagrestia-nuova-di-michelangelo-cupola-02.jpg)
+<figcaption markdown>The dome of Michelangelo&#x27;s New Sacristy from inside<br><small>Francesco Bini · 2014-06-19 15:21:27 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Sagrestia_nuova_di_michelangelo,_cupola_02.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Cappella dei Principi from outside: the exterior finished to the Ruggieris&#x27; design in the 18th century](/materials/landmarks/thumbs/ferdinando-e-giuseppe-ruggieri-progetto-esterno-della-cappella-dei-pri.jpg)](/materials/landmarks/ferdinando-e-giuseppe-ruggieri-progetto-esterno-della-cappella-dei-pri.jpg)
+<figcaption markdown>The Cappella dei Principi from outside: the exterior finished to the Ruggieris&#x27; design in the 18th century<br><small>Francesco Bini · 2014-05-10 12:17:21 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Ferdinando_e_giuseppe_ruggieri_(progetto),_esterno_della_cappella_dei_principi,_1740-42_(capp._medicee).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A cartouche dated 1642 over a window of the Cappella dei Principi](/materials/landmarks/thumbs/firenze-cappelle-medicee-esterno-finestrone-06-cartiglio-con-data-1642.jpg)](/materials/landmarks/firenze-cappelle-medicee-esterno-finestrone-06-cartiglio-con-data-1642.jpg)
+<figcaption markdown>A cartouche dated 1642 over a window of the Cappella dei Principi<br><small>Francesco Bini · 2024-04-10 11:07:25 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_cappelle_medicee,_esterno,_finestrone_06_cartiglio_con_data_1642.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Michelozzo&#x27;s front on Via Larga (Via Cavour)](/materials/landmarks/thumbs/firenze-florence-via-cavour-palazzo-medici-riccardi-1444-1460-by-miche.jpg)](/materials/landmarks/firenze-florence-via-cavour-palazzo-medici-riccardi-1444-1460-by-miche.jpg)
+<figcaption markdown>Michelozzo&#x27;s front on Via Larga (Via Cavour)<br><small>Txllxt TxllxT · 2010-04-21 10:43:39 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_Cavour_-_Palazzo_Medici-Riccardi_1444-1460_by_Michelozzo_di_Bartolomeo.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![One of the kneeling windows that closed the corner loggia in 1517](/materials/landmarks/thumbs/palazzo-medici-riccardi-finestra-inginocchiata.jpg)](/materials/landmarks/palazzo-medici-riccardi-finestra-inginocchiata.jpg)
+<figcaption markdown>One of the kneeling windows that closed the corner loggia in 1517<br><small>sailko · 2008-05-27 15:28:10 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_medici_riccardi,_finestra_inginocchiata.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Michelozzo&#x27;s courtyard](/materials/landmarks/thumbs/firenze-palazzo-medici-riccardi-cortile-interno-1.jpg)](/materials/landmarks/firenze-palazzo-medici-riccardi-cortile-interno-1.jpg)
+<figcaption markdown>Michelozzo&#x27;s courtyard<br><small>Zairon · 2023-04-18 09:35:18 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Palazzo_Medici_Riccardi_Cortile_Interno_1.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The garden front, Medici side](/materials/landmarks/thumbs/palazzo-medici-riccardi-facciata-interna-sul-giardino-01.jpg)](/materials/landmarks/palazzo-medici-riccardi-facciata-interna-sul-giardino-01.jpg)
+<figcaption markdown>The garden front, Medici side<br><small>Sailko · 2013-08-10 16:22:33 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_medici_riccardi,_facciata_interna_sul_giardino_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The north flank: blind arches of the chapels, oculi, clerestory, the crossing tiburio and the domes](/materials/landmarks/thumbs/firenze-basilica-di-san-lorenzo-esterno-angolo-nord-ovest.jpg)](/materials/landmarks/firenze-basilica-di-san-lorenzo-esterno-angolo-nord-ovest.jpg)
+<figcaption markdown>The north flank: blind arches of the chapels, oculi, clerestory, the crossing tiburio and the domes<br><small>Zairon · 2023-04-17 15:43:50 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Lorenzo_Esterno_Angolo_Nord-Ovest.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Cappella dei Principi and Ruggieri&#x27;s bell tower from Piazza Madonna degli Aldobrandini](/materials/landmarks/thumbs/esterno-della-cappella-dei-principi.jpg)](/materials/landmarks/esterno-della-cappella-dei-principi.jpg)
+<figcaption markdown>The Cappella dei Principi and Ruggieri&#x27;s bell tower from Piazza Madonna degli Aldobrandini<br><small>Teo Pollastrini · 2021-03-16 16:48:56 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Esterno_della_Cappella_dei_Principi.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The corner of the palace: rusticated bosses, the loggia arch and the great cornice](/materials/landmarks/thumbs/firenze-florence-via-de-gori-view-up-on-palazzo-medici-riccardi-1460-b.jpg)](/materials/landmarks/firenze-florence-via-de-gori-view-up-on-palazzo-medici-riccardi-1460-b.jpg)
+<figcaption markdown>The corner of the palace: rusticated bosses, the loggia arch and the great cornice<br><small>Txllxt TxllxT · 2010-04-21 10:45:27 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_de%27_Gori_-_View_Up_on_Palazzo_Medici_Riccardi_1460_by_Michelozzo_di_Bartolomeo.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The loggia on the Lungarno degli Archibusieri from the Arno: arches on piers, the corridor above with its windows to the river](/materials/landmarks/thumbs/lungarno-degli-archibugieri-corridoio-vasariano-visto-dal-fiume-02.jpg)](/materials/landmarks/lungarno-degli-archibugieri-corridoio-vasariano-visto-dal-fiume-02.jpg)
+<figcaption markdown>The loggia on the Lungarno degli Archibusieri from the Arno: arches on piers, the corridor above with its windows to the river<br><small>sailko · 26 July 2013, 17:13:31 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Lungarno_degli_archibugieri_(corridoio_vasariano)_visto_dal_fiume_02.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Looking along the Lungarno from a corridor window: the loggia&#x27;s arches and the oculi on the city side](/materials/landmarks/thumbs/corridoio-vasariano-veduta-di-lungarno-archibugieri.jpg)](/materials/landmarks/corridoio-vasariano-veduta-di-lungarno-archibugieri.jpg)
+<figcaption markdown>Looking along the Lungarno from a corridor window: the loggia&#x27;s arches and the oculi on the city side<br><small>sailko · 30 June 2010, 11:18:04 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Corridoio_vasariano,_veduta_di_lungarno_archibugieri.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The overpass on Via della Ninna between the Uffizi and Palazzo Vecchio](/materials/landmarks/thumbs/via-della-ninna-veduta-col-cavalcavia-del-corridoio-vasariano.jpg)](/materials/landmarks/via-della-ninna-veduta-col-cavalcavia-del-corridoio-vasariano.jpg)
+<figcaption markdown>The overpass on Via della Ninna between the Uffizi and Palazzo Vecchio<br><small>Francesco Bini · 2021-03-16 11:43:29 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Via_della_ninna,_veduta_col_cavalcavia_del_corridoio_vasariano.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Torre dei Mannelli: the corridor goes round it on pietra serena corbels](/materials/landmarks/thumbs/torre-dei-mannelli-vasari-corridor.jpg)](/materials/landmarks/torre-dei-mannelli-vasari-corridor.jpg)
+<figcaption markdown>Torre dei Mannelli: the corridor goes round it on pietra serena corbels<br><small>Yair Haklai · 2019-04-19 18:32:24 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Torre_dei_Mannelli-Vasari_Corridor.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The stretch over Via de&#x27; Bardi, rebuilt after 1944 with a wider arch](/materials/landmarks/thumbs/via-guicciadini-veduta-sul-cavalcavia-del-corridoio-vasariano-su-via-d.jpg)](/materials/landmarks/via-guicciadini-veduta-sul-cavalcavia-del-corridoio-vasariano-su-via-d.jpg)
+<figcaption markdown>The stretch over Via de&#x27; Bardi, rebuilt after 1944 with a wider arch<br><small>Francesco Bini · 2021-03-21 15:29:58 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Via_guicciadini,_veduta_sul_cavalcavia_del_corridoio_vasariano_su_via_de%27_bardi.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Santa Felicita: the corridor on Vasari&#x27;s portico, the Arco dei Rossi on the left](/materials/landmarks/thumbs/santafelicita.jpg)](/materials/landmarks/santafelicita.jpg)
+<figcaption markdown>Santa Felicita: the corridor on Vasari&#x27;s portico, the Arco dei Rossi on the left<br><small>No machine-readable author provided. Ettore Timi assumed (based on copyright claims). · 6 May 2006 (according to Exif data) · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Santafelicita.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Arco dei Rossi, where the corridor crosses the lane beside Santa Felicita](/materials/landmarks/thumbs/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg)](/materials/landmarks/piazza-di-santa-felicita-cavalcavia-del-corridoio-vasariano-arco-dei-r.jpg)
+<figcaption markdown>The Arco dei Rossi, where the corridor crosses the lane beside Santa Felicita<br><small>Francesco Bini · 2021-04-15 13:50:22 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_di_santa_felicita,_cavalcavia_del_corridoio_vasariano_(arco_dei_rossi)_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The grand-ducal window from the corridor into Santa Felicita](/materials/landmarks/thumbs/corridoio-vasariano-affaccio-su-santa-felicita.jpg)](/materials/landmarks/corridoio-vasariano-affaccio-su-santa-felicita.jpg)
+<figcaption markdown>The grand-ducal window from the corridor into Santa Felicita<br><small>sailko · 30 June 2010, 11:55:56 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Corridoio_vasariano,_affaccio_su_santa_felicita.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The last stretch along the Boboli garden: small windows and oculi over a row of corbels](/materials/landmarks/thumbs/boboli-corridoio-vasariano.jpg)](/materials/landmarks/boboli-corridoio-vasariano.jpg)
+<figcaption markdown>The last stretch along the Boboli garden: small windows and oculi over a row of corbels<br><small>sailko · 2007-08-22 14:10:28 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Boboli,_corridoio_vasariano.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The front on Piazza Pitti: rusticated stone, arched windows on two and three storeys](/materials/landmarks/thumbs/palazzo-pitti-florence-facade.jpg)](/materials/landmarks/palazzo-pitti-florence-facade.jpg)
+<figcaption markdown>The front on Piazza Pitti: rusticated stone, arched windows on two and three storeys<br><small>Yair Haklai · 2019-04-21 08:31:41 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Pitti_(Florence)_-_Facade.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Ammannati&#x27;s courtyard: banded orders of rustication](/materials/landmarks/thumbs/palazzo-pitti-cortile-dell-ammannati-22.jpg)](/materials/landmarks/palazzo-pitti-cortile-dell-ammannati-22.jpg)
+<figcaption markdown>Ammannati&#x27;s courtyard: banded orders of rustication<br><small>Sailko · 2007-01-05 18:01:30 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Pitti,_cortile_dell%27ammannati_22.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A kneeling window in Ammannati&#x27;s style](/materials/landmarks/thumbs/palazzo-pitti-cortile-dell-ammannati-lato-nord-finestra-inginocchiata.jpg)](/materials/landmarks/palazzo-pitti-cortile-dell-ammannati-lato-nord-finestra-inginocchiata.jpg)
+<figcaption markdown>A kneeling window in Ammannati&#x27;s style<br><small>Francesco Bini · 2022-05-11 17:05:16 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_pitti,_cortile_dell%27ammannati,_lato_nord,_finestra_inginocchiata.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The long front with a rondò wing projecting into the piazza](/materials/landmarks/thumbs/palazzo-pitti-nebenfl-gel-mit-hauptbau.jpg)](/materials/landmarks/palazzo-pitti-nebenfl-gel-mit-hauptbau.jpg)
+<figcaption markdown>The long front with a rondò wing projecting into the piazza<br><small>Ricardalovesmonuments · 2021-09-30 11:21:02 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Pitti_Nebenfl%C3%BCgel_mit_Hauptbau.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Palazzina della Meridiana on the garden side](/materials/landmarks/thumbs/boboli-palazzina-della-meridiana-esterno-01.jpg)](/materials/landmarks/boboli-palazzina-della-meridiana-esterno-01.jpg)
+<figcaption markdown>The Palazzina della Meridiana on the garden side<br><small>sailko · 2007-08-22 14:59:39 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Boboli,_palazzina_della_meridiana,_esterno_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Boboli amphitheatre with the Egyptian obelisk and the granite basin](/materials/landmarks/thumbs/boboli-anfiteatro-obelisco-01.jpg)](/materials/landmarks/boboli-anfiteatro-obelisco-01.jpg)
+<figcaption markdown>The Boboli amphitheatre with the Egyptian obelisk and the granite basin<br><small>sailko · 2010-09-04 10:29:52 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Boboli,_anfiteatro,_obelisco_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The front of the Grotta del Buontalenti](/materials/landmarks/thumbs/grotta-del-buontalenti-festina-lente-sulla-facciata.jpg)](/materials/landmarks/grotta-del-buontalenti-festina-lente-sulla-facciata.jpg)
+<figcaption markdown>The front of the Grotta del Buontalenti<br><small>Sailko · 1 August 2013, 17:20:44 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Grotta_del_buontalenti,_festina_lente_sulla_facciata.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Zanobi del Rosso&#x27;s Kaffeehaus, 1776](/materials/landmarks/thumbs/kaffeehaus-boboli-garten-florenz-01.jpg)](/materials/landmarks/kaffeehaus-boboli-garten-florenz-01.jpg)
+<figcaption markdown>Zanobi del Rosso&#x27;s Kaffeehaus, 1776<br><small>Rufus46 · 2014-08-24 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Kaffeehaus_Boboli-Garten_Florenz-01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Neptune basin in Boboli, Stoldo Lorenzi&#x27;s Neptune on its rock](/materials/landmarks/thumbs/firenze-florence-giardino-di-boboli-view-sse-on-la-fontana-del-nettuno.jpg)](/materials/landmarks/firenze-florence-giardino-di-boboli-view-sse-on-la-fontana-del-nettuno.jpg)
+<figcaption markdown>The Neptune basin in Boboli, Stoldo Lorenzi&#x27;s Neptune on its rock<br><small>Txllxt TxllxT · 2010-04-20 15:05:01 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Giardino_di_Boboli_-_View_SSE_on_La_fontana_del_Nettuno_1571_by_Stoldo_Lorenzi.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The palazzina inside Forte Belvedere](/materials/landmarks/thumbs/forte-belvedere-edificio-principale-02.jpg)](/materials/landmarks/forte-belvedere-edificio-principale-02.jpg)
+<figcaption markdown>The palazzina inside Forte Belvedere<br><small>Sailko · 14 August 2013, 12:53:43 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Forte_belvedere,_edificio_principale_02.JPG)</small></figcaption>
 </figure>
 
 </div>
@@ -503,7 +703,7 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Francesco Granacci, Charles VIII enters Florence, 1494](/materials/history/thumbs/francesco-granacci-entrata-di-carlo-viii-a-firenze.jpg)](/materials/history/francesco-granacci-entrata-di-carlo-viii-a-firenze.jpg)
-<figcaption markdown>Francesco Granacci, Charles VIII enters Florence, 1494<br><small>Francesco Granacci · 1518date QS:P571,+1518-00-00T00:00:00Z/9 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Francesco_granacci,_entrata_di_Carlo_VIII_a_Firenze.jpg)</small></figcaption>
+<figcaption markdown>Francesco Granacci, Charles VIII enters Florence, 1494<br><small>Francesco Granacci · 1518 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Francesco_granacci,_entrata_di_Carlo_VIII_a_Firenze.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>
@@ -533,7 +733,57 @@ All 102 pictures in the collection. Click a picture to open it large. Each one k
 
 <figure markdown>
 [![Stefano Ussi, The Execution of Savonarola, c. 1850](/materials/history/thumbs/stefano-ussi-the-execution-of-savonarola-wga24194.jpg)](/materials/history/stefano-ussi-the-execution-of-savonarola-wga24194.jpg)
-<figcaption markdown>Stefano Ussi, The Execution of Savonarola, c. 1850<br><small>Stefano Ussi · circa 1850date QS:P571,+1850-00-00T00:00:00Z/9,P1480,Q572790 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Stefano_Ussi_-_The_Execution_of_Savonarola_-_WGA24194.jpg)</small></figcaption>
+<figcaption markdown>Stefano Ussi, The Execution of Savonarola, c. 1850<br><small>Stefano Ussi · circa 1850 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Stefano_Ussi_-_The_Execution_of_Savonarola_-_WGA24194.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Giuseppe Zocchi&#x27;s view of the Uffizi, 18th century (Rijksmuseum)](/materials/history/thumbs/palazzo-degli-uffizi-te-florence-veduta-degli-ufizi-o-sia-curia-fioren.jpg)](/materials/history/palazzo-degli-uffizi-te-florence-veduta-degli-ufizi-o-sia-curia-fioren.jpg)
+<figcaption markdown>Giuseppe Zocchi&#x27;s view of the Uffizi, 18th century (Rijksmuseum)<br><small>Rijksmuseum · between 1720 and 1782 · [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_degli_Uffizi_te_Florence_Veduta_degli_Ufizi,_o_sia_Curia_Fiorentina_presa_dalla_Loggia_presso_Arno_(titel_op_object),_RP-P-1950-350.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Jacques Callot, an interlude in the Teatro Mediceo of the Uffizi, c. 1617](/materials/history/thumbs/jacques-callot-interlude-in-the-medici-theater-wga3781.jpg)](/materials/history/jacques-callot-interlude-in-the-medici-theater-wga3781.jpg)
+<figcaption markdown>Jacques Callot, an interlude in the Teatro Mediceo of the Uffizi, c. 1617<br><small>Jacques Callot · circa 1617 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Jacques_Callot_-_Interlude_in_the_Medici_Theater_-_WGA3781.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![San Pier Scheraggio on Buonsignori&#x27;s map of 1584, already inside the Uffizi](/materials/history/thumbs/pianta-del-buonsignori-dettaglio-128-san-piero-scheraggio.jpg)](/materials/history/pianta-del-buonsignori-dettaglio-128-san-piero-scheraggio.jpg)
+<figcaption markdown>San Pier Scheraggio on Buonsignori&#x27;s map of 1584, already inside the Uffizi<br><small>sailko · Unknown date · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Pianta_del_buonsignori,_dettaglio_128_san_piero_scheraggio.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Model after Michelangelo&#x27;s design for the façade, c. 1518 – never built (Casa Buonarroti)](/materials/history/thumbs/michelangelo-disegno-modellino-per-la-facciata-di-san-lorenzo-1518-ca.jpg)](/materials/history/michelangelo-disegno-modellino-per-la-facciata-di-san-lorenzo-1518-ca.jpg)
+<figcaption markdown>Model after Michelangelo&#x27;s design for the façade, c. 1518 – never built (Casa Buonarroti)<br><small>Sailko · 27 October 2013, 14:56:28 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Michelangelo_(disegno),_modellino_per_la_facciata_di_san_lorenzo,_1518_ca..JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![16th-century drawing of a window of the Laurentian Library&#x27;s vestibule (ricetto)](/materials/history/thumbs/san-lorenzo-library-ricetto-window-elevation-recto-san-lorenzo-library.jpg)](/materials/history/san-lorenzo-library-ricetto-window-elevation-recto-san-lorenzo-library.jpg)
+<figcaption markdown>16th-century drawing of a window of the Laurentian Library&#x27;s vestibule (ricetto)<br><small>AnonymousUnknown author · early to mid-16th century · [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) · [source](https://commons.wikimedia.org/wiki/File:San_Lorenzo,_Library,_Ricetto,_window,_elevation_(recto)_San_Lorenzo,_Library,_Ricetto,_column,_elevation;_details,_elevation_(verso)_MET_DP810574.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Palazzo Medici Riccardi, 19th-century etching](/materials/history/thumbs/palazzo-medici-riccardi-etching.jpg)](/materials/history/palazzo-medici-riccardi-etching.jpg)
+<figcaption markdown>Palazzo Medici Riccardi, 19th-century etching<br><small>Unknown authorUnknown author · 19th century · Public domain · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Medici-Riccardi_etching.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The loggia still walled up into shops, before 1890](/materials/history/thumbs/lungarno-degli-archibusieri-con-la-loggia-del-corridoio-vasariano-anco.jpg)](/materials/history/lungarno-degli-archibusieri-con-la-loggia-del-corridoio-vasariano-anco.jpg)
+<figcaption markdown>The loggia still walled up into shops, before 1890<br><small>see filename or category · 1890s · Public domain · [source](https://commons.wikimedia.org/wiki/File:Lungarno_degli_archibusieri_con_la_loggia_del_corridoio_vasariano_ancora_tamponata,_ante_1890.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Via de&#x27; Guicciardini at the bridge before the German mines of 1944 (1890s)](/materials/history/thumbs/via-guicciardini-prima-delle-demolizioni-del-1944-anni-1890s.jpg)](/materials/history/via-guicciardini-prima-delle-demolizioni-del-1944-anni-1890s.jpg)
+<figcaption markdown>Via de&#x27; Guicciardini at the bridge before the German mines of 1944 (1890s)<br><small>Unknown · 1890s · Public domain · [source](https://commons.wikimedia.org/wiki/File:Via_guicciardini_prima_delle_demolizioni_del_1944_(anni_1890s).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The &quot;corridore del Gran Duca&quot; on Buonsignori&#x27;s map of 1584](/materials/history/thumbs/pianta-del-buonsignori-dettaglio-046-corridore-del-gran-duca-corridoio.jpg)](/materials/history/pianta-del-buonsignori-dettaglio-046-corridore-del-gran-duca-corridoio.jpg)
+<figcaption markdown>The &quot;corridore del Gran Duca&quot; on Buonsignori&#x27;s map of 1584<br><small>sailko · Unknown date · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Pianta_del_buonsignori,_dettaglio_046_corridore_del_gran_duca_(corridoio_vasariano).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Giusto Utens&#x27;s lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort](/materials/history/thumbs/pitti-boboli-utens.jpg)](/materials/history/pitti-boboli-utens.jpg)
+<figcaption markdown>Giusto Utens&#x27;s lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort<br><small>Giusto Utens · circa 1599 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Pitti_boboli_utens.jpg)</small></figcaption>
 </figure>
 
 </div>
