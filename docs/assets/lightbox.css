@@ -1,0 +1,73 @@
+/* Shared image lightbox for /docs/ and /library/ */
+.fs-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 12, .88);
+  padding: 1.5rem;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+.fs-lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.fs-lightbox__img {
+  max-width: min(96vw, 1400px);
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, .45);
+  background: #111;
+}
+.fs-lightbox__cap {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  max-width: min(90vw, 720px);
+  margin: 0;
+  padding: .45rem .8rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, .65);
+  color: #f4f4f4;
+  font-size: .78rem;
+  line-height: 1.35;
+  text-align: center;
+}
+.fs-lightbox__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.fs-lightbox__btn:hover { background: rgba(255, 255, 255, .22); }
+.fs-lightbox__prev { left: 1rem; }
+.fs-lightbox__next { right: 1rem; }
+.fs-lightbox__close {
+  top: 1rem;
+  right: 1rem;
+  transform: none;
+  font-size: 1.6rem;
+}
+.mgallery a { cursor: zoom-in; }
+.md-typeset a[href$=".jpg"] img,
+.md-typeset a[href$=".jpeg"] img,
+.md-typeset a[href$=".png"] img,
+.md-typeset a[href$=".webp"] img,
+.md-typeset a[href$=".gif"] img {
+  cursor: zoom-in;
+}

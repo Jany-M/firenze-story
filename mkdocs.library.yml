@@ -1,0 +1,73 @@
+# Firenze Story library — reader encyclopedia + materials galleries
+# Built with Zensical into web/public/library (served at /library/)
+# Pages are rooted at /library/ (not /library/encyclopedia/).
+# Build: .venv\Scripts\zensical build --clean -f mkdocs.library.yml
+# Gallery images use absolute /materials/… (copied to web/public/materials by prepare).
+
+site_name: Firenze Story · Library
+site_description: Encyclopedia of Florence — landmarks, walls, events, maps and credited pictures
+site_author: Jany Martelli
+site_url: http://localhost:5173/library/
+copyright: '&copy; Jany Martelli — <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> · <a href="/">Open the app</a> · <a href="/docs/">Technical docs</a>'
+docs_dir: docs/encyclopedia
+site_dir: web/public/library
+repo_url: https://github.com/Jany-M/firenze-story
+repo_name: firenze-story
+edit_uri: edit/main/docs/encyclopedia/
+use_directory_urls: true
+nav:
+  - Home: index.md
+  - The walls and gates: walls-and-gates.md
+  - Santa Maria del Fiore: duomo.md
+  - Giotto's Campanile: campanile.md
+  - The Baptistery: baptistery.md
+  - Palazzo Vecchio: palazzo-vecchio.md
+  - Loggia dei Lanzi: loggia-dei-lanzi.md
+  - Ponte Vecchio: ponte-vecchio.md
+  - Orsanmichele: orsanmichele.md
+  - The Bargello: bargello.md
+  - Santa Croce: santa-croce.md
+  - Santa Maria Novella: santa-maria-novella.md
+  - Events: events.md
+  - Maps and images: maps-and-images.md
+
+theme:
+  name: material
+  custom_dir: library-overrides
+  palette:
+    scheme: default
+    primary: red
+    accent: red
+  logo: assets/stemma-firenze.svg
+  favicon: assets/stemma-firenze.svg
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - search.highlight
+    - toc.follow
+    - content.code.copy
+
+extra:
+  generator: true
+
+extra_css:
+  - assets/extra.css
+  - assets/library.css
+  - assets/lightbox.css
+
+extra_javascript:
+  - assets/lightbox.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.details

@@ -1,0 +1,12 @@
+/* Library site only (mkdocs.library.yml) — larger galleries, slightly softer reading width */
+.md-typeset {
+  font-size: .82rem;
+}
+.mgallery {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+.mgallery figure img {
+  height: 200px;
+  border-radius: 4px;
+}

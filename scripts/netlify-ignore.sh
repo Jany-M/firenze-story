@@ -13,11 +13,13 @@ if [[ "$CACHED_COMMIT_REF" == "$COMMIT_REF" ]]; then
   exit 1
 fi
 
-# Paths that affect what Netlify publishes (web/dist = Vite app + /docs/)
+# Paths that affect what Netlify publishes (web/dist = Vite app + /docs/ + /library/)
 PATHS=(
   web/
   docs/
   mkdocs.yml
+  mkdocs.library.yml
+  library-overrides/
   CHANGELOG.md
   scripts/netlify-build.sh
   scripts/netlify-ignore.sh

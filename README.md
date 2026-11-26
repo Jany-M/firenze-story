@@ -24,6 +24,7 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 ## Documentation
 | Doc | What's in it |
 |---|---|
+| [docs/encyclopedia/](docs/encyclopedia/) | Reader encyclopedia (landmarks, events, maps & pictures) — built site at `/library/` |
 | [CHANGELOG.md](CHANGELOG.md) | Project history (with links to the docs below when a change touches one) |
 | [docs/DATA-SOURCES.md](docs/DATA-SOURCES.md) | Register of every dataset: use, period, licence, status, local path |
 | [docs/BUILDINGS.md](docs/BUILDINGS.md) | How buildings are made: counts, dating rules, roof reconstruction, façade rules by era, limits |
@@ -37,6 +38,7 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/ORSANMICHELE.md](docs/landmarks/ORSANMICHELE.md) | Landmark model: Orsanmichele – measurements, phases, review list |
 | [docs/landmarks/BARGELLO.md](docs/landmarks/BARGELLO.md) | Landmark model: Bargello – measurements, phases, review list |
 | [docs/landmarks/LOGGIA-DEI-LANZI.md](docs/landmarks/LOGGIA-DEI-LANZI.md) | Landmark model: Loggia dei Lanzi and its statues – measurements, phases, review list |
+| [docs/landmarks/MURA.md](docs/landmarks/MURA.md) | Landmark model: the city walls, gates and towers over the eras – sources, dates, review list |
 | [docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md) | Terrain, land cover, vegetation, the Arno, weirs, bridges, crossings, river life, early settlement |
 | [docs/HISTORY.md](docs/HISTORY.md) | Epochs, urban changes, recurring and one-off events, daily-life vignettes |
 | [docs/EVENTS-COSTUMES.md](docs/EVENTS-COSTUMES.md) | Scoppio del Carro, carnival, police patrols, army, costume palette, interactions |
@@ -52,15 +54,17 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | `web/` | three.js app (WebGPU with WebGL2 fallback); `public/data` (city, landscape), `public/models` (props, costumes), `public/textures` |
 | `pipeline/` | Reproducible build: downloads → city → landscape → textures; `prepare.py` rebuilds what is stale |
 | `blender/` | Asset and costume library (`*.blend`) and the scripts that build it (`scripts/build_*.py`) |
-| `docs/` | Markdown sources (table above); built site → `web/public/docs/` via [Zensical](https://zensical.org/) (`mkdocs.yml`) |
-| `mkdocs.yml` | Zensical / MkDocs config for the browsable docs |
-| `netlify.toml` | Autodeploy on push (skips if neither `web/` nor docs changed); docs rebuilt only when docs sources change |
+| `docs/` | Markdown sources (table above); technical site → `web/public/docs/` (`mkdocs.yml`); library → `web/public/library/` (`mkdocs.library.yml`) via [Zensical](https://zensical.org/) |
+| `mkdocs.yml` | Zensical / MkDocs config for the technical docs (`/docs/`) |
+| `mkdocs.library.yml` | Zensical / MkDocs config for the encyclopedia library (`/library/`) |
+| `library-overrides/` | Theme overrides for the library site only |
+| `netlify.toml` | Autodeploy on push (skips if neither `web/` nor docs/library configs changed) |
 
 ## Development
 
 **Run it locally:** copy the project locally then double-click `start.bat`. It rebuilds whatever is out of date (textures, Blender props and costumes, city and landscape data, docs site), installs the web dependencies the first time, and opens http://localhost:5173.
 
-**Docs in the app:** [http://localhost:5173/docs/](http://localhost:5173/docs/) (Zensical build of `docs/`, also linked from Sources → Credits). First time: `python -m venv .venv` then `.venv\Scripts\pip install zensical`.
+**Docs in the app:** [http://localhost:5173/docs/](http://localhost:5173/docs/) (technical docs) and [http://localhost:5173/library/](http://localhost:5173/library/) (encyclopedia library — pages at `/library/duomo/`, not `/library/encyclopedia/…`). First time: `python -m venv .venv` then `.venv\Scripts\pip install zensical`.
 
 ## License
 

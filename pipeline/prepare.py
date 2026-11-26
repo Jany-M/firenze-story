@@ -5,6 +5,7 @@ A step runs only when one of its inputs is newer than its outputs (or an output 
   props      blender/scripts/*.py + textures                  -> web/public/models/*.glb, blender/*.blend
   city/env   pipeline/common.py, 20_build_city.py, 21_build_env.py (+ raw data in _dev/data) -> web/public/data/*
   docs       mkdocs.yml + docs/*.md + CHANGELOG.md            -> web/public/docs/  (Zensical; optional)
+  library    mkdocs.library.yml + docs/encyclopedia + materials -> web/public/library/ (Zensical; optional)
 Steps whose tools are missing (Blender, Python packages, raw data, zensical) are skipped with a warning; the app then uses the
 files already in web/public.   Usage: python pipeline/prepare.py [--force]
 """
@@ -116,18 +117,63 @@ def sync_docs_changelog():
     return True
 
 
-docs_in = [J("mkdocs.yml"), J("CHANGELOG.md"), J("docs", "*.md"), J("docs", "landmarks", "*.md")]
+# 4a. materials (docs/materials: images with credits, pipeline/50_materials.py) → web/public/materials for the app's cards
+mat_src, mat_dst = J("docs", "materials"), J("web", "public", "materials")
+if os.path.exists(J(mat_src, "materials.json")) and stale([J(mat_src, "materials.json")], [J(mat_dst, "materials.json")]):
+    shutil.copytree(mat_src, mat_dst, dirs_exist_ok=True, ignore=shutil.ignore_patterns("manifest.json", "*.md"))
+    print("  + materials copied to web/public/materials")
+else: print("  = materials up to date")
+
+def zensical_exe():
+    z = J(".venv", "Scripts", "zensical.exe") if os.name == "nt" else J(".venv", "bin", "zensical")
+    if os.path.exists(z):
+        return z
+    return shutil.which("zensical")
+
+
+docs_in = [J("mkdocs.yml"), J("CHANGELOG.md"), J("docs", "*.md"), J("docs", "landmarks", "*.md"),
+           J("docs", "assets", "*")]
 docs_out = [J("web", "public", "docs", "index.html")]
 if stale(docs_in, docs_out):
     sync_docs_changelog()
-    zensical = J(".venv", "Scripts", "zensical.exe") if os.name == "nt" else J(".venv", "bin", "zensical")
-    if not os.path.exists(zensical):
-        zensical = shutil.which("zensical")
+    zensical = zensical_exe()
     if zensical:
         run([zensical, "build", "--clean", "-f", J("mkdocs.yml")], "docs site (zensical)")
     else:
         print("  ! zensical not found – skip docs site (python -m venv .venv && .venv\\Scripts\\pip install zensical)")
 else:
     print("  = docs site up to date")
+
+# 4b. fill encyclopedia gallery blocks + events/maps pages (needs materials.json + history.ts)
+enc_gen_in = [J("pipeline", "52_encyclopedia.py"), J("docs", "materials", "materials.json"),
+              J("web", "src", "data", "history.ts"), J("docs", "encyclopedia", "*.md")]
+enc_gen_out = [J("docs", "encyclopedia", "events.md"), J("docs", "encyclopedia", "maps-and-images.md")]
+if stale(enc_gen_in, enc_gen_out):
+    run([PY, J("pipeline", "52_encyclopedia.py")], "encyclopedia galleries (52_encyclopedia.py)")
+else:
+    print("  = encyclopedia galleries up to date")
+
+# 4c. library site (docs/encyclopedia → web/public/library at /library/; galleries use /materials/)
+def sync_library_assets():
+    """Zensical docs_dir is encyclopedia/; copy shared CSS/logo/JS into encyclopedia/assets for the build."""
+    src, dst = J("docs", "assets"), J("docs", "encyclopedia", "assets")
+    if not os.path.isdir(src):
+        return False
+    shutil.copytree(src, dst, dirs_exist_ok=True)
+    return True
+
+
+lib_in = [J("mkdocs.library.yml"), J("library-overrides", "*"), J("docs", "encyclopedia", "*.md"),
+          J("docs", "materials", "materials.json"), J("docs", "assets", "*")]
+lib_out = [J("web", "public", "library", "index.html")]
+if stale(lib_in, lib_out):
+    zensical = zensical_exe()
+    if zensical:
+        sync_library_assets()
+        run([zensical, "build", "--clean", "-f", J("mkdocs.library.yml")], "library site (zensical)")
+    else:
+        print("  ! zensical not found – skip library site")
+else:
+    print("  = library site up to date")
 
 print("[prepare] done")

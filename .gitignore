@@ -1,15 +1,18 @@
 ﻿# private work area: notes, drafts, emails, mockups, references, raw data cache, dev tools
 _dev/
+.cursor/
 
 # Node / Vite
 web/node_modules/
 web/dist/
 
-# Docs site (Zensical) — local build artifacts
+# Docs + library sites (Zensical) — local build artifacts
 .venv/
 .cache/
 web/public/docs/
+web/public/library/
 docs/changelog.md
+docs/encyclopedia/assets/
 site/
 
 # Python
@@ -21,3 +24,7 @@ __pycache__/
 
 # Blender autosave
 *.blend1
+
+# local dev copies served by vite (frame.html etc.)
+web/public/_dev/
+web/public/materials/

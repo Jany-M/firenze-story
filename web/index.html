@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Firenze Story — Florence in 4D</title>
   <link rel="icon" type="image/svg+xml" href="./img/stemma-firenze.svg" />
   <link rel="icon" type="image/png" sizes="64x64" href="./img/favicon-64.png" />
@@ -12,26 +12,46 @@
 </head>
 <body>
   <div id="app"></div>
-  <header id="brand">
-    <div class="brand-title">
+  <header id="topbar">
+    <div id="brand" class="pill">
       <img class="brand-logo" src="./img/stemma-firenze.svg" alt="Stemma di Firenze" />
-      <h1>Firenze <em>Story</em></h1>
+      <div class="bt"><h1>Firenze <em>Story</em></h1><p class="brand-by">developed by <a href="https://www.shambix.com/?utm_source=firenze-story&amp;utm_medium=referral&amp;utm_campaign=projects&amp;utm_content=app-sidebar" target="_blank" rel="noopener">Jany Martelli</a></p></div>
       <a class="brand-icon" href="https://github.com/Jany-M/firenze-story" target="_blank" rel="noopener" title="GitHub repository" aria-label="GitHub repository">
         <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+      <a class="brand-icon" href="library/" target="_blank" rel="noopener" title="Encyclopedia" aria-label="Encyclopedia">
+        <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-9.522a2.25 2.25 0 0 0-2.252-2.251H1.5v9.676A.75.75 0 0 0 2.25 11h2.999c.718 0 1.4.273 1.912.76ZM12.75 11a.75.75 0 0 0-.75.75v1.75h3.5V2.5h-3.251a2.25 2.25 0 0 0-2.252 2.25v7.576c.512-.487 1.194-.76 1.912-.76Z"/></svg>
       </a>
       <a class="brand-icon" href="docs/" target="_blank" rel="noopener" title="Documentation" aria-label="Documentation">
         <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M0 2.75A.75.75 0 0 1 .75 2h7.5a.75.75 0 0 1 0 1.5H1.5v9h6.75a.75.75 0 0 1 0 1.5H.75A.75.75 0 0 1 0 13.25Zm9 0a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75Zm1.5.75v9h3v-9Z"/></svg>
       </a>
     </div>
-    <p class="brand-by">developed by <a href="https://www.shambix.com/?utm_source=firenze-story&amp;utm_medium=referral&amp;utm_campaign=projects&amp;utm_content=app-sidebar" target="_blank" rel="noopener">Jany Martelli</a></p>
+    <button id="era" class="pill" aria-expanded="false" title="About this period"><span id="era-name">…</span><span class="car">▾</span></button>
+    <div id="search-wrap" class="pill">
+      <button id="search-btn" aria-label="Search"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M11.5 10.1 15.2 13.8a1 1 0 0 1-1.4 1.4l-3.7-3.7A6.5 6.5 0 1 1 11.5 10Zm-5 .9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"/></svg></button>
+      <input id="search" placeholder="Search a building, street or event…" autocomplete="off" enterkeyhint="search" />
+      <div id="results"></div>
+    </div>
+    <nav id="modes" class="pill"></nav>
+    <button id="menu-btn" class="pill" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M1 3h14v1.6H1zm0 4.2h14v1.6H1zm0 4.2h14V13H1z"/></svg></button>
   </header>
-  <div id="search-wrap" class="glass"><input id="search" placeholder="Search a building or monument…" autocomplete="off" /><div id="results"></div></div>
-  <nav id="modes" class="glass"></nav>
-  <div id="hud" class="glass"></div>
-  <article id="evcard" class="glass" hidden></article>
-  <aside id="side" class="glass" hidden></aside>
-  <div id="live" class="glass" hidden></div>
-  <article id="card" class="glass" hidden></article>
+  <div id="hud" class="glass pop" hidden></div>
+  <nav id="menu" class="glass pop" hidden>
+    <a href="docs/" target="_blank" rel="noopener">Documentation</a>
+    <a href="https://github.com/Jany-M/firenze-story" target="_blank" rel="noopener">GitHub repository</a>
+    <button id="menu-maps">Historic maps and views</button>
+    <a href="library/" target="_blank" rel="noopener">Encyclopedia</a>
+    <button id="menu-help">View controls</button>
+    <p class="menu-by">developed by <a href="https://www.shambix.com/?utm_source=firenze-story&amp;utm_medium=referral&amp;utm_campaign=projects&amp;utm_content=app-sidebar" target="_blank" rel="noopener">Jany Martelli</a></p>
+  </nav>
+  <div id="dock-l" class="dock">
+    <article id="evcard" class="glass" hidden></article>
+    <article id="card" class="glass" hidden></article>
+  </div>
+  <div id="dock-r" class="dock">
+    <aside id="side" class="glass" hidden></aside>
+    <div id="live" class="glass" hidden></div>
+  </div>
   <footer id="timeline" class="glass"></footer>
   <div id="loading"><div><img class="stemma" src="./img/stemma-firenze.svg" alt="" /><h2>Firenze <em>Story</em></h2><p>Starting renderer…</p></div></div>
   <script type="module" src="./src/main.ts"></script>
