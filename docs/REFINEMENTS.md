@@ -4,6 +4,17 @@ Everything still to refine on the landmark models, gathered from the review list
 stay the reference; this list is regenerated from them by `pipeline/53_refinements.py`). Statues and fountains have their
 own list: [STATUES.md](STATUES.md). Landmarks not modelled yet are in the plan (`_dev/notes/PROJECT-DRAFT.md` §12).
 
+## Piazza della Santissima Annunziata
+Technical page: [ANNUNZIATA.md](landmarks/ANNUNZIATA.md)
+
+- [ ] The church portico's ends, the canopy and the urns are simplified; Pontormo's and others' lunettes, the Ghirlandaio mosaic and the doors are not drawn.
+- [ ] The Innocenti's end-bay portals, the foundling window (walled up 1875) and Luigi Fusi's attic (1895) are not drawn.
+- [ ] The Loggia dei Servi's houses behind and the 1720 walling are generic; the bays at the north-east end (Via dei Servi) differ in photographs.
+- [ ] The tribuna's outside (marble and pietra serena dressing of 1668, Silvani and Malavisti) is plain plaster with stone strips; the nave windows and the bell gable's face are *inferred*.
+- [ ] The side chapels, the Chiostro dei Morti's walks, the wards and cloisters of the Innocenti and the houses over the Loggia dei Servi are generic buildings massed from the DSM: refine roofs, windows and cloister arcades from photographs.
+- [ ] Palazzo Budini Gattai and the square's other corner houses are not modelled.
+- [ ] The Ferdinando I statue and the two fountains are placeholders.
+
 ## Bargello – landmark model
 Technical page: [BARGELLO.md](landmarks/BARGELLO.md)
 
@@ -26,8 +37,10 @@ Technical page: [CORRIDOIO-VASARIANO.md](landmarks/CORRIDOIO-VASARIANO.md)
 - [ ] The Lungarno loggia has 19 equal bays; the real arches and the corner over the bridge head may differ.
 - [ ] The corridor inside the Uffizi and its stretch over San Pier Scheraggio are not drawn apart from the Uffizi model.
 - [ ] Before 1565 the Lungarno site is left empty (the houses there are not reconstructed).
-- [ ] The end at Boboli stops where OSM stops, by the Grotta del Buontalenti; the last stretch into Palazzo Pitti is not drawn.
+- [ ] The end at Boboli stops where OSM stops, by the Grotta del Buontalenti, against the north rondò; the passage inside the rondò into Palazzo Pitti is not drawn.
+- [ ] Round the corridor near Piazza Pitti the city houses' roofs (LiDAR roof planes with overhangs) have stepped edges and the Palazzo Guicciardini garden shows as paving: city-model limits, listed in the plan.
 - [ ] Torre dei Mannelli: size (7 m square) and openings are simplified.
+- [ ] The head block at the Uffizi follows one photograph from above; the arch's width is set by the street width in OSM (≈3 m), narrower than it looks in the photograph – check the Uffizi front line there.
 - [ ] The Uffizi's west end on the Lungarno is a plain block (windows on a regular grid, ground-floor arches *inferred*); check against photographs.
 
 ## Santa Maria del Fiore (Duomo) – landmark model
@@ -47,12 +60,30 @@ Technical page: [LOGGIA-DEI-LANZI.md](landmarks/LOGGIA-DEI-LANZI.md)
 - [ ] The terrace date and the original top (before the balustrade) need a source.
 - [ ] Not shown: the Judith's earlier and later places (ringhiera 1495–1506, Palazzo Vecchio), the replaced originals (Perseus restored 1996–2000), the 1990s copies.
 
+## Loggia del Pesce
+Technical page: [LOGGIA-DEL-PESCE.md](landmarks/LOGGIA-DEL-PESCE.md)
+
+- [ ] The tondi are plain medallions, not the fish reliefs; the arms and the cartouche are flat shapes.
+- [ ] The domed vaults are not drawn (flat ceiling).
+- [ ] Its exact place and orientation in the Mercato Vecchio come from one cadastre rectangle; check against the 1880s photographs and plans of the market.
+- [ ] The seven-bay state before 1699 is an interpretation.
+- [ ] The Mercato Vecchio around it (Beccheria to 1881, churches, towers) is still the traced blocks.
+
 ## Palazzo Medici Riccardi
 Technical page: [MEDICI-RICCARDI.md](landmarks/MEDICI-RICCARDI.md)
 
 - [ ] The Riccardi part repeats Michelozzo's front exactly (as built); its inner courtyard (Cortile dei Muli) is not modelled.
 - [ ] The Medici arms are simplified (six palle on a gilded field); the Riccardi arms are not drawn.
 - [ ] The Via de' Ginori wing and the garden are blocks.
+
+## Mercato Centrale (Mercato di San Lorenzo)
+Technical page: [MERCATO-CENTRALE.md](landmarks/MERCATO-CENTRALE.md)
+
+- [ ] The iron halls are simplified: the real side halls have their own clerestories and the central hall its fretwork and roof structure; check against photographs from above.
+- [ ] The cast-iron colour (red) follows today's paint; the 1874 colour is not known.
+- [ ] The shutters, the fans and the stone surrounds are generic; the doors in the middle of each side are not drawn.
+- [ ] The walkway and railing on the roof may be later additions.
+- [ ] The lot before 1874 is not modelled.
 
 ## Le mura – the city walls, gates and towers
 Technical page: [MURA.md](landmarks/MURA.md)
@@ -81,8 +112,8 @@ Technical page: [PALAZZO-VECCHIO.md](landmarks/PALAZZO-VECCHIO.md)
 ## Palazzo Pitti, the Boboli garden and Forte Belvedere
 Technical page: [PITTI-BOBOLI.md](landmarks/PITTI-BOBOLI.md)
 
-- [ ] The rear of the palace, the rondò and the Meridiana are LiDAR massing without windows; the rondò's loggia and terrace and Poccianti's ashlar are not drawn.
-- [ ] The garden front (the courtyard's terrace towards the amphitheatre, the Fontana del Carciofo c. 1640) is massing only.
+- [ ] The rear of the palace, the rondò and the Meridiana are generic buildings massed from the DSM (hipped roofs, cornices, plain windows); the Ammannati courtyard's orders, the rondò's loggia and terrace and Poccianti's ashlar are not drawn.
+- [ ] The garden front (the courtyard's terrace towards the amphitheatre, the Fontana del Carciofo c. 1640) is massing only; the courtyard's orders are drawn only on the sides where the wing behind stands (the DSM 4 m back), so the low terrace side is open.
 - [ ] Boboli pieces not modelled yet: the Isolotto (1618), the Viottolone (cypresses 1637), the Limonaia (c. 1778), the Casino del Cavaliere (c. 1700) and the Giardino del Cavaliere (1790–93), the original place of the Fontana dell'Oceano.
 - [ ] The Kaffeehaus's long side wings are not drawn (only the domed pavilion).
 - [ ] Pitti front: balconies, the kneeling windows' consoles and the central portal are generic; compare with photographs bay by bay.
@@ -96,6 +127,16 @@ Technical page: [PONTE-VECCHIO.md](landmarks/PONTE-VECCHIO.md)
 - [ ] The clock and sundial, the inscriptions of the 1333 flood and the padlock fence around the bust are missing.
 - [ ] 1944: the bridge was spared, but its approaches were mined; the destroyed blocks at both ends are handled by the city records, not by this model.
 
+## Piazza della Repubblica: the Palazzo dell'Arcone
+Technical page: [REPUBBLICA.md](landmarks/REPUBBLICA.md)
+
+- [ ] The figures (the four arts, the crowning group, the winged Victories in the spandrels) are stand-in blocks.
+- [ ] The window surrounds, the balconies over the portico and the two side bodies' last overhanging bay are simplified; the overhangs over Via Pellicceria and Via de' Brunelleschi are not drawn.
+- [ ] The other three sides of the square, the 1909 lampposts and the portico floors (c. 1938) are not modelled.
+- [ ] The 1890–95 gap: the western side of the square stands empty in those years.
+- [ ] The lettering uses Blender's default typeface; the real one is a Roman capital – a carved-letter font would be closer.
+- [ ] The Loggia del Pesce (Vasari, 1568–69) stood in the Mercato Vecchio until the demolitions and is not modelled yet; it was rebuilt in Piazza dei Ciompi in 1955–56 (plan, PROJECT-DRAFT §12 item 4b).
+
 ## San Lorenzo, the Medici Chapels and the Laurentian Library
 Technical page: [SAN-LORENZO.md](landmarks/SAN-LORENZO.md)
 
@@ -103,6 +144,19 @@ Technical page: [SAN-LORENZO.md](landmarks/SAN-LORENZO.md)
 - [ ] The 1059 church and its tower are plausible masses only; the first church is a placeholder.
 - [ ] The ricetto's façade towards the cloister and Michelangelo's window frames are simplified.
 - [ ] The statue of Giovanni delle Bande Nere (1540) on the piazza is left to the statues pass.
+
+## San Marco: the basilica and the former convent
+Technical page: [SAN-MARCO.md](landmarks/SAN-MARCO.md)
+
+- [ ] The front's statues, the sculpted group over the portal, the relief and the garlands are stand-in shapes.
+- [ ] Which chapel the hipped-roof block on the left side is (Sant'Antonino or the Serragli chapel) is to check.
+- [ ] Michelozzo's front before 1778 is a guess (plain gable, door, oculus).
+- [ ] The chapels, the library and the cells are generic buildings massed from the DSM: refine from photographs.
+- [ ] The tribune's windows and roof form are *inferred*; check against a photograph of its sides.
+- [ ] The garden beds are traced from the 2017 orthophoto and include some tree shade; the garden's history is not documented here.
+- [ ] The Fanti figure is a stand-in shape.
+- [ ] The Silvestrine church before 1443 is a guess.
+- [ ] The bell tower's belfry and roof are simplified.
 
 ## Santa Croce – landmark model
 Technical page: [SANTA-CROCE.md](landmarks/SANTA-CROCE.md)
@@ -118,6 +172,31 @@ Technical page: [SANTA-MARIA-NOVELLA.md](landmarks/SANTA-MARIA-NOVELLA.md)
 - [ ] Façade inlay patterns are generic; the inscription in the frieze, the sundials and armillary spheres (1572–74) and the Rucellai sails are missing.
 - [ ] The cloisters (Chiostro Verde, Chiostro Grande), the Spanish Chapel and the Strozzi/Rucellai chapels are not modelled.
 - [ ] Flanks are regular; the avelli along the east side towards the piazza are not modelled.
+
+## Santo Spirito
+Technical page: [SANTO-SPIRITO.md](landmarks/SANTO-SPIRITO.md)
+
+- [ ] The volutes' exact curve, the oculus and door sizes come from one photograph.
+- [ ] The 40 semicircular chapels round the church are hidden in a straight outer wall (as they are outside, except at the transept ends and the choir); window counts per face come from photographs from above, their exact places are generic.
+- [ ] The bell tower's scroll buttresses and the belfry's columns are simplified shapes.
+- [ ] The dome's number of drum oculi (fourteen) is read from photographs from far.
+- [ ] The cloisters' bay counts are derived from the court sizes and the photographs (≈2.9 m and ≈4.9 m bays); check them.
+- [ ] Which of the two courts is which cloister is read from their size and place (the smaller, near the church, as the Chiostro dei Morti); check against a plan of the convent.
+- [ ] The square's garden beds are today's; the 1869 layout had more (two central ones removed in 1976) – not drawn.
+- [ ] The fountain before 1812 (in the cloister) and the earlier fountain of 1556–1812 at the side of the refectory are not drawn.
+- [ ] The Cenacolo and the rest of the convent are generic buildings massed from the DSM: refine roofs and windows from photographs.
+- [ ] The sacristy's vestibule (Cronaca, 1494) and the Corsini chapel are inside the massing, not drawn by hand.
+- [ ] The medieval church's size and the 1750 date of the plastering are inferred.
+
+## Palazzo Strozzi
+Technical page: [STROZZI.md](landmarks/STROZZI.md)
+
+- [ ] The ground-floor windows, the portals and the bifore are generic; check bay by bay against photographs (the actual bay counts and the spacing of the corner bays).
+- [ ] The rings, torch holders and the full set of Caparra lanterns are reduced to the corner lanterns and a few rings.
+- [ ] The courtyard's loggia on the top floor and the details of its columns are simplified.
+- [ ] The roof is a simple ring of pitched roofs; the LiDAR shows the 20th-century roof structures.
+- [ ] The piano nobile date (1495) is inferred.
+- [ ] The south side's 1938 finish is drawn like the other fronts; how far the restoration actually copied them (window count, rustication) is to check against photographs of Vicolo Strozzi, and so is the length of the cornice's returns (2.4 m).
 
 ## Palazzo degli Uffizi
 Technical page: [UFFIZI.md](landmarks/UFFIZI.md)

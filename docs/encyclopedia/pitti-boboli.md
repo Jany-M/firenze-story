@@ -81,6 +81,11 @@ hill to Forte Belvedere.
   Neptune basin.
 - At the top, Forte Belvedere, a star-shaped fortress Buontalenti built in 1590–91, with an older white villa inside.
 
+## The Ammannati courtyard
+Behind the palace front, Bartolomeo Ammannati built the great courtyard in 1558–70. Its three storeys of rusticated orders
+(Tuscan, Ionic and Corinthian) close it on three sides, and the fourth opens onto a terrace facing the Boboli
+amphitheatre. In the model it has its own card.
+
 ## Through time
 | Year | What happened |
 |---|---|

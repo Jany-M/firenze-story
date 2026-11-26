@@ -10,6 +10,7 @@ Uffizi's own top floor ([UFFIZI.md](UFFIZI.md)). This model holds the rest, and 
 | Stretch | Length | How it is placed | Source |
 |---|---|---|---|
 | Overpass on Via della Ninna (Uffizi ↔ Palazzo Vecchio) | ≈8 m span, 6.8 m wide | OSM outline; arch springing ≈8 m above the street, windows at the Uffizi's second floor (*inferred* from photographs) | [OSM relation 21744601](https://www.openstreetmap.org/relation/21744601) |
+| Head at the Uffizi | the loggia ends in a block 7.5 m long, as wide as the corridor plus the street beside it, reaching the Uffizi's south-west front (OSM way 477279033, (−32.0, 418.0) → (1.3, 435.5)): a great arch over the street on its east and west faces, a small arched door at the end of the river-side portico, two barred windows a face, string course, cornice, hipped roof | photograph by Dimitris Kamaras (2016, from the Uffizi), OSM |
 | Uffizi west end on the Lungarno (where the corridor leaves the gallery for the loggia) | wedge ≈33 × 25 m, roof ≈38 m | the part of OSM way 477279033 west of the Uffizi model's wings; LiDAR roof | [OSM way 477279033](https://www.openstreetmap.org/way/477279033), LiDAR 2023 |
 | Loggia on the Lungarno degli Archibusieri | ≈96 m, 19 bays of ≈4.9 m | OSM outline; roof ≈22.6 m on the DSM; centre line 0.6 m towards the river, where the DSM ridge is | OSM, LiDAR 2023 |
 | Corner over the bridge head (to the bridge corridor) | ≈4 m | meets the corridor of the Ponte Vecchio model | – |
@@ -42,7 +43,8 @@ Via de' Guicciardini before 1944 (1890s), Buonsignori's map of 1584.
   Via de' Bardi arch through the block to Santa Felicita, and on to the gardens). There it is drawn as the gallery alone, and
   the city houses are cut open above its floor inside its footprint, so the whole route shows: the model writes its centre
   line, width and floor to `web/public/models/landmarks/corridoio_path.json`, and `setCorridorCut()` in `web/src/scene/city.ts`
-  turns that into a floor-height raster the city material tests (from 1565).
+  turns that into a floor-height raster the city material tests (from 1565). The cut keeps 12 cm inside the corridor's
+  walls, on a 25 cm raster, so its edge hides behind them instead of leaving a jagged gap in the houses' roofs.
 
 ## Phases
 | Years | Part | Basis |
@@ -87,6 +89,9 @@ Not shown as separate phases: the window into Santa Felicita (1589, inside), the
 - The Lungarno loggia has 19 equal bays; the real arches and the corner over the bridge head may differ.
 - The corridor inside the Uffizi and its stretch over San Pier Scheraggio are not drawn apart from the Uffizi model.
 - Before 1565 the Lungarno site is left empty (the houses there are not reconstructed).
-- The end at Boboli stops where OSM stops, by the Grotta del Buontalenti; the last stretch into Palazzo Pitti is not drawn.
+- The end at Boboli stops where OSM stops, by the Grotta del Buontalenti, against the north rondò; the passage inside the rondò into Palazzo Pitti is not drawn.
+- Round the corridor near Piazza Pitti the city houses' roofs (LiDAR roof planes with overhangs) have stepped edges and the
+  Palazzo Guicciardini garden shows as paving: city-model limits, listed in the plan.
 - Torre dei Mannelli: size (7 m square) and openings are simplified.
+- The head block at the Uffizi follows one photograph from above; the arch's width is set by the street width in OSM (≈3 m), narrower than it looks in the photograph – check the Uffizi front line there.
 - The Uffizi's west end on the Lungarno is a plain block (windows on a regular grid, ground-floor arches *inferred*); check against photographs.

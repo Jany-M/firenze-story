@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 152 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 191 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -678,6 +678,201 @@ All 152 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![The palazzina inside Forte Belvedere](/materials/landmarks/thumbs/forte-belvedere-edificio-principale-02.jpg)](/materials/landmarks/forte-belvedere-edificio-principale-02.jpg)
 <figcaption markdown>The palazzina inside Forte Belvedere<br><small>Sailko · 14 August 2013, 12:53:43 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Forte_belvedere,_edificio_principale_02.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The north and west fronts: rustication, two rows of arched double windows, the cornice](/materials/landmarks/thumbs/florence-palazzo-strozzi-north-and-west-facade-benedetto-da-maiano-148.jpg)](/materials/landmarks/florence-palazzo-strozzi-north-and-west-facade-benedetto-da-maiano-148.jpg)
+<figcaption markdown>The north and west fronts: rustication, two rows of arched double windows, the cornice<br><small>MenkinAlRire · 2021-09-13 16:29:09 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Florence,_Palazzo_Strozzi,_North_and_West_facade,_Benedetto_da_Maiano,_1489-1538.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The front in a photograph of c. 1875–1900, with the stone bench along the base](/materials/landmarks/thumbs/fa-ade-van-palazzo-strozzi-te-florence-rp-f-00-3012.jpg)](/materials/landmarks/fa-ade-van-palazzo-strozzi-te-florence-rp-f-00-3012.jpg)
+<figcaption markdown>The front in a photograph of c. 1875–1900, with the stone bench along the base<br><small>Rijksmuseum · ca. 1875 - ca. 1900 · [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Fa%C3%A7ade_van_Palazzo_Strozzi_te_Florence,_RP-F-00-3012.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Cronaca&#x27;s courtyard: arches on pietra serena columns](/materials/landmarks/thumbs/cortile-di-palazzo-strozzi-2012-01.jpg)](/materials/landmarks/cortile-di-palazzo-strozzi-2012-01.jpg)
+<figcaption markdown>Cronaca&#x27;s courtyard: arches on pietra serena columns<br><small>sailko · 2012-06-21 15:45:19 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Cortile_di_palazzo_strozzi,_2012,_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![One of Caparra&#x27;s wrought-iron corner lanterns, 1491–98](/materials/landmarks/thumbs/palazzo-strozzi-lucerna-del-caparra-01.jpg)](/materials/landmarks/palazzo-strozzi-lucerna-del-caparra-01.jpg)
+<figcaption markdown>One of Caparra&#x27;s wrought-iron corner lanterns, 1491–98<br><small>sailko · 2007-04-30 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Strozzi,_lucerna_del_Caparra_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Arcone from Via degli Strozzi: paired columns, the inscription, the statues of the arts](/materials/landmarks/thumbs/firenze-palazzo-dell-arcone-di-piazza.jpg)](/materials/landmarks/firenze-palazzo-dell-arcone-di-piazza.jpg)
+<figcaption markdown>The Arcone from Via degli Strozzi: paired columns, the inscription, the statues of the arts<br><small>Zairon · 2023-04-17 13:33:03 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Palazzo_dell%27Arcone_di_Piazza.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The square towards Micheli&#x27;s arch and its portico](/materials/landmarks/thumbs/firenze-florence-piazza-della-repubblica-view-wnw-on-the-arcone-1895-b.jpg)](/materials/landmarks/firenze-florence-piazza-della-repubblica-view-wnw-on-the-arcone-1895-b.jpg)
+<figcaption markdown>The square towards Micheli&#x27;s arch and its portico<br><small>Txllxt TxllxT · 2010-04-21 12:49:30 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazza_della_Repubblica_-_View_WNW_on_the_Arcone_1895_by_Vincenzo_Micheli.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Under the portico of the Palazzo dell&#x27;Arcone](/materials/landmarks/thumbs/portici-piazza-della-repubblica-firenze.jpg)](/materials/landmarks/portici-piazza-della-repubblica-firenze.jpg)
+<figcaption markdown>Under the portico of the Palazzo dell&#x27;Arcone<br><small>Manuelarosi · 2023-04-15 16:56:26 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Portici,_piazza_della_Repubblica_(Firenze).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The square in 1895, then Piazza Vittorio Emanuele II, with the king&#x27;s statue](/materials/landmarks/thumbs/piazza-della-repubblica-in-1895.jpg)](/materials/landmarks/piazza-della-repubblica-in-1895.jpg)
+<figcaption markdown>The square in 1895, then Piazza Vittorio Emanuele II, with the king&#x27;s statue<br><small>before 1890 · 1895 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Piazza_della_repubblica_in_1895.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The market from the piazza: stone arches below, the red iron and glass hall above](/materials/landmarks/thumbs/mercato-centrale-di-san-lorenzo-01.jpg)](/materials/landmarks/mercato-centrale-di-san-lorenzo-01.jpg)
+<figcaption markdown>The market from the piazza: stone arches below, the red iron and glass hall above<br><small>Sailko · 2016-01-11 10:58:33 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Mercato_centrale_di_san_lorenzo_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Along Via dell&#x27;Ariento: shutters and iron fans in the arches](/materials/landmarks/thumbs/firenze-florence-via-dell-ariento-view-se-on-mercato-centrale-1874-by.jpg)](/materials/landmarks/firenze-florence-via-dell-ariento-view-se-on-mercato-centrale-1874-by.jpg)
+<figcaption markdown>Along Via dell&#x27;Ariento: shutters and iron fans in the arches<br><small>Txllxt TxllxT · 2010-04-21 11:40:38 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_dell%27Ariento_-_View_SE_on_Mercato_Centrale_1874_by_Giuseppe_Mengoni.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The market&#x27;s roofs from a terrace nearby](/materials/landmarks/thumbs/hotel-baglioni-terrazza-veduta-giorno-mercato-centrale.jpg)](/materials/landmarks/hotel-baglioni-terrazza-veduta-giorno-mercato-centrale.jpg)
+<figcaption markdown>The market&#x27;s roofs from a terrace nearby<br><small>sailko · 2012-09-24 17:49:20 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Hotel_baglioni,_terrazza,_veduta_giorno,_mercato_centrale.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The new market during the Horticultural Exhibition of 1874 (wood engraving)](/materials/landmarks/thumbs/veduta-esterna-del-mercato-centrale-di-firenze-durante-l-esposizione-d.jpg)](/materials/landmarks/veduta-esterna-del-mercato-centrale-di-firenze-durante-l-esposizione-d.jpg)
+<figcaption markdown>The new market during the Horticultural Exhibition of 1874 (wood engraving)<br><small>Barberis e Canedi · 1874 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Veduta_esterna_del_mercato_centrale_di_Firenze_durante_l%E2%80%99esposizione_di_Floricultura_(xilografia).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Where Cronaca&#x27;s cornice stops: only its dentils and frieze run on along the side](/materials/landmarks/thumbs/palazzo-strozzi-cornicione-interrotto.jpg)](/materials/landmarks/palazzo-strozzi-cornicione-interrotto.jpg)
+<figcaption markdown>Where Cronaca&#x27;s cornice stops: only its dentils and frieze run on along the side<br><small>sailko · 2007-04-27 09:17:10 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_strozzi,_cornicione_interrotto.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Innocenti front: nine arches on steps, a window over each, the end bays](/materials/landmarks/thumbs/ospedale-degli-innocenti-florenz.jpg)](/materials/landmarks/ospedale-degli-innocenti-florenz.jpg)
+<figcaption markdown>The Innocenti front: nine arches on steps, a window over each, the end bays<br><small>Ricardalovesmonuments · 2021-09-28 15:13:21 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Ospedale_degli_Innocenti_Florenz.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![One of Andrea della Robbia&#x27;s tondi, 1487: a baby in swaddling clothes](/materials/landmarks/thumbs/andrea-della-robbia-putti-in-fasce-della-facciata-dello-spedale-degli.jpg)](/materials/landmarks/andrea-della-robbia-putti-in-fasce-della-facciata-dello-spedale-degli.jpg)
+<figcaption markdown>One of Andrea della Robbia&#x27;s tondi, 1487: a baby in swaddling clothes<br><small>Sailko · 2016-07-09 11:19:26 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Andrea_della_robbia,_putti_in_fasce_della_facciata_dello_spedale_degli_innocenti,_1487,_B_02.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Loggia dei Servi di Maria, copying the Innocenti across the square](/materials/landmarks/thumbs/firenze-loggiato-dei-serviti-2020.jpg)](/materials/landmarks/firenze-loggiato-dei-serviti-2020.jpg)
+<figcaption markdown>The Loggia dei Servi di Maria, copying the Innocenti across the square<br><small>Sailko · 2020-03-15 09:31:09 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_loggiato_dei_serviti_(2020).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The church&#x27;s portico of 1601 with the Pucci inscription and the canopy over the middle arch](/materials/landmarks/thumbs/firenze-florence-piazza-della-santissima-annunziata-view-ne-on-la-basi.jpg)](/materials/landmarks/firenze-florence-piazza-della-santissima-annunziata-view-ne-on-la-basi.jpg)
+<figcaption markdown>The church&#x27;s portico of 1601 with the Pucci inscription and the canopy over the middle arch<br><small>Txllxt TxllxT · 2010-04-20 09:56:54 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazza_della_Santissima_Annunziata_-_View_NE_on_la_Basilica_della_Santissima_Annunziata_-_Church-Front_1444_by_Michelozzo.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The square: the Loggia dei Servi, the church and the Innocenti](/materials/landmarks/thumbs/piazza-ss-annunziata-firenze-apr-2008.jpg)](/materials/landmarks/piazza-ss-annunziata-firenze-apr-2008.jpg)
+<figcaption markdown>The square: the Loggia dei Servi, the church and the Innocenti<br><small>Gryffindor stitched by Marku1988 This image was created with Hugin. · 2008-04 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_SS_Annunziata_Firenze_Apr_2008.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Giuseppe Zocchi&#x27;s view of the square, 18th century](/materials/landmarks/thumbs/da-giuseppe-zocchi-piazza-e-tempio-della-ss-annunziata-di-firenze-xvii.jpg)](/materials/landmarks/da-giuseppe-zocchi-piazza-e-tempio-della-ss-annunziata-di-firenze-xvii.jpg)
+<figcaption markdown>Giuseppe Zocchi&#x27;s view of the square, 18th century<br><small>Francesco Bini · 2024-04-11 15:58:13 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Da_giuseppe_zocchi,_piazza_e_tempio_della_SS._annunziata_di_firenze,_xviii-xix_secolo.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![One of Tacca&#x27;s sea-monster fountains, set up in 1641](/materials/landmarks/thumbs/firenze-fontane-dei-mostri-marini-40924836380.jpg)](/materials/landmarks/firenze-fontane-dei-mostri-marini-40924836380.jpg)
+<figcaption markdown>One of Tacca&#x27;s sea-monster fountains, set up in 1641<br><small>Fred Romero from Paris, France · Taken on 19 May 2018, 14:14 · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Fontane_dei_Mostri_Marini_(40924836380).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The loggia in the Mercato Vecchio before 1880, with the stalls and their awnings](/materials/landmarks/thumbs/loggia-del-pesce-before-1880.jpg)](/materials/landmarks/loggia-del-pesce-before-1880.jpg)
+<figcaption markdown>The loggia in the Mercato Vecchio before 1880, with the stalls and their awnings<br><small>before 1890 · Unknown date · Public domain · [source](https://commons.wikimedia.org/wiki/File:Loggia_del_pesce_before_1880.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Loggia del Pesce in the Mercato Vecchio, before 1885](/materials/landmarks/thumbs/loggia-del-pesce-nel-mercatovecchio-firenze-avanti-1885.jpg)](/materials/landmarks/loggia-del-pesce-nel-mercatovecchio-firenze-avanti-1885.jpg)
+<figcaption markdown>The Loggia del Pesce in the Mercato Vecchio, before 1885<br><small>Unknown authorUnknown author · before 1885 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Loggia_del_pesce_nel_MercatoVecchio,_Firenze_avanti_1885.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Giuseppe Moricci&#x27;s painting of the loggia, 1870s](/materials/landmarks/thumbs/giuseppe-moricci-la-loggia-del-pesce-firenze-1870s-coll-priv.jpg)](/materials/landmarks/giuseppe-moricci-la-loggia-del-pesce-firenze-1870s-coll-priv.jpg)
+<figcaption markdown>Giuseppe Moricci&#x27;s painting of the loggia, 1870s<br><small>see filename or category · 1870s · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giuseppe_moricci,_la_loggia_del_pesce,_firenze,_1870s,_coll._priv..jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The loggia rebuilt in Piazza dei Ciompi, 2018](/materials/landmarks/thumbs/p-zaciompi2018-01.jpg)](/materials/landmarks/p-zaciompi2018-01.jpg)
+<figcaption markdown>The loggia rebuilt in Piazza dei Ciompi, 2018<br><small>Manuelarosi · 2018-06-28 18:30:28 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:P.zaCiompi2018_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The corridor&#x27;s head at the Uffizi: the great arch over the street, the small door on the river side](/materials/landmarks/thumbs/vasari-corridor-corridoio-vasariano-florence-26073081173.jpg)](/materials/landmarks/vasari-corridor-corridoio-vasariano-florence-26073081173.jpg)
+<figcaption markdown>The corridor&#x27;s head at the Uffizi: the great arch over the street, the small door on the river side<br><small>Dimitris Kamaras from Athens, Greece · 2016-04-23 15:29 · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) · [source](https://commons.wikimedia.org/wiki/File:Vasari_corridor_(Corridoio_Vasariano),_Florence_(26073081173).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The plain plastered front with its curving gable](/materials/landmarks/thumbs/chiesa-di-santo-spirito-firenze-facciata.jpg)](/materials/landmarks/chiesa-di-santo-spirito-firenze-facciata.jpg)
+<figcaption markdown>The plain plastered front with its curving gable<br><small>Giaccai · 2014-03-23 16:40:34 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Chiesa_di_Santo_Spirito,_Firenze_facciata.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Santo Spirito from the square](/materials/landmarks/thumbs/14-basilica-di-santo-spirito-firenze.jpg)](/materials/landmarks/14-basilica-di-santo-spirito-firenze.jpg)
+<figcaption markdown>Santo Spirito from the square<br><small>saraprincylevi · 1 September 2014 (according to Exif data) · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:14_-_Basilica_di_Santo_Spirito,_Firenze.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The church front of 1777–78 and the convent on Piazza San Marco](/materials/landmarks/thumbs/firenze-chiesa-e-convento-di-san-marco-facciata-01.jpg)](/materials/landmarks/firenze-chiesa-e-convento-di-san-marco-facciata-01.jpg)
+<figcaption markdown>The church front of 1777–78 and the convent on Piazza San Marco<br><small>Sailko · 2022-04-19 17:04:08 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_chiesa_e_convento_di_san_marco,_facciata_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The portal of San Marco with the cherub group](/materials/landmarks/thumbs/firenze-basilica-di-san-marco-esterno-facciata-portale.jpg)](/materials/landmarks/firenze-basilica-di-san-marco-esterno-facciata-portale.jpg)
+<figcaption markdown>The portal of San Marco with the cherub group<br><small>Zairon · 2023-04-17 16:32:48 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Marco_Esterno_Facciata_Portale.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Michelozzo&#x27;s cloister of Sant&#x27;Antonino](/materials/landmarks/thumbs/san-marco-klosterhof.jpg)](/materials/landmarks/san-marco-klosterhof.jpg)
+<figcaption markdown>Michelozzo&#x27;s cloister of Sant&#x27;Antonino<br><small>Barnos · 2021-09-20 09:54:36 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:San_Marco_Klosterhof.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Michelozzo&#x27;s library, 1440s](/materials/landmarks/thumbs/san-marco-biblioteca-di-michelozzo-01.jpg)](/materials/landmarks/san-marco-biblioteca-di-michelozzo-01.jpg)
+<figcaption markdown>Michelozzo&#x27;s library, 1440s<br><small>Francesco Bini · 2021-12-21 12:20:52 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:San_marco,_biblioteca_di_michelozzo_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Santo Spirito from Giotto&#x27;s tower: the transept, the dome and the bell tower](/materials/landmarks/thumbs/firenze-campanile-di-giotto-vista-su-la-basilica-di-santo-spirito.jpg)](/materials/landmarks/firenze-campanile-di-giotto-vista-su-la-basilica-di-santo-spirito.jpg)
+<figcaption markdown>Santo Spirito from Giotto&#x27;s tower: the transept, the dome and the bell tower<br><small>Zairon · 2023-04-17 18:36:30 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Campanile_di_Giotto_Vista_su_la_Basilica_di_Santo_Spirito.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Baccio d&#x27;Agnolo&#x27;s bell tower, with AVSPICIIS COSMI under the belfry](/materials/landmarks/thumbs/firenze-basilica-di-santo-spirito-campanile-veduta-dalla-piazza.jpg)](/materials/landmarks/firenze-basilica-di-santo-spirito-campanile-veduta-dalla-piazza.jpg)
+<figcaption markdown>Baccio d&#x27;Agnolo&#x27;s bell tower, with AVSPICIIS COSMI under the belfry<br><small>Pufui PcPifpef · 2018-03-08 22:40:34 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_basilica_di_Santo_Spirito,_campanile_-_Veduta_dalla_piazza.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![San Marco from Giotto&#x27;s tower: the front of 1777–78, the bell tower, the chapel with its lantern](/materials/landmarks/thumbs/firenze-campanile-di-giotto-vista-su-la-basilica-di-san-marco.jpg)](/materials/landmarks/firenze-campanile-di-giotto-vista-su-la-basilica-di-san-marco.jpg)
+<figcaption markdown>San Marco from Giotto&#x27;s tower: the front of 1777–78, the bell tower, the chapel with its lantern<br><small>Zairon · 2023-04-17 18:37:54 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Campanile_di_Giotto_Vista_su_la_Basilica_di_San_Marco.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Chiostro dei Morti, c. 1620](/materials/landmarks/thumbs/santo-spirito-chiostro-dei-morti-01.jpg)](/materials/landmarks/santo-spirito-chiostro-dei-morti-01.jpg)
+<figcaption markdown>The Chiostro dei Morti, c. 1620<br><small>Sailko · 2017-04-02 14:12:07 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Santo_spirito,_chiostro_dei_morti,_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Ammannati&#x27;s Chiostro Grande, 1564–69](/materials/landmarks/thumbs/santo-spirito-chiostro-grande-dell-ammannati-01.jpg)](/materials/landmarks/santo-spirito-chiostro-grande-dell-ammannati-01.jpg)
+<figcaption markdown>Ammannati&#x27;s Chiostro Grande, 1564–69<br><small>sailko · 2009-09-27 04:08:22 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Santo_spirito,_chiostro_grande_dell%27ammannati_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The fountain of Piazza Santo Spirito (1660, in the square since 1812)](/materials/landmarks/thumbs/piazza-santo-spirito-fontana-01.jpg)](/materials/landmarks/piazza-santo-spirito-fontana-01.jpg)
+<figcaption markdown>The fountain of Piazza Santo Spirito (1660, in the square since 1812)<br><small>Francesco Bini · 2025-01-10 13:36:52 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_santo_spirito,_fontana_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The cloister of Sant&#x27;Antonino](/materials/landmarks/thumbs/courtyard-of-san-marco-in-firenze.jpg)](/materials/landmarks/courtyard-of-san-marco-in-firenze.jpg)
+<figcaption markdown>The cloister of Sant&#x27;Antonino<br><small>Vsatinet · 2019-03-06 12:59:16 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Courtyard_of_San_Marco_in_Firenze.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The cloister of San Domenico](/materials/landmarks/thumbs/s-marco-chiostro-di-san-domenico-01.jpg)](/materials/landmarks/s-marco-chiostro-di-san-domenico-01.jpg)
+<figcaption markdown>The cloister of San Domenico<br><small>Sailko · 28 March 2014, 10:36:47 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:S._marco,_chiostro_di_San_Domenico_01.JPG)</small></figcaption>
 </figure>
 
 </div>

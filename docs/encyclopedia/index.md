@@ -22,6 +22,13 @@ In the app, the same pictures appear as thumbnails in a building's or event's ca
 | [Palazzo Medici Riccardi](medici-riccardi.md) | Michelozzo's palace for Cosimo il Vecchio, enlarged by the Riccardi |
 | [The Vasari Corridor](vasari-corridor.md) | The Medici's private way from Palazzo Vecchio to Palazzo Pitti, 1565 |
 | [Palazzo Pitti and the Boboli Garden](pitti-boboli.md) | The grand dukes' palace, its garden and Forte Belvedere |
+| [Palazzo Strozzi](palazzo-strozzi.md) | Filippo Strozzi's palace of 1489, Cronaca's cornice and the side never finished |
+| [Piazza della Repubblica](piazza-della-repubblica.md) | The old market pulled down, the square of 1890 and Micheli's arch of 1895 |
+| [Mercato Centrale](mercato-centrale.md) | Mengoni's market of stone, iron and glass, 1874 |
+| [Piazza Santissima Annunziata](santissima-annunziata.md) | Brunelleschi's Innocenti, the Loggia dei Servi and the Servites' church |
+| [Santo Spirito](santo-spirito.md) | Brunelleschi's last church and the Augustinians' convent in Oltrarno |
+| [San Marco](san-marco.md) | Michelozzo's Dominican convent for Cosimo il Vecchio, Fra Angelico's cells, the church front of 1777–78 |
+| [Loggia del Pesce](loggia-del-pesce.md) | Vasari's fish loggia: in the Mercato Vecchio until 1889, in Piazza dei Ciompi since 1955 |
 | [Ponte Vecchio](ponte-vecchio.md) | The bridge of 1345, its shops and Vasari's corridor |
 | [Orsanmichele](orsanmichele.md) | Grain market, granary and the guilds' church |
 | [The Bargello](bargello.md) | The oldest public palace: Capitano del Popolo, Podestà, prison, museum |

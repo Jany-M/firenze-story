@@ -69,6 +69,11 @@ turns round Torre dei Mannelli on stone brackets, passes over the portico of San
 <figcaption markdown>The &quot;corridore del Gran Duca&quot; on Buonsignori&#x27;s map of 1584<br><small>sailko · Unknown date · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Pianta_del_buonsignori,_dettaglio_046_corridore_del_gran_duca_(corridoio_vasariano).jpg)</small></figcaption>
 </figure>
 
+<figure markdown>
+[![The corridor&#x27;s head at the Uffizi: the great arch over the street, the small door on the river side](/materials/landmarks/thumbs/vasari-corridor-corridoio-vasariano-florence-26073081173.jpg)](/materials/landmarks/vasari-corridor-corridoio-vasariano-florence-26073081173.jpg)
+<figcaption markdown>The corridor&#x27;s head at the Uffizi: the great arch over the street, the small door on the river side<br><small>Dimitris Kamaras from Athens, Greece · 2016-04-23 15:29 · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) · [source](https://commons.wikimedia.org/wiki/File:Vasari_corridor_(Corridoio_Vasariano),_Florence_(26073081173).jpg)</small></figcaption>
+</figure>
+
 </div>
 <!-- /gallery -->
 

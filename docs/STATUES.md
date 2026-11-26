@@ -8,7 +8,7 @@ Data: `web/src/data/statues.ts` (positions from OpenStreetMap unless noted). Dra
 Statues that are already part of a landmark model (the Loggia dei Lanzi sculptures, the David and Hercules by
 Palazzo Vecchio's door, the Uffizi niche statues) are not repeated here.
 
-## Placeholders in the app (27)
+## Placeholders in the app (26)
 
 | Statue / fountain | Square | Years | Kind | Confidence | Notes |
 |---|---|---|---|---|---|
@@ -17,7 +17,7 @@ Palazzo Vecchio's door, the Uffizi niche statues) are not repeated here.
 | Marzocco | Piazza della Signoria | 1420– | figure | documented | Donatello's lion on the ringhiera; a copy since 1885. |
 | Colonna dell'Abbondanza | Mercato Vecchio / Piazza della Repubblica | 1431–1890 | column | documented | Removed with the Mercato Vecchio demolition. |
 | Colonna dell'Abbondanza (put back) | Piazza della Repubblica | 1956– | column | documented |  |
-| Vittorio Emanuele II | Piazza Vittorio Emanuele (Repubblica) | 1890–1932 | equestrian | inferred | Position in the middle of the square inferred; moved to the Cascine in 1932. |
+| Vittorio Emanuele II | Piazza Vittorio Emanuele (Repubblica) | 1890–1932 | equestrian | inferred | In the middle of the square, on the axis of the Arcone that framed it (position inferred); moved to the Cascine in 1932. |
 | Vittorio Emanuele II | Piazzale Vittorio Veneto (Cascine) | 1932– | equestrian | documented |  |
 | Porcellino | Mercato Nuovo | 1640– | figure | documented | Pietro Tacca's bronze boar. |
 | Colonna della Giustizia | Piazza Santa Trinita | 1565– | column | documented | Column from the Baths of Caracalla; Justice on top from 1581. |
@@ -25,9 +25,8 @@ Palazzo Vecchio's door, the Uffizi niche statues) are not repeated here.
 | Giovanni delle Bande Nere | Piazza San Lorenzo | 1850– | monument | documented | Bandinelli 1540; set up in the square in 1850. |
 | Croce al Trebbio | Piazza del Trebbio | 1338– | cross | documented |  |
 | Ferdinando I | Piazza Santissima Annunziata | 1608– | equestrian | documented | Giambologna and Tacca. |
-| Fountain of the sea monsters (east) | Piazza Santissima Annunziata | 1629– | fountain | documented | Pietro Tacca. |
-| Fountain of the sea monsters (west) | Piazza Santissima Annunziata | 1629– | fountain | documented | Pietro Tacca. |
-| Manfredo Fanti | Piazza San Marco | 1873– | monument | documented |  |
+| Fountain of the sea monsters (east) | Piazza Santissima Annunziata | 1641– | fountain | documented | Pietro Tacca, made c. 1627–29 for Livorno; set in the square in 1641. |
+| Fountain of the sea monsters (west) | Piazza Santissima Annunziata | 1641– | fountain | documented | Pietro Tacca, made c. 1627–29 for Livorno; set in the square in 1641. |
 | Monument to the Fallen of Independence | Piazza dell'Unità Italiana | 1882– | obelisk | documented |  |
 | Dante | Piazza Santa Croce | 1865– | monument | documented | Stood in the middle of the square 1865–1968, then moved beside the church steps; placeholder at today's spot. |
 | Fountain of Piazza Santa Croce | Piazza Santa Croce | 1816– | fountain | inferred |  |
@@ -57,3 +56,5 @@ Palazzo Vecchio's door, the Uffizi niche statues) are not repeated here.
 
 Replace each placeholder with a model from photographs (materials collection, `docs/materials/manifest.json`), with the
 same dates; give each a card and a library entry, as for the landmarks.
+
+Modelled with their squares (no longer placeholders): the monument to Manfredo Fanti (Piazza San Marco, [M28](DATA-SOURCES.md#M28)), the fountain and the monument to Cosimo Ridolfi (Piazza Santo Spirito, [M27](DATA-SOURCES.md#M27)).

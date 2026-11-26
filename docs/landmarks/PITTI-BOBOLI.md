@@ -14,7 +14,7 @@ Buontalenti ([CORRIDOIO-VASARIANO.md](CORRIDOIO-VASARIANO.md)).
 |---|---|---|
 | Piazza front | ≈201 m, 23 bays of ≈8.74 m; central 13 bays on three storeys (roof ≈38.5 m above the piazza), five bays a side on two (≈26.5 m) | LiDAR 2023 DSM along the front; 23 window axes – [Storia di Firenze (D. Smalzi)](https://www.storiadifirenze.org/wp-content/uploads/kalins-pdf/singles/novembre-1618-la-progettazione-e-l%25e2%2580%2599ampliamento-di-palazzo-e-piazza-pitti.pdf) |
 | Front block | ≈24 m deep | DSM |
-| The rest of the palace | courtyard wings, garden front, the two rondò, the Meridiana: a 1 m raster of the DSM inside the OSM outline (median of 7 × 7 m, steps of 2.5 m), merged into boxes | [OSM relation 1637338](https://www.openstreetmap.org/relation/1637338), [relation 7071160](https://www.openstreetmap.org/relation/7071160), LiDAR |
+| The rest of the palace | courtyard wings, garden front, the two rondò, the Meridiana: buildings massed from the 1 m DSM raster (`blender/scripts/landmark_mass.py`): hipped roofs at the measured ridge heights, walls, eaves cornices and windows, from a 1 m raster of the DSM inside the OSM outline | [OSM relation 1637338](https://www.openstreetmap.org/relation/1637338), [relation 7071160](https://www.openstreetmap.org/relation/7071160), LiDAR |
 | Piazza | 17.0 m (scene), 57 m a.s.l. | app terrain |
 | Amphitheatre | tiers from r ≈30 to 41 m round the obelisk, following the ground | [OSM way 473825738](https://www.openstreetmap.org/way/473825738), app terrain |
 | Forte Belvedere | wall tops from the DSM along the OSM outline; palazzina ≈26 × 20 m, ≈17 m (*inferred* from the LiDAR shell) | [OSM way 24879633](https://www.openstreetmap.org/way/24879633) |
@@ -82,9 +82,10 @@ the ground inside the walls and its scarp starting below the ground outside.
 - **The Ammannati works:** 1558–70 (staircase, wings) with the courtyard dated 1560 on it.wikipedia; no single year elsewhere.
 
 ## Review list
-- The rear of the palace, the rondò and the Meridiana are LiDAR massing without windows; the rondò's loggia and terrace and
-  Poccianti's ashlar are not drawn.
-- The garden front (the courtyard's terrace towards the amphitheatre, the Fontana del Carciofo c. 1640) is massing only.
+- The rear of the palace, the rondò and the Meridiana are generic buildings massed from the DSM (hipped roofs, cornices,
+  plain windows); the Ammannati courtyard's orders, the rondò's loggia and terrace and Poccianti's ashlar are not drawn.
+- The garden front (the courtyard's terrace towards the amphitheatre, the Fontana del Carciofo c. 1640) is massing only; the
+  courtyard's orders are drawn only on the sides where the wing behind stands (the DSM 4 m back), so the low terrace side is open.
 - Boboli pieces not modelled yet: the Isolotto (1618), the Viottolone (cypresses 1637), the Limonaia (c. 1778), the Casino del
   Cavaliere (c. 1700) and the Giardino del Cavaliere (1790–93), the original place of the Fontana dell'Oceano.
 - The Kaffeehaus's long side wings are not drawn (only the domed pavilion).

@@ -44,6 +44,13 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/MEDICI-RICCARDI.md](docs/landmarks/MEDICI-RICCARDI.md) | Landmark model: Palazzo Medici Riccardi |
 | [docs/landmarks/CORRIDOIO-VASARIANO.md](docs/landmarks/CORRIDOIO-VASARIANO.md) | Landmark model: the Vasari Corridor beyond the bridge and Torre dei Mannelli |
 | [docs/landmarks/PITTI-BOBOLI.md](docs/landmarks/PITTI-BOBOLI.md) | Landmark models: Palazzo Pitti, the Boboli garden and Forte Belvedere |
+| [docs/landmarks/STROZZI.md](docs/landmarks/STROZZI.md) | Landmark model: Palazzo Strozzi |
+| [docs/landmarks/REPUBBLICA.md](docs/landmarks/REPUBBLICA.md) | Landmark model: Piazza della Repubblica, the Palazzo dell'Arcone |
+| [docs/landmarks/MERCATO-CENTRALE.md](docs/landmarks/MERCATO-CENTRALE.md) | Landmark model: the Mercato Centrale |
+| [docs/landmarks/SANTO-SPIRITO.md](docs/landmarks/SANTO-SPIRITO.md) | Landmark model: Santo Spirito with its sacristy, Cenacolo and convent |
+| [docs/landmarks/SAN-MARCO.md](docs/landmarks/SAN-MARCO.md) | Landmark model: San Marco, church and former convent |
+| [docs/landmarks/LOGGIA-DEL-PESCE.md](docs/landmarks/LOGGIA-DEL-PESCE.md) | Landmark model: the Loggia del Pesce, in the Mercato Vecchio and in Piazza dei Ciompi |
+| [docs/landmarks/ANNUNZIATA.md](docs/landmarks/ANNUNZIATA.md) | Landmark model: Piazza Santissima Annunziata (Innocenti, Loggia dei Servi, the church) |
 | [docs/REFINEMENTS.md](docs/REFINEMENTS.md) | Refinement list: the open points of every landmark model, gathered from their review lists |
 | [docs/STATUES.md](docs/STATUES.md) | Statues, columns and fountains in the squares: dated placeholders and the list to refine |
 | [docs/RIVER-LANDSCAPE.md](docs/RIVER-LANDSCAPE.md) | Terrain, land cover, vegetation, the Arno, weirs, bridges, crossings, river life, early settlement |
