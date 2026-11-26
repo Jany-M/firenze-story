@@ -9,6 +9,7 @@
   streets.json       walkable graph + zones + squares (with oriented rectangles)
   trees.bin          vegetation: Comune trees (modern) + historic scatter (until the ground is built) + wide ring
   urban.f32          per 8 m cell of the core: first year something stood there (vegetation / ground shader)
+  yards.u8           per 4 m cell of the core: share of open ground inside the blocks (not street, not building), 0–255
   map textures, meta.json
 """
 import sys, os, json, re, zipfile, io, math, numpy as np, cv2
@@ -343,6 +344,13 @@ U = np.where((U_built > 3000) & street8 & (around < 3000), around, U_built)
 # the ground shader paves only built-up blocks and streets: in the sparse villa belt on the hills a detached house keeps
 # its garden instead of a grey 8 m square around it (vegetation above still uses the full U)
 np.where(dense | street8, U, 9999).astype(np.float32).tofile(os.path.join(OUT, "urban.f32"))
+# yards: 4 m cells of the core that are neither street nor square nor under a present-day building – courtyards, gardens
+# and orti inside the blocks. The ground shader lays a garden there where the 2017 orthophoto is green, paving elsewhere.
+YC = 4.0; ny = int((X1 - X0) / YC)
+FP = np.fromfile(os.path.join(OUT, "footprints.u16"), np.uint16).reshape(2, NS, NS)[0]     # layer 0: present-day buildings
+free2 = ((FP == 0) & (SR == 0)).astype(np.float32)
+YARD = cv2.resize(free2, (ny, ny), interpolation=cv2.INTER_AREA)
+(np.clip(YARD, 0, 1) * 255).astype(np.uint8).tofile(os.path.join(OUT, "yards.u8"))
 from shapely import contains_xy
 TREES = []   # x, y, z (local), height, type (0 broadleaf, 1 cypress, 2 olive, 3 poplar), start, end
 def add(x, y, h, typ, start, end):
@@ -400,6 +408,6 @@ tex("1873_PiantaDiFirenzeEDintorniIGM", "map_1873.jpg", 4096)
 tex("1937_MappaCittaDiFirenze", "map_1937.jpg", 4096)
 save_json("meta.json", {"bbox_utm": [X0, Y0, X1, Y1], "origin_utm": list(ORIGIN), "base_z": BASE_Z, "crs": "EPSG:25832",
                         "terrain": {"n": n, "step": STEP}, "wide": {"n": nW, "step": WS, "half": HALF, "land": "land_s2.jpg"},
-                        "urban": {"n": nu, "cell": UC}, "trees": {"count": len(T), "stride": 7},
+                        "urban": {"n": nu, "cell": UC}, "yards": {"n": ny, "cell": YC}, "trees": {"count": len(T), "stride": 7},
                         "built": __import__("datetime").date.today().isoformat()})
 print("done")

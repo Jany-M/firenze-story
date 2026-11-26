@@ -34,6 +34,10 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const U = meta.urban;
   const urbanTex = new THREE.DataTexture(await bin(`${base}/urban.f32`, Float32Array), U.n, U.n, THREE.RedFormat, THREE.FloatType);
   urbanTex.needsUpdate = true; urbanTex.minFilter = urbanTex.magFilter = THREE.NearestFilter;
+  // yards: open ground inside the blocks (not street, not building), 4 m cells – a garden where the 2017 orthophoto is green
+  const Y = meta.yards;
+  const yardTex = Y ? new THREE.DataTexture(await bin(`${base}/yards.u8`, Uint8Array), Y.n, Y.n, THREE.RedFormat, THREE.UnsignedByteType) : blank;
+  if (Y) { yardTex.needsUpdate = true; yardTex.minFilter = yardTex.magFilter = THREE.LinearFilter; }
   const ovTex = texture(blank);   // swapped at runtime via ovTex.value
 
   // ---------- ground colour (shared by the core and the wide ring) ----------
@@ -76,7 +80,10 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     //  beaten earth → first paved streets 1237–1339 (each 40 m patch gets its own year; ~30 % brick herring-bone,
     //  re-laid in stone 1450–1550) → irregular pietra forte slabs (lastrico) → regular slabs in rows from 1860 →
     //  quarters built after 1850: earth/macadam, asphalt 1925–1960. Roman castrum: earth with basoli on cardo and decumanus.
-    const urbanStart = texture(urbanTex).sample(uvC).r;
+    // the 8 m cells read with a noisy offset of about one cell, so built ground and gardens meet in irregular edges
+    // instead of square steps
+    const jit = vec2(fbm(P.mul(0.11)).sub(0.5), fbm(P.mul(0.11).add(37.0)).sub(0.5)).mul(U.cell * 1.6 / (coreHalf * 2));
+    const urbanStart = texture(urbanTex).sample(uvC.add(jit)).r;
     const built = sq.mul(smoothstep(urbanStart.sub(15), urbanStart.add(15), uYear));
     const T = (n: keyof TexSet, size: number) => texture(tex[n].col).sample(P.div(size)).rgb;
     const terra = T('terra', 8), lastr = T('lastrico', 5).mul(0.95), amm = T('ammattonato', 2.4), filari = T('lastrico_filari', 4), asf = T('asfalto', 6);
@@ -99,7 +106,14 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     // drew dark squares around the detached villas of the outer belt (asphalt texture tints it slightly)
     const nowGround = mix(o.mul(1.04), asf, 0.15);
     street = mix(street, mix(terra, nowGround, step(float(1925).add(ph(5).mul(35)), uYear)), newQuarter);
-    const urbanGround = street;
+    // gardens and orti inside the blocks: lawn and planted beds with gravel paths where the yard is green in the photo
+    const yard = Y ? texture(yardTex).sample(uvC).r : float(0);
+    const greenO = o.y.div(o.x.add(o.y).add(o.z).add(0.001));
+    const gardenK = smoothstep(0.55, 0.9, yard).mul(smoothstep(0.345, 0.375, greenO));
+    const lawn = mix(vec3(0.27, 0.36, 0.17), vec3(0.34, 0.42, 0.2), n2).mul(mix(float(0.85), float(1.08), fbm(P.mul(0.6))));
+    const gravel = T('terra', 3).mul(1.15);
+    const garden = mix(lawn, gravel, smoothstep(0.62, 0.7, fbm(P.mul(0.12))).mul(0.6));
+    const urbanGround = mix(street, garden, gardenK);
     // Roman Florentia (c. 30 BC – 6th c.): castrum box from the excavated walls (A03), cardo (via Roma–Calimala) and
     // decumanus (via Strozzi–Speziali–Corso) crossing at the forum; streets every ~1 actus in basoli
     const inCastrum = step(-300, P.x).mul(step(P.x, 125)).mul(step(-170, P.y)).mul(step(P.y, 232));

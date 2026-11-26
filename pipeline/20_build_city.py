@@ -239,7 +239,10 @@ def extrude(bid, poly, ground, top_fn, roof="lidar", step=3.5, eave_poly=None, s
                 rr, cc = rcI; zr = DSM[rr, cc]; ok = (zr > lo - 0.5) & (zr < hi + 0.5)
                 pts = np.c_[X0 + (cc[ok] + 0.5) * RES - cx, Y1 - (rr[ok] + 0.5) * RES - cy, zr[ok]]
                 planes = lidar_planes(to_l(p), pts, lo, hi)
-                if planes is None and not keep_scan:
+                # curated landmarks keep the scanned surface only when it has real relief (domes, towers, lanterns); a
+                # palazzo whose planes do not fit gets the scan's hip roof like any house (the scan grid drew sagging
+                # roofs with saw-toothed eaves)
+                if planes is None and (not keep_scan or hi - lo < 10.0):
                     planes = lidar_hip(to_l(p), pts, lo, hi)
                     if planes is not None: mode = "lidar-hip"
             if planes is None:
@@ -270,7 +273,7 @@ def extrude(bid, poly, ground, top_fn, roof="lidar", step=3.5, eave_poly=None, s
                         pt = Point(x + cx, y + cy)
                         if ls.distance(pt) < 0.05: ext.append(ls.project(pt))
                 extra_u[id(ring)] = ext
-        bpts = []
+        bpts = []; SMOOTH = {}
         for ring in rings:
             ls = LineString(ring.coords); L = ls.length
             if planes is not None:     # planar roof: wall tops are straight between corners and ridge/hip crossings
@@ -280,12 +283,21 @@ def extrude(bid, poly, ground, top_fn, roof="lidar", step=3.5, eave_poly=None, s
                 n = max(int(L / 2.0), 3); base_d = [i * L / n for i in range(n)]
             ds = sorted(set([round(d, 4) for d in base_d] + [L] + [round(d, 4) for d in extra_u.get(id(ring), []) if 0 < d < L]))
             pts = [ls.interpolate(d) for d in ds]
+            if planes is None and len(pts) > 4:
+                # scan-grid roofs: the eave line read off the DSM at every 2 m jumps between roof and street; a running
+                # median of five samples round the ring (then a light mean) gives a straight, level eave
+                raw = np.array([top_fn(q.x, q.y) for q in pts[:-1]]); n_ = len(raw)
+                med = np.array([np.median(raw[[(k + d) % n_ for d in range(-2, 3)]]) for k in range(n_)])
+                sm = np.array([med[[(k + d) % n_ for d in (-1, 0, 1)]].mean() for k in range(n_)])
+                for q, h_ in zip(pts[:-1], sm): SMOOTH[(q.x, q.y)] = float(h_)
+                SMOOTH[(pts[-1].x, pts[-1].y)] = float(sm[0])
+            hz = lambda x, y: SMOOTH.get((x, y)) if (x, y) in SMOOTH else top_fn(x, y)
             u = 0.0
             for a, b in zip(pts[:-1], pts[1:]):
                 ax, ay, bx, by = a.x, a.y, b.x, b.y
                 seg = math.hypot(bx - ax, by - ay)
                 if seg < 1e-3: continue
-                ta, tb = top_fn(ax, ay), top_fn(bx, by)
+                ta, tb = hz(ax, ay), hz(bx, by)
                 nx, ny = (by - ay) / seg, -(bx - ax) / seg          # outward for CCW exterior / CW holes
                 N = [nx, 0.0, -ny]
                 verts = [lx(ax, ay, ground), lx(bx, by, ground), lx(bx, by, tb), lx(ax, ay, ta)]
@@ -352,7 +364,7 @@ def extrude(bid, poly, ground, top_fn, roof="lidar", step=3.5, eave_poly=None, s
             try: tris.append([index[(c[0][0], c[0][1])], index[(c[1][0], c[1][1])], index[(c[2][0], c[2][1])]])
             except KeyError: pass
         if not tris: continue
-        z = np.array([top_fn(x, y) for x, y in pts])
+        z = np.array([SMOOTH[(x, y)] if (x, y) in SMOOTH else top_fn(x, y) for x, y in pts])
         verts = np.array([lx(x, y, zz) for (x, y), zz in zip(pts, z)], np.float32)
         T = np.array(tris)
         v0, v1, v2 = verts[T[:, 0]], verts[T[:, 1]], verts[T[:, 2]]

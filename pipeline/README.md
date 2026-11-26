@@ -16,7 +16,7 @@ go to `_dev/data/` (work cache, not published); results go to `web/public/`. **`
 | 19 | `19_resample_maps.py` | `_dev/data/build/*_05.npy` (historic maps + orthophoto on the 0.5 m grid, ~400 MB) |
 | 20 | `20_build_city.py` (+ `roofs.py`) | `web/public/data/structures.*` – all dated structures, one merged mesh, façade styles, roof colours; `footprints.u16` – walkability grid (2 m cells, record id + 1, layer 0 present-day buildings, layer 1 historic; gates and city walls left open). Map tracings lying in today's river bed are skipped (~5 min) |
 | 23 | `23_city_tiles.py` | `web/public/data/tiles/` – the city mesh cut into 300 m tiles (positions int16 at 2 cm, ids uint16; ~150 MB instead of ~210 MB) that the app streams round the view, nearest first; small devices keep only the tiles near the view (runs after 20, a few seconds) |
-| 21 | `21_build_env.py` | `web/public/data/{terrain,wide,land_s2,water,weirs,river,bridges,streets,trees,urban,meta}` + map textures (~1 min) |
+| 21 | `21_build_env.py` | `web/public/data/{terrain,wide,land_s2,water,weirs,river,bridges,streets,trees,urban,yards,meta}` + map textures (~1 min) |
 | 30 | `30_textures.py` | `web/public/textures/*_{col,nrm,rgh}.jpg` – tileable materials (docs/MATERIALS.md) |
 
 Blender assets: `blender/scripts/build_assets.py` (props, river, wildlife, huts) and `build_characters.py` (costume kit)
