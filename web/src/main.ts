@@ -1,8 +1,8 @@
 import * as THREE from 'three/webgpu';
 import { state, set, on } from './state';
 import { createStage, uTilt } from './scene/stage';
-import { loadCity, uYear, uColorMode, uSelected, pick, periodOf } from './scene/city';
-import { loadLandmarks } from './scene/landmarks';
+import { loadCity, uYear, uColorMode, uSelected, pickHit, periodOf } from './scene/city';
+import { loadLandmarks, LANDMARKS } from './scene/landmarks';
 import { createStreetHighlight } from './scene/streetview';
 import { loadEnvironment, makeHeight, uOverlayOpacity, uTime, uSky } from './scene/environment';
 import { createSplats } from './scene/splats';
@@ -13,6 +13,8 @@ import { createScenes } from './sim/scenes';
 import { createRiver } from './sim/river';
 import { createTimeline } from './ui/timeline';
 import { createPanels, toast } from './ui/panels';
+import { layout } from './ui/layout';
+import { open as openGallery, materialsFor } from './ui/gallery';
 import { EVENTS, CONF_COLORS, SOURCE_LAYERS, PERIODS } from './data/history';
 import { walk } from './sim/walk';
 /** 'MM-DD' → fraction of the year, for parts dated to the day (landmark names "part@1504_160-…"). */
@@ -50,6 +52,23 @@ async function main() {
   done(`${recs.length.toLocaleString()} structures`);
   say('Landmark models');
   const landmarks = await loadLandmarks(scene, mtex, recs); hide(landmarks.replaced, landmarks.replacedIds);
+  // Years where something visibly changes: a structure rising (start → start + ramp) or going, a landmark part, an event.
+  // Playback rushes through the stretches in between, so nobody stares at decades where nothing moves.
+  const busy: [number, number][] = [];
+  for (const r of recs) { busy.push([r.start, r.start + Math.max(r.ramp, 1)]); if (r.end != null) busy.push([r.end - 1, r.end]); }
+  for (const y of landmarks.changes) busy.push([y - 0.5, y + 0.5]);
+  for (const e of EVENTS) busy.push([e.year - 1, e.year + 1]);
+  busy.sort((a, b) => a[0] - b[0]);
+  const spans: [number, number][] = [];
+  for (const b of busy) { const l = spans[spans.length - 1]; if (l && b[0] <= l[1]) l[1] = Math.max(l[1], b[1]); else spans.push([...b]); }
+  /** distance in years to the next change from y (0 inside a busy span) */
+  const quietAhead = (y: number) => {
+    let lo = 0, hi = spans.length;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (spans[m][1] <= y) lo = m + 1; else hi = m; }
+    const s = spans[lo]; return !s ? 2026 - y : Math.max(0, s[0] - y);
+  };
+  const FAST = 50, QUIET = 8;   // a stretch of 8+ empty years plays at ≥ 50 years a second
+  const tlEl = document.getElementById('timeline')!;
   scene.add(mesh);
   say('Terrain, river, bridges and trees');
   const env = await loadEnvironment(DATA, meta, ortho, blank, mtex);
@@ -128,7 +147,13 @@ async function main() {
   const addresses = await fetch(`${DATA}/addresses.json`).then(r => r.ok ? r.json() : undefined).catch(() => undefined);
   const streetHL = createStreetHighlight(scene, height);
   const panels = createPanels(recs, { flyTo, event: goEvent, backend: stage.backend, layerCount: id => id === 'A07' ? river.ancientCount() : 0, addresses,
-    highlightStreet: code => streetHL.show(code && addresses ? addresses.streets[code] : null), squares: streets.squares });
+    highlightStreet: code => streetHL.show(code && addresses ? addresses.streets[code] : null), squares: streets.squares,
+    landmarks: [
+      ...LANDMARKS.filter(l => l.replaces[0] && !l.members).map(l => ({ name: l.replaces[0], x: l.at[0], z: l.at[1], from: l.from ?? 1300 })),
+      // models holding several buildings (the walls): one entry per gate / tower, where its record stands
+      ...LANDMARKS.flatMap(l => (l.members ?? []).map(m => { const r = recs.find(r => r.name === m.name); return r ? { name: m.name, x: r.c[0], z: r.c[1], from: m.from ?? r.start } : null; }))
+        .filter((e): e is { name: string; x: number; z: number; from: number } => !!e),
+    ] });
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
   on((s, ch) => {
     if (nightRestore && ((('year' in ch) && Math.round(s.year) !== nightRestore.year) || (('date' in ch) && s.date !== nightRestore.date) || (('mode' in ch) && s.mode !== 'live'))) {
@@ -154,8 +179,10 @@ async function main() {
     if (Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4) return;
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera);
-    const site = river.pickSite(ray), id = pick(mesh, recs, ray, state.year);
-    if (site && (id < 0 || site.dist < (ray.intersectObject(mesh, false)[0]?.distance ?? Infinity))) { set({ selected: -1 }); panels.showSite(site.info); }
+    const hit = pickHit(mesh, recs, ray, state.year), lm = landmarks.pick(ray);
+    const id = lm && lm.dist <= hit.dist + 0.5 ? lm.id : hit.id;          // landmark models are picked like buildings
+    const site = river.pickSite(ray);
+    if (site && (id < 0 || site.dist < Math.min(hit.dist, lm?.dist ?? Infinity))) { set({ selected: -1 }); panels.showSite(site.info); }
     else if (id >= 0) { panels.showSite(null); set({ selected: id }); }
     else {                                              // open ground: the street or square there, if it exists in this year
       const g = ray.intersectObject(env.terrain, false)[0];
@@ -172,13 +199,24 @@ async function main() {
   // initial apply
   set({ ...state, selected: -1, overlay: state.overlay });
   done(); loading.classList.add('done');
-  toast('Ctrl + mouse rotates, Ctrl + Shift + mouse moves · press H for all view controls');
+  layout.init();
+  document.getElementById('menu-maps')!.onclick = () => { openGallery(materialsFor(['map'])); document.getElementById('menu')!.hidden = true; };
+  document.getElementById('menu-help')!.onclick = () => { view.toggleHelp(); document.getElementById('menu')!.hidden = true; };
+  toast(matchMedia('(pointer: coarse)').matches ? 'One finger moves · pinch to zoom · two fingers rotate · ☰ for help'
+    : 'Ctrl + mouse rotates, Ctrl + Shift + mouse moves · press H for all view controls');
 
   // ---- loop ----
   const timer = new THREE.Timer(); let camSave = 0;
   renderer.setAnimationLoop(() => {
     timer.update(); const dt = Math.min(timer.getDelta(), 0.1);
-    if (state.playing) { const y = state.year + state.speed * dt; if (y >= 2026) set({ year: 2026, playing: false }); else set({ year: y }); }
+    if (state.playing) {
+      const gap = quietAhead(state.year), fast = gap > QUIET && state.speed < FAST;
+      tlEl.classList.toggle('fast', fast);
+      // rush, but land a couple of years before the next change so it is seen at the chosen speed
+      let y = state.year + (fast ? FAST : state.speed) * dt;
+      if (fast) y = Math.min(y, state.year + gap - 2);
+      if (y >= 2026) set({ year: 2026, playing: false }); else set({ year: y });
+    } else tlEl.classList.remove('fast');
     view.update(dt); controls.update(); uTime.value += dt;
     stage.setSun(state.mode === 'live' ? state.hour : 10.5, state.year); uSky.value.copy(scene.background as THREE.Color);
     { // haze scales with zoom: close views stay crisp, the whole valley only fades at the horizon

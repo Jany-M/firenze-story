@@ -13,7 +13,10 @@ export const VIEW_HELP = [
 
 export function createViewControls(camera: THREE.PerspectiveCamera, controls: MapControls, dom: HTMLElement) {
   const help = document.createElement('div'); help.className = 'view-help'; help.hidden = true;
-  help.innerHTML = '<b>View</b>' + VIEW_HELP.map(([k, v]) => `<div><kbd>${k}</kbd><span>${v}</span></div>`).join('');
+  const rows = matchMedia('(pointer: coarse)').matches
+    ? [['One finger', 'move'], ['Pinch', 'zoom'], ['Two fingers', 'rotate and tilt'], ['Tap', 'open a building, street or square']]
+    : VIEW_HELP;
+  help.innerHTML = '<b>View</b>' + rows.map(([k, v]) => `<div><kbd>${k}</kbd><span>${v}</span></div>`).join('');
   help.onclick = () => (help.hidden = true); document.body.appendChild(help);
   const onHelp = () => (help.hidden = !help.hidden);
   const sph = new THREE.Spherical(), off = new THREE.Vector3(), right = new THREE.Vector3(), fwd = new THREE.Vector3();

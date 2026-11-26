@@ -12,6 +12,7 @@ import type { TexSet } from './assets';
 export interface Rec {
   id: number; kind: string; name: string; start: number; end: number | null; ramp: number; conf: string; src: string[];
   qid: string; wiki: string; ground: number; h: number; phases: number[][]; roof: string; c: [number, number]; sub?: string;
+  hidden?: boolean;                              // shell replaced by a landmark model: not drawn, not picked
   style?: { gf: number; fh: number; sp: number; win: number; grd: number; shut: number; mat: number; balc?: number }; rgb?: number[];
 }
 const TEXW = 256;
@@ -236,7 +237,7 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
   mesh.castShadow = true; mesh.receiveShadow = true;
   /** Hide the shells of structures that a landmark model replaces (they stay pickable and keep their record). */
   function hide(names: Set<string>, ids: Set<number> = new Set()) {
-    for (const r of recs) if (names.has(r.name) || ids.has(r.id)) { d0[r.id * 4] = 99998; d0[r.id * 4 + 1] = 99999; }
+    for (const r of recs) if (names.has(r.name) || ids.has(r.id)) { d0[r.id * 4] = 99998; d0[r.id * 4 + 1] = 99999; r.hidden = true; }
     T0.needsUpdate = true;
   }
   return { mesh, recs, hide };
@@ -261,16 +262,18 @@ export const isAlive = (r: Rec, y: number) => y >= r.start && y < (r.end ?? 9999
 export const periodOf = (y: number) => PERIODS.findIndex(p => y <= p.to);
 
 /** CPU pick: first visible structure under the ray (geometry is static, visibility by year). */
-export function pick(mesh: THREE.Mesh, recs: Rec[], ray: THREE.Raycaster, year: number): number {
+export function pick(mesh: THREE.Mesh, recs: Rec[], ray: THREE.Raycaster, year: number): number { return pickHit(mesh, recs, ray, year).id; }
+/** Nearest standing structure under the ray (hidden landmark shells are skipped), with its distance. */
+export function pickHit(mesh: THREE.Mesh, recs: Rec[], ray: THREE.Raycaster, year: number): { id: number; dist: number } {
   const hits = ray.intersectObject(mesh, false);
   const bidA = mesh.geometry.getAttribute('bid') as THREE.BufferAttribute;
   for (const h of hits) {
     const id = Math.round(bidA.getX(h.face!.a));
     const r = recs[id];
-    if (!isAlive(r, year)) continue;
+    if (r.hidden || !isAlive(r, year)) continue;
     // reject hits above the structure's current height (during construction / caps)
     if (h.point.y > r.ground + r.h * 1.4 + 2) continue;
-    return id;
+    return { id, dist: h.distance };
   }
-  return -1;
+  return { id: -1, dist: Infinity };
 }

@@ -1,5 +1,7 @@
 // HUD, mode switch, Sources panel (colour modes, legend with counts, map overlays), live controls, events list,
 // inspector card, search, credits, toasts. Plain DOM, no framework.
+import { layout } from './layout';
+import { galleryHtml, wireGallery } from './gallery';
 import { state, set, fmtYear, fmtDay, fmtHour, MONTHS, type Mode } from '../state';
 import { epochAt, EVENTS, EVENT_REFS, PERIODS, CONF_COLORS, MAP_OVERLAYS, CREDITS, SOURCE_LAYERS } from '../data/history';
 import { ANCIENT_SITES, NECROPOLES } from '../sim/river';
@@ -9,40 +11,29 @@ import { linkSource, sceneToLatLon, streetNameIn, fmtNo, DATASET, A07_PAGES, typ
 const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.querySelector(s) as T;
 const esc = (s: string) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
-export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[] }) {
+export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[] }) {
   const hud = $('#hud'), modes = $('#modes'), side = $('#side'), card = $('#card'), live = $('#live'), evcard = $('#evcard');
-  // every panel can be folded to its title line (▾ / ▸); the state survives re-renders of its content
-  for (const el of [hud, side, card, live, evcard]) {
-    const ensure = () => {
-      if (el.querySelector(':scope > .coll')) return;
-      const b = document.createElement('button'); b.className = 'coll'; b.title = 'fold / unfold';
-      b.textContent = el.classList.contains('min') ? '▸' : '▾';
-      b.onclick = e => { e.stopPropagation(); el.classList.toggle('min'); b.textContent = el.classList.contains('min') ? '▸' : '▾'; };
-      el.prepend(b);
-    };
-    new MutationObserver(ensure).observe(el, { childList: true }); ensure();
-  }
-  // the event card sits right under the era box, whatever its height (folded or not)
-  const placeEv = () => { const r = hud.getBoundingClientRect(); evcard.style.top = `${Math.round(r.bottom + 8)}px`; evcard.style.maxHeight = `calc(100vh - ${Math.round(r.bottom + 8 + 80)}px)`; };
-  new ResizeObserver(placeEv).observe(hud); addEventListener('resize', placeEv);
   /** Event card (left, under the era box): summary, sources, Wikipedia. */
   function showEvent(i: number | null) {
     if (i == null) { evcard.hidden = true; return; }
     const e = EVENTS[i], r = EVENT_REFS[e.title];
-    evcard.hidden = false; evcard.classList.remove('min');
+    evcard.hidden = false;
     evcard.innerHTML = `<button class="x" title="close">×</button><h3>${esc(e.title)}</h3>
       <span class="tag">${fmtYear(e.year)}${e.date ? ' · ' + fmtDay(e.date) : ''}${e.hour != null ? ' · ' + fmtHour(e.hour) : ''}</span>${e.live ? '<span class="tag">live scene</span>' : ''}
       <p class="muted small">${esc(e.place)}</p>
       <p>${esc(r?.sum ?? e.note)}</p>
       ${r?.src.length ? `<h4>Sources</h4><ul class="src">${r.src.map(([t, u]) => `<li>${u ? `<a target="_blank" rel="noopener" href="${esc(u)}">${esc(t)}</a>` : esc(t)}</li>`).join('')}</ul>` : ''}
+      ${galleryHtml([`event:${e.title}`])}
       ${r?.wiki ? `<p><a target="_blank" rel="noopener" href="${esc(r.wiki)}">Wikipedia</a></p>` : ''}`;
-    $('.x', evcard).onclick = () => showEvent(null);
+    $('.x', evcard).onclick = () => showEvent(null); wireGallery(evcard);
+    layout.open(evcard);
   }
   modes.innerHTML = (['overview', 'live', 'sources'] as Mode[]).map(m => `<button data-m="${m}">${{ overview: 'Timeline', live: 'Live', sources: 'Sources' }[m]}</button>`).join('');
   modes.onclick = ev => { const m = (ev.target as HTMLElement).dataset.m as Mode; if (m) set({ mode: m, color: m === 'sources' ? (state.color === 'real' ? 'period' : state.color) : 'real' }); };
 
   // ---- Sources side panel ----
   side.innerHTML = `
+    <h3 class="ptitle">Sources &amp; layers</h3>
     <h4>Colour buildings by</h4>
     <div class="seg" id="cm"><button data-c="real">Realistic</button><button data-c="period">Construction period</button><button data-c="confidence">Confidence</button></div>
     <div id="legend"></div>
@@ -62,6 +53,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
 
   // ---- Live controls ----
   live.innerHTML = `
+    <h3 class="ptitle" id="ltitle">Live</h3>
     <div class="row when"><input id="dd" type="number" min="1" max="31" title="day"><select id="dm" title="month">${MONTHS.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('')}</select>
       <span class="muted">at</span><b id="hrv"></b></div>
     <input id="hr" type="range" min="5" max="21" step="0.25" title="time of day">
@@ -90,6 +82,9 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   const index: Hit[] = [];
   for (const r of recs) if (r.name && !r.name.startsWith('Roman ')) index.push({ kind: 'Building', label: r.name, key: fold(r.name), from: r.start, to: r.end ?? null,
     go: () => { set({ selected: r.id, year: isAlive(r, state.year) ? state.year : r.start + Math.max(r.ramp, 1) }); hooks.flyTo(r.c[0], r.c[1], 260); } });
+  for (const l of hooks.landmarks ?? []) if (!index.some(h => h.kind === 'Building' && fold(h.label) === fold(l.name)))
+    index.push({ kind: 'Building', label: l.name, key: fold(l.name), from: l.from, to: null,
+      go: () => { set({ selected: -1, year: state.year >= l.from ? state.year : l.from + 5 }); hooks.flyTo(l.x, l.z, 260); } });
   const A = hooks.addresses;
   if (A) for (const [code, st] of Object.entries(A.streets)) {
     if (!st.c) continue;
@@ -167,7 +162,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
 
   /** Street card: its name in the selected year, all dated records, origin of the name. */
   let streetOpen: string | null = null;
-  function showStreet(code: string | null) {
+  function showStreet(code: string | null, reveal = true) {
     streetOpen = code; const st = code && A ? A.streets[code] : undefined; if (!st) return;
     siteOpen = true; card.hidden = false; hooks.highlightStreet?.(code);
     const nb = stripItems(code).length;
@@ -182,6 +177,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     wireData();
     $('.x', card).onclick = () => { streetOpen = null; showSite(null); hooks.highlightStreet?.(null); closeStrip(); };
     const so = card.querySelector<HTMLButtonElement>('.strip-open'); if (so) so.onclick = () => openStrip(code!);
+    if (reveal) layout.open(card);
   }
 
   // ---- street strip: both sides of the street, buildings face-on, numbered, coloured by construction period ----
@@ -289,7 +285,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     return { html, links };
   }
 
-  function showCard(id: number) {
+  function showCard(id: number, reveal = false) {
     if (id < 0) { if (!siteOpen) card.hidden = true; return; }
     siteOpen = false; streetOpen = null;
     const r = recs[id]; card.hidden = false;
@@ -303,9 +299,11 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
       <dl>${addr.html}<dt>Height</dt><dd>${r.h.toFixed(1)} m${r.kind === 'building' ? ' (LiDAR 2023)' : ' (estimate)'}</dd>
       ${r.sub ? `<dt>Type</dt><dd>${esc(r.sub)}</dd>` : ''}
       ${dataHtml(links)}</dl>
+      ${galleryHtml([`rec:${r.name}`])}
       <p>${r.qid && !links.some(l => l.url === `https://www.wikidata.org/wiki/${r.qid}`) ? `<a target="_blank" rel="noopener" href="https://www.wikidata.org/wiki/${r.qid}">Wikidata ${r.qid}</a> ` : ''}${wiki ? `<a target="_blank" rel="noopener" href="${wiki}">Wikipedia</a> ` : ''}<a target="_blank" rel="noopener" href="https://www.openstreetmap.org/#map=19/${ll.lat.toFixed(6)}/${ll.lon.toFixed(6)}">Map</a></p>
 `;
-    $('.x', card).onclick = () => set({ selected: -1 }); wireData();
+    $('.x', card).onclick = () => set({ selected: -1 }); wireData(); wireGallery(card);
+    if (reveal) layout.open(card);
   }
 
   /** Card for things placed from a source rather than from the building data (huts, kilns, graves, …). */
@@ -322,6 +320,7 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
       ${dataHtml([{ text: info.src, id: 'A07', url: page }])}</dl>`;
     wireData();
     $('.x', card).onclick = () => showSite(null);
+    layout.open(card);
   }
 
   let lastYear = NaN;
@@ -330,10 +329,11 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     if (Math.round(state.year) !== lastYear || 'color' in changed) {
       lastYear = Math.round(state.year);
       const alive = recs.reduce((n, r) => n + (r.kind !== 'roman' && isAlive(r, state.year) ? 1 : 0), 0);
+      $('#era-name').textContent = e.name;
       hud.innerHTML = `<div class="era">${esc(e.name)}</div><div class="kv"><div>Government<b>${esc(e.gov)}</b></div><div>Population<b>${esc(e.pop)}</b></div><div>Structures standing<b>${alive.toLocaleString()}</b></div></div>`;
       legend();
       if (state.selected >= 0 && !('selected' in changed)) showCard(state.selected);   // street name follows the year
-      else if (streetOpen && state.selected < 0) showStreet(streetOpen);
+      else if (streetOpen && state.selected < 0) showStreet(streetOpen, false);
       if (stripCode) openStrip(stripCode);
     }
     modes.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b as HTMLElement).dataset.m === state.mode));
@@ -342,7 +342,9 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     const [mm, dday] = state.date.split('-').map(Number);
     if (document.activeElement !== dd) dd.value = String(dday); if (document.activeElement !== dm) dm.value = String(mm);
     hr.value = String(state.hour); $('#hrv', live).textContent = fmtHour(state.hour); ts.checked = state.tiltShift;
-    if ('selected' in changed) showCard(state.selected);
+    if ('selected' in changed) showCard(state.selected, true);
+    if ('mode' in changed) layout.open(state.mode === 'live' ? live : side);
+    $('#ltitle', live).textContent = `Live · ${fmtDay(state.date)} · ${fmtHour(state.hour)}`;
   }
   return { update, showSite, showEvent, showStreet: (code: string | null) => { if (code) { set({ selected: -1 }); showStreet(code); } }, streetAt, legend: () => { if (state.mode === 'sources') legend(); }, liveNote: (t: string) => ($('#livenote', live).textContent = t) };
 }
