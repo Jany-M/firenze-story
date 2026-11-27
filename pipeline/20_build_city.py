@@ -19,11 +19,17 @@ from roofs import fit_planes, envelope, env_z, roof_uv
 
 CORE = box(X0, Y0, X1, Y1)
 RES = 0.5
-print("loading LiDAR…"); DSM = load_grid("dsm"); DTM = load_grid("dtm")
+import time as _time
+_T0 = _time.time()
+def say(msg):
+    """Progress with the elapsed time: the whole step takes several minutes and is silent otherwise."""
+    print(f"  [{(_time.time() - _T0) / 60:4.1f} min] {msg}", flush=True)
+say("loading LiDAR (DSM + DTM, 0.5 m)…"); DSM = load_grid("dsm"); DTM = load_grid("dtm")
 DTM = np.where(np.isnan(DTM), np.nanmedian(DTM), DTM)
 DSM = np.where(np.isnan(DSM), DTM, DSM)
 DSMS = cv2.medianBlur(DSM.astype(np.float32), 5); DSMS = cv2.medianBlur(DSMS, 5)   # 2x 2.5 m median: removes chimneys/antennas/noise
 dsm, dtm = Grid(DSMS, RES), Grid(DTM, RES)
+say("LiDAR smoothed; loading the historic map rasters…")
 MAPS = {k: np.load(os.path.join(BUILD, f"{v}_05.npy")) for k, v in {
     "cad": "catasto_generale_toscano_fabbricati", "m1843": "1843_PiantaGeometricaDiFirenzeFantozzi",
     "m1873": "1873_PiantaDiFirenzeEDintorniIGM", "m1937": "1937_MappaCittaDiFirenze", "ortho": "Ortofoto2017_COL_2K_CoFi"}.items()}
@@ -502,8 +508,13 @@ def eave_zone(g, depth=0.85):
     near = [n for n in near if not n.equals(g)]
     return zone.difference(unary_union(near).buffer(0.05)) if near else zone
 stats = {}
+_N_OSM = sum(1 for e in OSM if "building" in e.get("tags", {})); _n_osm = 0
+say(f"1/5 present-day buildings: {_N_OSM} OSM footprints (dating, LiDAR roofs, façades)…")
 for e in OSM:
     t = e.get("tags", {})
+    if "building" in t:
+        _n_osm += 1
+        if _n_osm % 1000 == 0: say(f"    buildings {_n_osm}/{_N_OSM}")
     if "building" not in t or t.get("building") in ("construction", "roof"): continue
     try: g = osm_polys(e)
     except Exception: continue
@@ -559,6 +570,7 @@ print("today buildings", len(REC), stats)
 TODAY = unary_union(today_polys)
 TODAY_P = prepared.prep(TODAY.buffer(1.5))
 
+say("2/5 demolished fabric (1830s cadastre, 1843 map)…")
 # ================= 2. Demolished fabric: 1830s cadastre (where digitised) + 1843 map blocks elsewhere =====
 STREETS = json.load(open(os.path.join(SRC, "data/raw/osm/core_streets.json"), encoding="utf-8"))["elements"]
 def vectorise(mask, min_area, open_=True):
@@ -659,6 +671,7 @@ def keep43(P, f73):
 n2 = demolished_from(m43, "Fantozzi map 1843 (Comune WMS, vectorised)", "conjectural", keep=keep43)
 print("demolished: cadastre", n1, "1843", n2, "| skipped in the river bed (map hatching, not buildings):", len(SKIPPED_IN_RIVER))
 
+say("3/5 OpenHistoricalMap structures…")
 # ================= 3. OpenHistoricalMap dated structures (walls, gates, towers, churches, Roman monuments) =====
 CONFLICTS = []
 OHM_H = {"citywalls": 11.0, "tower": 34.0, "church": 16.0, "place_of_worship": 16.0, "theatre": 14.0,
@@ -713,6 +726,7 @@ for e in OHM:
                       c=[round(x - ORIGIN[0], 1), round(-(y - ORIGIN[1]), 1)])
         extrude(bid, P, ground, lambda xx, yy, gz=ground, hh=h: gz + hh, roof="flat")
 
+say("4/5 Roman Florentia…")
 # ================= 4. Roman Florentia from Comune excavation data (scavi_linee: Romano) ===================
 z = zipfile.ZipFile(os.path.join(SRC, "data/raw/comune/dati_archeologici_del_centro_storico_di_firenze.zip"))
 nm = z.namelist(); g_ = lambda b, ext: io.BytesIO(z.read([n for n in nm if n.lower() == (b + ext).lower()][0]))
@@ -774,6 +788,7 @@ for bx in xs:
             extrude(bid, U, ground, lambda x, y, gz=ground, hh=h: gz + hh, roof="hip", style=REC[bid]["style"]); nins += 1
 print("roman insulae", nins)
 
+say("5/5 writing the mesh and structures.json…")
 # ================= write =================
 os.makedirs(OUT, exist_ok=True)
 pos = np.concatenate(POS); nrm = np.concatenate(NRM); bid = np.concatenate(BID); fu = np.concatenate(FU); fv = np.concatenate(FV); idx = np.concatenate(IDX).ravel()

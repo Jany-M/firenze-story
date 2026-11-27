@@ -45,10 +45,11 @@ def have(*mods):
 def run(cmd, label, quiet=False, keep=("ASSET", "Error", "Traceback", "error")):
     """Run a step; quiet=True prints only the lines that matter (Blender is very chatty)."""
     print(f"  > {label}", flush=True)
+    env = dict(os.environ, PYTHONUNBUFFERED="1", PYTHONUTF8="1")            # child progress lines show as they come
     if not quiet:
-        r = subprocess.run(cmd, cwd=ROOT)
+        r = subprocess.run(cmd, cwd=ROOT, env=env)
     else:
-        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace")
+        r = subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
         for line in (r.stdout + r.stderr).splitlines():
             if any(k in line for k in keep): print("    " + line.strip())
     if r.returncode: print(f"  ! {label} failed (exit {r.returncode}) – keeping the previous files")
@@ -104,7 +105,9 @@ else:
         if have(*pkgs):
             if stale([J("pipeline", "19_resample_maps.py")], [J("_dev", "data", "build", "*_05.npy")]):
                 run([PY, J("pipeline", "19_resample_maps.py")], "historic map rasters (19_resample_maps.py)")
-            run([PY, J("pipeline", "20_build_city.py")], "city (20_build_city.py, ~2 min)")
+            why = [os.path.basename(p) for p in city_in if os.path.getmtime(p) > mtime([J("web", "public", "data", "structures.json")], newest=False)]
+            print(f"    (newer than structures.json: {', '.join(why) or 'no output yet'}; progress below, Ctrl+C keeps the old city)", flush=True)
+            run([PY, J("pipeline", "20_build_city.py")], "city (20_build_city.py, 5–10 min)")
     else: print("  = city data up to date")
 tiles_in = [J("pipeline", "23_city_tiles.py"), J("web", "public", "data", "structures.json"), J("_dev", "data", "build", "city", "structures.pos.bin")]
 if os.path.exists(J("_dev", "data", "build", "city", "structures.pos.bin")):

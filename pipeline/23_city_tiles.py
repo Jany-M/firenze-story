@@ -50,7 +50,7 @@ for key in np.unique(vt):
     assert q.min() > -32768 and q.max() < 32767, (key, q.min(), q.max())
     loc = remap[tsel].reshape(-1); i32 = len(vsel) > 65535
     name = f"t_{i}_{j}.bin.gz"
-    with gzip.open(os.path.join(OUT, name), "wb", compresslevel=9) as fh:
+    with open(os.path.join(OUT, name), "wb") as raw, gzip.GzipFile(filename="", mode="wb", compresslevel=9, fileobj=raw, mtime=0) as fh:   # no timestamp: same bytes on every build
         fh.write(np.rint(q).astype("<i2").tobytes()); fh.write(nrm[vsel].tobytes())
         fh.write(rb[vsel].astype("<u2").tobytes()); fh.write(fu[vsel].astype("<f4").tobytes()); fh.write(fv[vsel].astype("<f4").tobytes())
         fh.write(loc.astype("<u4" if i32 else "<u2").tobytes())
