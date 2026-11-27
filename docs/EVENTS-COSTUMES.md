@@ -144,14 +144,48 @@ no player.
 | 1800–1900 | frock coat, top hat | crinoline → bustle | | carabinieri / national guard | documented (photos from 1850s) |
 | 1900– | modern | modern | | | documented |
 
+### Heads (2026-11-28)
+The Xbot figure's bald head now carries a face and hair from the Blender kit (`blender/scripts/build_characters.py` →
+`hats.glb`, attached to the head bone like the hats). Everything is built on the head's own surface, so nothing pokes
+through: hair caps and beards are dense shells projected onto the head and thinned to nothing at the hairline; nose,
+brow ridge, ears and chin are small hulls set on the surface by ray casts; eyes (white and iris), lips and brows.
+Each person gets one of three face shapes (straight, long aquiline, short broad nose), a slight random width,
+skin and lip colours, an iris colour and a hair colour (weighted for a Tuscan population: mostly dark brown and black,
+some chestnut, auburn, fair and grey – *inferred*). Styles by era and sex (`headFor` in `web/src/sim/people.ts`, from
+period portraits, shares *inferred*):
+
+| Period | Men | Beards | Women |
+|---|---|---|---|
+| Roman | crop, short, curly | mostly shaven | bun, some long |
+| 500–1400 | bob (page-boy), short, crop | full or short beards common | bun, long |
+| 1400–1600 | *zazzera* (bob), short, curly | rare before 1520, then common | bun, long, some bob |
+| 1600–1800 | bob and short; long (wigs) from 1680 | moustaches to 1660, then shaven | bun, long |
+| 1800–1945 | short, crop, balding | moustaches and beards | bun, long |
+| from 1945 | crop, short, curly, balding | mostly shaven | long, bob, bun, short, curly |
+
+A hood or helmet hides the hair; hoods and helmets are now open at the face. The small features show within 60 m of
+the camera only (they are seven draw calls a head).
+
+### Squares and bridges (2026-11-28)
+`web/src/sim/squares.ts` fills only the squares (up to three) and bridges (up to two, plus the Ponte Vecchio) near the
+camera, from its own pool of people, and empties them when the camera moves on. In a square: benches along the edges
+facing in – wooden benches before 1400, the stone *panche di via* of the palace fronts with some wooden ones until 1850,
+cast-iron and slat benches after – with one or two people sitting (two talk); stalls with a vendor and customers who
+look and haggle (several before 1900, now and then one after); groups of two to four talking in turns; couples walking
+slowly round the square; a few standing about. Squares laid out late (Piazza della Repubblica 1890, Indipendenza 1844,
+Libertà and Beccaria 1865, Piazzale Michelangelo 1873, Piazzale degli Uffizi 1581…) are empty before; so are squares a
+building of the year stands on, and the square of an event scene. On the bridges people lean on the parapets looking
+up or down the river, some in pairs; on the Ponte Vecchio they look in the shop windows and from the middle terrace.
+Fewer at night. Counts and placement *inferred*.
+
 ## 6. Interactions to animate (requested list → building blocks)
 
 | Interaction | Needs | Asset/anim source |
 |---|---|---|
 | buying | vendor + customer facing, hand-over | stalls (done), *agree/headShake* (have), "give" clip (Mixamo/Blender) |
 | walking / running | on the street graph | have (walk/run) |
-| talking | pairs/groups facing, idle + gestures | idle/agree/headShake; add "talk" clip |
-| sitting | benches, steps, taverns | bench + table props (done); "sit" clip needed |
+| talking | pairs/groups facing, idle + gestures | groups in the squares take turns with idle/agree/headShake (done); a "talk" clip would help |
+| sitting | benches, steps, taverns | bench props (wood, stone, park) and a sit pose on the bones (done, squares) |
 | eating / drinking | tavern tables, cups | table prop (done); "drink" clip needed |
 | fighting | calcio, brawls, militia drill | "punch", "push" clips needed |
 | playing | dice, cards, ball games, children | "crouch", "throw" clips needed |

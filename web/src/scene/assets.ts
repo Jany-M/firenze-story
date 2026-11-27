@@ -43,7 +43,7 @@ export async function loadProps(tex: TexSet, base = './models') {
   const mats = buildMaterials(defs, tex);
   const names = ['barrel', 'basket', 'crate', 'jar', 'bench', 'table', 'stall_produce', 'stall_cloth', 'stall_bread', 'tribune', 'brindellone', 'colombina',
     'barchetto', 'navicello', 'scafa', 'scalo', 'sandheap', 'duck', 'heron', 'bird', 'deer', 'hut', 'palisade',
-    'hut_stilt', 'kiln', 'hearth', 'canoe', 'sheep', 'pig', 'cow', 'urn_grave', 'stele'];
+    'hut_stilt', 'kiln', 'hearth', 'canoe', 'sheep', 'pig', 'cow', 'urn_grave', 'stele', 'bench_stone', 'bench_park', 'laundry', 'clayheap', 'bricks'];
   const loader = new GLTFLoader(); const lib: Record<string, THREE.Object3D> = {};
   await Promise.all(names.map(async n => {
     try {

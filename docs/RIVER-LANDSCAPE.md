@@ -55,16 +55,24 @@ only from documents (to research).
 
 ## 3. Life on the river
 Boats sit on the drawn water surface (sampled from the water mesh, which steps down at every weir), not on the
-interpolated axis level.
+interpolated axis level. The hulls are open, so they have floorboards a little above the waterline (otherwise the
+river surface shows inside the boat and it looks swamped); crews stand on them. Figures on the bank are set at the
+edge of the *visible* water (where the surface is above the ground), and slide along the bank off any building of the
+year (the San Niccolò mills, the walls).
  (`RIVER_LIFE`)
 | Activity | Where | When | Source |
 |---|---|---|---|
 | Cargo boats (*navicelli*, sail + tow rope) | up to the old city port | -30 – 1300 | Comune 2019; meer.com |
 | | to the port below the Santa Rosa weir (Ognissanti / Pignone) | 1300 – 1880 (end *conjectural*) | Comune 2019 |
 | Renaioli (sand diggers) with flat boats and sand heaps on the *renai* | between the two weirs | 1700 – 1960 (documented 1829, 1846, 1847; active until the mid-20th c.) | Comune 2019; La Nazione |
-| Fishermen on the banks | everywhere: most seated on a stone with a rod, some standing; two wading knee-deep near the bank; the rod sways and is lifted every ~25 s (a bite or a new cast) | all periods | Comune 2019 (poses *inferred*) |
-| Fishing boats | between the weirs only until 1586 (ban), outside them always | – | Comune 2019 |
-| Landing stages (*scali*) | Porticciola (Piazza d'Arno / delle Travi) and Renai, between Carraia and Santa Trinita | from 1830 | Comune 2019 |
+| Fishermen on the banks | everywhere: most seated on a stone with a rod, some standing; the rod sways and is lifted every ~25 s (a bite or a new cast) | all periods | Comune 2019 (poses *inferred*) |
+| Fishermen wading knee-deep near the bank | two, anywhere | until 1900 (nobody stands in the river in modern times) | *inferred* |
+| Fishing boats | between the weirs only until 1586 (ban), outside them always; the fisherman stands on the floorboards of his own boat | – | Comune 2019 |
+| Moored cargo boats at a landing stage, unloading (one man aboard, one on the stage, sails furled) | the city port between the Ponte Vecchio and the Grazie, north bank (spot *inferred*) | -30 – 1300 | meer.com ("a port between the Carraia and San Niccolò until the 13th century") |
+| | the port of the Pignone, south bank by today's Piazza Paolo Uccello (rebuilt as the Leopoldine port) | 1300 – 1910 | meer.com (used until the early 20th c.); Comune 2019 (the Pignone's boatbuilders); gonews.it 2021 (the Leopoldine port found under Piazza Paolo Uccello) |
+| Washerwomen kneeling at the water's edge, a stone slab into the water, basket and linen spread on the bank | four stretches of open bank: the Renai, above San Niccolò, below Santa Rosa (spots *inferred*) | 1000 – 1900 | *inferred* (common practice before piped water and the public *lavatoi*) |
+| Clay diggers (*fornaciai*): clay heaped on the bank, bricks drying in rows, a moulding table | two stretches below the city | 1300 – 1900 | Agostini 2012 (river crafts below Florence: navicellai, renaioli, fornaciai…); spots *inferred* |
+| Landing stages (*scali*), each with two boats tied up | Porticciola (Piazza d'Arno / delle Travi) and Renai, between Carraia and Santa Trinita | from 1830 | Comune 2019 |
 | | gora of the Renai mills, Lungarno Serristori | from 1846 | Comune 2019 |
 | Ducks, herons, swallows | river | all periods | – |
 | Deer | countryside 1.4–5 km out | before 1200 | *conjectural* |
@@ -80,6 +88,9 @@ of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557
 - Opera di Santa Maria del Fiore, archive database (mills of Ognissanti 1417, of San Niccolò 1423)
 - meer.com, "Firenze e l'Arno" (old river port, renaioli)
 - La Nazione (renaioli in the first half of the 20th century)
+- gonews.it (2021), "Quando Firenze aveva il porto sull'Arno" – the Leopoldine port found under Piazza Paolo Uccello
+- I. Agostini, *Un territorio manufatto … il caso dell'Arno a valle di Firenze*, Polistampa 2012 (abstract, cris.unibo.it)
+- E. Butelli, S. Gjyzelaj, "Porti, navi e altri elementi di approdo e commercio lungo l'Arno al tempo di Leonardo", FUP 2023
 - hmdb.org, Piazza della Signoria excavations marker; Wikipedia "Florentia (Roman city)"
 - Copernicus DEM GLO-30 (© DLR / Airbus, ESA); Sentinel-2 cloudless 2016 by EOX (CC BY 4.0, contains modified Copernicus Sentinel data 2016); OpenStreetMap (ODbL)
 

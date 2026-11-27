@@ -13,6 +13,7 @@ import { loadTextures, loadProps } from './scene/assets';
 import { createViewControls } from './scene/view';
 import { createPeople } from './sim/people';
 import { createScenes } from './sim/scenes';
+import { createSquares } from './sim/squares';
 import { createRiver } from './sim/river';
 import { createTimeline } from './ui/timeline';
 import { createPanels, toast } from './ui/panels';
@@ -93,15 +94,17 @@ async function main() {
   say('People and costumes');
   const people = await createPeople(scene, streets, q.people);
   const riverPeople = await createPeople(scene, streets, q.riverPeople, { walkers: false });
+  const squarePeople = await createPeople(scene, streets, q.squarePeople, { walkers: false });   // squares and bridges near the camera
   say('Props, boats and animals');
   const props = await loadProps(mtex, './models');
   const scenes = createScenes(scene, people, height, props, streets.squares);
   scenes.setBridges(env.bridges);
+  const squareLife = createSquares(scene, props, squarePeople, height, streets.squares, env.bridges, streets);
   // walkable ground: building footprints by year (pipeline 20), tree trunks, scene props – see sim/walk.ts
   say('Walkable ground');
   const foot = await fetch(`${DATA}/footprints.u16`).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null);
   walk.init(recs, foot ? new Uint16Array(foot) : null, env.treeData); walk.setYear(state.year);
-  if ((import.meta as any).env?.DEV || location.hostname === 'localhost') Object.assign(window as any, { __fs: { scene, scenes, people, camera, controls, walk } });   // dev-only debug handle
+  if ((import.meta as any).env?.DEV || location.hostname === 'localhost') Object.assign(window as any, { __fs: { scene, scenes, people, camera, controls, walk, get squares() { return squareLife; }, squarePeople, riverPeople, env } });   // dev-only debug handle
   const view = createViewControls(camera, controls, renderer.domElement);
   say('River life: boats, fishermen, birds');
   const riverAxis = (await (await fetch(`${DATA}/river.json`)).json()).axis;
@@ -125,7 +128,7 @@ async function main() {
     const live = state.mode === 'live';
     controls.maxPolarAngle = Math.PI / 2 - 0.01; controls.minDistance = live ? 8 : 12;   // down to the horizontal: fronts seen square on
     uTilt.value = state.tiltShift && (state.mode === 'overview' || state.mode === 'landmarks') ? 1 : (state.tiltShift && live ? 0.35 : 0);
-    people.setEnabled(live); riverPeople.setEnabled(true);   // river and pre-urban figures show in every mode
+    people.setEnabled(live); squarePeople.setEnabled(live); riverPeople.setEnabled(true);   // river and pre-urban figures show in every mode
     if (live) {
       refreshLive(true, true);
     } else scenes.clear();
@@ -275,10 +278,12 @@ async function main() {
     river.update(dt, state.year, true); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => { const p = periodOf(r.start); return uPeriodPick.value >= 0 && p !== uPeriodPick.value ? '#a3a09b' : PERIODS[p]?.color ?? '#888'; }));   // a period picked in the legend: the others grey
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);
-    riverPeople.setContext(Math.round(state.year), controls.target, 2000); riverPeople.update(dt);
+    riverPeople.setContext(Math.round(state.year), controls.target, 2000); riverPeople.update(dt, camera.position);
+    squarePeople.setContext(Math.round(state.year), controls.target, 2000);
+    squareLife.update(dt, camera.position, controls.target, Math.round(state.year), state.hour, state.mode === 'live', scenes.activeAt);
     if (state.mode === 'live') {
       refreshLive();
-      if (!scenes.paused) { people.update(dt); scenes.update(dt); }      // paused: everything stands still
+      if (!scenes.paused) { people.update(dt, camera.position); squarePeople.update(dt, camera.position); scenes.update(dt); }      // paused: everything stands still
       const f = scenes.follow();                       // keep a moving subject in view, the user still orbits and zooms
       if (f && !scenes.paused) { const k = Math.min(1, dt * 1.5), dx = (f.x - controls.target.x) * k, dz = (f.z - controls.target.z) * k;
         controls.target.x += dx; controls.target.z += dz; camera.position.x += dx; camera.position.z += dz; }

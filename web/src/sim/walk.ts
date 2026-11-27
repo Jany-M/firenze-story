@@ -8,7 +8,7 @@ const RES = 2, CELL = 4;
 let HALF = 1800, W = (2 * HALF) / RES;                  // set from the grid size in init (study area ±1800 m)
 let recs: Rec[] = [], foot: Uint16Array | null = null, trees: Float32Array | null = null, year = 2026;
 const treeGrid = new Map<number, number[]>();            // 4 m cells → tree indices
-let boxes: { x0: number; x1: number; z0: number; z1: number }[] = [];
+let boxes: { x0: number; x1: number; z0: number; z1: number; owner: string }[] = [];
 const key = (cx: number, cz: number) => cx * 100003 + cz;
 
 function building(x: number, z: number) {
@@ -70,9 +70,9 @@ export const walk = {
     return d.set(0, d.y, 0);
   },
   /** Props placed by scenes (stalls, stands, the cart…) become solid boxes until clearProps(). */
-  addProp(o: THREE.Object3D, pad = 0.2) {
+  addProp(o: THREE.Object3D, pad = 0.2, owner = 'scene') {
     const b = new THREE.Box3().setFromObject(o); if (b.isEmpty()) return;
-    boxes.push({ x0: b.min.x - pad, x1: b.max.x + pad, z0: b.min.z - pad, z1: b.max.z + pad });
+    boxes.push({ x0: b.min.x - pad, x1: b.max.x + pad, z0: b.min.z - pad, z1: b.max.z + pad, owner });
   },
-  clearProps() { boxes = []; },
+  clearProps(owner = 'scene') { boxes = boxes.filter(b => b.owner !== owner); },
 };

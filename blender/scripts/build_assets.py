@@ -287,16 +287,21 @@ def colombina(c):
     obj("colombina_rocket", c, M["iron"], lambda bm: cyl(bm, (0, 0, -0.09), 0.025, 0.025, 0.25, 8, axis="X"))
 
 # ---------------------------------------------------------------- river (Comune di Firenze, "Una città e il suo fiume", 2019)
-def hull(bm, L, W, H, bow=0.25, rise=0.25):
-    """Flat-bottomed river boat hull (barchetto / navicello / scafa): open, pointed bow raised, square stern."""
-    n = 9; top, bot = [], []
+def hull(bm, L, W, H, bow=0.25, rise=0.25, floor=0.4):
+    """Flat-bottomed river boat hull (barchetto / navicello / scafa): open, pointed bow raised, square stern.
+    `floor`: floorboards at that share of the side height – the hull is open, so without them the river surface shows
+    through the inside of the boat and it looks swamped (the web app floats the boats with the floorboards above water)."""
+    n = 9; top, bot, flo = [], [], []
     for i in range(n):
         t = i / (n - 1); x = -L / 2 + L * t
         w = W / 2 * (1 - max(0, (t - (1 - bow)) / bow) ** 1.6)                 # taper towards the bow (+x)
         lift = rise * max(0, (t - 0.7) / 0.3) ** 2
         bot += [bm.verts.new((x, -w * 0.82, lift)), bm.verts.new((x, w * 0.82, lift))]
         top += [bm.verts.new((x, -w, H + lift)), bm.verts.new((x, w, H + lift))]
+        fz = H * floor + lift; fw = w * (0.82 + 0.18 * floor) - 0.01
+        flo += [bm.verts.new((x, -fw, fz)), bm.verts.new((x, fw, fz))]
     for i in range(n - 1):
+        a = 2 * i; bm.faces.new((flo[a], flo[a + 2], flo[a + 3], flo[a + 1]))   # floorboards
         a, b = 2 * i, 2 * i + 2
         bm.faces.new((bot[a], bot[b], bot[b + 1], bot[a + 1]))                  # bottom
         bm.faces.new((bot[a], top[a], top[b], bot[b]))                          # sides
@@ -494,6 +499,49 @@ def stele(c):                                     # Fiesolan archaic stele (hors
         box(bm, (0, 0, 0.6), (0.62, 0.16, 1.2))
         cyl(bm, (0, 0, 1.2), 0.31, 0.31, 0.16, 14, axis="Y")
     obj("stele", c, M["stone"], b)
+
+# ---------------------------------------------------------------- squares and river banks (2026-11-28)
+@asset
+def bench_stone(c):                               # panca di via: pietra serena bench along a palace front (15th c. on)
+    def b(bm):
+        box(bm, (0, 0, 0.43), (2.4, 0.42, 0.08))
+        for x in (-1.0, 0.0, 1.0): box(bm, (x, 0, 0.2), (0.3, 0.36, 0.4))
+    obj("bench_stone", c, M["stone"], b)
+
+@asset
+def bench_park(c):                                # public bench, cast-iron ends and wooden slats with a back (19th c. on)
+    def slats(bm):
+        for i in range(4): box(bm, (0, 0.12 - i * 0.12, 0.44), (1.9, 0.09, 0.03))
+        for i in range(3): box(bm, (0, -0.26, 0.58 + i * 0.12), (1.9, 0.03, 0.08), rot_y=0.0)
+    obj("bench_park", c, M["wood"], slats)
+    def ends(bm):
+        for x in (-0.85, 0.85):
+            box(bm, (x, 0, 0.22), (0.05, 0.5, 0.44)); box(bm, (x, -0.26, 0.6), (0.05, 0.04, 0.4))
+    obj("bench_park_iron", c, M["iron"], ends)
+
+@asset
+def laundry(c):                                   # washerwoman's things: wicker basket, a stone slab sloping into the water, linen
+    obj("laundry_basket", c, M["wicker"], lambda bm: cyl(bm, (-0.6, -0.4, 0.17), 0.3, 0.24, 0.34, 12))
+    obj("laundry_stone", c, M["stone"], lambda bm: box(bm, (0, 0.35, 0.08), (0.9, 0.6, 0.12), rot_y=0.0))
+    def linen(bm):
+        box(bm, (-0.6, -0.4, 0.36), (0.5, 0.42, 0.06))
+        box(bm, (0.9, -0.5, 0.02), (1.2, 0.8, 0.02)); box(bm, (1.6, 0.4, 0.02), (0.9, 0.7, 0.02))   # spread out to dry
+    obj("laundry_linen", c, M["white"], linen)
+
+@asset
+def clayheap(c):                                  # river clay dug from the bank, heaped for the brick kilns (fornaci)
+    obj("clayheap", c, M["clay"], lambda bm: bmesh.ops.create_cone(bm, cap_ends=False, segments=12, radius1=1.8, radius2=0.4, depth=1.0,
+        matrix=Matrix.Translation((0, 0, 0.5))))
+
+@asset
+def bricks(c):                                    # moulded bricks drying in rows before firing
+    def b(bm):
+        for r in range(3):
+            for i in range(10):
+                for k in range(2): box(bm, (-1.35 + i * 0.3, -0.5 + r * 0.5, 0.04 + k * 0.08), (0.26, 0.13, 0.065))
+    obj("bricks", c, M["clay"], b)
+    obj("bricks_mould", c, M["wood"], lambda bm: box(bm, (1.9, 0, 0.45), (0.9, 0.6, 0.06)))   # moulding table top
+    obj("bricks_legs", c, M["wood_dark"], lambda bm: [box(bm, (1.9 + dx, dy, 0.21), (0.06, 0.06, 0.42)) for dx in (-0.4, 0.4) for dy in (-0.25, 0.25)])
 
 # ---------------------------------------------------------------- build, save, export
 for name, fn in ASSETS.items():

@@ -67,6 +67,7 @@ Status: `in-use` · `placeholder` (works, to be replaced) · `planned`.
 | Fields | 60 × 22 m parcels on a slightly rotated grid: wheat, ploughed earth, vines (rows), meadow | Pre-modern agrarian landscape around the walls |
 | Woods / olive groves | Where Sentinel-2 is dark green today | Sentinel-2 cloudless 2016 (EOX) |
 | Beaten earth → paving → today | Urban ground once the 8 m cell is first built; `lastrico` from 1230–1300; orthophoto surfaces 1880–1960 | Urban raster from the dated city (docs/BUILDINGS.md) |
+| Gardens and parks: no paving | Paths inside OSM parks and gardens (`leisure=park/garden`: Boboli, the Cascine, Bardini, Semplici, Torrigiani…) are not drawn as street paving, nor are paths, tracks or ways with an unpaved surface tag anywhere (gravel, fine gravel, compacted, ground, grass); only roads with a paved surface cross a park paved. Named squares inside a park stay unpaved. Paving is laid only where there is a road or a square (2026-11-28) | `pipeline/21_build_env.py` (`is_paved`, `PARKS`) |
 | Today's countryside | Sentinel-2 colour; built-up land appears 1900–2000 | Sentinel-2 cloudless 2016 |
 | Arno water | Green-brown silty body, flowing ripples (normals), sky reflection by Fresnel | – |
 | Weir (*pescaia*) | `pietra_forte` crest and slope with animated foam | Pescaia di San Niccolò, Santa Rosa |

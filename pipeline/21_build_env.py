@@ -259,6 +259,30 @@ def land_rgb(x, y):
 ST = json.load(open(RAW("osm", "core_streets.json"), encoding="utf-8"))["elements"]
 WALK = {"footway", "pedestrian", "residential", "living_street", "service", "unclassified", "tertiary", "secondary", "primary", "path", "steps", "cycleway", "square"}
 nodes, edges, nid = [], [], {}
+paved_e = []     # per edge: drawn as paved urban ground (roads and paved streets only, never inside a park or garden)
+# Parks and gardens (OSM leisure=park/garden: Boboli, Cascine, Bardini, Semplici, Torrigiani…): their avenues and paths are
+# gravel, earth or grass, so the ground shader must not lay street paving there; outside them a path counts as paved
+# only with a paved surface tag (a footway with no tag is a pavement beside a road; a path or track is not)
+_osm = json.load(open(RAW("osm", "core_osm.json"), encoding="utf-8"))["elements"]
+_ways = {e["id"]: e for e in _osm if e["type"] == "way"}
+_parks = []
+for e in _osm:
+    if e.get("tags", {}).get("leisure") not in ("park", "garden"): continue
+    rings = [e.get("geometry")] if e["type"] == "way" else [m.get("geometry") or _ways.get(m["ref"], {}).get("geometry") for m in e.get("members", []) if m.get("role") == "outer"]
+    for g in rings:
+        if g and len(g) > 3:
+            P = Polygon(utm_line(g)).buffer(0)
+            if P.area > 2000: _parks.append(P)
+PARKS = unary_union(_parks) if _parks else Polygon()
+PAVED_S = {"paved", "asphalt", "concrete", "concrete:plates", "concrete:lanes", "paving_stones", "sett", "cobblestone", "unhewn_cobblestone", "stone", "metal", "wood", "bricks"}
+ROADS = {"residential", "living_street", "service", "unclassified", "tertiary", "secondary", "primary", "pedestrian", "square"}
+def is_paved(t, pts):
+    sf = t.get("surface")
+    if sf is not None and sf not in PAVED_S: return False                       # gravel, fine_gravel, ground, grass, compacted…
+    if t.get("highway") in ("path", "track", "bridleway") and sf is None: return False
+    mid = pts[len(pts) // 2]
+    if PARKS.contains(Point(*mid)): return t.get("highway") in ROADS and sf in PAVED_S   # a real paved road through a park only
+    return True
 def key(x, y): return (round(x, 1), round(y, 1))
 bridges = []
 NAMED = {  # bridge -> dated phases (start, end, kind, conf). Sources: Comune "Una città e il suo fiume"; docs/HISTORY.md
@@ -280,6 +304,7 @@ for e in ST:
             for pat, spans in NAMED.items():
                 if re.search(pat, t["name"], re.I): bridges.append((t["name"], L.intersection(CORE), spans)); break
     if hw not in WALK or t.get("area") == "yes": continue
+    pv = is_paved(t, pts)
     seq = []
     for x, y in pts:
         if not (X0 <= x <= X1 and Y0 <= y <= Y1): seq.append(None); continue
@@ -287,7 +312,8 @@ for e in ST:
         if kk not in nid: nid[kk] = len(nodes); nodes.append(loc(x, y, float(dtm(x, y))))
         seq.append(nid[kk])
     for a, b in zip(seq[:-1], seq[1:]):
-        if a is not None and b is not None and a != b: edges.append([a, b, 1 if t.get("bridge") == "yes" else 0])
+        if a is not None and b is not None and a != b: edges.append([a, b, 1 if t.get("bridge") == "yes" else 0]); paved_e.append(pv)
+print("parks", len(_parks), "edges drawn as paved", sum(paved_e), "of", len(paved_e))
 deck_items, bv, bi, merged = [], [], [], {}
 for name, L, spans in bridges: merged.setdefault(name, ([], spans))[0].append(L)
 for name, (ls, spans) in merged.items():
@@ -324,7 +350,7 @@ for e in ST:
     t = e.get("tags", {})
     if e["type"] == "way" and (t.get("place") == "square" or t.get("highway") == "pedestrian" and t.get("area") == "yes") and t.get("name"):
         P = Polygon(utm_line(e["geometry"])).buffer(0)
-        if P.area > 400 and CORE.contains(P.centroid): squares.append(sq_entry(t["name"], P))
+        if P.area > 400 and CORE.contains(P.centroid): squares.append(dict(sq_entry(t["name"], P), park=bool(PARKS.contains(P.centroid))))
 # Piazza Santa Croce is mapped in OSM only as street lines: outline from its edges + the basilica facade (OSM 2026)
 SC = Polygon([T_WGS_UTM.transform(lo, la) for la, lo in [(43.76891, 11.26242), (43.76847, 11.26197), (43.76900, 11.26055), (43.76934, 11.26082)]])
 squares.append(sq_entry("Piazza di Santa Croce", SC))
@@ -353,10 +379,12 @@ def urban_at(x, y):
 # ================= vegetation =================
 # streets raster (2 m) to keep trees off today's streets and squares
 NS = int((X1 - X0) / 2); SR = np.zeros((NS, NS), np.uint8)
-for a, b, _ in edges:
+for (a, b, _), pv in zip(edges, paved_e):
+    if not pv: continue                                                 # garden paths: no paving, trees may grow by them
     A, B = nodes[a], nodes[b]
     cv2.line(SR, (int((A[0] + ORIGIN[0] - X0) / 2), int((A[2] + Y1 - ORIGIN[1]) / 2)), (int((B[0] + ORIGIN[0] - X0) / 2), int((B[2] + Y1 - ORIGIN[1]) / 2)), 1, 5)
 for s in squares:
+    if s.get("park"): continue                                           # a lawn or gravel "piazzale" inside a garden
     cv2.fillPoly(SR, [np.array([[(x + ORIGIN[0] - X0) / 2, (z + Y1 - ORIGIN[1]) / 2] for x, z in s["ring"]], np.int32)], 1)
 def on_street(x, y):
     c = ((x - X0) / 2).astype(int).clip(0, NS - 1); r = ((Y1 - y) / 2).astype(int).clip(0, NS - 1); return SR[r, c] > 0

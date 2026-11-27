@@ -46,7 +46,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
   const square = (re: RegExp) => squares.find(q => re.test(q.name));
   const root = new THREE.Group(); root.name = 'scene-props'; scene.add(root);
   const sand = new THREE.MeshStandardMaterial({ color: 0xcdb58a, roughness: 1 });
-  let active = '', t = 0, paused = false;
+  let active = '', t = 0, paused = false, activeAt: [number, number] | null = null;
   // calcio state
   let ball = V(0, 0, 0), ballVel = V(0, 0, 0), runners: any[] = [], pitch = { cx: 0, cz: 0, w: 0, d: 0 };
   // scoppio state
@@ -312,7 +312,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (want === 'ponti1944') ponti1944();
     if (want === 'alluvione1966') void flood.build('./data');
     if (want === 'david' || want === 'davidWait') { david(want === 'david'); const fr = davidFrame as THREE.Group | null; if (fr) pos = want === 'david' ? [GATE.x - 4, GATE.z] : [fr.position.x, fr.position.z]; }
-    active = want;
+    active = want; activeAt = want ? [pos[0], pos[1]] : null;
     if (want && (at?.live || frame)) focus(pos[0], pos[1], CAM[want], ...(CAM_DIST[want] ?? []));
     return want;
   }
@@ -334,5 +334,5 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     return null;
   }
   return { evaluate, update, clear, follow, lightHour, camGoal, duration, seek, setBridges(b: typeof bridgeList) { bridgeList = b; },
-    get active() { return active; }, get time() { return t; }, get paused() { return paused; }, set paused(v: boolean) { paused = v; } };
+    get active() { return active; }, get activeAt() { return activeAt; }, get time() { return t; }, get paused() { return paused; }, set paused(v: boolean) { paused = v; } };
 }

@@ -14,13 +14,15 @@ interface Agent {
   obj: THREE.Object3D; mixer: THREE.AnimationMixer; actions: Record<string, THREE.AnimationAction>; body: THREE.MeshStandardMaterial;
   skin: THREE.MeshStandardMaterial[]; bones: Record<string, THREE.Bone>; rig: THREE.Object3D; worn: Record<string, THREE.Mesh>; outfit: string;
   role: Role; a: number; b: number; t: number; len: number; speed: number; cur: string; target?: THREE.Vector3; busy: boolean; blockedN?: number;
-  pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
+  female: boolean; face: THREE.Mesh[]; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
 /** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
-export type Pose = 'sit' | 'rod' | 'sitrod';
+export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel';
 // Xbot / Mixamo rig in T-pose: thigh forward = UpLeg.x −90°, shin down = Leg.x +90°; arm forward = Arm.y ±, down = Arm.z ±
 const POSE_BONES: Record<string, [string, number, number, number][]> = {
   sit: [['LeftUpLeg', -1.5, 0, -0.08], ['RightUpLeg', -1.5, 0, 0.08], ['LeftLeg', 1.45, 0, 0], ['RightLeg', 1.45, 0, 0]],
+  kneel: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0],   // kneeling, leaning over the water
+    ['Spine', 0.35, 0, 0], ['Spine1', 0.25, 0, 0], ['RightArm', 0, 1.0, 0.95], ['LeftArm', 0, -1.0, -0.95], ['RightForeArm', 0, 0.4, 0], ['LeftForeArm', 0, -0.4, 0]],
   rod: [['RightArm', 0, 1.3, 0.55], ['LeftArm', 0, -1.15, -0.5], ['RightForeArm', 0, 0.35, 0], ['LeftForeArm', 0, -0.55, 0]],
 };
 const rodMat = new THREE.MeshStandardMaterial({ color: 0x5a4630, roughness: 0.8 }), lineMat = new THREE.LineBasicMaterial({ color: 0xd8d4c8, transparent: true, opacity: 0.6 });
@@ -38,6 +40,28 @@ export const OUTFITS: Record<string, string[]> = {
   boatman: ['g_shirt', 'g_breeches'], fisher: ['g_shirt', 'g_breeches', 'h_brim'],
 };
 const SKIN = ['#e3b796', '#d6a47f', '#c99373', '#b98260', '#e8c2a3', '#a8714f'];
+// Heads (Blender kit, hats.glb): face shapes, hair styles and beards; colours weighted for a Tuscan population (inferred)
+const HAIR_COL: [string, number][] = [['#1b1714', 15], ['#2e2119', 38], ['#4a3324', 22], ['#6b4128', 8], ['#7d3b22', 3], ['#8c6a43', 6], ['#b8935b', 2], ['#8d8a86', 5], ['#cfccc6', 1]];
+const IRIS = ['#2a1a10', '#2a1a10', '#3b2414', '#3b2414', '#4d3a1e', '#55603a', '#3e5a74'];
+const pickW = <T,>(l: [T, number][]) => { let r = Math.random() * l.reduce((a, b) => a + b[1], 0); for (const [v, w] of l) if ((r -= w) <= 0) return v; return l[0][0]; };
+/** Hair and beard for a person of this era and sex (period fashions from portraits; shares *inferred*). */
+export function headFor(year: number, female: boolean): { hair: string; beard: string | null } {
+  const H = (l: [string, number][]) => pickW(l);
+  if (female) {
+    if (year < 500) return { hair: H([['hair_bun', 6], ['hair_long', 2]]), beard: null };
+    if (year < 1900) return { hair: H([['hair_bun', 5], ['hair_long', 4], ['hair_bob', year < 1400 ? 0 : 1]]), beard: null };
+    return { hair: H([['hair_long', 4], ['hair_bob', 3], ['hair_bun', 2], ['hair_short', 1], ['hair_curly', 1]]), beard: null };
+  }
+  let hair: string, beard: [string | null, number][];
+  if (year < 500) { hair = H([['hair_crop', 4], ['hair_short', 3], ['hair_curly', 3]]); beard = [[null, 7], ['beard_short', 2], ['beard_full', 1]]; }
+  else if (year < 1400) { hair = H([['hair_bob', 4], ['hair_short', 4], ['hair_crop', 2]]); beard = [[null, 5], ['beard_full', 3], ['beard_short', 2]]; }
+  else if (year < 1600) { hair = H([['hair_bob', 4], ['hair_short', 4], ['hair_curly', 2]]); beard = year < 1520 ? [[null, 9], ['beard_short', 1]] : [[null, 5], ['beard_full', 3], ['beard_short', 2]]; }
+  else if (year < 1800) { hair = H(year >= 1680 ? [['hair_long', 5], ['hair_short', 3], ['hair_bob', 2]] : [['hair_bob', 4], ['hair_short', 4], ['hair_long', 2]]); beard = year < 1660 ? [[null, 6], ['beard_moustache', 2], ['beard_short', 2]] : [[null, 9], ['beard_moustache', 1]]; }
+  else if (year < 1945) { hair = H([['hair_short', 5], ['hair_crop', 3], ['hair_balding', 2]]); beard = [[null, 4], ['beard_moustache', 3], ['beard_full', 2], ['beard_short', 1]]; }
+  else { hair = H([['hair_crop', 4], ['hair_short', 4], ['hair_curly', 1], ['hair_balding', 1]]); beard = [[null, 7], ['beard_short', 2], ['beard_full', 1]]; }
+  return { hair, beard: pickW(beard) };
+}
+const HEAD_ITEM = /^(h|f|hair|beard)_/;
 export function outfitFor(year: number, female: boolean, rich = false): string {
   if (year < 500) return female ? 'roman_f' : 'roman_m';
   if (year < 1400) return female ? 'medieval_f' : 'medieval_m';
@@ -77,14 +101,15 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     const actions: Record<string, THREE.AnimationAction> = {};
     for (const k of ['idle', 'walk', 'run', 'agree', 'headShake']) if (clips[k]) actions[k] = mixer.clipAction(clips[k]);
     obj.visible = false; group.add(obj);
-    agents.push({ obj, mixer, actions, body: body!, skin, bones, rig, worn: {}, outfit: '', role: 'walker', a: 0, b: 0, t: 0, len: 1, speed: 1.3, cur: '', busy: false });
+    agents.push({ obj, mixer, actions, body: body!, skin, bones, rig, worn: {}, outfit: '', female: false, face: [], role: 'walker', a: 0, b: 0, t: 0, len: 1, speed: 1.3, cur: '', busy: false });
   }
   /** Bind a garment (skinned to the same Mixamo skeleton) or a hat (on the head) to an agent, once; then toggle. */
   function wear(ag: Agent, name: string): THREE.Mesh | null {
     if (ag.worn[name]) return ag.worn[name];
-    if (name.startsWith('h_')) {
+    if (HEAD_ITEM.test(name)) {
       const src = hatSrc[name], head = ag.bones['mixamorigHeadTop_End'] ?? ag.bones['mixamorigHead']; if (!src || !head) return null;
       const m = new THREE.Mesh(src.geometry, (src.material as THREE.MeshStandardMaterial).clone());
+      if (name.startsWith('h_')) (m.material as THREE.Material).side = THREE.DoubleSide;   // hoods and helmets are open at the face
       ag.obj.updateMatrixWorld(true);
       const ws = new THREE.Vector3(), wq = new THREE.Quaternion(); head.getWorldScale(ws); head.getWorldQuaternion(wq);
       const oq = new THREE.Quaternion(); ag.obj.getWorldQuaternion(oq);
@@ -101,6 +126,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
   /** Dress an agent: outfit by era/role, era palette for the main cloth, optional colour (team livery). */
   function dress(ag: Agent, outfit: string, color?: string) {
     const items = OUTFITS[outfit] ?? [];
+    ag.female = /_f$|^roman_f/.test(outfit);
     for (const [k, m] of Object.entries(ag.worn)) m.visible = items.includes(k);
     const pal = clothingFor(year), pick = () => pal[(Math.random() * pal.length) | 0];
     const main = new THREE.Color(color ?? pick()), alt = new THREE.Color(color && /calcio/.test(outfit) ? color : pick()).multiplyScalar(0.75);
@@ -114,13 +140,27 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     ag.outfit = outfit;
     const s = new THREE.Color(SKIN[(Math.random() * SKIN.length) | 0]);
     for (const m of ag.skin) m.color.copy(Object.keys(garmentSrc).length ? s : new THREE.Color(color ?? pick()));
+    // head: one of three face shapes, eyes, lips, brows; hair and beard by era and sex; a veil, hood or helmet hides the hair
+    if (!hatSrc['f_face0']) return;
+    const hd = headFor(year, ag.female), covered = items.includes('h_hood') || items.includes('h_helmet');
+    const hc = new THREE.Color(pickW(HAIR_COL)); if (Math.random() < 0.3) hc.offsetHSL(0, -0.05, (Math.random() - 0.5) * 0.06);
+    ag.face = [];
+    for (const k of [`f_face${(Math.random() * 3) | 0}`, 'f_eyes', 'f_iris', 'f_lips', 'f_brows', covered ? '' : hd.hair, hd.beard ?? '']) {
+      if (!k) continue; const m = wear(ag, k); if (!m) continue; m.visible = true;
+      const mat = m.material as THREE.MeshStandardMaterial;
+      if (mat.name === 'skin') { mat.color.copy(s); m.scale.set(0.94 + Math.random() * 0.14, 1, 0.95 + Math.random() * 0.1); }
+      else if (mat.name === 'hair') mat.color.copy(hc);
+      else if (mat.name === 'iris') mat.color.set(IRIS[(Math.random() * IRIS.length) | 0]);
+      else if (mat.name === 'lips') mat.color.copy(s).lerp(new THREE.Color(ag.female ? '#9c4a46' : '#8a5048'), ag.female ? 0.45 : 0.3);
+      if (k.startsWith('f_')) ag.face.push(m);
+    }
   }
   const play = (ag: Agent, name: string) => {
     if (ag.cur === name || !ag.actions[name]) return;
     ag.actions[ag.cur]?.fadeOut(0.25); ag.actions[name].reset().fadeIn(0.25).play(); ag.cur = name;
     ag.actions[name].time = Math.random() * ag.actions[name].getClip().duration;
   };
-  let year = 1490, centre = new THREE.Vector3(), radius = 380, enabled = false;
+  let year = 1490, centre = new THREE.Vector3(), radius = 380, enabled = false, epoch = 0;
   const minZone = () => (year < 1172 ? 2 : year < 1865 ? 1 : 0);
   const allowed = (n: number) => G.zone[n] >= minZone();
   const near: number[] = [];
@@ -149,6 +189,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
   }
   /** Re-seed walkers around the focus. Scene roles (busy agents) survive unless all = true. */
   function reset(all = false) {
+    if (all) epoch++;                                   // scene-held figures were taken back
     refreshNear();
     for (const ag of agents) {
       if (ag.busy && !all) continue;
@@ -171,7 +212,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
   function setPose(ag: Agent, pose: Pose | null, waterY = 0) {
     ag.pose = pose ?? undefined;
     if (ag.rod) { ag.obj.remove(ag.rod.g); ag.rod = undefined; }
-    if (!pose) { for (const k of ['LeftUpLeg', 'RightUpLeg', 'LeftLeg', 'RightLeg', 'RightArm', 'LeftArm', 'RightForeArm', 'LeftForeArm']) ag.bones['mixamorig' + k]?.rotation.set(0, 0, 0); return; }
+    if (!pose) { for (const k of ['LeftUpLeg', 'RightUpLeg', 'LeftLeg', 'RightLeg', 'RightArm', 'LeftArm', 'RightForeArm', 'LeftForeArm', 'Spine', 'Spine1']) ag.bones['mixamorig' + k]?.rotation.set(0, 0, 0); return; }
     if (pose === 'rod' || pose === 'sitrod') {
       const g = new THREE.Group();                         // seated or not, the upper body keeps its height in the agent frame
       const hand = new THREE.Vector3(0.05, 1.12, 0.42), dir = new THREE.Vector3(0, 0.55, 1).normalize(), L = 3.4;
@@ -195,13 +236,19 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     const a = r.line.geometry.getAttribute('position') as THREE.BufferAttribute;
     a.setXYZ(0, r.tip.x, r.tip.y, r.tip.z); a.setXYZ(1, r.tip.x, r.tip.y - (lift.y - wy) - 0.02 + pull * 0.6, r.tip.z + 0.4); a.needsUpdate = true;
   }
-  let clock = 0;
-  function update(dt: number) {
+  let clock = 0, lodT = 0;
+  const eye = new THREE.Vector3(1e9, 0, 0);
+  function update(dt: number, cam?: THREE.Vector3) {
     if (!enabled) return;
     clock += dt;
+    if (cam) eye.copy(cam);
+    if ((lodT -= dt) <= 0) {                             // small facial features only near the camera (draw calls)
+      lodT = 0.4;
+      for (const ag of agents) if (ag.obj.visible) { const near = ag.obj.position.distanceToSquared(eye) < 60 * 60; for (const m of ag.face) m.visible = near; }
+    }
     for (const ag of agents) {
-      ag.mixer.update(dt);
       if (!ag.obj.visible) continue;
+      ag.mixer.update(dt);
       if (ag.pose) applyPose(ag, clock);
       if (ag.role === 'walker') {
         ag.t += ag.speed * dt;
@@ -231,7 +278,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
   }
   return {
     group, claim, release, update, agents, setPose, anim: play,
-    get year() { return year; },
+    get year() { return year; }, get epoch() { return epoch; },
     setEnabled(v: boolean) { const was = enabled; enabled = v; group.visible = v; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
     setContext(y: number, c: THREE.Vector3, r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); radius = r; if (changed && enabled) reset(); return changed; },
     reset,
