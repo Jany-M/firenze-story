@@ -3,7 +3,8 @@
 Inputs:  web/public/data/river.json (the Arno's axis: x, water level, z of the centre and of both banks every 20 m),
          web/public/data/terrain.f32 (the app's ground)
 Output:  blender/data/lungarni.json – for each dated stretch (docs/landmarks/LUNGARNI.md): the bank, the years, and the wall's
-         line as points [x, z of the face, street level, river-side level, z of the street's edge] (scene coordinates, y = elevation − 40 m)
+         line as points [x, z of the face, street level, river-side level, z of the street's edge, z of the house fronts,
+         the road's level, 1 if houses were found] (scene coordinates, y = elevation − 40 m)
 The wall stands where the ground reaches the street's level (70th percentile of the ground 30–70 m from the bank) coming
 out from the river: low strips along the water (the Renai below the Lungarno Serristori) stay in front of it. Stretches where houses stand in the river (Borgo San Jacopo, and
 Via de' Bardi before the Lungarno Torrigiani) have no wall.
@@ -21,6 +22,14 @@ def G(x, z):
     i, j = min(max(int(fx), 0), n_ - 2), min(max(int(fz), 0), n_ - 2); a, b = fx - i, fz - j
     return float(T[j, i] * (1 - a) * (1 - b) + T[j, i + 1] * a * (1 - b) + T[j + 1, i] * (1 - a) * b + T[j + 1, i + 1] * a * b)
 axis = json.load(open(os.path.join(D, "river.json")))["axis"]
+# present-day building footprints (2 m, row 0 = north edge; 20_build_city.py): where the street ends at the houses
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from common import X0, Y1, ORIGIN
+NS = int(round(2 * half / 2.0))
+FP = np.fromfile(os.path.join(D, "footprints.u16"), np.uint16).reshape(2, NS, NS)[0]
+def built(x, z):
+    c, r = int((x + ORIGIN[0] - X0) / 2.0), int((z + Y1 - ORIGIN[1]) / 2.0)
+    return 0 <= c < NS and 0 <= r < NS and FP[r, c] > 0
 
 # the stretches: bank, x range along the river's axis (bridges: Vittoria −1660, Vespucci −987, Carraia −626, Santa Trinita
 # −380, Ponte Vecchio −151, Grazie 300, San Niccolò 1297; Piazza dei Cavalleggeri ≈560, Torre della Zecca ≈1080), name,
@@ -85,6 +94,22 @@ for bank, x0, x1, name, year, basis, conf in STRETCHES:
                 if T[j, int(cx)] < p[3] + 1.0: need = max(need, j * st - half) if bank == "n" else min(need, j * st - half); break
                 j += int(sgn)
         p[1] = round(float(np.clip(need, p[1] - 6, p[1] + 6)), 2)
+    # the street: from the parapet to the first house (present-day footprints) within 40 m, else 14 m; its level over the
+    # ground in between (the deck must not sink into the 4 m ground's slopes)
+    for p in pts:
+        d, hit = 1.0, None
+        while d <= 40:
+            if built(p[0], p[1] - sgn * d): hit = d; break
+            d += 0.5
+        p.append(round(p[1] - sgn * (hit if hit else 14.0), 2))
+        gs = [G(p[0], p[1] - sgn * k) for k in np.arange(1.0, (hit or 14.0) - 0.5, 1.0)] or [p[2]]
+        p.append(round(max(p[2], float(np.percentile(gs, 90))) + 0.03, 2))
+        p.append(1 if hit else 0)
+    if len(pts) >= 5:
+        for k in (5, 6):
+            v = np.array([p[k] for p in pts]); vs = v.copy()
+            for i in range(2, len(v) - 2): vs[i] = np.median(v[i - 2:i + 3])
+            for p, w in zip(pts, vs): p[k] = round(float(w), 2)
     out["stretches"].append({"bank": bank, "name": name, "from": year, "basis": basis, "conf": conf, "pts": pts})
     print(f"{bank} {name:55s} {year} {len(pts)} points, street ≈{np.median([p[2] for p in pts]):.1f}, river ≈{np.median([p[3] for p in pts]):.1f}")
 dst = os.path.join(ROOT, "blender", "data", "lungarni.json"); json.dump(out, open(dst, "w", newline="\n")); print("→", dst)

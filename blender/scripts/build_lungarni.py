@@ -20,7 +20,16 @@ from mathutils import Vector
 K.reset()
 MAT["muro"] = material("lungarno_wall", "pietra_forte", (0.56, 0.5, 0.42), 0.92, 0.35, tint=(2.4, 2.3, 2.15))
 MAT["spalletta"] = material("lungarno_parapet_brick", "cotto", (0.62, 0.33, 0.25), 0.88, 1.2)
-MAT["strada"] = material("lungarno_road", None, (0.42, 0.41, 0.4), 0.95)
+MAT["lastrico"] = material("lungarno_paving", "lastrico_filari", (0.55, 0.52, 0.47), 0.9, 0.3)
+MAT["asfalto"] = material("lungarno_asphalt", "asfalto", (0.24, 0.24, 0.25), 0.92, 0.3)
+MAT["marciapiede"] = material("lungarno_sidewalk", "lastrico", (0.6, 0.58, 0.54), 0.85, 0.35)
+# The street on the lungarno, from the parapet to the houses: the road, then the pavement by the houses (photographs of the
+# lungarni today). Stone paving until asphalt (1950, *inferred*); the Lungarno degli Acciaiuoli back in stone from its 2020
+# renovation, the Lungarno degli Archibusieri by the Uffizi in stone throughout; pavements from 1870 or the lungarno's year
+# (*inferred*).
+ASPHALT, SIDEWALK = 1950, 1870
+STONE_AGAIN = {"acciaiuoli": 2020}
+def stone_always(slug, x): return slug.startswith("archibusieri") and x < -40
 MAT["coping"] = material("pietra_serena", "pietra_serena", (0.5, 0.5, 0.48), 0.7, 0.5)
 NOW = K.NOW
 D = json.load(open(os.path.join(ROOT, "blender", "data", "lungarni.json"), encoding="utf-8"))
@@ -42,9 +51,10 @@ for s in D["stretches"]:
     pts = densify(s["pts"]); bank = s["bank"]
     riv = 1.0 if bank == "n" else -1.0                  # the river lies towards +z from the north bank, −z from the south one
     slug = s["name"].split(",")[0].lower().replace("lungarni ", "").replace("lungarno ", "").replace("degli ", "").replace("della ", "").replace("delle ", "").replace(" ", "_").replace("'", "")
-    for (x0, z0, h0, l0, e0), (x1, z1, h1, l1, e1) in zip(pts, pts[1:]):
+    for (x0, z0, h0, l0, e0, b0, r0, k0), (x1, z1, h1, l1, e1, b1, r1, k1) in zip(pts, pts[1:]):
         L = math.hypot(x1 - x0, z1 - z0)
         if L < 0.2: continue
+        h0, h1 = max(h0, r0), max(h1, r1)                    # the wall's top at the road's level
         tx, tz = (x1 - x0) / L, (z1 - z0) / L; nx, nz = -tz, tx                     # normal; turned towards the river
         if nz * riv < 0: nx, nz = -nx, -nz
         xm = (x0 + x1) / 2
@@ -61,14 +71,40 @@ for s in D["stretches"]:
             bm = bm_for(part, "muro")
             poly(bm, [P(x0, z0, lo0), P(x1, z1, lo1), P(x1, z1, top1), P(x0, z0, top0)])                   # the face to the river
             poly(bm, [P(x0, z0, top0), P(x1, z1, top1), P(x1, z1, top1, 1.0), P(x0, z0, top0, 1.0)])       # its top
-            if cut == 0.0 and not part.split("@")[0].endswith("_crollo"):
-                # the road carried flat from the wall to the street's edge (the ground model smooths the wall into a slope)
-                poly(bm_for(part, "strada"), [W(x0, z0, h0 + 0.03), W(x1, z1, h1 + 0.03), W(x1, e1, h1 + 0.03), W(x0, e0, h0 + 0.03)][::(1 if bank == "n" else -1)])
             # courses: a thin dark line every ≈1.2 m (the joints between the squared blocks)
             hh = lo0 + 1.2
             while hh < min(top0, top1) - 0.3:
                 poly(bm_for(part, "coping"), [P(x0, z0, hh, -0.02), P(x1, z1, hh, -0.02), P(x1, z1, hh + 0.06, -0.02), P(x0, z0, hh + 0.06, -0.02)])
                 hh += 1.2
+        # the street: road from the parapet to the pavement, the pavement (0.15 m up, with a kerb) along the houses
+        sw = 2.0 if (k0 and k1) else 0.0
+        if abs(b0 - z0) < 6: sw = min(sw, 1.2)
+        def strip(bm, za0, za1, zb0, zb1, ha, hb):          # a band between two lines across the street, at heights ha / hb
+            q = [W(x0, za0, ha), W(x1, za1, hb), W(x1, zb1, hb), W(x0, zb0, ha)]
+            poly(bm, q if bank == "n" else q[::-1])
+        def edge(bm, za, zb, ha0, ha1, hb0, hb1):            # a vertical band along the street (the kerb)
+            poly(bm, [W(x0, za, ha0), W(x1, zb, hb0), W(x1, zb, hb1), W(x0, za, ha1)])
+        rs0, rs1 = z0 - riv * PT, z1 - riv * PT               # the road starts behind the parapet
+        re0, re1 = b0 + riv * sw, b1 + riv * sw               # and ends at the pavement
+        y0r, y1r = s["from"], NOW
+        stone_to = NOW if stone_always(slug, xm) else ASPHALT
+        road = [("lastrico", y0r, max(y0r + 1, stone_to))]
+        if stone_to < NOW:
+            again = STONE_AGAIN.get(slug.split("_")[0])
+            road += [("asfalto", max(y0r, ASPHALT), again or NOW)] + ([("lastrico", again, NOW)] if again else [])
+        for mat, a, b in road:
+            if a >= b: continue
+            spans = [(a, b)]
+            if br and br["from"] == 2016: spans = [(a, min(b, br["from"])), (max(a, br["to"]), b)]
+            for (a2, b2) in spans:
+                if a2 >= b2: continue
+                strip(bm_for(f"strada_{slug}_{mat}@{a2}-{b2}", mat), rs0, rs1, re0, re1, h0 + 0.01, h1 + 0.01)
+        if sw > 0:
+            part = f"marciapiede_{slug}@{max(s['from'], SIDEWALK)}-{NOW}"
+            strip(bm_for(part, "marciapiede"), re0, re1, b0, b1, h0 + 0.16, h1 + 0.16)
+            edge(bm_for(part, "coping"), re0, re1, h0, h0 + 0.16, h1, h1 + 0.16)
+            if max(s["from"], SIDEWALK) > s["from"]:          # before the pavements: the road ran to the houses
+                strip(bm_for(f"strada_{slug}_lastrico@{s['from']}-{SIDEWALK}", "lastrico"), re0, re1, b0, b1, h0 + 0.01, h1 + 0.01)
         # the parapet on the wall: in place since the wall, gone in a breach's years
         if br:
             phases = [(s["from"], br["from"]), (br["to"], NOW)]

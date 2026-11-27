@@ -239,20 +239,52 @@
   "scale": 1.2,
   "metal": 0.0
  },
- "fs_lungarno_road": {
-  "tex": null,
+ "fs_lungarno_paving": {
+  "tex": "lastrico_filari",
   "color": [
-   0.42,
-   0.41,
-   0.4
+   0.55,
+   0.52,
+   0.47
   ],
   "tint": [
    1,
    1,
    1
   ],
-  "rough": 0.95,
-  "scale": 1.0,
+  "rough": 0.9,
+  "scale": 0.3,
+  "metal": 0.0
+ },
+ "fs_lungarno_asphalt": {
+  "tex": "asfalto",
+  "color": [
+   0.24,
+   0.24,
+   0.25
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.92,
+  "scale": 0.3,
+  "metal": 0.0
+ },
+ "fs_lungarno_sidewalk": {
+  "tex": "lastrico",
+  "color": [
+   0.6,
+   0.58,
+   0.54
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.85,
+  "scale": 0.35,
   "metal": 0.0
  },
  "fs_pietra_serena": {

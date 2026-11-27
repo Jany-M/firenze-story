@@ -23,8 +23,14 @@ Lungarno Corsini from the river (Sailko, 2013), the Lungarno della Zecca Vecchia
 Lungarno Corsini (c. 1744).
 
 - **The wall:** a vertical face of squared pietra forte, its courses drawn as joint lines, from the foot by the water up to
-  the street. The road is carried flat from the wall to the street's edge.
-- **The parapet:** red brick under a stone coping on both banks (the brick band is clear in both of Sailko's photographs).
+  the street.
+- **The parapet:** a narrow wall (≈0.6 m) of red brick under a stone coping on both banks (the brick band is clear in both of
+  Sailko's photographs).
+- **The street:** from the parapet to the houses (the present-day footprints, found up to 40 m in): the road, then a pavement
+  ≈2 m wide, 0.16 m up behind a kerb, along the houses. The road is stone paving until 1950, asphalt after (*inferred*);
+  the Lungarno degli Acciaiuoli goes back to stone with its 2020 renovation, the Lungarno degli Archibusieri by the Uffizi stays
+  stone throughout. Pavements from 1870 or the lungarno's own year (*inferred*); before them the paving runs to the houses.
+  Where no houses stand within 40 m, a 14 m road without a pavement.
 - **The dates:** each stretch appears in the year its wall is first documented (table below).
 - **The breaks:** the Lungarno Corsini's parapet is missing from 1966 to 1968; on the Lungarno Torrigiani the top 2.5 m of the
   wall and the parapet are missing from 25 May 2016 to 2017, then rebuilt.
@@ -53,9 +59,13 @@ ground at the wall's foot from under that road to 25 m out (it reads the line fr
 ground before that hold, `_dev/data/build/terrain_raw.f32`).
 
 ## The flood of 4 November 1966
-A Live scene (Events tab, 4 November 1966): the Arno rises in its bed through the night, comes over the parapets about 5 a.m.,
-fills the lungarni and Santa Croce, reaches Piazza del Duomo by 9:45, stands highest in the afternoon, falls from 8 p.m., and
-the streets clear on 6 November. A clock at the top of the screen names the hour and the stage.
+A Live scene (Events tab, 4 November 1966): it opens at 3:30 a.m. in a deep-dawn light with the Arno high in its bed, the
+camera close over Piazza Cavalleggeri, where the water first came through the parapet into Santa Croce. The water comes over
+the parapets about 5 a.m., the camera draws back over Santa Croce and then the whole centre as Piazza del Duomo floods (9:45),
+the light turning to day; it stands highest in the afternoon, falls from 8 p.m., and the streets clear on 6 November. A
+clock at the top names the hour and the stage; the camera leaves the user alone for 4 s after a drag or a wheel.
+The water is grey-blue (river water with silt; the photographs of the day show it brown with mud – softened so the streets
+read through it).
 
 - **Height of the water:** a sloping surface calibrated on two records – 4.92 m on the plaque in Via dei Neri (Santa Croce) and
   ≈1.8 m ("at least six feet") in Piazza del Duomo – falling in a straight line with the distance from the river's axis
@@ -63,7 +73,8 @@ the streets clear on 6 November. A clock at the top of the screen names the hour
   Pitti's piazza and the hills stay dry.
 - **Where:** every place whose ground is lower than that surface. The 4 m ground draws kerbs and building lines as low ridges,
   so the water is not routed street by street.
-- **When:** each place floods after 5 a.m. at a speed that brings the water from the bank to the Duomo by 9:45.
+- **When:** each place floods after 5 a.m. at a speed that brings the water from the bank to the Duomo by 9:45; from Piazza
+  Cavalleggeri the water runs faster, so Santa Croce fills first.
 - Sources: the Via dei Neri plaque (Protezione Civile, [alluvione-firenze.pdf](https://servizio-nazionale.protezionecivile.gov.it/static/4019da085c64ebd948af0693ce73176e/alluvione-firenze.pdf));
   Piazza del Duomo at 9:45 ([en.wikipedia](https://en.wikipedia.org/wiki/1966_flood_of_the_Arno)) and around 9 ([Il Post](https://www.ilpost.it/2016/11/04/alluvione-firenze-1966/));
   "at least six feet" in Piazza del Duomo, the water falling from 8 p.m. (Yahoo News, "On this day"); the streets clear on 6
@@ -84,3 +95,6 @@ the streets clear on 6 November. A clock at the top of the screen names the hour
 - The flood is one surface, not a routed flow; the 1966 flood maps of the Comune (water heights street by street) would let
   the surface follow the real marks. The 1333 and 1844 floods have no animation.
 - The landings (scali), the Renai's mill race and the stairs down to the river are not drawn on the walls.
+- The asphalt (1950), the pavements (1870) and the Acciaiuoli's stone (2020) are dated by estimate; check each lungarno
+  against photographs (which are stone today besides the Acciaiuoli and the Archibusieri?). Trees along the Lungarno
+  Serristori and the Cellini are not drawn.
