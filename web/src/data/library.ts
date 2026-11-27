@@ -23,6 +23,9 @@ const PAGES: [RegExp, string][] = [
   [/loggia del pesce|piazza dei ciompi/i, 'loggia-del-pesce'],
   [/santo spirito/i, 'santo-spirito'],
   [/san marco/i, 'san-marco'],
+  [/carmine|cappella corsini|brancacci/i, 'carmine'],
+  [/santa felicita/i, 'santa-felicita'],
+  [/san mini?ato|palazzo dei vescovi/i, 'san-miniato'],
   [/^porta |^torre (della zecca|san niccol|della serpe)|torrino di santa rosa|arco di trionfo|cerchia|baluardo/i, 'walls-and-gates'],
 ];
 export const libraryUrl = (name: string) => {

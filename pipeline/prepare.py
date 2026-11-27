@@ -73,7 +73,7 @@ else: print("  = textures up to date")
 # Blender's export is not byte-identical from run to run, so rebuilding everything on any script edit made every .blend/.glb
 # show as modified in git without a real change.
 TEXS = J("web", "public", "textures", "*_col.jpg")
-DATA_OF = {"boboli": "pitti", "strozzi": "centro", "repubblica": "centro", "mercato_centrale": "centro", "santo_spirito": "chiese", "san_marco": "chiese"}   # models sharing a geometry file
+DATA_OF = {"boboli": "pitti", "strozzi": "centro", "repubblica": "centro", "mercato_centrale": "centro", "santo_spirito": "chiese", "san_marco": "chiese", "carmine": "chiese", "felicita": "chiese", "miniato": "chiese"}   # models sharing a geometry file
 def blender_target(script):
     stem = os.path.basename(script)[6:-3]                                   # build_<stem>.py
     if stem == "assets": return [script, TEXS], J("web", "public", "models", "materials.json")      # written last = build stamp

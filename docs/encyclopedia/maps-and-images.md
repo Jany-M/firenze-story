@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 191 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 203 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -873,6 +873,66 @@ All 191 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![The cloister of San Domenico](/materials/landmarks/thumbs/s-marco-chiostro-di-san-domenico-01.jpg)](/materials/landmarks/s-marco-chiostro-di-san-domenico-01.jpg)
 <figcaption markdown>The cloister of San Domenico<br><small>Sailko · 28 March 2014, 10:36:47 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:S._marco,_chiostro_di_San_Domenico_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The unfinished front of the Carmine on its square](/materials/landmarks/thumbs/chiesa-del-carmine-facciata.jpg)](/materials/landmarks/chiesa-del-carmine-facciata.jpg)
+<figcaption markdown>The unfinished front of the Carmine on its square<br><small>sailko · 2009-02-09 11:42:57 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Chiesa_del_carmine,_facciata.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Carmine from the Duomo: the long flank with its big windows, the octagon over the crossing and the Corsini chapel](/materials/landmarks/thumbs/santa-maria-del-carmine-from-brunelleschi-s-dome.jpg)](/materials/landmarks/santa-maria-del-carmine-from-brunelleschi-s-dome.jpg)
+<figcaption markdown>The Carmine from the Duomo: the long flank with its big windows, the octagon over the crossing and the Corsini chapel<br><small>Yair Haklai · 2019-04-22 09:17:25 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Santa_Maria_del_Carmine_from_Brunelleschi%27s_Dome.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Carmine from the west: the flank, the octagon over the crossing and the bell gable](/materials/landmarks/thumbs/firenze-basilica-di-santa-maria-del-carmine-veduta-esterna-da-ovest.jpg)](/materials/landmarks/firenze-basilica-di-santa-maria-del-carmine-veduta-esterna-da-ovest.jpg)
+<figcaption markdown>The Carmine from the west: the flank, the octagon over the crossing and the bell gable<br><small>Pufui PcPifpef · 2018-04-26 14:03:13 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_basilica_di_Santa_Maria_del_Carmine_-_Veduta_esterna_da_ovest.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Silvani&#x27;s Corsini chapel from the garden behind the church](/materials/landmarks/thumbs/chiesa-del-carmine-ext-retro-cappella-corsini-01.jpg)](/materials/landmarks/chiesa-del-carmine-ext-retro-cappella-corsini-01.jpg)
+<figcaption markdown>Silvani&#x27;s Corsini chapel from the garden behind the church<br><small>Sailko · 2013-09-12 19:25:16 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Chiesa_del_carmine,_ext._retro,_cappella_corsini_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The back of the Carmine: the choir and the octagon over the crossing](/materials/landmarks/thumbs/via-dell-ardiglione-giardino-dei-nidiaci-veduta-su-retro-del-carmine-0.jpg)](/materials/landmarks/via-dell-ardiglione-giardino-dei-nidiaci-veduta-su-retro-del-carmine-0.jpg)
+<figcaption markdown>The back of the Carmine: the choir and the octagon over the crossing<br><small>Francesco Bini · 2021-04-08 11:07:22 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Via_dell%27ardiglione,_giardino_dei_nidiaci,_veduta_su_retro_del_carmine_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The first cloister of the Carmine, 1597–1612](/materials/landmarks/thumbs/santa-maria-del-carmine-florence-cloister-2013.jpg)](/materials/landmarks/santa-maria-del-carmine-florence-cloister-2013.jpg)
+<figcaption markdown>The first cloister of the Carmine, 1597–1612<br><small>Oursana · 2014-09-18 15:58:19 · [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Santa_Maria_del_Carmine_(Florence)_-_Cloister_2013.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Santa Felicita&#x27;s flank and bell tower over the roofs of the Oltrarno](/materials/landmarks/thumbs/palazzo-franceschi-dragomanni-veduta-s-felicita-03.jpg)](/materials/landmarks/palazzo-franceschi-dragomanni-veduta-s-felicita-03.jpg)
+<figcaption markdown>Santa Felicita&#x27;s flank and bell tower over the roofs of the Oltrarno<br><small>sailko · 2013-02-18 17:13:34 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Franceschi-Dragomanni,_veduta,_s._felicita_03.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The bell tower of Santa Felicita](/materials/landmarks/thumbs/palazzo-franceschi-dragomanni-veduta-s-felicita-01.jpg)](/materials/landmarks/palazzo-franceschi-dragomanni-veduta-s-felicita-01.jpg)
+<figcaption markdown>The bell tower of Santa Felicita<br><small>sailko · 2013-02-18 17:10:13 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Franceschi-Dragomanni,_veduta,_s._felicita_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![San Miniato&#x27;s front in white marble and green serpentine, with the mosaic and the eagle of the Calimala](/materials/landmarks/thumbs/facciata-basilica-san-miniato-al-monte.jpg)](/materials/landmarks/facciata-basilica-san-miniato-al-monte.jpg)
+<figcaption markdown>San Miniato&#x27;s front in white marble and green serpentine, with the mosaic and the eagle of the Calimala<br><small>Elisa Marianini · 2018-11-03 11:34:28 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Facciata_basilica_san_miniato_al_monte.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![San Miniato from the stairs below the terrace](/materials/landmarks/thumbs/firenze-florence-viale-galileo-view-se-on-la-basilica-di-san-miniato-a.jpg)](/materials/landmarks/firenze-florence-viale-galileo-view-se-on-la-basilica-di-san-miniato-a.jpg)
+<figcaption markdown>San Miniato from the stairs below the terrace<br><small>Txllxt TxllxT · 2010-04-22 12:07:00 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Viale_Galileo_-_View_SE_on_La_basilica_di_San_Miniato_al_Monte_I.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The apse and Baccio d&#x27;Agnolo&#x27;s unfinished bell tower](/materials/landmarks/thumbs/firenze-basilica-di-san-miniato-al-monte-esterno-coro.jpg)](/materials/landmarks/firenze-basilica-di-san-miniato-al-monte-esterno-coro.jpg)
+<figcaption markdown>The apse and Baccio d&#x27;Agnolo&#x27;s unfinished bell tower<br><small>Zairon · 2023-04-16 12:50:06 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Basilica_di_San_Miniato_al_Monte_Esterno_Coro.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The apse wall, its windows closed with thin marble](/materials/landmarks/thumbs/campanile-di-san-miniato-al-monte.jpg)](/materials/landmarks/campanile-di-san-miniato-al-monte.jpg)
+<figcaption markdown>The apse wall, its windows closed with thin marble<br><small>Elisa Marianini · 2018-11-03 11:45:19 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Campanile_di_San_miniato_al_Monte.jpg)</small></figcaption>
 </figure>
 
 </div>

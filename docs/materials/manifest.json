@@ -1581,5 +1581,110 @@
    "rec:Ex convento di San Marco"
   ],
   "caption": "The cloister of San Domenico"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Chiesa del carmine, facciata.JPG",
+  "subjects": [
+   "rec:Basilica di Santa Maria del Carmine"
+  ],
+  "caption": "The unfinished front of the Carmine on its square"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Santa Maria del Carmine from Brunelleschi's Dome.jpg",
+  "subjects": [
+   "rec:Basilica di Santa Maria del Carmine",
+   "rec:Cappella Corsini"
+  ],
+  "caption": "The Carmine from the Duomo: the long flank with its big windows, the octagon over the crossing and the Corsini chapel"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze, basilica di Santa Maria del Carmine - Veduta esterna da ovest.jpg",
+  "subjects": [
+   "rec:Basilica di Santa Maria del Carmine",
+   "rec:Convento del Carmine"
+  ],
+  "caption": "The Carmine from the west: the flank, the octagon over the crossing and the bell gable"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Chiesa del carmine, ext. retro, cappella corsini 01.JPG",
+  "subjects": [
+   "rec:Cappella Corsini",
+   "rec:Basilica di Santa Maria del Carmine"
+  ],
+  "caption": "Silvani's Corsini chapel from the garden behind the church"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Via dell'ardiglione, giardino dei nidiaci, veduta su retro del carmine 01.jpg",
+  "subjects": [
+   "rec:Basilica di Santa Maria del Carmine"
+  ],
+  "caption": "The back of the Carmine: the choir and the octagon over the crossing"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Santa Maria del Carmine (Florence) - Cloister 2013.jpg",
+  "subjects": [
+   "rec:Primo chiostro del Carmine",
+   "rec:Basilica di Santa Maria del Carmine",
+   "rec:Convento del Carmine"
+  ],
+  "caption": "The first cloister of the Carmine, 1597–1612"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo Franceschi-Dragomanni, veduta, s. felicita 03.JPG",
+  "subjects": [
+   "rec:Chiesa di Santa Felicita",
+   "rec:Campanile di Santa Felicita"
+  ],
+  "caption": "Santa Felicita's flank and bell tower over the roofs of the Oltrarno"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Palazzo Franceschi-Dragomanni, veduta, s. felicita 01.JPG",
+  "subjects": [
+   "rec:Campanile di Santa Felicita",
+   "rec:Chiesa di Santa Felicita"
+  ],
+  "caption": "The bell tower of Santa Felicita"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Facciata basilica san miniato al monte.jpg",
+  "subjects": [
+   "rec:Basilica di San Miniato al Monte"
+  ],
+  "caption": "San Miniato's front in white marble and green serpentine, with the mosaic and the eagle of the Calimala"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze - Florence - Viale Galileo - View SE on La basilica di San Miniato al Monte I.jpg",
+  "subjects": [
+   "rec:Basilica di San Miniato al Monte",
+   "rec:Palazzo dei Vescovi"
+  ],
+  "caption": "San Miniato from the stairs below the terrace"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze Basilica di San Miniato al Monte Esterno Coro.jpg",
+  "subjects": [
+   "rec:Basilica di San Miniato al Monte",
+   "rec:Campanile di San Miniato al Monte"
+  ],
+  "caption": "The apse and Baccio d'Agnolo's unfinished bell tower"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Campanile di San miniato al Monte.jpg",
+  "subjects": [
+   "rec:Basilica di San Miniato al Monte"
+  ],
+  "caption": "The apse wall, its windows closed with thin marble"
  }
 ]

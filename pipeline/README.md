@@ -64,9 +64,9 @@ the Loggia dei Servi, the ground under each front and a 1 m DSM raster of everyt
 `blender/data/annunziata.json`, read by `build_annunziata.py` (docs/landmarks/ANNUNZIATA.md). Run by hand like 40–43.
 
 ### 45_chiese.py – geometry for the churches of §12 item 6
-For each site (Santo Spirito, San Marco so far): a frame on the façade, the OSM outlines of the complex, the ground along the
+For each site (Santo Spirito, San Marco, the Carmine, Santa Felicita, San Miniato al Monte): a frame on the façade, the OSM outlines of the complex, the ground along the
 front, a DSM profile along the axis and a 1 m DSM raster of the whole complex → `blender/data/chiese.json`, read by
-`build_santo_spirito.py`, `build_san_marco.py` with the helpers in `landmark_church.py`; the parts not built by hand (here and in
+`build_santo_spirito.py`, `build_san_marco.py`, `build_carmine.py`, `build_felicita.py`, `build_miniato.py` with the helpers in `landmark_church.py`; the parts not built by hand (here and in
 `build_annunziata.py`, `build_pitti.py`) are massed from the DSM raster by `landmark_mass.py` (hipped roofs, walls, cornices, windows). Run by hand like 40–44.
 
 ### 50_materials.py, 51_walls_map.py, 52_encyclopedia.py – pictures and the library

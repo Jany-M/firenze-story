@@ -28,6 +28,9 @@ In the app, the same pictures appear as thumbnails in a building's or event's ca
 | [Piazza Santissima Annunziata](santissima-annunziata.md) | Brunelleschi's Innocenti, the Loggia dei Servi and the Servites' church |
 | [Santo Spirito](santo-spirito.md) | Brunelleschi's last church and the Augustinians' convent in Oltrarno |
 | [San Marco](san-marco.md) | Michelozzo's Dominican convent for Cosimo il Vecchio, Fra Angelico's cells, the church front of 1777–78 |
+| [Santa Maria del Carmine](carmine.md) | The Carmelites' church in Oltrarno, the Brancacci and Corsini chapels, the fire of 1771 |
+| [Santa Felicita](santa-felicita.md) | One of the oldest churches in the city, the nuns' church under the Vasari Corridor, the column in its piazza |
+| [San Miniato al Monte](san-miniato.md) | The Romanesque basilica on the hill, its marble front, the Bishops' Palace and the unfinished bell tower |
 | [Loggia del Pesce](loggia-del-pesce.md) | Vasari's fish loggia: in the Mercato Vecchio until 1889, in Piazza dei Ciompi since 1955 |
 | [Ponte Vecchio](ponte-vecchio.md) | The bridge of 1345, its shops and Vasari's corridor |
 | [Orsanmichele](orsanmichele.md) | Grain market, granary and the guilds' church |

@@ -30,6 +30,16 @@ Technical page: [CAMPANILE-BAPTISTERY.md](landmarks/CAMPANILE-BAPTISTERY.md)
 - [ ] Campanile: relief panels are geometric stand-ins (no figures); the niches hold blocks, not statues; the three storeys of the Talenti part are equal in pattern; the door on the north side is not modelled.
 - [ ] Baptistery: the lower order's geometric marble patterns are simplified to framed panels; window aedicules are generic; the bronze statue groups above the doors (Rustici, Danti, Sansovino) and the porphyry columns are missing; the earlier church on the site (before 1059) is not modelled.
 
+## Santa Maria del Carmine: the church, the Corsini chapel and the convent
+Technical page: [CARMINE.md](landmarks/CARMINE.md)
+
+- [ ] The octagon's date and its earlier form are to check.
+- [ ] The bell gable's date is unknown (shown with the church).
+- [ ] The flanks' corbel table and plastered band are drawn the same on both sides; check the west flank over the convent.
+- [ ] The Brancacci chapel has no outside of its own (it is inside the transept's west arm and the convent): massed from the DSM.
+- [ ] The convent's second, 15th-century cloister (from 1469, now the Albergo Popolare side) is not drawn; its court is in the OSM relation.
+- [ ] The two blocks east and south-east of the church (OSM ways 480493999, 118425492) are massed as convent buildings from 1500 (*inferred*).
+
 ## Corridoio Vasariano (the Vasari Corridor)
 Technical page: [CORRIDOIO-VASARIANO.md](landmarks/CORRIDOIO-VASARIANO.md)
 
@@ -158,6 +168,15 @@ Technical page: [SAN-MARCO.md](landmarks/SAN-MARCO.md)
 - [ ] The Silvestrine church before 1443 is a guess.
 - [ ] The bell tower's belfry and roof are simplified.
 
+## San Miniato al Monte: the basilica, the bell tower, the Bishops' Palace and the monastery
+Technical page: [SAN-MINIATO.md](landmarks/SAN-MINIATO.md)
+
+- [ ] The cloister's form and the monastery's wings are not from photographs.
+- [ ] The aisles' windows and the nave's upper windows are *inferred* in number.
+- [ ] The front's inlay is simplified: the patterns of the lower panels and of the pediment are stand-ins.
+- [ ] The old bell tower (to 1499) is a guess.
+- [ ] The houses at the side of the church (OSM ways 91660049, 91660050, 184781035, 91606488) stay city records.
+
 ## Santa Croce – landmark model
 Technical page: [SANTA-CROCE.md](landmarks/SANTA-CROCE.md)
 
@@ -165,6 +184,14 @@ Technical page: [SANTA-CROCE.md](landmarks/SANTA-CROCE.md)
 - [ ] Façade ornament is simplified: no statues, lunette mosaics or the full Gothic tracery; panel pattern is generic.
 - [ ] Flanks: buttresses and lancets are regular; the north-side loggia and the 19th-century additions are missing.
 - [ ] Interior, the cloisters and the Pazzi Chapel (Brunelleschi) are not part of this model.
+
+## Santa Felicita: the church, its bell tower, the nunnery and the column
+Technical page: [SANTA-FELICITA.md](landmarks/SANTA-FELICITA.md)
+
+- [ ] The medieval church before 1739 is a guess (a plain hall in stone).
+- [ ] The crossing's dome and the Capponi chapel's small dome are not seen outside in the DSM; not drawn.
+- [ ] The front above the corridor is from the plan of the corridor works, not from a photograph of the front: to check.
+- [ ] The column's height (≈7.5 m with its base) is *inferred*; the statues are stand-in shapes; Montauti's statue's end (1850) is *inferred*.
 
 ## Santa Maria Novella – landmark model
 Technical page: [SANTA-MARIA-NOVELLA.md](landmarks/SANTA-MARIA-NOVELLA.md)

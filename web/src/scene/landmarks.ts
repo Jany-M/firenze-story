@@ -124,6 +124,27 @@ export const LANDMARKS: LandmarkDef[] = [
       { key: 'chiostro_domenico', name: 'Chiostro di San Domenico', from: 1444, part: { of: 'Basilica di San Marco', also: ['Ex convento di San Marco'],
         about: "The convent's second cloister, behind Sant'Antonino's: arches on columns with two floors of shuttered windows above." } }],
     source: 'Landmark model v1 – San Marco (Blender; OSM outlines, LiDAR 2023; Michelozzo 1437–44, bell tower 1512, Silvani 1679, front 1777–78)' },
+  { file: 'carmine', from: 1300, replaces: ['Basilica di Santa Maria del Carmine'], at: [0, 0], rot: 0, ground: 0,
+    ids: [700, 971, 3240],   // the convent's LiDAR shells round the church (unnamed)
+    members: [{ key: 'convento', name: 'Convento del Carmine', from: 1300 },
+      { key: 'cappella_corsini', name: 'Cappella Corsini', from: 1683, part: { of: 'Basilica di Santa Maria del Carmine',
+        about: "Pier Francesco Silvani's chapel for Saint Andrea Corsini, the Carmelite bishop of Fiesole, built 1675–83 at the end of the left transept: a rare piece of Roman Baroque in Florence, under an octagonal drum and lantern. It came through the fire of 1771." } },
+      { key: 'chiostro', name: 'Primo chiostro del Carmine', from: 1612, part: { of: 'Basilica di Santa Maria del Carmine',
+        about: 'The first cloister of the Carmelite convent, rebuilt from 1597: the south loggia was finished by 1600 with money from Giovanni Battista Michelozzi, the other three in 1612. Arches on pietra serena columns, an open loggia above, a well in the lawn. The way in to the Brancacci Chapel.' } }],
+    source: 'Landmark model v1 – Santa Maria del Carmine (Blender; OSM outlines, LiDAR 2023; Carmelite church 1268–1476, Corsini chapel 1675–83, fire 1771, Ruggieri and Mannaioni 1775–82, cloister 1597–1612)' },
+  { file: 'felicita', from: 1000, replaces: ['Chiesa di Santa Felicita', 'Sancta Felicita'], at: [0, 0], rot: 0, ground: 0,
+    ids: [3287],   // the nunnery's LiDAR shell (unnamed)
+    members: [{ key: 'monastero', name: 'Ex monastero di Santa Felicita', from: 1300 }, { key: 'campanile', name: 'Campanile di Santa Felicita', from: 1300 },
+      { key: 'colonna', name: 'Colonna di Santa Felicita', from: 1400, part: { of: 'Chiesa di Santa Felicita',
+        about: 'A granite column with a Corinthian capital of the late 14th century, raised in memory of the victory over the Patarine heretics in 1244. A glazed terracotta St Peter Martyr stood on it from 1484 until it fell in 1723; the statue that replaced it was taken down in the 19th century, and the column has stood bare since.' } }],
+    source: 'Landmark model v1 – Santa Felicita (Blender; OSM outlines, LiDAR 2023; 11th-century and Gothic church, Vasari Corridor 1565, Ruggieri 1736–39, column late 14th c.)' },
+  { file: 'miniato', from: 1018, replaces: ['Basilica di San Miniato al Monte', 'San Minato al Monte'], at: [0, 0], rot: 0, ground: 0,
+    ids: [3664],   // the bell tower's LiDAR shell (unnamed, dated 1955 in the city data)
+    members: [{ key: 'palazzo_vescovi', name: 'Palazzo dei Vescovi', from: 1295 }, { key: 'monastero', name: 'Monastero di San Miniato al Monte', from: 1018 },
+      { key: 'campanile', name: 'Campanile di San Miniato al Monte', from: 1523 },
+      { key: 'chiostro', name: 'Chiostro di San Miniato al Monte', from: 1455, part: { of: 'Basilica di San Miniato al Monte',
+        about: "The monastery's cloister, planned in 1426 and built from 1443 to the mid-1450s between the church and the Bishops' Palace; Paolo Uccello painted scenes from the lives of the desert hermits on its walls." } }],
+    source: "Landmark model v1 – San Miniato al Monte (Blender; OSM outlines and a traced outline for the monastery, LiDAR 2023; church begun 1018, marble front 12th–13th c., Bishops' Palace 1295, bell tower 1523, cloister 1443–c. 1455)" },
   // the sixth circle of walls: absolute scene coordinates, one model for walls, towers, gates, bastions and the Fortezza
   { file: 'mura', title: 'City walls and gates', replaces: ["Cerchia d'Arnolfo", 'Cerchia di Arnolfo', 'Baluardo del Mongibello', 'Baluardo della serpe', "Baluardo a' tre canti", 'Baluardo a San Gallo',
       // the earlier circles, drawn by the model on the ground line (the records stood on one height and sank into the slopes)

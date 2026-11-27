@@ -289,7 +289,8 @@ SEND = RO.S[-1]
 # stretches along the run (arc length s from the end of the bridge corridor, m), from the DSM profile and the photographs
 S_TOWER = (2.0, 24.0)         # round Torre dei Mannelli on corbels
 S_BARDI = (24.0, 56.0)        # over Via de' Bardi: destroyed 4 Aug 1944, rebuilt by 1950 (arch 4 m wider)
-S_FELIC = (124.0, 152.0)      # Arco dei Rossi + portico of Santa Felicita
+S_FELIC = (77.5, 101.0)       # Arco dei Rossi + portico of Santa Felicita: the church front's corners (OSM way 159394659)
+                              # lie on the run at s 84–100.5; the arch over the lane before it (photograph, *inferred* width)
 S_GARDEN = (195.0, SEND)      # on a wall along the gardens to Boboli
 D1944 = "1944_217"            # 4 August 1944
 # Santa Felicita: portico ≈6.6 m to the corridor floor, corridor storey ≈4 m (photographs; the DSM gives ≈10.9 m in all)
@@ -308,7 +309,7 @@ def oltrarno_common():
     # the church front behind (−1)
     a0, a1 = S_FELIC; g = lambda sv: RO.at(sv)["g"]
     arco = (a0 + 0.4, a0 + 6.0, g(a0) + 3.3, 2.8)
-    port = [(a0 + 6.8 + j * 5.2, a0 + 6.8 + (j + 1) * 5.2) for j in range(4)]                  # contiguous: columns between
+    port = [(a0 + 6.5 + j * 5.5, a0 + 6.5 + (j + 1) * 5.5) for j in range(3)]                  # three bays (it.wikipedia), columns between
     substructure(p, RO, a0, a1, sides=(1,), openings=[arco] + [(a, b, g(a) + 3.9, 2.6, False) for a, b in port])
     substructure(p, RO, a0, a1, sides=(-1,), openings=[arco])
     for j in range(len(port) + 1):                                                    # columns between the arches

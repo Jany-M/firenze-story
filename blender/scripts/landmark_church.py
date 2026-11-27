@@ -84,7 +84,18 @@ class Site:
                     poly(bm_for(part, "wood"), [F.p(uc - 0.7, g, -depth + 0.02), F.p(uc + 0.7, g, -depth + 0.02), F.p(uc + 0.7, g + 2.8, -depth + 0.02), F.p(uc - 0.7, g + 2.8, -depth + 0.02)])
             if kind == "loggia":
                 v0 = spring + r + 0.85
-                box(bm_for(part, wall), F, -depth, Lf + depth, v0, top, -depth - 0.5, 0.0)
+                if upper and upper[3] == "colonnade":                # an open upper loggia: parapet, columns, architrave
+                    pb = upper[0]
+                    box(bm_for(part, wall), F, -depth, Lf + depth, v0, v0 + pb, -depth - 0.5, 0.0)
+                    box(bm_for(part, wall), F, -depth, Lf + depth, v0 + pb, top, -depth - 0.5, -depth)
+                    pbox(bm_for(part, "serena"), F, -0.2, Lf + 0.2, v0 + pb - 0.12, v0 + pb, 0, 0.2)
+                    for k in range(nb + 1):
+                        cylinder(part, "serena", F.p(k * bay, 0, -0.3), 0.15, v0 + pb, top - 0.65, seg=8)
+                    pbox(bm_for(part, "serena"), F, -0.2, Lf + 0.2, top - 0.65, top - 0.35, -0.5, 0.0)
+                    poly(bm_for(part, "wood"), [F.p(-depth, top - 0.65, -depth), F.p(Lf + depth, top - 0.65, -depth), F.p(Lf, top - 0.65, -0.5), F.p(0, top - 0.65, -0.5)])
+                    upper = None
+                else:
+                    box(bm_for(part, wall), F, -depth, Lf + depth, v0, top, -depth - 0.5, 0.0)
                 pbox(bm_for(part, "serena"), F, -0.2, Lf + 0.2, top - 0.35, top, 0, 0.5)
                 if upper:
                     sill, hh, w, style = upper

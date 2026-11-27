@@ -1,4 +1,4 @@
-"""Churches of §12 item 6 (Santo Spirito, San Marco with its convent, and later the Carmine, Santa Felicita, San Miniato):
+"""Churches of §12 item 6 (Santo Spirito, San Marco with its convent, the Carmine, Santa Felicita, San Miniato al Monte):
 geometry for blender/scripts/build_<site>.py.
 
 For each site: a frame on the façade (a along the front from its corner A to B, o inwards, 0 = the front line), the OSM
@@ -52,6 +52,18 @@ SITES = {
     "spirito": {"A": (-573.6, 540.8), "B": (-546.2, 554.5), "ways": [24881563, 493525529], "rels": [7101376, 1631265]},
     # San Marco: the church (way 225706552) and the former convent (relation 1575764); the front on the square
     "marco": {"A": (267.8, -723.9), "B": (286.3, -714.1), "ways": [225706552], "rels": [1575764]},
+    # Carmine: the church (way 118425485, its front on Piazza del Carmine), the house east of the nave (way 480493999), the
+    # block behind the choir (way 118425492) and the convent with its cloisters (relation 1632337)
+    "carmine": {"A": (-899.72, 418.17), "B": (-878.7, 422.52), "ways": [118425485, 480493999, 118425492], "rels": [1632337]},
+    # Santa Felicita: the church (way 159394659), the block with the bell tower (way 321893761), the former nunnery (relation
+    # 7224447). The front is the Vasari Corridor's back wall: its OSM corners lie on the corridor's centre line at s 84–100.5,
+    # so the frame runs along the corridor 2 m behind it (corridoio.json)
+    "felicita": {"A": (-197.2, 541.7), "B": (-209.9, 552.2), "ways": [159394659, 321893761], "rels": [7224447]},
+    # San Miniato al Monte: the church (way 184781037), the bell tower and the houses at its side (ways 91660049, 91660050,
+    # 184781035, 91606488); the monastery and the bishops' palace have no OSM outline: a polygon round them in the frame
+    # (a −48…0, o −6…62), traced on the 2017 orthophoto and the DSM
+    "miniato": {"A": (811.1, 1342.81), "B": (824.95, 1326.18), "ways": [184781037, 91660049, 91660050, 184781035, 91606488], "rels": [],
+                "extra": [[(-48.0, -6.0), (-0.5, -6.0), (-0.5, 62.0), (-48.0, 62.0)]]},
 }
 def outline(kind, i):
     if kind == "way": return way(i), []
@@ -63,6 +75,7 @@ for key, S in SITES.items():
     c = np.mean(np.array(polys[0][0]), axis=0)
     if np.dot(c - A, N) < 0: N = -N
     def XZ(a, o): p = A + T * a + N * o; return float(p[0]), float(p[1])
+    polys += [([list(XZ(a, o)) for a, o in P], []) for P in S.get("extra", [])]      # outlines traced in the frame
     AO = [(float(np.dot(np.array(p) - A, T)), float(np.dot(np.array(p) - A, N))) for P, _ in polys for p in P]
     a0, a1 = int(min(a for a, _ in AO)) - 1, int(max(a for a, _ in AO)) + 2
     o0, o1 = int(min(o for _, o in AO)) - 1, int(max(o for _, o in AO)) + 2
@@ -139,6 +152,10 @@ sq["spirito"] = {"square": R["outer"][0], "beds": [{"pts": h, "ground": round(fl
 SM = way(1086789430); fanti = way(111797401); fcx = (float(np.mean([p[0] for p in fanti[:-1]])), float(np.mean([p[1] for p in fanti[:-1]])))
 sq["marco"] = {"square": SM, "beds": green_beds(SM, exclude=[fcx]),
                "fanti": {"fence": fanti, "c": [round(fcx[0], 2), round(fcx[1], 2)], "ground": round(G(*fcx), 2)}}
+sq["carmine"] = {"square": way(780251767)}
+cf = node(3116646971)
+sq["felicita"] = {"column": {"c": [round(cf[0], 2), round(cf[1], 2)], "ground": round(G(*cf), 2)}}
+sq["miniato"] = {}
 for k, v in sq.items():
-    out[k]["square"] = v; print(k, "beds", len(v["beds"]), [len(b["pts"]) for b in v["beds"]])
+    out[k]["square"] = v; print(k, "beds", len(v.get("beds", [])), [len(b["pts"]) for b in v.get("beds", [])])
 dst = os.path.join(ROOT, "blender", "data", "chiese.json"); json.dump(out, open(dst, "w", newline="\n")); print("→", dst)
