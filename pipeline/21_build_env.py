@@ -391,7 +391,37 @@ hz = height(x, y); hilly = hz > np.percentile(hz, 40)
 typ = np.where(rng.random(x.size) < 0.13, 1, np.where(hilly & ~wood, 2, np.where(rng.random(x.size) < 0.15, 3, 0)))
 end = np.where(built, rng.uniform(1880, 1960, x.size), 99999)
 add(x, y, np.where(typ == 1, rng.uniform(10, 18, x.size), rng.uniform(5, 13, x.size)), typ, np.full(x.size, -800), end)
-T = np.array(TREES, np.float32); T.tofile(os.path.join(OUT, "trees.bin"))
+T = np.array(TREES, np.float32)
+# no crown through a wall: a tree within its crown's reach of a building (any era, footprints of 20_build_city) lives only
+# while that building does not stand – it ends when the building goes up, or starts after it comes down
+SREC = json.load(open(os.path.join(OUT, "structures.json"), encoding="utf-8"))["items"]
+BS = np.array([-9999] + [r["start"] for r in SREC], np.float32)
+BE = np.array([99999] + [r["end"] if r.get("end") is not None else 99999 for r in SREC], np.float32)
+FOOT2 = np.fromfile(os.path.join(OUT, "footprints.u16"), np.uint16).reshape(2, NS, NS)
+tx, ty_ = T[:, 0] + ORIGIN[0], ORIGIN[1] - T[:, 2]
+reach = np.clip(T[:, 3] * 0.3, 1.5, 5.0)                                  # crown radius, m (broadleaf ~0.22-0.3 h)
+c0 = ((tx - X0) / 2).astype(int); r0 = ((Y1 - ty_) / 2).astype(int)
+inside = (c0 >= 3) & (c0 < NS - 3) & (r0 >= 3) & (r0 < NS - 3)
+t0, t1 = T[:, 5].copy(), T[:, 6].copy()
+for dy in range(-2, 3):
+    for dx in range(-2, 3):
+        d = math.hypot(dx, dy) * 2.0
+        m = inside & (d <= reach)
+        for layer in (0, 1):
+            b = np.zeros(len(T), np.int64); b[m] = FOOT2[layer, r0[m] + dy, c0[m] + dx]
+            hit = b > 0
+            if not hit.any(): continue
+            bs, be = BS[b[hit]], BE[b[hit]]
+            a0, a1 = t0[hit], t1[hit]
+            later = bs > a0                                                # the building comes after the tree: cut its end
+            a1 = np.where(later, np.minimum(a1, bs), a1)
+            a0 = np.where(~later & (be > a0), be, a0)                       # it stood already: the tree only after it falls
+            t0[hit], t1[hit] = a0, a1
+gone = t0 >= t1
+print("trees clear of walls: trimmed", int(((t0 != T[:, 5]) | (t1 != T[:, 6])).sum()), "dropped", int(gone.sum()))
+T[:, 5], T[:, 6] = t0, t1
+T = T[~gone]
+T.tofile(os.path.join(OUT, "trees.bin"))
 print("trees: comune", n_comune, "historic core", n_hist, "wide", x.size, "total", len(T))
 
 # ================= map textures (UTM-aligned, core) =================

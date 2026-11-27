@@ -254,7 +254,8 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
       const L = attribute('life', 'vec2');
       mat.positionNode = Fn(() => {
         const alive = step(L.x, uYear).mul(step(uYear, L.y));
-        const sway = isCrown ? sin(uTime.mul(1.3).add(hash(instanceIndex).mul(6.28))).mul(0.04).mul(positionLocal.y.add(0.5)) : float(0);
+        // a light breeze: the crown bends from its foot (local y -1, on the trunk), never slides off it
+        const sway = isCrown ? sin(uTime.mul(0.9).add(hash(instanceIndex).mul(6.28))).mul(0.012).mul(positionLocal.y.add(1).max(0)) : float(0);
         return positionLocal.add(vec3(sway, 0, sway.mul(0.6))).mul(alive);
       })();
       const c0 = new THREE.Color(isCrown ? sp.col[0] : 0x4a3a2c), c1 = new THREE.Color(isCrown ? sp.col[1] : 0x5a4636);
