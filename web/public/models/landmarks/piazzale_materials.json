@@ -494,5 +494,37 @@
   "rough": 0.5,
   "scale": 1.0,
   "metal": 0.0
+ },
+ "fs_garden_gravel": {
+  "tex": "terra",
+  "color": [
+   0.74,
+   0.69,
+   0.6
+  ],
+  "tint": [
+   1.3,
+   1.25,
+   1.15
+  ],
+  "rough": 1.0,
+  "scale": 0.3,
+  "metal": 0.0
+ },
+ "fs_garden_lawn": {
+  "tex": null,
+  "color": [
+   0.2,
+   0.36,
+   0.12
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
  }
 }

@@ -2,6 +2,8 @@
 
 | Date | Change |
 |---|---|
+| 2026-11-27 | Piazzale Michelangelo: the road round its south side runs on past both ends; the garden with the oval fountain before the Loggia; Viale Poggi's two ramps up to the terrace on the city side and down again; the monument on the terrace's level; the Loggia's roof no longer flickers. The Rampe del Poggi, the monument and the Loggia open their own cards. |
+| 2026-11-27 | Links follow the camera: position and target go into the URL a moment after any move. The compass is a red triangle pointing north, the height in plain metres. |
 | 2026-11-27 | [M41](docs/DATA-SOURCES.md#M41) Piazzale Michelangelo completed for v1 ([PIAZZALE.md](docs/landmarks/PIAZZALE.md)): every retaining wall of the terrace, of the Viale below and of the Rampe traced on the LiDAR, Poggi's cast-iron balustrade all round, the candelabra lamps, the great staircase on the city side, gravel then asphalt on the terrace; the ground is cut and filled round the walls so they stand clear. The statues as figures are left for the refinement pass. |
 | 2026-11-27 | View: a compass by the era name (turns with the view, shows the camera's height over the ground); right click on a building seen up close hides it until the camera moves away; buildings in the way of a close view are taken out later and only when really in the way, landmark models whole. |
 | 2026-11-27 | People walk on the bridges' decks and the lungarni's roads (the ground is brought to the road under each lungarno, a ray finds the deck on bridges), and follow the ground everywhere; no trees on a lungarno's road or a landmark's paving; clay diggers, moulders and carriers, and the washerwomen, each loop a round of tasks. |

@@ -36,10 +36,12 @@ function scheduleHash() {
   clearTimeout(t);
   t = setTimeout(() => {
     const q = new URLSearchParams({ y: String(Math.round(state.year)), d: state.date, m: state.mode, c: state.color, o: state.overlay });
-    if (state.cam.length) q.set('cam', state.cam.map(v => v.toFixed(0)).join(','));
+    if (state.cam.length) q.set('cam', state.cam.map(v => String(Math.round(v * 10) / 10)).join(','));
     history.replaceState(null, '', '#' + q.toString());
   }, 300);
 }
+/** Write the link again (the camera moved; nothing else changed). */
+export const touchHash = () => scheduleHash();
 export const fmtYear = (y: number) => (y < 0 ? `${Math.abs(Math.round(y))} BC` : `${Math.round(y)}`);
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 /** 'MM-DD' -> '24 June' */

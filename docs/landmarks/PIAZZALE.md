@@ -29,6 +29,18 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
   every year (the older heads seen in the 1890s photographs are not drawn apart).
 - **The ground of the terrace and of the square before the Loggia**: gravel until 1960 (the photographs of the 1870s–1900s),
   asphalt after (photographs of the 1990s on); the date of the change is *inferred*. The ground model is lowered under it.
+- **The carriageway round the south side** (Viale Galileo into Viale Michelangiolo, the Comune's carriageway polygon) is left
+  to the city's streets, so it runs on unbroken past both ends of the square; the terrace's paving stops at its edge
+  (`pipeline/49_piazzale.py` → `blender/data/piazzale_ground.json`).
+- **The garden before the Loggia**, between the carriageway and the Loggia's terrace wall: gravel paths (the Comune's
+  pedestrian polygon), sixteen lawn beds edged in stone (its holes) and the oval fountain (OSM way 1093617565) with a jet
+  (its form *inferred*); photographs: Sailko on Commons, localistorici.it.
+- **The two ramps of Viale Poggi** that meet the terrace on the city side, read off the LiDAR: west of the step a 6 m road
+  climbs along the outside of the city-side wall from 56 m (x 770) to the terrace's level (x ≈ 810); east of it the road
+  goes down again, 8–12 m wide, to 54 m (x 900). The wall and its balustrade stop where a ramp reaches the terrace's
+  level; a low stone parapet on each ramp's open side (*inferred*).
+- **The monument stands on the terrace**: its steps start at the terrace's level round it (63.45 m, LiDAR 8–11 m out); the
+  LiDAR's hump of the platform is cut out of the ground, and the paving leaves a hole for it.
 - **The containing walls below**: along Viale Poggi's bends under the terrace and on the Iris garden side, with a low stone
   parapet (*inferred*), part `viale_muri`.
 - **The monument to Michelangelo**: three marble steps ringed by posts and chains, the lower pedestal with red marble

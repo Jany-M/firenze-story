@@ -40,8 +40,10 @@ Lean, DRY, reusable shared modules, standard formats, so other tools can plug in
   offers "Hide this building"; it stays out of the view (city buildings: up to 6 record ids, uniforms; landmark models:
   invisible copies of their materials) until the camera is 20 m further from it than when it was hidden (at least 30 m) or
   20 m above its top. A chip at the bottom shows how many are hidden and brings them back.
-- Compass (header, next to the era): the rose turns with the view (north up when looking north); beside it the camera's
-  height over the ground right under it.
+- Links: the camera (position and target, to 0.1 m) goes into the URL a quarter second after any move, so a shared link
+  opens on the same view.
+- Compass (header, next to the era): a red triangle turns with the view and points north; beside it the camera's height over
+  the ground right under it, in metres.
 - Ground shaped round the models (`models/landmarks/ground_edits.json`, `web/src/scene/terrainRefine.ts`): polygons that
   cut the ground down (`max`), fill it up (`min`) or lower it under a slab (`drop`), written by the build scripts of the
   Piazzale (walls, staircase, paving) and of the lungarni (roads); applied once to the refined ground grid, so the mesh,

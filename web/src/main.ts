@@ -1,5 +1,5 @@
 import * as THREE from 'three/webgpu';
-import { state, set, on } from './state';
+import { state, set, on, touchHash } from './state';
 import { createStage, uTilt, DEFAULT_HOUR } from './scene/stage';
 import { detectQuality } from './quality';
 import { createXray } from './scene/xray';
@@ -308,7 +308,7 @@ async function main() {
     const head = Math.atan2(fwd.x, -fwd.z) * 180 / Math.PI;                       // 0 = looking north, 90 = east
     rose.setAttribute('transform', `rotate(${(-head).toFixed(1)})`);
     const hgt = camera.position.y - height(camera.position.x, camera.position.z);
-    compH.textContent = `↥ ${hgt < 100 ? hgt.toFixed(0) : Math.round(hgt / 10) * 10} m`;
+    compH.textContent = `${hgt < 100 ? hgt.toFixed(0) : Math.round(hgt / 10) * 10} m`;
   };
   addEventListener('keydown', e => {
     if ((e.target as HTMLElement).tagName === 'INPUT') return;
@@ -387,7 +387,10 @@ async function main() {
     { const n = state.mode === 'live' ? scenes.narration() : null, show = n && (scenes.duration() > 0 || scenes.active === liveEvent);
       narration.set(show ? n : factEvent); }
     { const D = scenes.duration(); panels.player(state.mode === 'live' && D > 0 ? { title: sceneTitle, t: scenes.time, dur: D, paused: scenes.paused } : null); }
-    if ((camSave += dt) > 1) { camSave = 0; panels.legend(); state.cam = [...camera.position.toArray(), ...controls.target.toArray()].map(v => Math.round(v)); }
+    // the camera goes into the link (a quarter second after it settles): a shared link opens on the same view
+    if ((camSave += dt) > 0.25) { camSave = 0; panels.legend();
+      const c = [...camera.position.toArray(), ...controls.target.toArray()].map(v => Math.round(v * 10) / 10);
+      if (c.some((v, i) => v !== state.cam[i])) { state.cam = c; touchHash(); } }
     { // never under the ground: with the tilt down to the horizontal the camera could sink into a slope
       const gy = height(camera.position.x, camera.position.z) + 1.7;
       if (camera.position.y < gy) camera.position.y = gy;

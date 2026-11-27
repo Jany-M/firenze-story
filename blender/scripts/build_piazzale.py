@@ -113,7 +113,7 @@ def med(a, k=2):
 def strip(p0, p1, n, a, b):
     """Ground-edit polygon along p0 -> p1, from a to b metres along the normal n (scene x, z)."""
     return [[p0[0] + n[0] * a, p0[1] + n[1] * a], [p1[0] + n[0] * a, p1[1] + n[1] * a], [p1[0] + n[0] * b, p1[1] + n[1] * b], [p0[0] + n[0] * b, p0[1] + n[1] * b]]
-def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None, cut=5.0, fill=3.0, grottoes=()):
+def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None, cut=5.0, fill=3.0, grottoes=(), open_below=0.0):
     """A retaining wall along the snapped line `name`: rusticated pietra forte from the foot to the top, a coping, then
     the balustrade (rail="bal"), a plain stone parapet ("parapet", *inferred*) or nothing. The ground in front is cut
     down to the foot and filled up behind to the top. grottoes: (x, width, height) – niches at that x along the wall."""
@@ -125,6 +125,8 @@ def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None
         p0, p1 = (P[i][0], P[i][1]), (P[i + 1][0], P[i + 1][1])
         F, L = seg(p0, p1, ((p0[0] + p1[0]) / 2 + nx * 10, (p0[1] + p1[1]) / 2 + nz * 10))
         t, f = max(tops[i], tops[i + 1]), min(feet[i], feet[i + 1])
+        if open_below and min(feet[i], feet[i + 1]) > (top if top is not None else t) - open_below:
+            continue                                                   # the ramp reaches the terrace here: no wall, no rail
         if t - f < 0.4: t = f + 0.4
         rusticated(part, F, L, f - 0.8, t, course=course, depth=depth)
         pbox(bm_for(part, "forte"), F, -0.15, L + 0.15, t - 0.35, t, 0, 0.3)                   # coping
@@ -143,7 +145,7 @@ def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None
 
 # ------------------------------------------------------------------ the terrace: walls on the city side, the Iris side, the west
 TOP = 63.2
-for nm in ("north_w", "north_step", "north_e"): wall_line(nm, PZ, top=TOP)
+for nm in ("north_w", "north_step", "north_e"): wall_line(nm, PZ, top=TOP, open_below=1.3)   # open where Viale Poggi meets it
 wall_line("east", PZ)
 wall_line("west_n", PZ, top=63.3)
 wall_line("west_s", PZ, upto=lambda p: p[1] < 1004)
@@ -171,30 +173,71 @@ EDITS.append({"poly": [[SX1 - 0.5, SZ0 - 0.5], [SX0 + 0.3, SZ0 - 0.5], [SX0 + 0.
 # ------------------------------------------------------------------ the terrace's ground: gravel at first, asphalt today
 # (gravel in the photographs of the 1870s–1900s, asphalt in those of the 1990s on; the change is dated 1960, *inferred*)
 def wl(nm, cond=lambda p: True): return [(p[0], p[1]) for p in WJ[nm]["pts"] if cond(p)]
-PAVE = wl("north_w") + wl("north_step") + wl("north_e") + wl("east", lambda p: p[1] < 1021) + \
-       [(896.2, 1021.9), (882.9, 1028.3), (870.5, 1015.7), (858.0, 1006.8), (839.2, 997.3), (820.1, 991.7), (800.3, 988.8), (780.3, 991.3), (763.4, 997.3), (747.0, 1006.5)] + \
-       wl("west_s", lambda p: p[1] < 1004)[::-1] + [(SX0, SZ1), (SX0, SZ0)] + wl("west_n")[::-1]
-def slab(part, mat, ring, lift=0.04, cell=4.0):
-    """A ground slab on the polygon, cut into 4 m cells and laid on the LiDAR heights."""
-    bt = bmesh.new(); vs = [bt.verts.new(Vs(x, z)) for x, z in ring]
-    try: bt.faces.new(vs)
-    except ValueError: return
-    xs = [x for x, _ in ring]; zs = [z for _, z in ring]
+GJ = json.load(open(os.path.join(ROOT, "blender", "data", "piazzale_ground.json")))   # pipeline/49_piazzale.py
+from mathutils.geometry import tessellate_polygon
+def slab(part, mat, outer, holes=(), lift=0.04, cell=4.0, flat=None, hfn=None):
+    """A ground slab on the polygon (with holes), cut into 4 m cells and laid on the LiDAR heights (or flat at `flat`)."""
+    rings = [list(outer)] + [list(h) for h in holes]
+    pts = [Vector((x, -z, 0)) for r in rings for x, z in r]
+    tris = tessellate_polygon([[Vector((x, -z, 0)) for x, z in r] for r in rings]); print("slab", part, mat, len(pts), len(tris))
+    bt = bmesh.new(); vs = [bt.verts.new(p) for p in pts]
+    for a, b, c in tris:
+        try: bt.faces.new((vs[a], vs[b], vs[c]))
+        except ValueError: pass
+    bmesh.ops.remove_doubles(bt, verts=bt.verts[:], dist=0.001)
+    xs = [p.x for p in pts]; ys = [p.y for p in pts]
     for x in np.arange(math.floor(min(xs)), max(xs), cell):
         bmesh.ops.bisect_plane(bt, geom=bt.verts[:] + bt.edges[:] + bt.faces[:], plane_co=(x, 0, 0), plane_no=(1, 0, 0))
-    for z in np.arange(math.floor(min(zs)), max(zs), cell):
-        bmesh.ops.bisect_plane(bt, geom=bt.verts[:] + bt.edges[:] + bt.faces[:], plane_co=(0, -z, 0), plane_no=(0, 1, 0))
+    for y in np.arange(math.floor(min(ys)), max(ys), cell):
+        bmesh.ops.bisect_plane(bt, geom=bt.verts[:] + bt.edges[:] + bt.faces[:], plane_co=(0, y, 0), plane_no=(0, 1, 0))
     bmesh.ops.triangulate(bt, faces=bt.faces[:])
-    for v in bt.verts: v.co.z = dtm(v.co.x, -v.co.y) + lift
+    for v in bt.verts: v.co.z = (flat if flat is not None else (hfn or dtm)(v.co.x, -v.co.y)) + lift
     tb = bm_for(part, mat)
-    for f in bt.faces: poly(tb, [v.co.copy() for v in f.verts])
+    for f in bt.faces:
+        q = [v.co.copy() for v in f.verts]
+        if (q[1] - q[0]).cross(q[2] - q[0]).z < 0: q = q[::-1]                       # facing up
+        poly(tb, q)
     bt.free()
-# the south part: the carriageway round the square and the strip up to the wall under the Loggia
-SOUTH = [(747.0, 1006.5), (763.4, 997.3), (780.3, 991.3), (800.3, 988.8), (820.1, 991.7), (839.2, 997.3), (858.0, 1006.8), (870.5, 1015.7),
-         (882.9, 1028.3), (896.2, 1021.9), (897.0, 1040.0), (883.4, 1056.1)] + [(p[0], p[1]) for p in WJ["loggia"]["pts"][::-1]] + [(760.0, 1038.0), (750.0, 1016.0)]
-for rg in (PAVE, SOUTH):
-    slab(GRAVEL, "gravel", rg); slab(ASPH, "asph", rg)
-    EDITS.append({"poly": [list(p) for p in rg], "drop": 0.3})
+# the terrace, less the carriageway round its south side (Viale Galileo into Viale Michelangiolo, left to the city's
+# streets, so the road runs on unbroken past both ends of the square) and less the monument's platform
+pv = GJ["pave"]; slab(GRAVEL, "gravel", pv["outer"], pv["holes"]); slab(ASPH, "asph", pv["outer"], pv["holes"])
+EDITS.append({"poly": pv["outer"], "drop": 0.3})
+mx, mz, mr = GJ["monument"]                                            # the LiDAR's hump of the platform cut away: the
+EDITS.append({"poly": [[mx + mr * math.cos(a), mz + mr * math.sin(a)] for a in np.linspace(0, 2 * math.pi, 20, endpoint=False)], "max": 63.35})   # monument stands on the terrace
+# Viale Poggi where it climbs to the terrace along the city side and goes down again on the other side (the two ramps
+# that meet the terrace at its step on the city side): gravel, then asphalt like the terrace
+def ramp_h(r):
+    """The ramp's level: the LiDAR, read 2 m out from the terrace wall where closer (the wall's top would show)."""
+    wp = WJ[r["wall"]]["pts"]; nx, nz = r["low"]
+    def h(x, z):
+        d = min(abs((x - a[0]) * nx + (z - a[1]) * nz) for a in wp if abs(a[0] - x) < 4) if any(abs(a[0] - x) < 4 for a in wp) else 9
+        k = max(0.0, 2.0 - d); return dtm(x + nx * k, z + nz * k)
+    return h
+for r in GJ["ramps"]:
+    hf = ramp_h(r)
+    slab(GRAVEL, "gravel", r["outer"], r["holes"], hfn=hf); slab(ASPH, "asph", r["outer"], r["holes"], hfn=hf)
+    EDITS.append({"poly": r["outer"], "drop": 0.3})
+    for (x0, z0), (x1, z1) in zip(r["edge"], r["edge"][1:]):            # a low stone parapet on its open side (*inferred*)
+        F, L = seg((x0, z0), (x1, z1), (x0 + r["low"][0] * 5, z0 + r["low"][1] * 5)); g0 = hf((x0 + x1) / 2, (z0 + z1) / 2)
+        box(bm_for(VW, "forte"), F, -0.02, L + 0.02, g0 - 1.2, g0 + 0.85, -0.45, 0.05)
+# the garden before the Loggia, between the carriageway and the Loggia's terrace wall: gravel paths, lawn beds edged in
+# stone, the oval fountain (OSM way 1093617565; photographs: Sailko on Commons, localistorici.it)
+isl = GJ["island"]; MAT["path"] = material("garden_gravel", "terra", (0.74, 0.69, 0.6), 1.0, 0.3, tint=(1.3, 1.25, 1.15))
+MAT["grass"] = material("garden_lawn", None, (0.2, 0.36, 0.12), 1.0)
+slab(LG, "path", isl["outer"], isl["holes"])
+EDITS.append({"poly": isl["outer"], "drop": 0.3})
+for b in GJ["beds"]:
+    slab(LG, "grass", b, lift=0.12)
+    for (x0, z0), (x1, z1) in zip(b, b[1:] + b[:1]):                    # the stone edge
+        if math.hypot(x1 - x0, z1 - z0) < 0.05: continue
+        F, L = seg((x0, z0), (x1, z1), ((x0 + x1) / 2 + 0.01, (z0 + z1) / 2)); g = dtm((x0 + x1) / 2, (z0 + z1) / 2)
+        box(bm_for(LG, "marble"), F, 0, L, g - 0.05, g + 0.16, -0.08, 0.08)
+FT = GJ["fountain"]; fc = (sum(p[0] for p in FT) / len(FT), sum(p[1] for p in FT) / len(FT)); fg = min(dtm(x, z) for x, z in FT)
+slab(LG, "water", FT, lift=0.35, flat=fg)
+for (x0, z0), (x1, z1) in zip(FT, FT[1:] + FT[:1]):                     # the basin's rim
+    F, L = seg((x0, z0), (x1, z1), fc); box(bm_for(LG, "marble"), F, -0.05, L + 0.05, fg - 0.1, fg + 0.55, -0.45, 0)
+cylinder(LG, "marble", Vs(*fc), 0.45, fg, fg + 1.1, seg=12); cone(LG, "marble", Vs(*fc), 0.9, 0.5, fg + 1.1, fg + 1.3, seg=12)   # the jet's base (*inferred* form)
+cylinder(LG, "water", Vs(*fc), 0.05, fg + 1.3, fg + 2.2, seg=6)
 
 # lamp posts along the balustrades (every ≈ 24 m, *inferred* spacing; on the line in every photograph)
 def along(nm, every, off, g=TOP):
@@ -209,7 +252,7 @@ for nm in ("north_w", "north_e"): along(nm, 24, 1.0)
 along("east", 24, 1.0, None); along("west_n", 24, 1.0)
 
 # ------------------------------------------------------------------ the monument to Michelangelo
-C = (818.5, 976.5); G = 63.4
+C = (818.5, 976.5); G = 63.45                                          # on the terrace's level round it (LiDAR, 8–11 m out)
 face = Vector((0.35, -1.0, 0)).normalized()                         # David looks south-east, towards the hills (scene +z is south: -y in Blender)
 Fm = Frame(Vs(*C), Vector((-face.y, face.x, 0)), face)
 for k, (w, h) in enumerate(((13.0, 0.3), (11.6, 0.6), (10.2, 0.9))):  # three steps
@@ -279,7 +322,7 @@ F6, u6, t6, f6_ = at_x(f6, 803.5); basin(RA, 803.5, 881.0, 18, 4.0, f6_)
 # ------------------------------------------------------------------ the Loggia and the terrace wall below it
 GL = 67.5
 Ff, Lf = seg((790, 1069), (814, 1069), (802, 1060))                  # its front, towards the piazzale (north)
-box(bm_for(LG, "stucco"), Ff, 0, Lf, GL - 0.5, GL + 9.0, -14.0, 0)
+box(bm_for(LG, "stucco"), Ff, 0, Lf, GL - 0.5, GL + 8.9, -14.0, 0)   # below the cornice's top: the two tops were one plane and flickered
 box(bm_for(LG, "forte"), Ff, -0.3, Lf + 0.3, GL + 8.4, GL + 9.0, -14.3, 0.4)            # cornice
 for F_, L_ in (seg((790, 1069), (790, 1083), (780, 1076)), seg((814, 1069), (814, 1083), (824, 1076)), seg((790, 1083), (814, 1083), (802, 1095)), (Ff, Lf)):
     balustrade(LG, F_, L_, GL + 9.0, h=0.9)
