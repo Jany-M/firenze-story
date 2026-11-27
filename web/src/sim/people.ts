@@ -14,7 +14,7 @@ interface Agent {
   obj: THREE.Object3D; mixer: THREE.AnimationMixer; actions: Record<string, THREE.AnimationAction>; body: THREE.MeshStandardMaterial;
   skin: THREE.MeshStandardMaterial[]; bones: Record<string, THREE.Bone>; rig: THREE.Object3D; worn: Record<string, THREE.Mesh>; outfit: string;
   role: Role; a: number; b: number; t: number; len: number; speed: number; cur: string; target?: THREE.Vector3; busy: boolean; blockedN?: number;
-  female: boolean; face: THREE.Mesh[]; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
+  female: boolean; face: THREE.Mesh[]; talk?: Talk; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
 /** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
 export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel';
@@ -25,6 +25,26 @@ const POSE_BONES: Record<string, [string, number, number, number][]> = {
     ['Spine', 0.35, 0, 0], ['Spine1', 0.25, 0, 0], ['RightArm', 0, 1.0, 0.95], ['LeftArm', 0, -1.0, -0.95], ['RightForeArm', 0, 0.4, 0], ['LeftForeArm', 0, -0.4, 0]],
   rod: [['RightArm', 0, 1.3, 0.55], ['LeftArm', 0, -1.15, -0.5], ['RightForeArm', 0, 0.35, 0], ['LeftForeArm', 0, -0.55, 0]],
 };
+// Talking hands: arm poses from the T-pose (as POSE_BONES), blended over whatever clip plays. Florentines talk with their
+// hands – regularly, not wildly: an open palm offered, both hands open, the pinched "mano a borsa" lifted and shaken,
+// pointing, beats in time with the words, a shrug, a hand on the chest. Right-handed poses, mirrored at random.
+type ArmPose = [string, number, number, number][];
+// (axes checked on the figure: Arm z lowers the arm, Arm y swings it forward; ForeArm y bends the elbow, ForeArm z −
+// swings the forearm out to the side; x only twists)
+// (axes checked on the figure: Arm z lowers the arm, Arm y swings it forward; ForeArm y bends the elbow, ForeArm z −
+// swings the forearm out to the side; x only twists)
+const GESTURES: { arms: ArmPose; beat?: [string, number]; dur: [number, number] }[] = [
+  { arms: [['RightArm', 0, 0.5, 1.0], ['RightForeArm', 0, 0.9, -0.8]], dur: [1.2, 2.2] },                                // open hand offered
+  { arms: [['RightArm', 0, 0.5, 1.0], ['RightForeArm', 0, 0.9, -0.8], ['LeftArm', 0, -0.5, -1.0], ['LeftForeArm', 0, -0.9, 0.8]], dur: [1.2, 2.0] },   // both hands open
+  { arms: [['RightArm', 0, 0.35, 1.15], ['RightForeArm', 0, 2.1, -0.2]], beat: ['RightForeArm', 0.25], dur: [1.0, 1.8] }, // mano a borsa, shaken
+  { arms: [['RightArm', 0, 1.3, 0.35], ['RightForeArm', 0, 0.1, 0]], dur: [0.9, 1.5] },                                  // pointing
+  { arms: [['RightArm', 0, 0.45, 1.1], ['RightForeArm', 0, 1.5, -0.4]], beat: ['RightForeArm', 0.3], dur: [1.4, 2.6] },  // beats in time with the words
+  { arms: [['RightArm', 0, 0.25, 0.95], ['RightForeArm', 0, 0.7, -1.1], ['LeftArm', 0, -0.25, -0.95], ['LeftForeArm', 0, -0.7, 1.1]], dur: [0.8, 1.3] },   // shrug
+  { arms: [['RightArm', 0, 0.3, 1.25], ['RightForeArm', 0, 2.4, 0.2]], dur: [1.2, 2.0] },                                 // hand on the chest
+];
+if (typeof location !== 'undefined' && location.hostname === 'localhost') (globalThis as any).__gest = GESTURES;   // dev: tune poses live
+interface Talk { level: number; g: number; mirror: boolean; t: number; dur: number; rest: number; w: number }
+const qT = new THREE.Quaternion(), eT = new THREE.Euler();
 const rodMat = new THREE.MeshStandardMaterial({ color: 0x5a4630, roughness: 0.8 }), lineMat = new THREE.LineBasicMaterial({ color: 0xd8d4c8, transparent: true, opacity: 0.6 });
 const tmp = new THREE.Vector3();
 // outfits: garment / hat names from the costume kit
@@ -71,8 +91,13 @@ export function outfitFor(year: number, female: boolean, rich = false): string {
   return female ? 'modern_f' : 'modern_m';
 }
 
-export async function createPeople(scene: THREE.Scene, streets: any, max = 200, opts: { walkers?: boolean } = {}) {
-  const walkers = opts.walkers ?? true;
+/** Camera height over the view's target above which no people are drawn (they would be a few pixels; boats stay longer). */
+export const PEOPLE_ALT = 340;
+/** A crowd. `base`: walkers on the streets round the view when the camera is down at street level (fewer as it rises,
+ *  none above PEOPLE_ALT). Figures are made on demand – for walkers and for whatever scenes, squares and the river ask
+ *  for in the area in view – and reused; `cap` is only a safety limit. */
+export async function createPeople(scene: THREE.Scene, streets: any, base = 200, opts: { walkers?: boolean; cap?: number } = {}) {
+  const walkers = opts.walkers ?? true, cap = opts.cap ?? 600;
   const loader = new GLTFLoader();
   const [gltf, kit, hatKit] = await Promise.all([loader.loadAsync('./models/Xbot.glb'),
     loader.loadAsync('./models/costumes.glb').catch(() => null), loader.loadAsync('./models/hats.glb').catch(() => null)]);
@@ -85,7 +110,8 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
   const G: Graph = { nodes: streets.nodes, edges: streets.edges, zone: streets.zone, adj };
   const group = new THREE.Group(); group.name = 'people'; scene.add(group);
   const agents: Agent[] = [];
-  for (let i = 0; i < max; i++) {
+  function makeAgent(): Agent | null {
+    if (agents.length >= cap) return null;
     const obj = SkeletonUtils.clone(gltf.scene);
     let body: THREE.MeshStandardMaterial | null = null; const skin: THREE.MeshStandardMaterial[] = [];
     const bones: Record<string, THREE.Bone> = {}; let rig: THREE.Object3D = obj;
@@ -101,7 +127,8 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     const actions: Record<string, THREE.AnimationAction> = {};
     for (const k of ['idle', 'walk', 'run', 'agree', 'headShake']) if (clips[k]) actions[k] = mixer.clipAction(clips[k]);
     obj.visible = false; group.add(obj);
-    agents.push({ obj, mixer, actions, body: body!, skin, bones, rig, worn: {}, outfit: '', female: false, face: [], role: 'walker', a: 0, b: 0, t: 0, len: 1, speed: 1.3, cur: '', busy: false });
+    const ag: Agent = { obj, mixer, actions, body: body!, skin, bones, rig, worn: {}, outfit: '', female: false, face: [], role: 'walker', a: 0, b: 0, t: 0, len: 1, speed: 1.3, cur: '', busy: false };
+    agents.push(ag); return ag;
   }
   /** Bind a garment (skinned to the same Mixamo skeleton) or a hat (on the head) to an agent, once; then toggle. */
   function wear(ag: Agent, name: string): THREE.Mesh | null {
@@ -193,12 +220,35 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     refreshNear();
     for (const ag of agents) {
       if (ag.busy && !all) continue;
-      ag.busy = false; ag.role = 'walker'; ag.speed = 1.0 + Math.random() * 0.6; tint(ag); if (enabled && walkers && year >= -60) place(ag); else ag.obj.visible = false; play(ag, 'walk');
+      if (ag.busy) setPose(ag, null);
+      ag.busy = false; ag.role = 'walker'; ag.obj.visible = false;      // walkers come back round the new focus in fill()
     }
+  }
+  /** Bring the walkers round the view to the number wanted at this camera height: reuse hidden figures first, make new
+   *  ones a few a frame (a clone and its clothes cost a little), hide the extra ones. */
+  let alt = 0;
+  function walkerWant() {
+    if (!walkers || !enabled || year < -60) return 0;
+    const k = alt < 70 ? 1 : Math.max(0, Math.min(1, (PEOPLE_ALT - alt) / (PEOPLE_ALT - 70)));
+    return Math.round(base * k);
+  }
+  function startWalker(ag: Agent) {
+    ag.role = 'walker'; ag.speed = 1.0 + Math.random() * 0.6; tint(ag); play(ag, 'walk'); place(ag);
+  }
+  function fill() {
+    const want = walkerWant();
+    let active = 0; for (const ag of agents) if (!ag.busy && ag.obj.visible) active++;
+    if (active > want) {
+      for (let i = agents.length - 1; i >= 0 && active > want; i--) { const ag = agents[i]; if (!ag.busy && ag.obj.visible) { ag.obj.visible = false; active--; } }
+      return;
+    }
+    let reuse = 30, make = 5;
+    for (const ag of agents) { if (active >= want || !reuse) break; if (!ag.busy && !ag.obj.visible) { startWalker(ag); if (ag.obj.visible) active++; reuse--; } }
+    while (active < want && make-- > 0) { const ag = makeAgent(); if (!ag) break; startWalker(ag); if (ag.obj.visible) active++; }
   }
   /** Reserve an agent for a static/runner role at a position (used by event scenes). */
   function claim(pos: THREE.Vector3, face: THREE.Vector3, role: Role, anim: string, color?: string, outfit?: string, placed = false): Agent | null {
-    const ag = agents.find(a => !a.busy); if (!ag) return null;
+    const ag = agents.find(a => !a.busy && !a.obj.visible) ?? agents.find(a => !a.busy) ?? makeAgent(); if (!ag) return null;
     if (!placed) {                                   // placed: the scene moves the figure itself every frame (a procession)
       const ok = walk.nearestFree(pos.x, pos.z, 6, 0.3, role !== 'static'); if (!ok) return null;   // never inside a wall or a trunk
       if (ok[0] !== pos.x || ok[1] !== pos.z) pos = pos.clone().set(ok[0], pos.y, ok[1]);
@@ -206,7 +256,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     ag.busy = true; ag.role = role; ag.obj.visible = true; ag.obj.position.copy(pos); ag.obj.lookAt(face.x, pos.y, face.z);
     tint(ag, color, outfit); play(ag, anim); return ag;
   }
-  function release(ag: Agent) { setPose(ag, null); ag.busy = false; ag.obj.visible = false; }
+  function release(ag: Agent) { setPose(ag, null); ag.talk = undefined; ag.busy = false; ag.obj.visible = false; }
   /** Seat an agent (seat height = its position + 0.45 m: put the agent's position at ground level), and/or give it a rod
    *  whose line drops to waterY (world). The rod sways and now and then is lifted (a bite or a re-cast). */
   function setPose(ag: Agent, pose: Pose | null, waterY = 0) {
@@ -221,6 +271,36 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
       const tip = hand.clone().addScaledVector(dir, L);
       const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([tip, tip.clone().setY(0)]), lineMat); line.frustumCulled = false; g.add(line);
       ag.obj.add(g); ag.rod = { g, line, tip, waterY, ph: Math.random() * 20 };
+    }
+  }
+  /** level 1: speaking (gestures often), 0.3: listening (now and then), 0: still hands. */
+  function setTalk(ag: Agent, level: number) {
+    if (level <= 0) { ag.talk = undefined; return; }
+    if (ag.talk) { ag.talk.level = level; return; }
+    ag.talk = { level, g: 0, mirror: false, t: 0, dur: 0, rest: Math.random() * 1.5, w: 0 };
+  }
+  function gesture(ag: Agent, dt: number) {
+    const k = ag.talk!;
+    if (k.dur <= 0) {                                    // resting between gestures
+      k.w = Math.max(0, k.w - dt * 3);
+      if ((k.rest -= dt) <= 0) {
+        if (Math.random() < 0.35 + 0.6 * k.level) {
+          k.g = (Math.random() * GESTURES.length) | 0; k.mirror = Math.random() < 0.35;
+          const d = GESTURES[k.g].dur; k.dur = d[0] + Math.random() * (d[1] - d[0]); k.t = 0;
+        }
+        k.rest = (k.level >= 1 ? 0.4 : 2.0) + Math.random() * (k.level >= 1 ? 1.4 : 4.0);
+      }
+    } else {
+      k.t += dt; k.w = Math.min(1, k.t / 0.35, (k.dur - k.t) / 0.35 + 0.0001); if (k.t >= k.dur) { k.dur = 0; }
+    }
+    if (k.w <= 0.001) return;
+    const G = GESTURES[k.g], amp = k.level >= 1 ? 1 : 0.6;
+    for (const [n, x, y, z] of G.arms) {
+      let name = n, yy = y * amp, zz = z, xx = x;
+      if (k.mirror) { name = n.startsWith('Right') ? 'Left' + n.slice(5) : 'Right' + n.slice(4); yy = -yy; zz = -zz; }
+      if (G.beat && n === G.beat[0]) yy += (k.mirror ? -1 : 1) * G.beat[1] * Math.sin(k.t * 9);
+      const b = ag.bones['mixamorig' + name]; if (!b) continue;
+      qT.setFromEuler(eT.set(xx, yy, zz)); b.quaternion.slerp(qT, k.w);
     }
   }
   const lift = new THREE.Vector3();
@@ -241,7 +321,14 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
   function update(dt: number, cam?: THREE.Vector3) {
     if (!enabled) return;
     clock += dt;
-    if (cam) eye.copy(cam);
+    if (cam) {
+      eye.copy(cam); alt = cam.y - centre.y;
+      const r = Math.max(160, Math.min(380, 140 + alt * 1.6));          // walkers close round the view when the camera is low
+      if (walkers && Math.abs(r - radius) > 40) { radius = r; refreshNear(); }
+    }
+    group.visible = alt < PEOPLE_ALT;                     // too high to see anyone: draw and animate nobody
+    if (!group.visible) return;
+    fill();
     if ((lodT -= dt) <= 0) {                             // small facial features only near the camera (draw calls)
       lodT = 0.4;
       for (const ag of agents) if (ag.obj.visible) { const near = ag.obj.position.distanceToSquared(eye) < 60 * 60; for (const m of ag.face) m.visible = near; }
@@ -249,6 +336,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     for (const ag of agents) {
       if (!ag.obj.visible) continue;
       ag.mixer.update(dt);
+      if (ag.talk && !ag.pose) gesture(ag, dt);
       if (ag.pose) applyPose(ag, clock);
       if (ag.role === 'walker') {
         ag.t += ag.speed * dt;
@@ -277,10 +365,11 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     }
   }
   return {
-    group, claim, release, update, agents, setPose, anim: play,
+    group, claim, release, update, agents, setPose, setTalk, anim: play,
     get year() { return year; }, get epoch() { return epoch; },
-    setEnabled(v: boolean) { const was = enabled; enabled = v; group.visible = v; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
-    setContext(y: number, c: THREE.Vector3, r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); radius = r; if (changed && enabled) reset(); return changed; },
+    setEnabled(v: boolean) { const was = enabled; enabled = v; if (!v) group.visible = false; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
+    setContext(y: number, c: THREE.Vector3, _r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); if (changed && enabled) reset(); return changed; },
+    get made() { return agents.length; },
     reset,
   };
 }

@@ -10,16 +10,16 @@ export interface Quality {
   shadows: boolean; shadowSize: number;
   tilt: boolean;             // tilt-shift post pass
   cityRadius: number;        // city tiles farther than this from the view's centre are not loaded (0 = all, streamed nearest first)
-  people: number; riverPeople: number; squarePeople: number;
+  people: number; riverPeople: number; squarePeople: number;   // people: walkers at street level; the other two: safety caps (made on demand)
   treeShare: number;         // share of the trees drawn
   anisotropy: number;
   landmarks: boolean;        // hand-built landmark models
 }
 
 const TIERS: Record<Tier, Omit<Quality, 'tier' | 'reason'>> = {
-  high: { dpr: 2, antialias: true, shadows: true, shadowSize: 4096, tilt: true, cityRadius: 0, people: 280, riverPeople: 70, squarePeople: 170, treeShare: 1, anisotropy: 8, landmarks: true },
-  mid: { dpr: 1.5, antialias: true, shadows: true, shadowSize: 2048, tilt: true, cityRadius: 1800, people: 160, riverPeople: 40, squarePeople: 90, treeShare: 0.6, anisotropy: 4, landmarks: true },
-  low: { dpr: 1, antialias: true, shadows: false, shadowSize: 1024, tilt: false, cityRadius: 800, people: 70, riverPeople: 18, squarePeople: 36, treeShare: 0.3, anisotropy: 2, landmarks: true },
+  high: { dpr: 2, antialias: true, shadows: true, shadowSize: 4096, tilt: true, cityRadius: 0, people: 280, riverPeople: 120, squarePeople: 260, treeShare: 1, anisotropy: 8, landmarks: true },
+  mid: { dpr: 1.5, antialias: true, shadows: true, shadowSize: 2048, tilt: true, cityRadius: 1800, people: 160, riverPeople: 80, squarePeople: 160, treeShare: 0.6, anisotropy: 4, landmarks: true },
+  low: { dpr: 1, antialias: true, shadows: false, shadowSize: 1024, tilt: false, cityRadius: 800, people: 70, riverPeople: 40, squarePeople: 70, treeShare: 0.3, anisotropy: 2, landmarks: true },
 };
 
 function webglRenderer(): string {

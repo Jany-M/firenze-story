@@ -21,14 +21,17 @@ export async function loadTextures(base = './textures', anisotropy = 8): Promise
   return out;
 }
 
-interface MatDef { tex: TexName | null; color: number[]; tint: number[]; rough: number; scale: number; metal: number }
+interface MatDef { tex: TexName | null; color: number[]; tint: number[]; rough: number; scale: number; metal: number; img?: string }
 
 /** fs_* materials from a materials.json table (written by the Blender scripts), triplanar-mapped. */
-export function buildMaterials(defs: Record<string, MatDef>, tex: TexSet, side: THREE.Side = THREE.FrontSide) {
+export function buildMaterials(defs: Record<string, MatDef>, tex: TexSet, side: THREE.Side = THREE.FrontSide, imgBase = './models/landmarks/img') {
   const mats: Record<string, THREE.Material> = {};
   for (const [name, d] of Object.entries(defs)) {
     const m = new THREE.MeshStandardNodeMaterial({ roughness: d.rough, metalness: d.metal, side, color: new THREE.Color().setRGB(d.color[0], d.color[1], d.color[2], THREE.LinearSRGBColorSpace) });
-    if (d.tex && tex[d.tex]) {
+    if (d.img) {                                   // a painted façade: its own image, on the mesh's UVs (glTF: no flip)
+      const t = new THREE.TextureLoader().load(`${imgBase}/${d.img}`); t.colorSpace = THREE.SRGBColorSpace; t.flipY = false; t.anisotropy = 8;
+      m.map = t; m.color.set(0xffffff);
+    } else if (d.tex && tex[d.tex]) {
       const s = float(d.scale);
       m.colorNode = triplanarTexture(texture(tex[d.tex].col), null, null, s).rgb.mul(vec3(d.tint[0], d.tint[1], d.tint[2]));
       m.roughnessNode = triplanarTexture(texture(tex[d.tex].rgh), null, null, s).r;

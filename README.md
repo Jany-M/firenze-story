@@ -58,6 +58,8 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/SINAGOGA.md](docs/landmarks/SINAGOGA.md) | Landmark model: the Synagogue (1882) |
 | [docs/landmarks/MURATE.md](docs/landmarks/MURATE.md) | Landmark model: Le Murate (convent, prison, quarter) |
 | [docs/landmarks/TEATRO-MAGGIO.md](docs/landmarks/TEATRO-MAGGIO.md) | Landmark model: Teatro del Maggio Musicale Fiorentino (2011) |
+| [docs/landmarks/ANTELLA.md](docs/landmarks/ANTELLA.md) | Landmark model: Palazzo dell'Antella and its painted front (1619–20) |
+| [docs/landmarks/PIAZZA-SMN.md](docs/landmarks/PIAZZA-SMN.md) | Landmark model: Piazza Santa Maria Novella – obelisks (1608), lawns, benches |
 | [docs/landmarks/LOGGIA-DEL-PESCE.md](docs/landmarks/LOGGIA-DEL-PESCE.md) | Landmark model: the Loggia del Pesce, in the Mercato Vecchio and in Piazza dei Ciompi |
 | [docs/landmarks/ANNUNZIATA.md](docs/landmarks/ANNUNZIATA.md) | Landmark model: Piazza Santissima Annunziata (Innocenti, Loggia dei Servi, the church) |
 | [docs/REFINEMENTS.md](docs/REFINEMENTS.md) | Refinement list: the open points of every landmark model, gathered from their review lists |

@@ -64,6 +64,17 @@ no player.
   whole flooded area is in view (fitted into the part of the screen the left card leaves free).
   Heights, timings and sources: [landmarks/LUNGARNI.md](landmarks/LUNGARNI.md#the-flood-of-4-november-1966).
 
+## 1d. Narration and gestures (2026-11-28)
+- **Narration** at the top of the view for every event: the scenes that have a play-by-play (the Scoppio del Carro, the move
+  of the David by Landucci's dates, the Night of the Bridges bridge by bridge – the order of the blasts is *inferred* –, the
+  market, the calcio) change line as the scene goes; every other event shows its main facts (the first two sentences of its
+  source summary) for as long as it is selected.
+- **Gestures**: people talking in squares, markets and on the bridges move their arms: open hand, both hands open, the
+  *mano a borsa* (fingers gathered, shaken), pointing, beating the rhythm, a shrug, a hand on the chest. Speakers gesture
+  often with short rests, listeners now and then; a third of the time with the other arm (`web/src/sim/people.ts`, `setTalk`).
+- **Costumes**: shirts, doublets, bodices and breeches cut longer and a little looser over the waist, so the belly no longer
+  shows when people kneel or bend (garments now cut from the body and its joints together).
+
 ## 2. Florentine carnival (Carnevale)
 
 **Documented**

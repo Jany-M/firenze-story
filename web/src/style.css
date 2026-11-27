@@ -280,3 +280,11 @@ details { margin-top: 12px; font-size: 12px; } details ul { padding-left: 16px; 
 #player #pp { border: 1px solid var(--line, #d8cfc0); background: var(--paper, #fff); color: var(--red); border-radius: 50%; width: 30px; height: 30px; padding: 0; font-size: 12px; cursor: pointer; flex: none; }
 #player #pbar { flex: 1; min-width: 80px; accent-color: var(--red); }
 #player #ptime { font-variant-numeric: tabular-nums; font-size: 12px; white-space: nowrap; }
+
+/* narration line at the top of the view while an event is shown (ui/narration.ts) */
+#narration { position: fixed; top: 64px; left: 50%; transform: translateX(-50%); max-width: min(640px, calc(100vw - 32px)); padding: 6px 14px;
+  border-radius: 12px; background: rgba(255, 255, 255, .9); color: #3a1414; font: 13px/1.4 system-ui, sans-serif; z-index: 20;
+  pointer-events: none; text-align: center; opacity: 0; transition: opacity .5s; box-shadow: 0 2px 10px rgba(0, 0, 0, .12); }
+#narration.on { opacity: 1; }
+#narration b { display: block; color: #8b1a1a; font-weight: 600; margin-bottom: 1px; }
+@media (max-width: 700px) { #narration { top: 96px; font-size: 12px; } }

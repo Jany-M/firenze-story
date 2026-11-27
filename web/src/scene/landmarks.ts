@@ -164,6 +164,14 @@ export const LANDMARKS: LandmarkDef[] = [
     source: 'Landmark model v1 – Teatro del Maggio Musicale Fiorentino (Blender; OSM relation 3609352, LiDAR 2023, photographs; Paolo Desideri – ABDR, inaugurated 21 December 2011)' },
   { file: 'murate', title: 'Le Murate', from: 1424, replaces: ['ex Monastero delle Murate'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Le Murate (Blender; OSM relation 1609313, LiDAR 2023; convent 1424, prison 1883–1985, recovered from 2001)' },
+  // Palazzo dell'Antella on Piazza Santa Croce, its painted front from a straightened photograph: absolute scene coordinates
+  { file: 'antella', title: "Palazzo dell'Antella", from: 1300, replaces: ["Palazzo dell'Antella"], at: [0, 0], rot: 0, ground: 0,
+    members: [{ key: 'affreschi', name: "Frescoes of Palazzo dell'Antella", from: 1620 }],
+    source: "Landmark model v1 – Palazzo dell'Antella (Blender; OSM way 307104291, LiDAR 2023; Giulio Parigi 1619, façade painted 1619–20 by Giovanni da San Giovanni and others; front texture from a 2021 photograph by Ricardalovesmonuments, CC BY-SA 4.0)" },
+  // Piazza Santa Maria Novella (pipeline/48_piazza_smn.py): absolute scene coordinates
+  { file: 'piazza_smn', title: 'Piazza Santa Maria Novella: obelisks and lawns', from: 1563, replaces: [], at: [0, 0], rot: 0, ground: 0,
+    members: [{ key: 'obelischi', name: 'Obelisks of the Corsa dei Cocchi', from: 1608 }],
+    source: 'Landmark model v1 – Piazza Santa Maria Novella (Blender; lawns traced on the 2017 orthophoto, LiDAR 2023; obelisks designed by Ammannati 1570, set up 1608, lilies 1790s; wooden turning posts 1563–1608; lawns and benches 20th c., year inferred)' },
   // the river walls and parapets of the lungarni (pipeline/46_lungarni.py): absolute scene coordinates
   { file: 'lungarni', title: 'Lungarni: river walls and parapets', from: 1287, replaces: [], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Lungarni (Blender; line and heights from the LiDAR ground; walls 1287–90, 1600, 1850, 1865–90; breaches 1966 and 2016)' },

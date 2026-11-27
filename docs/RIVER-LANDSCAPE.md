@@ -81,6 +81,13 @@ year (the San Niccolò mills, the walls).
 Not yet: mills and fulling mills on the weirs, the river festivals (San Giovanni fireworks from the Carraia, boat race
 of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557, 1844, 1966).
 
+## 4. Lighter when far (2026-11-28)
+- People are made only where the camera looks and only when it is low: from 340 m up no people are drawn or moved; below
+  that, walkers fill a circle round the view that grows with height, and agents not seen are reused elsewhere (no fixed pool).
+- Herons and other small river life go from 450 m up, boats from 1400 m.
+- The navicelli's crews stand along the hull's own heading (they had been set out along the x axis and some stood in the water).
+- The river banks are earth and grass (see MATERIALS, "Ground that is not paved").
+
 ## Sources
 - Comune di Firenze, *Una città e il suo fiume: la vita lungo l'Arno* (2019), cultura.comune.fi.it
 - Museo Galileo, Scientific itineraries: San Niccolò weir, Santa Rosa weir (brunelleschi.imss.fi.it)

@@ -259,6 +259,9 @@ def land_rgb(x, y):
 ST = json.load(open(RAW("osm", "core_streets.json"), encoding="utf-8"))["elements"]
 WALK = {"footway", "pedestrian", "residential", "living_street", "service", "unclassified", "tertiary", "secondary", "primary", "path", "steps", "cycleway", "square"}
 nodes, edges, nid = [], [], {}
+width_e = []     # per edge: drawn width in 2 m pixels – a footway or a flight of steps is not a 10 m street
+WIDTH_PX = {"primary": 6, "secondary": 6, "tertiary": 5, "unclassified": 4, "residential": 4, "living_street": 4, "pedestrian": 4,
+            "service": 3, "footway": 1, "path": 1, "steps": 1, "cycleway": 1, "track": 2, "square": 4}
 paved_e = []     # per edge: drawn as paved urban ground (roads and paved streets only, never inside a park or garden)
 # Parks and gardens (OSM leisure=park/garden: Boboli, Cascine, Bardini, Semplici, Torrigiani…): their avenues and paths are
 # gravel, earth or grass, so the ground shader must not lay street paving there; outside them a path counts as paved
@@ -312,7 +315,7 @@ for e in ST:
         if kk not in nid: nid[kk] = len(nodes); nodes.append(loc(x, y, float(dtm(x, y))))
         seq.append(nid[kk])
     for a, b in zip(seq[:-1], seq[1:]):
-        if a is not None and b is not None and a != b: edges.append([a, b, 1 if t.get("bridge") == "yes" else 0]); paved_e.append(pv)
+        if a is not None and b is not None and a != b: edges.append([a, b, 1 if t.get("bridge") == "yes" else 0]); paved_e.append(pv); width_e.append(WIDTH_PX.get(t.get("highway"), 3))
 print("parks", len(_parks), "edges drawn as paved", sum(paved_e), "of", len(paved_e))
 deck_items, bv, bi, merged = [], [], [], {}
 for name, L, spans in bridges: merged.setdefault(name, ([], spans))[0].append(L)
@@ -377,15 +380,55 @@ def urban_at(x, y):
     out[m] = U[r[m], c[m]]; return out
 
 # ================= vegetation =================
+_wild = [PARKS, ARNO.buffer(45)]; FORTP = None; CEMS = []
+# cemeteries: graves from their opening year (Porte Sante 1848; the English cemetery 1828; the Jewish cemetery 1777;
+# the Misericordia's 1747) – the ground before is open land
+CEM_FROM = {"Porte Sante": 1848, "inglesi": 1828, "ebraico": 1777, "Misericordia": 1747}
+for e in _osm:
+    t = e.get("tags", {})
+    if t.get("landuse") in ("cemetery", "grass") or t.get("amenity") == "grave_yard" or (t.get("historic") == "fort" and "Belvedere" in t.get("name", "")):
+        g = e.get("geometry")
+        if g and len(g) > 3:
+            _wild.append(Polygon(utm_line(g)).buffer(0))
+            if t.get("historic") == "fort": FORTP = _wild[-1]
+            elif t.get("landuse") == "cemetery" or t.get("amenity") == "grave_yard":
+                CEMS.append((_wild[-1], next((y for k, y in CEM_FROM.items() if k in t.get("name", "")), 1850)))
+WILDP = unary_union(_wild)
 # streets raster (2 m) to keep trees off today's streets and squares
 NS = int((X1 - X0) / 2); SR = np.zeros((NS, NS), np.uint8)
-for (a, b, _), pv in zip(edges, paved_e):
+for (a, b, _), pv, wd in zip(edges, paved_e, width_e):
     if not pv: continue                                                 # garden paths: no paving, trees may grow by them
     A, B = nodes[a], nodes[b]
-    cv2.line(SR, (int((A[0] + ORIGIN[0] - X0) / 2), int((A[2] + Y1 - ORIGIN[1]) / 2)), (int((B[0] + ORIGIN[0] - X0) / 2), int((B[2] + Y1 - ORIGIN[1]) / 2)), 1, 5)
+    cv2.line(SR, (int((A[0] + ORIGIN[0] - X0) / 2), int((A[2] + Y1 - ORIGIN[1]) / 2)), (int((B[0] + ORIGIN[0] - X0) / 2), int((B[2] + Y1 - ORIGIN[1]) / 2)), 1, wd)
 for s in squares:
     if s.get("park"): continue                                           # a lawn or gravel "piazzale" inside a garden
     cv2.fillPoly(SR, [np.array([[(x + ORIGIN[0] - X0) / 2, (z + Y1 - ORIGIN[1]) / 2] for x, z in s["ring"]], np.int32)], 1)
+# the Comune's circulation areas (S02: carriageways, pavements, pedestrian squares, steps) are where the ground really is
+# paved today; surface codes read on the map: 0101 asphalt, 0505 stone (Signoria, the squares, San Miniato's terrace) –
+# code 02… (non pavimentato, DBT) is left out
+def comune_rings(zname, base, fon):
+    Z = zipfile.ZipFile(RAW("comune", zname)); r = shapefile.Reader(shp=io.BytesIO(Z.read(base + ".shp")), dbf=io.BytesIO(Z.read(base + ".dbf")))
+    F = [f[0] for f in r.fields[1:]]; i = F.index(fon); out = []
+    for sr in r.iterShapeRecords():
+        if str(sr.record[i]).startswith("02"): continue
+        pts = sr.shape.points; parts = list(sr.shape.parts) + [len(pts)]
+        out.append([pts[a:b] for a, b in zip(parts[:-1], parts[1:])])
+    return out
+# inside the wild zones the OSM lines (garden paths, the Forte's walks, towpaths: drawn 10 m wide) make no paving; only the
+# Comune's surveyed circulation areas do
+WM2 = np.zeros((NS, NS), np.uint8)
+for P in getattr(WILDP, "geoms", [WILDP]):
+    cv2.fillPoly(WM2, [np.array([[(x - X0) / 2, (Y1 - y) / 2] for x, y in r.coords], np.int32) for r in [P.exterior] + list(P.interiors)], 1)
+SR[WM2 > 0] = 0
+CIRC = comune_rings("viabilit_area_di_circolazione_pedonale_con_geometria_polygon.zip", "acPed_s", "acPedFon") + \
+       comune_rings("viabilit_area_di_circolazione_veicolare_con_geometria_polygo.zip", "acVei_s", "acVeiFon")
+for rings in CIRC:                                                   # all rings of a polygon together: holes stay open
+    cv2.fillPoly(SR, [np.array([[(x - X0) / 2, (Y1 - y) / 2] for x, y in ring], np.int32) for ring in rings], 1)
+print("comune circulation polygons", len(CIRC))
+# a cemetery's walks are mapped as pedestrian areas, but it is graves, gravel and cypresses, not a paved square
+CM2 = np.zeros((NS, NS), np.uint8)
+for P, _ in CEMS: cv2.fillPoly(CM2, [np.array([[(x - X0) / 2, (Y1 - y) / 2] for x, y in P.exterior.coords], np.int32)], 1)
+SR[CM2 > 0] = 0
 def on_street(x, y):
     c = ((x - X0) / 2).astype(int).clip(0, NS - 1); r = ((Y1 - y) / 2).astype(int).clip(0, NS - 1); return SR[r, c] > 0
 # streets and squares (Mercato Vecchio, Signoria, …) are urban ground from when the buildings around them stand
@@ -402,6 +445,29 @@ FP = np.fromfile(os.path.join(OUT, "footprints.u16"), np.uint16).reshape(2, NS, 
 free2 = ((FP == 0) & (SR == 0)).astype(np.float32)
 YARD = cv2.resize(free2, (ny, ny), interpolation=cv2.INTER_AREA)
 (np.clip(YARD, 0, 1) * 255).astype(np.uint8).tofile(os.path.join(OUT, "yards.u8"))
+# wild ground: open ground (not a street, square or building) that is never paved, in any year – parks and gardens,
+# cemeteries and churchyards, Forte di Belvedere's terraces, and the river corridor (the banks between the water and the
+# lungarni: grass, scrub and earth, still today). The shader lays lawn there where the photo is green, earth and gravel
+# elsewhere. (2026-11-28)
+WM = np.zeros((ny, ny), np.uint8)
+for P in getattr(WILDP, "geoms", [WILDP]):
+    rings = [P.exterior] + list(P.interiors)
+    cv2.fillPoly(WM, [np.array([[(x - X0) / YC, (Y1 - y) / YC] for x, y in r.coords], np.int32) for r in rings], 255)
+# open there: no street or square, and either no building footprint or no roof in the LiDAR (Forte di Belvedere is one
+# footprint over its whole terraces; trees over a lawn keep it a lawn)
+low = cv2.resize(((DSM - DTM) < 1.5).astype(np.float32), (NS, NS), interpolation=cv2.INTER_AREA) > 0.5
+# Forte di Belvedere: its terraces stand on the bastions' masonry (the LiDAR ground model leaves them out, they read as roofs)
+# and the city data covers them with building footprints – inside its walls only the palazzina (built by the landmark) stands
+FT = np.zeros((NS, NS), np.uint8)
+if FORTP is not None: cv2.fillPoly(FT, [np.array([[(x - X0) / 2, (Y1 - y) / 2] for x, y in FORTP.exterior.coords], np.int32)], 1)
+freeW = ((SR == 0) & ((FP == 0) | low | (FT > 0))).astype(np.float32)
+WILD = (cv2.resize(freeW, (ny, ny), interpolation=cv2.INTER_AREA) * (WM > 0)).clip(0, 1)
+(WILD * 255).astype(np.uint8).tofile(os.path.join(OUT, "wild.u8")); print("wild ground cells", int((WILD > 0.5).sum()))
+# cemeteries for the shader: the opening year, (year - 1700) / 2, 0 = none (4 m cells)
+CEM = np.zeros((ny, ny), np.uint8)
+for P, y0 in CEMS:
+    cv2.fillPoly(CEM, [np.array([[(x - X0) / YC, (Y1 - y) / YC] for x, y in P.exterior.coords], np.int32)], int(max(1, min(255, (y0 - 1700) / 2))))
+CEM.tofile(os.path.join(OUT, "cemetery.u8")); print("cemeteries", len(CEMS), [y for _, y in CEMS])
 from shapely import contains_xy
 TREES = []   # x, y, z (local), height, type (0 broadleaf, 1 cypress, 2 olive, 3 poplar), start, end
 def add(x, y, h, typ, start, end):
@@ -489,6 +555,6 @@ tex("1873_PiantaDiFirenzeEDintorniIGM", "map_1873.jpg", 4096)
 tex("1937_MappaCittaDiFirenze", "map_1937.jpg", 4096)
 save_json("meta.json", {"bbox_utm": [X0, Y0, X1, Y1], "origin_utm": list(ORIGIN), "base_z": BASE_Z, "crs": "EPSG:25832",
                         "terrain": {"n": n, "step": STEP}, "wide": {"n": nW, "step": WS, "half": HALF, "land": "land_s2.jpg"},
-                        "urban": {"n": nu, "cell": UC}, "yards": {"n": ny, "cell": YC}, "trees": {"count": len(T), "stride": 7},
+                        "urban": {"n": nu, "cell": UC}, "yards": {"n": ny, "cell": YC}, "wild": {"n": ny, "cell": YC}, "cemetery": {"n": ny, "cell": YC}, "trees": {"count": len(T), "stride": 7},
                         "built": __import__("datetime").date.today().isoformat()})
 print("done")

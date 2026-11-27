@@ -125,3 +125,16 @@ Buildings still going up (start year plus their estimated ramp) show their walls
 
 Not yet: sidewalks and curbs, slab rows following each street's direction, drains and gutters, mud and puddles by
 season, the urban raster (8 m) is coarse at street edges.
+
+## Ground that is not paved (2026-11-28)
+`pipeline/21_build_env.py` writes two more rasters for the ground shader:
+- **`wild.u8`** – the open share of parks, gardens, the fort's bastions, river banks and the hillsides. Inside these zones no
+  street paving is laid: OSM footpaths are no longer burnt in as street (they had been drawn 10 m wide), and the fort's single
+  building outline no longer counts as roofed ground. What shows there is lawn, earth and gravel by the orthophoto's green.
+- **`cemetery.u8`** – the cemeteries (`landuse=cemetery`, `amenity=grave_yard` only) with their opening year: Porte Sante 1848,
+  the English cemetery 1828, the Jewish cemetery 1777, the Misericordia 1747. From that year grave slabs are drawn on a
+  1.5 × 2.8 m grid; the Comune's pedestrian polygons inside them are not paved.
+- Street widths now follow the OSM type (primary 6 px of 2 m … footways 1 px); the Comune's circulation polygons whose surface
+  code starts with `02` (unpaved) are skipped.
+- After 1850 the street ground is asphalt or stone; the orthophoto colour is used only in yards (it had brought shadows and
+  roof edges into the streets as blue-white patches).

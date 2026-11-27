@@ -17,9 +17,10 @@ import { createSquares } from './sim/squares';
 import { createRiver } from './sim/river';
 import { createTimeline } from './ui/timeline';
 import { createPanels, toast } from './ui/panels';
+import { createNarration } from './ui/narration';
 import { layout } from './ui/layout';
 import { open as openGallery, materialsFor } from './ui/gallery';
-import { EVENTS, CONF_COLORS, SOURCE_LAYERS, PERIODS, overlayFor } from './data/history';
+import { EVENTS, EVENT_REFS, CONF_COLORS, SOURCE_LAYERS, PERIODS, overlayFor } from './data/history';
 import { walk } from './sim/walk';
 /** 'MM-DD' → fraction of the year, for parts dated to the day (landmark names "part@1504_160-…"). */
 const dayFrac = (d: string) => { const [m, dd] = (d || '01-01').split('-').map(Number); return (([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][m - 1] ?? 0) + dd - 1) / 366; };
@@ -93,8 +94,9 @@ async function main() {
   done(`${meta.trees.count.toLocaleString()} trees`);
   say('People and costumes');
   const people = await createPeople(scene, streets, q.people);
-  const riverPeople = await createPeople(scene, streets, q.riverPeople, { walkers: false });
-  const squarePeople = await createPeople(scene, streets, q.squarePeople, { walkers: false });   // squares and bridges near the camera
+  // made on demand for the area in view (river crews, squares and bridges near the camera); none drawn above PEOPLE_ALT
+  const riverPeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.riverPeople });
+  const squarePeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.squarePeople });
   say('Props, boats and animals');
   const props = await loadProps(mtex, './models');
   const scenes = createScenes(scene, people, height, props, streets.squares);
@@ -154,9 +156,15 @@ async function main() {
   let eventLight: { year: number; date: string } | null = null;
   const endEventLight = () => { if (!eventLight) return; eventLight = null; if (state.hour !== DEFAULT_HOUR) queueMicrotask(() => set({ hour: DEFAULT_HOUR })); };
   if (state.hour !== DEFAULT_HOUR) set({ hour: DEFAULT_HOUR });
+  const firstSentences = (t: string, n: number) => (t.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [t]).slice(0, n).join('').trim();
+  // an event picked from the list without a scene of its own: its facts stay at the top until the year or the date changes
+  const narration = createNarration();
+  let factEvent: { year: number; date?: string; title: string; text: string } | null = null, liveEvent = '';
   function goEvent(i: number) {
     const e = EVENTS[i];
     eventLight = null;
+    liveEvent = e.live ?? '';
+    factEvent = e.live ? null : { year: e.year, date: e.date, title: `${e.year < 0 ? -e.year + ' BC' : e.year}${e.date ? ' · ' + e.date.split('-').reverse().map(Number).join('/') : ''} · ${e.title}`, text: firstSentences(EVENT_REFS[e.title]?.sum ?? e.note, 2) };
     if (e.hour != null && e.hour !== DEFAULT_HOUR) eventLight = { year: e.year, date: e.date ?? state.date };
     set({ year: e.year, date: e.date ?? state.date, hour: eventLight ? e.hour! : DEFAULT_HOUR, playing: false, mode: e.live ? 'live' : state.mode });
     if (e.live) { pendingEvent = e; refreshLive(true); } else flyTo(e.at[0], e.at[1], 600, 0.85);
@@ -190,6 +198,7 @@ async function main() {
   on((s, ch) => {
     // set() reports every key it was given, changed or not: compare values, or picking an event (which passes the mode
     // along) ends its own lighting at once and the night scene with it
+    if (factEvent && ((('year' in ch) && Math.round(s.year) !== factEvent.year) || (('date' in ch) && factEvent.date && s.date !== factEvent.date))) factEvent = null;
     if (eventLight && ((('year' in ch) && Math.round(s.year) !== eventLight.year) || (('date' in ch) && s.date !== eventLight.date) || (('mode' in ch) && s.mode !== 'live'))) endEventLight();
     if ('year' in ch) { uYear.value = s.year; statues.update(s.year); walk.setYear(s.year); env.update(s.year); splats.update(s.year); }
     if ('color' in ch) uColorMode.value = { real: 0, period: 1, confidence: 2 }[s.color];
@@ -275,7 +284,7 @@ async function main() {
       else { f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); }
       stage.fitClip(f.far); }
     xray.update(dt, state.year);
-    river.update(dt, state.year, true); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
+    river.update(dt, state.year, true, camera.position.y - controls.target.y); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => { const p = periodOf(r.start); return uPeriodPick.value >= 0 && p !== uPeriodPick.value ? '#a3a09b' : PERIODS[p]?.color ?? '#888'; }));   // a period picked in the legend: the others grey
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);
     riverPeople.setContext(Math.round(state.year), controls.target, 2000); riverPeople.update(dt, camera.position);
@@ -302,6 +311,9 @@ async function main() {
         camera.position.lerp(want, k);
       }
     }
+    // scripted scenes narrate while they play; open-ended ones (the market, calcio) only when picked from the events list
+    { const n = state.mode === 'live' ? scenes.narration() : null, show = n && (scenes.duration() > 0 || scenes.active === liveEvent);
+      narration.set(show ? n : factEvent); }
     { const D = scenes.duration(); panels.player(state.mode === 'live' && D > 0 ? { title: sceneTitle, t: scenes.time, dur: D, paused: scenes.paused } : null); }
     if ((camSave += dt) > 1) { camSave = 0; panels.legend(); state.cam = [...camera.position.toArray(), ...controls.target.toArray()].map(v => Math.round(v)); }
     { // never under the ground: with the tilt down to the horizontal the camera could sink into a slope

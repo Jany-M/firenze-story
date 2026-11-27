@@ -21,6 +21,16 @@ bpy.ops.import_scene.gltf(filepath=XBOT)
 for a in list(bpy.data.actions): bpy.data.actions.remove(a)
 arm = next(o for o in bpy.data.objects if o.type == "ARMATURE")
 body = bpy.data.objects["Beta_Surface"]
+# the Xbot is a robot: its shell has gaps at the joints (waist, neck, shoulders, elbows) filled by a separate "Joints" mesh;
+# garments cut from the shell alone left the waist ring showing through the cloth – cut them from both, joined
+_j = bpy.data.objects.get("Beta_Joints")
+if _j:
+    _b2 = body.copy(); _b2.data = body.data.copy(); bpy.context.collection.objects.link(_b2)
+    _j2 = _j.copy(); _j2.data = _j.data.copy(); bpy.context.collection.objects.link(_j2)
+    bpy.ops.object.select_all(action="DESELECT"); _b2.select_set(True); _j2.select_set(True); bpy.context.view_layer.objects.active = _b2
+    bpy.ops.object.join(); _b2.name = "Body_for_cloth"; body_cloth = _b2
+else:
+    body_cloth = body
 if arm.animation_data: arm.animation_data_clear()
 for o in bpy.data.objects:
     if o.type == "ARMATURE": o.data.pose_position = "REST"
@@ -38,7 +48,7 @@ MW = body.matrix_world.copy(); S = MW.to_scale()[0]                 # body local
 
 def from_body(name, keep, offset, material, ratio=0.22):
     """Copy the body, keep vertices where keep(world_pos) is True, inflate by `offset` metres, decimate."""
-    ob = body.copy(); ob.data = body.data.copy(); ob.name = name; bpy.context.collection.objects.link(ob)
+    ob = body_cloth.copy(); ob.data = body_cloth.data.copy(); ob.name = name; bpy.context.collection.objects.link(ob)
     bm = bmesh.new(); bm.from_mesh(ob.data); bm.normal_update()
     kill = [v for v in bm.verts if not keep(MW @ v.co)]
     bmesh.ops.delete(bm, geom=kill, context="VERTS")
@@ -94,16 +104,18 @@ def cone(name, z_top, z_bot, r_top, r_bot, material, rx=1.0, ry=0.8, segs=18, ri
 
 ax = lambda p: abs(p.x)
 # --- garments (world metres, T-pose: arms along x, feet at z=0, head top 1.78) ---
+# 2026-11-28: thicker shells, less decimation (it pulled the cloth into the concave belly and the body showed through) and
+# tops reaching down over the waistband (≈15 cm of overlap), so bending or kneeling opens no gap at the waist
 G = []
-G.append(from_body("g_shirt", lambda p: 0.98 < p.z < 1.52 and ax(p) < 0.46, 0.012, "linen"))                                  # shirt / camicia, sleeves to the elbow
-G.append(from_body("g_doublet", lambda p: 0.93 < p.z < 1.53 and ax(p) < 0.64, 0.02, "cloth_main"))                            # farsetto / giubbone, long sleeves
-G.append(from_body("g_hose", lambda p: p.z < 1.05 and ax(p) < 0.24 and p.z > 0.07, 0.01, "cloth_alt"))                       # calze / hose / trousers
-G.append(from_body("g_breeches", lambda p: 0.5 < p.z < 1.07 and ax(p) < 0.24, 0.028, "cloth_alt"))                          # brache (calcio, 16th–18th c.)
-G.append(from_body("g_tunic", lambda p: 0.55 < p.z < 1.53 and ax(p) < 0.42, 0.03, "cloth_main"))                              # tunica (Roman, medieval)
+G.append(from_body("g_shirt", lambda p: 0.9 < p.z < 1.52 and ax(p) < 0.46, 0.02, "linen", ratio=0.45))                                  # shirt / camicia, sleeves to the elbow
+G.append(from_body("g_doublet", lambda p: 0.88 < p.z < 1.53 and ax(p) < 0.64, 0.028, "cloth_main", ratio=0.45))                            # farsetto / giubbone, long sleeves
+G.append(from_body("g_hose", lambda p: p.z < 1.12 and ax(p) < 0.24 and p.z > 0.07, 0.016, "cloth_alt", ratio=0.4))                       # calze / hose / trousers
+G.append(from_body("g_breeches", lambda p: 0.5 < p.z < 1.13 and ax(p) < 0.24, 0.034, "cloth_alt", ratio=0.4))                          # brache (calcio, 16th–18th c.)
+G.append(from_body("g_tunic", lambda p: 0.55 < p.z < 1.53 and ax(p) < 0.42, 0.034, "cloth_main", ratio=0.45))                              # tunica (Roman, medieval)
 G.append(from_body("g_boots", lambda p: p.z < 0.3 and ax(p) < 0.24, 0.015, "leather"))                                        # shoes / boots
-G.append(from_body("g_bodice", lambda p: 0.98 < p.z < 1.5 and ax(p) < 0.6, 0.016, "cloth_main"))                              # women's bodice with sleeves
-G.append(cone("g_skirt", 1.02, 0.05, 0.17, 0.36, "cloth_main"))                                                               # gonna / gamurra skirt
-G.append(cone("g_robe", 1.05, 0.06, 0.18, 0.33, "cloth_main", rx=1.05, ry=0.85))                                              # lucco / long robe (citizens, clergy)
+G.append(from_body("g_bodice", lambda p: 0.9 < p.z < 1.5 and ax(p) < 0.6, 0.024, "cloth_main", ratio=0.45))                              # women's bodice with sleeves
+G.append(cone("g_skirt", 1.1, 0.05, 0.2, 0.37, "cloth_main", ry=0.85))                                                               # gonna / gamurra skirt
+G.append(cone("g_robe", 1.1, 0.06, 0.2, 0.34, "cloth_main", rx=1.05, ry=0.88))                                              # lucco / long robe (citizens, clergy)
 G.append(cone("g_apron", 1.0, 0.45, 0.17, 0.22, "linen", rx=1.0, ry=0.75, segs=18, rings=4))                                  # grembiule (front half kept below)
 G.append(cone("g_cloak", 1.46, 0.4, 0.2, 0.34, "cloth_alt", back_only=True))                                                  # mantello
 # the apron only covers the front: drop the back half

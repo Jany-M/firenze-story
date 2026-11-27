@@ -24,7 +24,6 @@ const OPENED: [RegExp, number][] = [
   [/costituzione|pratolini|zoli|beslan|barbieri|morales|pincherle|carlo levi|salvemini|bargellini|caduti/i, 1930],
 ];
 const NOT_SQUARE = /^(via|viale|lungarno)\b/i;
-const BRIDGE_RESERVE = 28;
 
 export function createSquares(scene: THREE.Scene, props: Props, people: People, height: Height, squares: Sq[], bridges: Br[],
   graph?: { nodes: number[][]; edges: number[][] }) {
@@ -81,8 +80,7 @@ export function createSquares(scene: THREE.Scene, props: Props, people: People, 
       const a = people.claim(p, face, 'static', anim, undefined, outfit, placed); if (a) site.ags.push(a); return a;
     };
     const day = hour >= 7 && hour < 21 ? 1 : 0.3, area = q.len * q.wid * 0.75;
-    const cap = Math.max(8, Math.floor((people.agents.length - BRIDGE_RESERVE) / 3));   // three squares at most, the bridges keep theirs
-    const n = Math.round(Math.max(8, Math.min(64, cap, (area / 22) * day)));
+    const n = Math.round(Math.max(8, Math.min(64, (area / 22) * day)));
     // benches along the edges of the square, facing in
     const bench = year < 1400 ? ['bench'] : year < 1850 ? ['bench_stone', 'bench_stone', 'bench'] : ['bench_park', 'bench_park', 'bench_stone'];
     let benches = Math.max(3, Math.min(14, Math.round(n / 4)));
@@ -237,7 +235,10 @@ export function createSquares(scene: THREE.Scene, props: Props, people: People, 
       }
       if ((a.next -= dt) > 0) continue;
       a.next = 2 + R() * 5;
-      people.anim(a.ag, a.kind === 'look' ? (R() < 0.7 ? 'idle' : 'headShake') : ['agree', 'idle', 'idle', 'headShake'][(R() * 4) | 0]);
+      const an = a.kind === 'look' ? (R() < 0.7 ? 'idle' : 'headShake') : ['agree', 'idle', 'idle', 'headShake'][(R() * 4) | 0];
+      people.anim(a.ag, an);
+      // taking turns: the one speaking gestures, the others now and then (people looking about keep their hands still)
+      if (a.kind === 'chat') people.setTalk(a.ag, an === 'idle' ? 0.3 : 1);
     }
   }
   return { update, clear: dropAll, get vecchio() { return pvC; }, get count() { let n = 0; for (const s of sites.values()) n += s.ags.length; return n; }, get sites() { return [...sites.keys()]; } };

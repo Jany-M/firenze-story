@@ -21,8 +21,10 @@ def reset():
 
 # ------------------------------------------------------------------ materials (exported to <name>_materials.json)
 MATDEF = {}
-def material(name, tex=None, color=(0.8, 0.8, 0.8), rough=0.6, scale=1.0, metal=0.0, tint=(1, 1, 1)):
+def material(name, tex=None, color=(0.8, 0.8, 0.8), rough=0.6, scale=1.0, metal=0.0, tint=(1, 1, 1), img=None):
+    """img: an image of its own (web/public/models/landmarks/img/<img>), mapped by the mesh's UVs – a painted façade."""
     MATDEF["fs_" + name] = {"tex": tex, "color": list(color), "tint": list(tint), "rough": rough, "scale": scale, "metal": metal}
+    if img: MATDEF["fs_" + name]["img"] = img
     m = bpy.data.materials.new("fs_" + name); m.use_nodes = True
     b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Base Color"].default_value = (*color, 1)
     b.inputs["Roughness"].default_value = rough; b.inputs["Metallic"].default_value = metal
@@ -59,6 +61,14 @@ def bm_for(part, mat):
     k = (part, mat)
     if k not in BMS: BMS[k] = bmesh.new()
     return BMS[k]
+
+def uv_poly(bm, pts, uvs):
+    """A face with UVs (for a material with an image of its own)."""
+    vs = [bm.verts.new(p) for p in pts]
+    try: f = bm.faces.new(vs)
+    except ValueError: return
+    lay = bm.loops.layers.uv.verify()
+    for loop, uv in zip(f.loops, uvs): loop[lay].uv = uv
 
 def poly(bm, pts):
     vs = [bm.verts.new(p) for p in pts]

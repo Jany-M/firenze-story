@@ -107,7 +107,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   let movers: Mover[] = [], statics: THREE.Object3D[] = [], crew: any[] = [];
   let ducks: { obj: THREE.Object3D; x: number; lane: number; v: number }[] = [];
   let birds: THREE.InstancedMesh | null = null; const birdState: { c: THREE.Vector3; r: number; a: number; s: number; h: number }[] = [];
-  let key = '';
+  let key = '', small: THREE.Object3D[] = [], viewK = '';
   let stoneMat: THREE.Material | undefined;
 
   function waterPos(x: number, lane: number) {       // lane -1 north bank .. 0 centre .. 1 south bank
@@ -137,7 +137,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   }
   function clear() {
     for (const o of [...statics, ...movers.filter(m => m.kind !== 'wade').map(m => m.obj), ...ducks.map(d => d.obj), ...grazers.map(g => g.obj)]) group.remove(o);
-    statics = []; movers = []; ducks = []; grazers = []; smoke.length = 0; ancientObjs = [];
+    statics = []; movers = []; ducks = []; grazers = []; smoke.length = 0; ancientObjs = []; small = []; viewK = '';
     for (const c of crew) people.release(c); crew = [];
   }
 
@@ -266,7 +266,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     }
     for (let i = 0; i < 10; i++) {
       const x = xMin + 300 + R() * (xMax - xMin - 600), north = R() < 0.5, p = waterPos(x, north ? -0.97 : 0.97);
-      const o = props.place('heron', p.x, p.y - 0.25, p.z, R() * 6, group); if (o) { o.scale.setScalar(1.4); statics.push(o); }
+      const o = props.place('heron', p.x, p.y - 0.25, p.z, R() * 6, group); if (o) { o.scale.setScalar(1.4); statics.push(o); small.push(o); }
     }
     // deer in the countryside before the city spread
     if (inRange(year, RIVER_LIFE.deer)) for (let i = 0; i < 14; i++) {
@@ -378,9 +378,16 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
 
   const M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(1.5, 1.5, 1.5), P = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
   let t = 0;
-  function update(dt: number, year: number, live: boolean) {
+  /** alt: camera height over the view's target. Wide, high views drop the river life: the small animals first, then the
+   *  boats (nothing of it would show but a few pixels, and it all costs draw calls). */
+  const BOATS_ALT = 1400, SMALL_ALT = 450;
+  function update(dt: number, year: number, live: boolean, alt = 0) {
     const k = `${Math.floor(year / 10)}:${live}`;
     if (k !== key) { key = k; rebuild(year, live); }
+    group.visible = alt < BOATS_ALT;
+    const vk = `${alt < SMALL_ALT}`;
+    if (vk !== viewK) { viewK = vk; const on = alt < SMALL_ALT; for (const o of small) o.visible = on; for (const d of ducks) d.obj.visible = on; }
+    if (!group.visible) return;
     t += dt;
     for (const m of movers) {
       if (m.kind === 'nav') {
@@ -388,7 +395,8 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
         const p = waterPos(m.x, m.lane), ahead = waterPos(m.x + m.dir * 6, m.lane);
         const dr = m.draft ?? 0.25, floor = p.y - dr + (m.floor ?? 0.08);       // crew stands on the floorboards
         m.obj.position.set(p.x, p.y - dr + Math.sin(t * 1.3 + m.bob) * 0.04, p.z); m.obj.rotation.y = Math.atan2(-(ahead.z - p.z), ahead.x - p.x);
-        m.crew.forEach((c, i) => { c.obj.position.set(p.x - m.dir * (dr < 0.2 ? 1.2 : 2 + i * 3), floor, p.z); c.obj.rotation.y = m.obj.rotation.y + Math.PI / 2; });
+        const hx = ahead.x - p.x, hz = ahead.z - p.z, hl = Math.hypot(hx, hz) || 1;          // along the hull, not the world x axis
+        m.crew.forEach((c, i) => { const back = dr < 0.2 ? 1.2 : 1.5 + i * 2.6; c.obj.position.set(p.x - (hx / hl) * back, floor, p.z - (hz / hl) * back); c.obj.rotation.y = m.obj.rotation.y + Math.PI / 2; });
       } else if (m.kind === 'wade') {             // wading across the ford, knee-deep
         m.lane += m.dir * dt * 0.012; if (m.lane > m.x1 || m.lane < m.x0) { m.dir *= -1; m.obj.rotation.y += Math.PI; }
         const p = waterPos(m.x, m.lane); m.obj.position.set(p.x, p.y - 0.55, p.z); m.obj.rotation.y = m.dir > 0 ? 0 : Math.PI;
@@ -419,7 +427,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
         Q.setFromAxisAngle(up, -b.a - Math.sign(b.s) * Math.PI / 2); S.set(1.6, 1.6, 1.6 * flap);
         M4.compose(P, Q, S); birds!.setMatrixAt(i, M4);
       });
-      birds.instanceMatrix.needsUpdate = true; birds.visible = year > -10000;
+      birds.instanceMatrix.needsUpdate = true; birds.visible = year > -10000 && alt < SMALL_ALT;
     }
   }
   /** Ancient object under the ray (its site record), for the inspector card. */

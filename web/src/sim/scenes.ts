@@ -85,8 +85,10 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
       put(kinds[(i + row) % 3], x, z, rot);
       for (let k = 0; k < 2 + (R() * 3 | 0); k++) put(small[R() * 4 | 0], x + (R() - 0.5) * 3.4, z - s * (1.0 + R() * 0.6), R() * 6.28);   // stock behind the counter
       if (R() < 0.3) put('basket', x + 1.6, z + s * 0.9, R() * 6.28);
-      people.claim(V(x, height(x, z), z - s * 1.2), V(x, 0, z + s * 5), 'static', R() < 0.5 ? 'idle' : 'agree', undefined, y0 >= 1300 ? 'vendor' : undefined); // vendor
-      if (R() < 0.85) people.claim(V(x + (R() - 0.5), height(x, z), z + s * 1.9), V(x, 0, z - s * 5), 'static', R() < 0.6 ? 'idle' : 'headShake'); // customer
+      const ven = people.claim(V(x, height(x, z), z - s * 1.2), V(x, 0, z + s * 5), 'static', R() < 0.5 ? 'idle' : 'agree', undefined, y0 >= 1300 ? 'vendor' : undefined); // vendor
+      if (ven) people.setTalk(ven, 1);                                     // praising the goods, with the hands
+      const cus = R() < 0.85 ? people.claim(V(x + (R() - 0.5), height(x, z), z + s * 1.9), V(x, 0, z - s * 5), 'static', R() < 0.6 ? 'idle' : 'headShake') : null; // customer
+      if (cus) people.setTalk(cus, 0.5);                                   // haggling
     }
     for (let i = 0; i < 4; i++) put('bench', kx + 4 + i * 2.5, kz + 3, 0);   // resting by the column
   }
@@ -316,6 +318,45 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (want && (at?.live || frame)) focus(pos[0], pos[1], CAM[want], ...(CAM_DIST[want] ?? []));
     return want;
   }
+  /** The line at the top while a scene plays: play-by-play where the sequence has steps, otherwise its main facts for as long
+   *  as it runs. The flood keeps its own clock line. Sources: docs/EVENTS-COSTUMES.md (David: Landucci's diary and the Opera
+   *  di Santa Maria del Fiore; Scoppio: Opera, visittuscany; Night of the Bridges: La Nazione, Uffizi, storiadifirenze). */
+  function narration(): { title: string; text: string } | null {
+    if (!active || active === 'alluvione1966') return null;
+    const c = t;
+    if (active === 'scoppio') {
+      const title = `Scoppio del Carro · Easter Sunday ${lastYear}`;
+      return { title, text: c < 5 ? 'The Brindellone, drawn here by white oxen, stands between the Duomo and the Baptistery, loaded with fireworks.'
+        : c < 9 ? 'At the Gloria the archbishop lights the colombina at the high altar, with fire struck from the flints of the Holy Sepulchre.'
+        : c < 11 ? 'The colombina runs down the wire out of the cathedral and sets the cart alight: rockets, wheels of fire, smoke.'
+        : c < 15 ? 'It flies back along the wire to the altar – a smooth flight promises a good year for the harvest.'
+        : 'The fireworks go on burning on the cart, one tier after another, over the crowd in the square.' };
+    }
+    if (active === 'david') {
+      const d = davidAt(c), L = routeLen[routeLen.length - 1], f = d / L;
+      return { title: 'The David leaves the Opera del Duomo · 14–18 May 1504', text: c < DAVID_WAIT ? 'Evening of 14 May: the wall over the Opera\'s yard gate is broken open to let the giant out.'
+        : f < 0.3 ? 'In a timber frame, the marble hung free inside, it slides on greased beams, hauled by some forty men with windlasses.'
+        : f < 0.65 ? 'Guards walk beside it: on the first night stones were thrown at it (Landucci). It goes a few hundred braccia a day.'
+        : f < 0.999 ? 'Four days through the streets, about 600 m in all, towards Piazza della Signoria.'
+        : '18 May: it reaches the palace. On 8 June it stands on the ringhiera; it is unveiled on 8 September 1504.' };
+    }
+    if (active === 'ponti1944') {
+      const next = blasts.filter(b => b.t <= c).pop(), i = next ? blasts.indexOf(next) : -1;
+      const name = next?.mesh ? bridgeList.find(b => b.mesh === next.mesh)?.name : null;
+      return { title: 'The Night of the Bridges · 3–4 August 1944', text: !next ? 'The retreating German army has mined every bridge on the Arno; the people of the riverside streets were ordered out.'
+        : name ? `${name} is blown up (the order of the blasts here is inferred).`
+        : i < blasts.length - 1 ? 'Ponte Vecchio is spared, but the houses at both its ends are blown down to block it: Por Santa Maria, Via de\' Bardi, Borgo San Jacopo, Via Guicciardini.'
+        : 'Dawn on 4 August: only Ponte Vecchio still stands, cut off by the ruins.' };
+    }
+    if (active === 'market') return lastYear < 500
+      ? { title: 'Market morning in the forum of Florentia', text: 'Stalls of bread, oil, wine and produce in the forum, where Piazza della Repubblica is today; the cardo and the decumanus cross here.' }
+      : { title: 'Market morning in the Mercato Vecchio', text: 'The daily market round the Colonna dell\'Abbondanza (1431): fruit, bread and cloth under awnings, the guild halls and towers around. It stood until it was cleared in 1885–95.' };
+    if (active === 'calcio') return lastYear < 1600
+      ? { title: 'Calcio during the siege · 17 February 1530', text: 'Two teams of 27 on a pitch in Piazza Santa Croce, played in defiance of the imperial army besieging the city.' }
+      : { title: `Calcio storico · 24 June ${lastYear}`, text: 'The final for San Giovanni in Piazza Santa Croce: 27 a side on sand, the four quarters in their colours; revived in 1930.' };
+    if (active === 'davidWait') return { title: 'The David on its way · May–June 1504', text: 'The statue stands in its frame in Piazza della Signoria while the ringhiera is made ready; it is set up on 8 June.' };
+    return null;
+  }
   /** A moving subject the camera should follow, or null (the David is framed by camGoal). */
   const follow = () => null as THREE.Vector3 | null;
   /** A scene that lights itself (the flood's clock): the hour for the sun, or null. */
@@ -333,6 +374,6 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     }
     return null;
   }
-  return { evaluate, update, clear, follow, lightHour, camGoal, duration, seek, setBridges(b: typeof bridgeList) { bridgeList = b; },
+  return { evaluate, update, clear, follow, lightHour, camGoal, duration, seek, narration, setBridges(b: typeof bridgeList) { bridgeList = b; },
     get active() { return active; }, get activeAt() { return activeAt; }, get time() { return t; }, get paused() { return paused; }, set paused(v: boolean) { paused = v; } };
 }

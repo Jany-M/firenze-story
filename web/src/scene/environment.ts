@@ -38,6 +38,14 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const Y = meta.yards;
   const yardTex = Y ? new THREE.DataTexture(await bin(`${base}/yards.u8`, Uint8Array), Y.n, Y.n, THREE.RedFormat, THREE.UnsignedByteType) : blank;
   if (Y) { yardTex.needsUpdate = true; yardTex.minFilter = yardTex.magFilter = THREE.LinearFilter; }
+  // wild ground (parks, cemeteries, Forte di Belvedere, the river banks): open ground there is never paved, in any year
+  const WD = meta.wild;
+  const wildTex = WD ? new THREE.DataTexture(await bin(`${base}/wild.u8`, Uint8Array), WD.n, WD.n, THREE.RedFormat, THREE.UnsignedByteType) : blank;
+  if (WD) { wildTex.needsUpdate = true; wildTex.minFilter = wildTex.magFilter = THREE.LinearFilter; }
+  // cemeteries: (opening year - 1700) / 2 per 4 m cell, 0 = none – rows of grave slabs on gravel from that year
+  const CM = meta.cemetery;
+  const cemTex = CM ? new THREE.DataTexture(await bin(`${base}/cemetery.u8`, Uint8Array), CM.n, CM.n, THREE.RedFormat, THREE.UnsignedByteType) : blank;
+  if (CM) { cemTex.needsUpdate = true; cemTex.minFilter = cemTex.magFilter = THREE.NearestFilter; }
   const ovTex = texture(blank);   // swapped at runtime via ovTex.value
 
   // ---------- ground colour (shared by the core and the wide ring) ----------
@@ -104,16 +112,30 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const newQuarter = step(1850, urbanStart);
     // …then today's ground from the 2017 orthophoto (real roads, yards and gardens) instead of a flat asphalt fill, which
     // drew dark squares around the detached villas of the outer belt (asphalt texture tints it slightly)
-    const nowGround = mix(o.mul(1.04), asf, 0.15);
+    // the photo only for open yards: in a narrow street it shows the houses' shadows and roof edges (blue-grey and white
+    // patches), so streets themselves get asphalt with some stone setts
+    const yard = Y ? texture(yardTex).sample(uvC).r : float(0);
+    const nowGround = mix(mix(asf, filari, step(ph(7), 0.25)), mix(o.mul(1.04), asf, 0.15), smoothstep(0.5, 0.9, yard));
     street = mix(street, mix(terra, nowGround, step(float(1925).add(ph(5).mul(35)), uYear)), newQuarter);
     // gardens and orti inside the blocks: lawn and planted beds with gravel paths where the yard is green in the photo
-    const yard = Y ? texture(yardTex).sample(uvC).r : float(0);
     const greenO = o.y.div(o.x.add(o.y).add(o.z).add(0.001));
     const gardenK = smoothstep(0.55, 0.9, yard).mul(smoothstep(0.345, 0.375, greenO));
     const lawn = mix(vec3(0.27, 0.36, 0.17), vec3(0.34, 0.42, 0.2), n2).mul(mix(float(0.85), float(1.08), fbm(P.mul(0.6))));
     const gravel = T('terra', 3).mul(1.15);
     const garden = mix(lawn, gravel, smoothstep(0.62, 0.7, fbm(P.mul(0.12))).mul(0.6));
-    const urbanGround = mix(street, garden, gardenK);
+    let urbanGround: any = mix(street, garden, gardenK);
+    // wild ground: lawn where the photo is green, earth and fine gravel elsewhere (the banks, the Forte's terraces, the
+    // cemetery between its tombs); today the photo's own colour shows through a little
+    const wildK = WD ? smoothstep(0.35, 0.75, texture(wildTex).sample(uvC).r) : float(0);   // already the open share
+    const natural = mix(mix(earth, gravel, 0.35), lawn, smoothstep(0.33, 0.37, greenO));
+    // a cemetery from its opening year: grave slabs (white and grey marble, 0.9 × 2 m) in rows on gravel, cypress shade
+    const cemV = CM ? texture(cemTex).sample(uvC).r.mul(255) : float(0);
+    const cemOn = step(0.5, cemV).mul(step(cemV.mul(2).add(1700), uYear));
+    const gc = vec2(P.x.div(1.5), P.y.div(2.8)), gf = fract(gc), gh = hash(floor(gc).x.add(floor(gc).y.mul(57.3)));
+    const slab = step(0.2, gf.x).mul(step(gf.x, 0.8)).mul(step(0.14, gf.y)).mul(step(gf.y, 0.86)).mul(step(0.12, gh));
+    const graves = mix(mix(earth, gravel, 0.6), mix(vec3(0.86, 0.85, 0.82), vec3(0.62, 0.62, 0.6), step(0.6, gh)), slab);
+    const wildGround = mix(mix(natural, o.mul(1.02), smoothstep(1950, 2010, uYear).mul(0.35)), graves, cemOn);
+    urbanGround = mix(urbanGround, wildGround, wildK);
     // Roman Florentia (c. 30 BC – 6th c.): castrum box from the excavated walls (A03), cardo (via Roma–Calimala) and
     // decumanus (via Strozzi–Speziali–Corso) crossing at the forum; streets every ~1 actus in basoli
     const inCastrum = step(-300, P.x).mul(step(P.x, 125)).mul(step(-170, P.y)).mul(step(P.y, 232));
