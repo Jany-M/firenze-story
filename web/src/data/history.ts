@@ -43,7 +43,7 @@ export const EVENTS: HistEvent[] = [
   { year: 1865, title: 'Florence capital of Italy · walls demolished (Poggi plan)', place: 'Viali', at: [0, 0], note: '1865–1871.' },
   { year: 1888, title: 'Mercato Vecchio & ghetto demolished', place: 'Piazza della Repubblica', at: [-90, 14], note: 'Risanamento 1885–1895.' },
   { year: 1944, date: '08-03', hour: 23, title: 'The Night of the Bridges', place: 'Arno', at: [-155, 427], live: 'ponti1944', note: 'From the evening of 3 August to dawn on the 4th the retreating German army blows up every bridge but Ponte Vecchio; Por Santa Maria, Via de\' Bardi, Borgo San Jacopo and Via Guicciardini are mined to block its approaches.' },
-  { year: 1966, date: '11-04', title: 'The great flood', place: 'Santa Croce', at: [507, 304], note: 'Water up to ~5 m in Santa Croce.' },
+  { year: 1966, date: '11-04', hour: 9, title: 'The great flood', place: 'Santa Croce', at: [150, 330], live: 'alluvione1966', note: 'Water up to ~5 m in Santa Croce.' },
   { year: 2026, date: '04-05', title: 'Scoppio del Carro (Easter)', place: 'Piazza del Duomo', at: [-1, -135], live: 'scoppio', note: 'Fire struck from the Holy Sepulchre flints at Santi Apostoli; the colombina flies at 11.' },
   { year: 2026, date: '06-24', title: 'Calcio Storico final (San Giovanni)', place: 'Piazza Santa Croce', at: [507, 304], live: 'calcio', note: 'Modern revival (since 1930).' },
 ];

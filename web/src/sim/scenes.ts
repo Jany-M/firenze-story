@@ -5,15 +5,16 @@ import type { People } from './people';
 import type { Props } from '../scene/assets';
 import { createFX } from './fx';
 import { walk } from './walk';
+import { createFlood } from './flood';
 
 type Height = (x: number, z: number) => number;
 const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
 const R = Math.random;
 // camera azimuth per scene (radians; camera placed on this side of the target, looking across the open square)
-const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: 2.2, davidWait: 2.6, ponti1944: 0.2 };
+const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: 2.2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.35 };
 // distance (m) and pitch (rad from vertical) of the opening shot; default 110 m / 0.82. The Night of the Bridges frames
 // the whole reach from Ponte alla Vittoria (x ≈ −1670) to Ponte San Niccolò (x ≈ +1300) so every blast is in view.
-const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98] };   // from the south, over Oltrarno
+const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98], alluvione1966: [1450, 0.92] };   // from the south, over Oltrarno
 export const PLACES = { market: [-90, 14], calcio: [513, 306], scoppio: [-1, -135], duomoDoor: [27, -139], david: [232, -150] } as const;
 /** Presumed route of the David, 14–18 May 1504 (≈600 m; no street route is documented): out of the Opera del Duomo yard
  *  (wall above the gate broken open), along the south flank of the cathedral, down the Corso (Via dei Calzaiuoli) into
@@ -46,6 +47,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
   // scoppio state
   let dove: THREE.Object3D | null = null, wireA = V(0, 0, 0), wireB = V(0, 0, 0), cartAt = V(0, 0, 0), fwNext = 0;
   const fxRoot = new THREE.Group(); fxRoot.name = 'scene-fx'; scene.add(fxRoot); const fx = createFX(fxRoot);
+  const flood = createFlood(fxRoot, height);     // 4 November 1966
   // 1944 state: the Night of the Bridges
   let bridgeList: { mesh: THREE.Object3D; start: number; end: number; name: string }[] = [], blasts: { at: THREE.Vector3[]; t: number; mesh?: THREE.Object3D; done: boolean }[] = [];
   // david state
@@ -61,7 +63,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
 
   function restoreBridges() { for (const b of bridgeList) b.mesh.visible = lastYear >= b.start && lastYear < b.end; blasts = []; }
   let lastYear = 2026;
-  function clear() { if (blasts.length) restoreBridges(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; dove = null; t = 0; davidFrame = null; crew = []; ropes = []; }
+  function clear() { if (blasts.length) restoreBridges(); flood.clear(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; dove = null; t = 0; davidFrame = null; crew = []; ropes = []; }
   const SOLID = /stall|tribune|brindellone|bench|table|scalo|crate|barrel/;      // props people walk around
   const put = (n: string, x: number, z: number, rot = 0) => { const o = props.place(n, x, height(x, z), z, rot, root); if (o && SOLID.test(n)) walk.addProp(o, 0.1); return o; };
 
@@ -240,6 +242,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
         if (b.mesh) setTimeout(() => { if (active === 'ponti1944') b.mesh!.visible = false; }, 500);
       }
     }
+    if (active === 'alluvione1966') flood.update(dt);
     fx.update(dt);
   }
 
@@ -251,6 +254,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     else if ((y === 1530 && date === '02-17') || (y >= 1930 && date === '06-24')) { want = 'calcio'; pos = PLACES.calcio; }
     else if (y >= 1622 && date === easter(y) && hour >= 8 && hour < 13) { want = 'scoppio'; pos = PLACES.scoppio; }
     else if (y === 1944 && ((date === '08-03' && hour >= 20) || (date === '08-04' && hour < 6))) { want = 'ponti1944'; pos = [60, 230]; }   // the five mined bridges, framed a little east of centre so the Live panel does not hide San Niccolò
+    else if (y === 1966 && (date === '11-04' || date === '11-05')) { want = 'alluvione1966'; pos = [150, 330]; }   // the flood: Santa Croce, the Uffizi, the Duomo in view
     else if (y === 1504 && date >= '05-14' && date < '06-08') { want = date <= '05-18' ? 'david' : 'davidWait'; pos = date <= '05-18' ? PLACES.david : [64, 269]; }
     else if (((y >= -30 && y < 450) || (y >= 1000 && y < 1885)) && hour >= 6 && hour < 14) { want = 'market'; pos = PLACES.market; }   // Roman forum, then Mercato Vecchio
     if (want === 'david' && at?.live && date > '05-18') { want = 'davidWait'; pos = [64, 269]; }
@@ -261,6 +265,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (want === 'calcio') calcio(pos[0], pos[1], y);
     if (want === 'scoppio') scoppio(pos[0], pos[1]);
     if (want === 'ponti1944') ponti1944();
+    if (want === 'alluvione1966') void flood.build('./data');
     if (want === 'david' || want === 'davidWait') { david(want === 'david'); const fr = davidFrame as THREE.Group | null; if (fr) pos = [fr.position.x, fr.position.z]; }
     active = want;
     if (want && (at?.live || frame)) focus(pos[0], pos[1], CAM[want], ...(CAM_DIST[want] ?? []));
