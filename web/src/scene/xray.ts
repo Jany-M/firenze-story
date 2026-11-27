@@ -4,7 +4,7 @@
 // structures they pass right through, well short of the target (entering in the first 45 %, leaving before 65 % of the
 // way, above their own ground). Those, and only those, fade: city buildings by record id, landmark parts by object.
 import * as THREE from 'three/webgpu';
-import { Fn, uniform, positionWorld, cameraPosition, dot, smoothstep, screenUV, screenSize, screenCoordinate, vec2, length, fract, sin, floor, float, abs } from 'three/tsl';
+import { Fn, uniform, positionWorld, cameraPosition, dot, smoothstep, screenUV, screenSize, screenCoordinate, vec2, length, floor, float, abs } from 'three/tsl';
 import { isAlive, type Rec } from './city';
 
 export const uXray = uniform(0);                                  // 0 off … 1 full (camera height near the ground)
@@ -21,7 +21,14 @@ const fadeAmount = Fn(() => {
   const centre = float(1).sub(smoothstep(float(0.3), float(0.65), length(c)));
   return inFront.mul(centre).mul(uXray).mul(0.9);
 });
-const dither = Fn(() => { const p = floor(screenCoordinate.xy); return fract(sin(dot(p, vec2(12.9898, 78.233))).mul(43758.5453)); });
+// ordered (Bayer 4×4) dither: an even screen-door pattern that reads as transparency; white-noise dither sparkled as the
+// fade eased in and out while the camera moved
+const dither = Fn(() => {
+  const p = floor(screenCoordinate.xy);
+  const x0 = p.x.mod(2), y0 = p.y.mod(2), x1 = floor(p.x.div(2)).mod(2), y1 = floor(p.y.div(2)).mod(2);
+  const m0 = abs(x0.sub(y0)).mul(2).add(y0), m1 = abs(x1.sub(y1)).mul(2).add(y1);
+  return m0.mul(4).add(m1).add(0.5).div(16);
+});
 
 /** City mask: keep the fragment unless its building is one of the current occluders. */
 export function cityKeep(bid: any) {

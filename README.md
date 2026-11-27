@@ -19,7 +19,7 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 - **The valley around it**: 12 × 12 km of terrain (Fiesole, Arcetri, Bellosguardo), fields, meadows and woods that give way to the city as it is built, ~65,000 trees.
 - **The Arno**: river pools stepping down at the San Niccolò and Santa Rosa weirs, dated bridge phases (Roman wooden bridge, the 1333 and 1557 floods, the 1837 suspension bridge, 1944), cargo boats, renaioli, fishermen, ferries, landing stages, ducks, herons, swallows.
 - **Live mode**: Roman forum and Mercato Vecchio markets, calcio storico on the axis of Piazza Santa Croce (1530 and today), Scoppio del Carro on Easter Sunday; figures dressed from a costume kit (Roman to modern, liveries, guards).
-- **Controls**: drag / right-drag / wheel, **Ctrl + mouse rotate, Ctrl + Shift + mouse move** (no click), W A S D, Q / E, R / F, + / −, N, H for help; Space plays the timeline, ← / → step a year.
+- **Controls**: left-drag moves, **Ctrl + left-drag** (or right-drag) rotates and tilts down to the horizontal, wheel zooms; W A S D, Q / E, R / F, + / −, N, H for help; Space plays the timeline, ← / → step a year. The camera never goes below eye height over the ground.
 
 ## Documentation
 | Doc | What's in it |

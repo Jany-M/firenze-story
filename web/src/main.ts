@@ -123,7 +123,7 @@ async function main() {
 
   function applyMode() {
     const live = state.mode === 'live';
-    controls.maxPolarAngle = live ? 1.45 : 1.15; controls.minDistance = live ? 8 : 25;
+    controls.maxPolarAngle = Math.PI / 2 - 0.01; controls.minDistance = live ? 8 : 12;   // down to the horizontal: fronts seen square on
     uTilt.value = state.tiltShift && (state.mode === 'overview' || state.mode === 'landmarks') ? 1 : (state.tiltShift && live ? 0.35 : 0);
     people.setEnabled(live); riverPeople.setEnabled(true);   // river and pre-urban figures show in every mode
     if (live) {
@@ -277,6 +277,10 @@ async function main() {
       }
     }
     if ((camSave += dt) > 1) { camSave = 0; panels.legend(); state.cam = [...camera.position.toArray(), ...controls.target.toArray()].map(v => Math.round(v)); }
+    { // never under the ground: with the tilt down to the horizontal the camera could sink into a slope
+      const gy = height(camera.position.x, camera.position.z) + 1.7;
+      if (camera.position.y < gy) camera.position.y = gy;
+    }
     pipeline.render();
   });
 }

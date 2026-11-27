@@ -1,13 +1,12 @@
-// View management on top of MapControls (left-drag pan · right-drag rotate · wheel zoom):
-//   Ctrl + move mouse          rotate the view around the focus point (no button needed)
-//   Ctrl + Shift + move mouse  move the point of view (pan over the ground)
-//   W A S D                    move · Q / E rotate · R / F tilt · + / - zoom · N north-up · H help
+// View management on top of MapControls (left-drag pan · Ctrl + left-drag or right-drag rotate and tilt · wheel zoom):
+//   W A S D move · Q / E rotate · R / F tilt · + / - zoom · N north-up · H help
+// Moving the mouse with Ctrl held and no button pressed does nothing (it used to rotate, and turned the view by accident).
+// The tilt goes down to the horizontal, so a front can be seen square on from the street.
 import * as THREE from 'three/webgpu';
 import type { MapControls } from 'three/addons/controls/MapControls.js';
 
 export const VIEW_HELP = [
-  ['Left drag', 'move'], ['Right drag', 'rotate'], ['Wheel', 'zoom'],
-  ['Ctrl + mouse', 'rotate (no click)'], ['Ctrl + Shift + mouse', 'move (no click)'],
+  ['Left drag', 'move'], ['Ctrl + left drag', 'rotate and tilt'], ['Right drag', 'rotate and tilt'], ['Wheel', 'zoom'],
   ['W A S D', 'move'], ['Q / E', 'rotate'], ['R / F', 'tilt'], ['+ / −', 'zoom'], ['N', 'face north'], ['H', 'this help'],
 ];
 
@@ -40,12 +39,6 @@ export function createViewControls(camera: THREE.PerspectiveCamera, controls: Ma
     camera.position.copy(controls.target).add(off.setLength(len));
   }
 
-  // Ctrl (+Shift) + plain mouse movement
-  dom.addEventListener('pointermove', e => {
-    if (!e.ctrlKey || e.buttons) return;
-    if (e.shiftKey) pan(-e.movementX * 0.0016, e.movementY * 0.0016);
-    else orbit(-e.movementX * 0.005, -e.movementY * 0.004);
-  });
   addEventListener('keydown', e => {
     const tag = (e.target as HTMLElement).tagName; if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
     const k = e.key.toLowerCase();
