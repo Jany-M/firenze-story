@@ -158,7 +158,7 @@ async function main() {
       const s = scenes.evaluate(state.year, state.date, state.hour, (x, z, az, dist, pitch) => flyTo(x, z, dist ?? 110, pitch ?? 0.82, az), pendingEvent ?? undefined, frame);
       if (frame && !s) flyTo(controls.target.x, controls.target.z, 110, 0.95);
       pendingEvent = null;
-      panels.liveNote(s === 'calcio' ? 'Calcio storico in Piazza Santa Croce' : s === 'market' ? 'Market day in Mercato Vecchio' : s === 'scoppio' ? 'Scoppio del Carro in Piazza del Duomo'
+      panels.liveNote(s === 'calcio' ? 'Calcio storico in Piazza Santa Croce' : s === 'market' ? 'Market day in Mercato Vecchio' : s === 'sanlorenzo' ? 'Market day at San Lorenzo' : s === 'scoppio' ? 'Scoppio del Carro in Piazza del Duomo'
         : s === 'david' ? 'The David on its way to Piazza della Signoria (14–18 May 1504, route presumed)' : s === 'davidWait' ? 'The David by the palace door, waiting to be raised onto the ringhiera (8 June 1504)'
         : s === 'ponti1944' ? 'The Night of the Bridges, 3–4 August 1944 (sequence compressed)' : s === 'alluvione1966' ? 'The flood of 4 November 1966' : 'Everyday streets');
       sceneTitle = s === 'david' ? 'The David leaves the Opera del Duomo' : s === 'scoppio' ? 'Scoppio del Carro' : s === 'ponti1944' ? 'The Night of the Bridges'

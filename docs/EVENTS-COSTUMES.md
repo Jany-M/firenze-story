@@ -78,6 +78,18 @@ no player.
 - **Costumes**: shirts, doublets, bodices and breeches cut longer and a little looser over the waist, so the belly no longer
   shows when people kneel or bend (garments now cut from the body and its joints together).
 
+## 1e. The San Lorenzo market (2026-11-28)
+- **Where and when**: Mengoni's Mercato Centrale opened in 1874 on the cleared Camaldoli di San Lorenzo block; once the
+  Mercato Vecchio was cleared (1885–95) the daily market life of the centre moved here. The Live scene runs from 1885 on.
+- **Layout**: two facing rows of stalls along Via dell'Ariento (OSM ways 772387238/9), one stall every 5.2 m, skipped where
+  the spot falls inside a building or the hall. Until 24 January 2014 the stalls also stood round the basilica (La Nazione):
+  one double row along Piazza San Lorenzo's long axis (the exact arrangement there is *inferred*).
+- **People**: a vendor behind each counter, talking with the hands; a customer at about four in ten, haggling; up to 14
+  shoppers per lane walking it at 1.05–1.35 m/s, stopping 2–7 s at about half the stalls.
+- **Goods** (*inferred*): food, bread and cloth stalls before 1950, mostly cloth after (today about half leather: jackets,
+  belts, wallets, bags).
+- **Events**: 14 May 1900 and 14 May 2026, 10:00.
+
 ## 2. Florentine carnival (Carnevale)
 
 **Documented**

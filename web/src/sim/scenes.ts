@@ -11,11 +11,11 @@ type Height = (x: number, z: number) => number;
 const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
 const R = Math.random;
 // camera azimuth per scene (radians; camera placed on this side of the target, looking across the open square)
-const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: -Math.PI / 2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.12 };   // the flood: from the south bank, looking north
+const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, sanlorenzo: 0.62, scoppio: 0.15, david: -Math.PI / 2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.12 };   // the flood: from the south bank, looking north
 // distance (m) and pitch (rad from vertical) of the opening shot; default 110 m / 0.82. The Night of the Bridges frames
 // the whole reach from Ponte alla Vittoria (x ≈ −1670) to Ponte San Niccolò (x ≈ +1300) so every blast is in view.
-const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98], alluvione1966: [320, 1.33], david: [19, 1.0] };   // from the south, over Oltrarno
-export const PLACES = { market: [-90, 14], calcio: [513, 306], scoppio: [-1, -135], duomoDoor: [27, -139], david: [213.6, -148.5] } as const;
+const CAM_DIST: Record<string, [number, number]> = { sanlorenzo: [60, 0.7], ponti1944: [2950, 0.98], alluvione1966: [320, 1.33], david: [19, 1.0] };   // from the south, over Oltrarno
+export const PLACES = { market: [-90, 14], sanlorenzo: [-190, -480], calcio: [513, 306], scoppio: [-1, -135], duomoDoor: [27, -139], david: [213.6, -148.5] } as const;
 /** Presumed route of the David, 14–18 May 1504 (≈600 m; no street route is documented): out of the Opera del Duomo yard
  *  (wall above the gate broken open), along the south flank of the cathedral, down the Corso (Via dei Calzaiuoli) into
  *  Piazza della Signoria, to the ringhiera by the palace door (Landucci's diary, via Opera di Santa Maria del Fiore).
@@ -68,7 +68,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
 
   function restoreBridges() { for (const b of bridgeList) b.mesh.visible = lastYear >= b.start && lastYear < b.end; blasts = []; }
   let lastYear = 2026;
-  function clear() { if (blasts.length) restoreBridges(); flood.clear(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; dove = null; t = 0; paused = false; davidFrame = null; crew = []; ropes = []; davidD = -1; }
+  function clear() { if (blasts.length) restoreBridges(); flood.clear(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; shoppers = []; dove = null; t = 0; paused = false; davidFrame = null; crew = []; ropes = []; davidD = -1; }
   const SOLID = /stall|tribune|brindellone|bench|table|scalo|crate|barrel/;      // props people walk around
   const put = (n: string, x: number, z: number, rot = 0) => { const o = props.place(n, x, height(x, z), z, rot, root); if (o && SOLID.test(n)) walk.addProp(o, 0.1); return o; };
 
@@ -91,6 +91,68 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
       if (cus) people.setTalk(cus, 0.5);                                   // haggling
     }
     for (let i = 0; i < 4; i++) put('bench', kx + 4 + i * 2.5, kz + 3, 0);   // resting by the column
+  }
+
+  /** The San Lorenzo market: after the Mercato Vecchio was cleared (1885–95) the city's market life moved round
+   *  Mengoni's covered market (1874): stalls line both sides of Via dell'Ariento (OSM ways 772387238/9) along the hall's
+   *  east side, vendors behind their counters, people walking the lane between them. Goods by era (*inferred*): food and
+   *  household wares at first, clothes and leather goods through the 20th century to today. */
+  const ARIENTO: [number, number][] = [[-140.1, -410.2], [-174.5, -459.7], [-178.3, -465.3], [-201.3, -496.9], [-220.7, -523.1], [-234.7, -542.4]];
+  let shoppers: { ag: any; lane: [number, number][]; i: number; dir: number; wait: number }[] = [];
+  function sanLorenzo(y: number) {
+    const kinds = y < 1950 ? ['stall_produce', 'stall_bread', 'stall_cloth'] : ['stall_cloth', 'stall_cloth', 'stall_produce'];
+    const small = ['basket', 'crate', 'barrel', 'jar'];
+    let k = 0;
+    /** Two facing rows of stalls along a polyline; returns the lane's stop points (one per stall pair). */
+    const rows = (line: [number, number][], half = 3.6) => {
+      const stops: [number, number][] = [];
+      for (let i = 0; i < line.length - 1; i++) {
+        const [x0, z0] = line[i], [x1, z1] = line[i + 1], L = Math.hypot(x1 - x0, z1 - z0);
+        const tx = (x1 - x0) / L, tz = (z1 - z0) / L, nx = -tz, nz = tx;                     // across the lane
+        for (let d = 3; d < L - 2; d += 5.2) {
+          const lx = x0 + tx * d, lz = z0 + tz * d; let any = false;
+          for (const side of [-1, 1]) {
+            const x = lx + nx * side * half, z = lz + nz * side * half;
+            if (walk.blocked(x, z, 0.8)) continue;
+            any = true;
+            put(kinds[k++ % kinds.length], x, z, Math.atan2(-nx * side, -nz * side));        // the counter faces the lane
+            if (R() < 0.6) put(small[R() * 4 | 0], x + nx * side * 1.2 + (R() - 0.5), z + nz * side * 1.2 + (R() - 0.5), R() * 6.28);
+            const vx = x + nx * side * 1.1, vz = z + nz * side * 1.1;
+            const ven = people.claim(V(vx, height(vx, vz), vz), V(lx, 0, lz), 'static', R() < 0.5 ? 'idle' : 'agree', undefined, y < 1950 ? 'vendor' : undefined);
+            if (ven) people.setTalk(ven, 1);                                                   // calling out, showing the goods
+            if (R() < 0.4) { const cx = x - nx * side * 1.9 + (R() - 0.5), cz = z - nz * side * 1.9 + (R() - 0.5);
+              const cus = people.claim(V(cx, height(cx, cz), cz), V(x, 0, z), 'static', R() < 0.6 ? 'idle' : 'headShake'); if (cus) people.setTalk(cus, 0.5); }
+          }
+          if (any) stops.push([lx, lz]);
+        }
+      }
+      return stops;
+    };
+    const lanes: [number, number][][] = [rows(ARIENTO)];
+    // Until January 2014 the stalls also stood round the basilica, on Piazza San Lorenzo (La Nazione); laid out here as
+    // one double row along the square's long axis (*inferred* arrangement).
+    const sq = y < 2014 ? square(/^piazza san lorenzo$/i) : null;
+    if (sq) { const c = Math.cos(sq.rot), sn = Math.sin(sq.rot), h = Math.min(sq.len * 0.3, 45);
+      lanes.push(rows([[sq.c[0] - c * h, sq.c[2] + sn * h], [sq.c[0] + c * h, sq.c[2] - sn * h]])); }
+    // Shoppers stroll the lanes, stopping at the stalls.
+    for (const lane of lanes) if (lane.length > 1) for (let n = 0; n < Math.min(14, lane.length); n++) {
+      const i = R() * lane.length | 0, [x, z] = lane[i];
+      const ag = people.claim(V(x, height(x, z), z), V(x + 1, 0, z), 'runner', 'walk');
+      if (!ag) continue;
+      ag.target = V(x, 0, z); (ag as any).pace = 1.05 + R() * 0.3;
+      shoppers.push({ ag, lane, i, dir: R() < 0.5 ? -1 : 1, wait: R() * 3 });
+    }
+  }
+  function shopperStep(dt: number) {
+    for (const s of shoppers) {
+      const p = s.ag.obj.position, t = s.ag.target; if (!t) continue;
+      if (Math.hypot(t.x - p.x, t.z - p.z) > 0.7) continue;
+      if ((s.wait -= dt) > 0) continue;
+      let i = s.i + s.dir; if (i < 0 || i >= s.lane.length) { s.dir = -s.dir; i = s.i + s.dir; }
+      s.i = i; const [x, z] = s.lane[i];
+      t.set(x + (R() - 0.5) * 2.4, 0, z + (R() - 0.5) * 2.4);                                    // to one side or the other of the lane
+      s.wait = R() < 0.45 ? 2 + R() * 5 : 0.3;                                                   // look at the stall, or walk on
+    }
   }
 
   /** Calcio storico in Piazza Santa Croce: sand pitch along the square's axis in front of the basilica,
@@ -242,6 +304,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (paused) return;
     const D = duration();
     t += dt; if (D) t = Math.min(t, D);
+    if (active === 'sanlorenzo') shopperStep(dt);
     if (active === 'calcio') {
       // ball wanders; players chase it, some hold positions
       ballVel.x += (R() - 0.5) * 6 * dt; ballVel.z += (R() - 0.5) * 6 * dt; ballVel.multiplyScalar(0.98);
@@ -309,6 +372,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (key === active + ':' + y && want) { if (frame) focus(pos[0], pos[1], CAM[want], ...(CAM_DIST[want] ?? [])); return want; }
     clear(); people.reset(true);
     if (want === 'market') market(pos[0], pos[1], y);
+    if (want === 'sanlorenzo') sanLorenzo(y);
     if (want === 'calcio') calcio(pos[0], pos[1], y);
     if (want === 'scoppio') scoppio(pos[0], pos[1]);
     if (want === 'ponti1944') ponti1944();
@@ -351,6 +415,9 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (active === 'market') return lastYear < 500
       ? { title: 'Market morning in the forum of Florentia', text: 'Stalls of bread, oil, wine and produce in the forum, where Piazza della Repubblica is today; the cardo and the decumanus cross here.' }
       : { title: 'Market morning in the Mercato Vecchio', text: 'The daily market round the Colonna dell\'Abbondanza (1431): fruit, bread and cloth under awnings, the guild halls and towers around. It stood until it was cleared in 1885–95.' };
+    if (active === 'sanlorenzo') return { title: 'Market day at San Lorenzo',
+      text: lastYear < 1950 ? 'Round Giuseppe Mengoni\'s covered market of 1874, which took the food trade once the Mercato Vecchio was cleared (1885–95): stalls along Via dell\'Ariento, under the hall\'s iron and glass.'
+        : 'Stalls along Via dell\'Ariento beside the Mercato Centrale (Mengoni, 1874): clothes, leather and souvenirs outside, food in the hall.' };
     if (active === 'calcio') return lastYear < 1600
       ? { title: 'Calcio during the siege · 17 February 1530', text: 'Two teams of 27 on a pitch in Piazza Santa Croce, played in defiance of the imperial army besieging the city.' }
       : { title: `Calcio storico · 24 June ${lastYear}`, text: 'The final for San Giovanni in Piazza Santa Croce: 27 a side on sand, the four quarters in their colours; revived in 1930.' };
