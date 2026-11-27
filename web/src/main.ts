@@ -271,7 +271,8 @@ async function main() {
       if (g && !camHeld) {
         const k = Math.min(1, dt * 0.9), tgt = new THREE.Vector3(g[0], height(g[0], g[1]), g[1]);
         controls.target.lerp(tgt, k);
-        const dir = camera.position.clone().sub(controls.target), az = Math.atan2(dir.x, dir.z);
+        const dir = camera.position.clone().sub(controls.target); let az = Math.atan2(dir.x, dir.z);
+        if (g[4] != null) { let da = g[4] - az; da = Math.atan2(Math.sin(da), Math.cos(da)); az += da * k; }   // the scene's heading
         const want = controls.target.clone().add(new THREE.Vector3().setFromSphericalCoords(g[2], g[3], az));
         camera.position.lerp(want, k);
       }

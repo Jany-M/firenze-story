@@ -112,14 +112,17 @@ export function createFlood(root: THREE.Object3D, height: Height) {
   };
   /** Where the camera should look: close over the first break in the parapet, then out over the flooded quarters. */
   const ease = (a: number, b: number, h: number) => { const k = Math.min(1, Math.max(0, (h - a) / (b - a))); return k * k * (3 - 2 * k); };
-  function camGoal(): [number, number, number, number] | null {
+  function camGoal(): [number, number, number, number, number] | null {
     if (!mesh) return null;
     const h = hourAt(t);
-    const k1 = ease(5.5, 8.5, h), k2 = ease(8.5, 13, h), k3 = ease(DRY - 30, DRY - 4, h);
-    let x = breach.x + (330 - breach.x) * k1, z = breach.z + (200 - breach.z) * k1;          // towards Santa Croce
+    // from the far bank, low, the parapet at Piazza Cavalleggeri in front and Santa Croce behind; as soon as the water is
+    // out (5:00) the view rises and draws back quickly over Santa Croce, then over the whole centre
+    const k1 = ease(5.0, 6.2, h), k2 = ease(6.2, 8.5, h), k3 = ease(DRY - 30, DRY - 4, h);
+    const x0 = 520, z0 = 445;                                                                    // towards Santa Croce, over the parapet (bank at z ≈565)
+    let x = x0 + (330 - x0) * k1, z = z0 + (200 - z0) * k1;                                       // towards Santa Croce
     x += (120 - x) * k2; z += (120 - z) * k2;                                                     // then the whole centre
-    const dist = 230 + 650 * k1 + 800 * k2 - 600 * k3, pitch = 0.72 + 0.2 * k2;
-    return [x, z, dist, pitch];
+    const dist = 320 + 500 * k1 + 860 * k2 - 600 * k3, pitch = 1.33 - 0.65 * k1 + 0.04 * k2;   // low over the far bank, then up
+    return [x, z, dist, pitch, 0.05 + 0.3 * k2];                                                  // heading: from the south bank
   }
   const api = { build, update, clear, seek, lightHour, camGoal, probe: (x: number, z: number) => probe(x, z), get on() { return !!mesh; } };
   (window as unknown as { __flood?: typeof api }).__flood = api;

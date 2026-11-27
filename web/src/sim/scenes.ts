@@ -11,10 +11,10 @@ type Height = (x: number, z: number) => number;
 const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
 const R = Math.random;
 // camera azimuth per scene (radians; camera placed on this side of the target, looking across the open square)
-const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: 2.2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.35 };
+const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: 2.2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.12 };   // the flood: from the south bank, looking north
 // distance (m) and pitch (rad from vertical) of the opening shot; default 110 m / 0.82. The Night of the Bridges frames
 // the whole reach from Ponte alla Vittoria (x ≈ −1670) to Ponte San Niccolò (x ≈ +1300) so every blast is in view.
-const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98], alluvione1966: [260, 0.75] };   // from the south, over Oltrarno
+const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98], alluvione1966: [320, 1.33] };   // from the south, over Oltrarno
 export const PLACES = { market: [-90, 14], calcio: [513, 306], scoppio: [-1, -135], duomoDoor: [27, -139], david: [232, -150] } as const;
 /** Presumed route of the David, 14–18 May 1504 (≈600 m; no street route is documented): out of the Opera del Duomo yard
  *  (wall above the gate broken open), along the south flank of the cathedral, down the Corso (Via dei Calzaiuoli) into
@@ -254,7 +254,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     else if ((y === 1530 && date === '02-17') || (y >= 1930 && date === '06-24')) { want = 'calcio'; pos = PLACES.calcio; }
     else if (y >= 1622 && date === easter(y) && hour >= 8 && hour < 13) { want = 'scoppio'; pos = PLACES.scoppio; }
     else if (y === 1944 && ((date === '08-03' && hour >= 20) || (date === '08-04' && hour < 6))) { want = 'ponti1944'; pos = [60, 230]; }   // the five mined bridges, framed a little east of centre so the Live panel does not hide San Niccolò
-    else if (y === 1966 && (date === '11-04' || date === '11-05')) { want = 'alluvione1966'; pos = [550, 300]; }   // the flood: Santa Croce, the Uffizi, the Duomo in view
+    else if (y === 1966 && (date === '11-04' || date === '11-05')) { want = 'alluvione1966'; pos = [520, 445]; }   // the flood: Santa Croce, the Uffizi, the Duomo in view
     else if (y === 1504 && date >= '05-14' && date < '06-08') { want = date <= '05-18' ? 'david' : 'davidWait'; pos = date <= '05-18' ? PLACES.david : [64, 269]; }
     else if (((y >= -30 && y < 450) || (y >= 1000 && y < 1885)) && hour >= 6 && hour < 14) { want = 'market'; pos = PLACES.market; }   // Roman forum, then Mercato Vecchio
     if (want === 'david' && at?.live && date > '05-18') { want = 'davidWait'; pos = [64, 269]; }

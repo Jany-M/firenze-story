@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 207 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 220 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -1059,6 +1059,71 @@ All 207 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![Giusto Utens&#x27;s lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort](/materials/history/thumbs/pitti-boboli-utens.jpg)](/materials/history/pitti-boboli-utens.jpg)
 <figcaption markdown>Giusto Utens&#x27;s lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort<br><small>Giusto Utens · circa 1599 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Pitti_boboli_utens.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A lungarno after the flood: the parapet broken, tree trunks and wreckage on the road](/materials/history/thumbs/all2.jpg)](/materials/history/all2.jpg)
+<figcaption markdown>A lungarno after the flood: the parapet broken, tree trunks and wreckage on the road<br><small>Ricce · 2009-05-29 · Public domain · [source](https://commons.wikimedia.org/wiki/File:All2.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A street after the water went down: mud and wreckage along the walls](/materials/history/thumbs/all1.jpg)](/materials/history/all1.jpg)
+<figcaption markdown>A street after the water went down: mud and wreckage along the walls<br><small>Ricce · 2009-05-29 · Public domain · [source](https://commons.wikimedia.org/wiki/File:All1.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A square after the flood, its cars wrecked and buried in mud](/materials/history/thumbs/all4.jpg)](/materials/history/all4.jpg)
+<figcaption markdown>A square after the flood, its cars wrecked and buried in mud<br><small>Ricce · 2009-05-29 · Public domain · [source](https://commons.wikimedia.org/wiki/File:All4.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Wrecked cars piled up in a street, one on top of another](/materials/history/thumbs/all5.jpg)](/materials/history/all5.jpg)
+<figcaption markdown>Wrecked cars piled up in a street, one on top of another<br><small>Ricce · 2009-05-29 · Public domain · [source](https://commons.wikimedia.org/wiki/File:All5.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Cars and wreckage in water still standing in the street](/materials/history/thumbs/all6.jpg)](/materials/history/all6.jpg)
+<figcaption markdown>Cars and wreckage in water still standing in the street<br><small>Ricce · 2009-05-29 · Public domain · [source](https://commons.wikimedia.org/wiki/File:All6.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A car buried under the mud](/materials/history/thumbs/all3.jpg)](/materials/history/all3.jpg)
+<figcaption markdown>A car buried under the mud<br><small>Ricce · 2009-05-29 · Public domain · [source](https://commons.wikimedia.org/wiki/File:All3.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Foresto Marianini&#x27;s workshop in Via dei Canacci after the flood](/materials/history/thumbs/bottega-via-dei-canacci-di-foresto-marianini-a-firenze-alluvionata-nel.jpg)](/materials/history/bottega-via-dei-canacci-di-foresto-marianini-a-firenze-alluvionata-nel.jpg)
+<figcaption markdown>Foresto Marianini&#x27;s workshop in Via dei Canacci after the flood<br><small>Elisa Marianini · 2016-08-28 15:12:01 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Bottega_via_dei_canacci_di_Foresto_Marianini_a_firenze_alluvionata_nel_1966.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Angeli del fango: soldiers clearing the mud with spades and a cart](/materials/history/thumbs/angeli-del-fango.jpg)](/materials/history/angeli-del-fango.jpg)
+<figcaption markdown>Angeli del fango: soldiers clearing the mud with spades and a cart<br><small>Raga Salvatore · 2018-01-23 13:07:35 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Angeli_del_fango.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Volunteers carrying works of art out of the mud, November 1966](/materials/history/thumbs/volontari-firenze-1966.jpg)](/materials/history/volontari-firenze-1966.jpg)
+<figcaption markdown>Volunteers carrying works of art out of the mud, November 1966<br><small>sconosciuto. The original uploader was Maxperot at Italian Wikipedia. · novembre 1966 (22 January 2011 (original upload date)) · Public domain · [source](https://commons.wikimedia.org/wiki/File:Volontari_Firenze_1966.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Cadets of the Carabinieri NCO school, angeli del fango, at a field kitchen, November 1966](/materials/history/thumbs/angeli-del-fango-della-scuola-sottufficiali-carabinieri-fotografati-a.jpg)](/materials/history/angeli-del-fango-della-scuola-sottufficiali-carabinieri-fotografati-a.jpg)
+<figcaption markdown>Cadets of the Carabinieri NCO school, angeli del fango, at a field kitchen, November 1966<br><small>Francesco Memoli · 2018-01-23 13:17:35 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Angeli_del_fango_della_Scuola_Sottufficiali_Carabinieri,_fotografati_a_novembre_del_1966.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Manuscripts of the Biblioteca Nazionale being washed after the flood](/materials/history/thumbs/national-library-manuscripts-being-washed-in-florence-after-the-1966-f.jpg)](/materials/history/national-library-manuscripts-being-washed-in-florence-after-the-1966-f.jpg)
+<figcaption markdown>Manuscripts of the Biblioteca Nazionale being washed after the flood<br><small>Dominique Roger / Adam Cuerden · 1966 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:National_Library_manuscripts_being_washed_in_Florence_after_the_1966_flood_of_the_Arno_-_UNESCO_-_PHOTO_0000001407_0001_-_Restoration.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Restoring books damaged by the flood](/materials/history/thumbs/books-florence-unesco-photo0000001410-0001.jpg)](/materials/history/books-florence-unesco-photo0000001410-0001.jpg)
+<figcaption markdown>Restoring books damaged by the flood<br><small>Dominique Roger · February 1967 · [CC BY-SA 3.0 igo](https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Books,_Florence_-_UNESCO_-_PHOTO0000001410_0001.tiff)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![President Giuseppe Saragat visits the flooded city, 6 November 1966](/materials/history/thumbs/saragat-alluvione-di-firenze-1966.jpg)](/materials/history/saragat-alluvione-di-firenze-1966.jpg)
+<figcaption markdown>President Giuseppe Saragat visits the flooded city, 6 November 1966<br><small>Unknown authorUnknown author · 1966-11-06 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Saragat_alluvione_di_FIrenze_1966.jpg)</small></figcaption>
 </figure>
 
 </div>
