@@ -94,7 +94,10 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const urbanStart = texture(urbanTex).sample(uvC.add(jit)).r;
     const built = sq.mul(smoothstep(urbanStart.sub(15), urbanStart.add(15), uYear));
     const T = (n: keyof TexSet, size: number) => texture(tex[n].col).sample(P.div(size)).rgb;
-    const terra = T('terra', 8), lastr = T('lastrico', 5).mul(0.95), amm = T('ammattonato', 2.4), filari = T('lastrico_filari', 4), asf = T('asfalto', 6);
+    const terra = T('terra', 8), lastr = T('lastrico', 5).mul(0.95), amm = T('ammattonato', 2.4), filari = T('lastrico_filari', 4),
+      // asphalt in Florence is a mid grey, near the stone setts' tone, only smoother: the texture lifted towards that grey,
+      // with faint patches of newer and older tar (repairs) and the grain kept
+      asf = T('asfalto', 6).mul(1.5).add(vec3(0.112, 0.108, 0.102)).mul(fbm(P.mul(0.06)).mul(0.14).add(0.93));
     const pc = floor(P.div(40)), ph = (k: number) => hash(pc.x.mul(127.1).add(pc.y.mul(311.7)).add(k));
     const paved = step(float(1237).add(ph(1).mul(102)), uYear);
     const brick = step(ph(2), 0.3).mul(step(uYear, float(1450).add(ph(3).mul(100))));

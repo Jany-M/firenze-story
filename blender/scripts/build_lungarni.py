@@ -21,7 +21,7 @@ K.reset()
 MAT["muro"] = material("lungarno_wall", "pietra_forte", (0.56, 0.5, 0.42), 0.92, 0.35, tint=(2.4, 2.3, 2.15))
 MAT["spalletta"] = material("lungarno_parapet_brick", "cotto", (0.62, 0.33, 0.25), 0.88, 1.2)
 MAT["lastrico"] = material("lungarno_paving", "lastrico_filari", (0.55, 0.52, 0.47), 0.9, 0.3)
-MAT["asfalto"] = material("lungarno_asphalt", "asfalto", (0.24, 0.24, 0.25), 0.92, 0.3)
+MAT["asfalto"] = material("lungarno_asphalt", "asfalto", (0.24, 0.24, 0.25), 0.92, 0.3, tint=(3.3, 3.25, 3.15))   # a mid grey near the stone paving's, not black
 MAT["marciapiede"] = material("lungarno_sidewalk", "lastrico", (0.6, 0.58, 0.54), 0.85, 0.35)
 # The street on the lungarno, from the parapet to the houses: the road, then the pavement by the houses (photographs of the
 # lungarni today). Stone paving until asphalt (1950, *inferred*); the Lungarno degli Acciaiuoli back in stone from its 2020

@@ -22,6 +22,22 @@ import { layout } from './ui/layout';
 import { open as openGallery, materialsFor } from './ui/gallery';
 import { EVENTS, EVENT_REFS, CONF_COLORS, SOURCE_LAYERS, PERIODS, overlayFor } from './data/history';
 import { walk } from './sim/walk';
+
+/** The Landmarks tab's sections, in this order; a model's kind, and the names that take another kind than their model's. */
+const LMK_KINDS = ['Churches and places of worship', 'Palazzi', 'Squares, loggias and markets', 'Bridges and the river', 'Walls and gates', 'Gardens and forts', 'Public buildings'];
+const LMK_KIND: Record<string, string> = {
+  duomo: LMK_KINDS[0], campanile: LMK_KINDS[0], baptistery: LMK_KINDS[0], santa_croce: LMK_KINDS[0], santa_maria_novella: LMK_KINDS[0], san_lorenzo: LMK_KINDS[0],
+  santo_spirito: LMK_KINDS[0], san_marco: LMK_KINDS[0], carmine: LMK_KINDS[0], felicita: LMK_KINDS[0], miniato: LMK_KINDS[0], annunziata: LMK_KINDS[0], sinagoga: LMK_KINDS[0], orsanmichele: LMK_KINDS[0],
+  palazzo_vecchio: LMK_KINDS[1], bargello: LMK_KINDS[1], uffizi: LMK_KINDS[1], medici_riccardi: LMK_KINDS[1], pitti: LMK_KINDS[1], strozzi: LMK_KINDS[1],
+  repubblica: LMK_KINDS[1], antella: LMK_KINDS[1], corridoio: LMK_KINDS[1],
+  loggia_lanzi: LMK_KINDS[2], loggia_pesce: LMK_KINDS[2], mercato_centrale: LMK_KINDS[2], piazza_smn: LMK_KINDS[2],
+  ponte_vecchio: LMK_KINDS[3], lungarni: LMK_KINDS[3], mura: LMK_KINDS[4], boboli: LMK_KINDS[5],
+  stazione_smn: LMK_KINDS[6], leopolda: LMK_KINDS[6], teatro_maggio: LMK_KINDS[6], murate: LMK_KINDS[6], biblioteca: LMK_KINDS[6],
+};
+/** Where to go for a model that holds no single building of its own (the river walls, the square's obelisks and lawns). */
+const LMK_AT: Record<string, [number, number]> = { piazza_smn: [-466.75, -183], lungarni: [-100, 440] };
+const lmkKindOf = (n: string) => /^(Porta |Torre |Torrino |Arco )/.test(n) ? LMK_KINDS[4] : /^(Loggia |Mercato |Obelisk|Spedale )/.test(n) ? LMK_KINDS[2]
+  : /^(Kaffeehaus|Grotta|Forte |Palazzina della Meridiana)/.test(n) ? LMK_KINDS[5] : /^(Stazione |Palazzina Reale)/.test(n) ? LMK_KINDS[6] : null;
 /** 'MM-DD' → fraction of the year, for parts dated to the day (landmark names "part@1504_160-…"). */
 const dayFrac = (d: string) => { const [m, dd] = (d || '01-01').split('-').map(Number); return (([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][m - 1] ?? 0) + dd - 1) / 366; };
 
@@ -130,7 +146,8 @@ async function main() {
     const live = state.mode === 'live';
     controls.maxPolarAngle = Math.PI / 2 - 0.01; controls.minDistance = live ? 8 : 12;   // down to the horizontal: fronts seen square on
     uTilt.value = state.tiltShift && (state.mode === 'overview' || state.mode === 'landmarks') ? 1 : (state.tiltShift && live ? 0.35 : 0);
-    people.setEnabled(live); squarePeople.setEnabled(live); riverPeople.setEnabled(true);   // river and pre-urban figures show in every mode
+    const crowd = state.mode !== 'sources';              // people in the streets in the timeline and landmark views too, not on the data view
+    people.setEnabled(crowd); squarePeople.setEnabled(crowd); riverPeople.setEnabled(true);   // river and pre-urban figures show in every mode
     if (live) {
       refreshLive(true, true);
     } else scenes.clear();
@@ -188,11 +205,19 @@ async function main() {
         .filter((e): e is { name: string; x: number; z: number; from: number } => !!e),
     ],
     // the Landmarks tab: every hand-built model and each building it holds, with its record (card, place, years)
-    catalogue: LANDMARKS.map(l => {
-      const names = [...new Set([l.title ?? l.replaces[0], ...(l.members ?? []).map(m => m.name)].filter(Boolean) as string[])];
-      const items = names.map(n => recs.find(r => r.name === n)).filter((r): r is Rec => !!r);
-      return { title: l.title ?? l.replaces[0] ?? items[0]?.name ?? l.file, items, at: l.at[0] || l.at[1] ? l.at : null, from: l.from ?? 1300 };
-    }).filter(g => g.items.length || g.at) });
+    kinds: LMK_KINDS,
+    // grouped by kind (each building by its own kind: a gate in the walls' model is a gate, the Kaffeehaus a garden building)
+    catalogue: LANDMARKS.flatMap(l => {
+      const head = [l.title, ...l.replaces].find(n => n && recs.some(r => r.name === n)) ?? l.title ?? l.replaces[0];   // the model's own record (not its aliases)
+      const names = [...new Set([head, ...(l.members ?? []).map(m => m.name)].filter(Boolean) as string[])];
+      const items = [...new Set(names.map(n => recs.find(r => r.name === n)).filter((r): r is Rec => !!r))];
+      const base = LMK_KIND[l.file] ?? 'Public buildings', title = l.title ?? l.replaces[0] ?? items[0]?.name ?? l.file;
+      const at = l.at[0] || l.at[1] ? l.at : LMK_AT[l.file] ?? null, from = l.from ?? 1300;
+      if (!items.length) return at ? [{ kind: base, title, items, at, from }] : [];
+      const by = new Map<string, Rec[]>();
+      for (const r of items) { const k = lmkKindOf(r.name) ?? base; by.set(k, [...(by.get(k) ?? []), r]); }
+      return [...by].map(([kind, rs]) => ({ kind, title, items: rs, at, from }));
+    }) });
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
   let laidMap = '';                         // the overlay on the ground now ("auto" follows the year)
   on((s, ch) => {
@@ -289,7 +314,10 @@ async function main() {
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);
     riverPeople.setContext(Math.round(state.year), controls.target, 2000); riverPeople.update(dt, camera.position);
     squarePeople.setContext(Math.round(state.year), controls.target, 2000);
-    squareLife.update(dt, camera.position, controls.target, Math.round(state.year), state.hour, state.mode === 'live', scenes.activeAt);
+    const crowd = state.mode !== 'sources' && !state.playing;   // while the years run, nobody: the crowd would be rebuilt every year
+    squareLife.update(dt, camera.position, controls.target, Math.round(state.year), state.hour, crowd, state.mode === 'live' ? scenes.activeAt : null);
+    if (crowd && state.mode !== 'live') { people.setContext(Math.round(state.year), controls.target, 360); people.update(dt, camera.position); squarePeople.update(dt, camera.position); }
+    people.setVisible?.(crowd); squarePeople.setVisible?.(crowd);
     if (state.mode === 'live') {
       refreshLive();
       if (!scenes.paused) { people.update(dt, camera.position); squarePeople.update(dt, camera.position); scenes.update(dt); }      // paused: everything stands still

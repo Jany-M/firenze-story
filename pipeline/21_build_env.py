@@ -404,8 +404,9 @@ for s in squares:
     if s.get("park"): continue                                           # a lawn or gravel "piazzale" inside a garden
     cv2.fillPoly(SR, [np.array([[(x + ORIGIN[0] - X0) / 2, (z + Y1 - ORIGIN[1]) / 2] for x, z in s["ring"]], np.int32)], 1)
 # the Comune's circulation areas (S02: carriageways, pavements, pedestrian squares, steps) are where the ground really is
-# paved today; surface codes read on the map: 0101 asphalt, 0505 stone (Signoria, the squares, San Miniato's terrace) –
-# code 02… (non pavimentato, DBT) is left out
+# paved today. The surface codes are read on Florence's own data only – the Comune's 2017 orthophoto inside each polygon
+# (`_dev/tmp/fon_check.py`): 0101 asphalt, 0505 stone (Signoria, the squares, San Miniato's terrace); 02… looks like earth
+# and grass (yellow-grey, 17 % green against ≤ 4 % for the paved codes) and is left out
 def comune_rings(zname, base, fon):
     Z = zipfile.ZipFile(RAW("comune", zname)); r = shapefile.Reader(shp=io.BytesIO(Z.read(base + ".shp")), dbf=io.BytesIO(Z.read(base + ".dbf")))
     F = [f[0] for f in r.fields[1:]]; i = F.index(fon); out = []

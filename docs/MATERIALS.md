@@ -136,5 +136,10 @@ season, the urban raster (8 m) is coarse at street edges.
   1.5 × 2.8 m grid; the Comune's pedestrian polygons inside them are not paved.
 - Street widths now follow the OSM type (primary 6 px of 2 m … footways 1 px); the Comune's circulation polygons whose surface
   code starts with `02` (unpaved) are skipped.
+- Asphalt is drawn a mid grey near the stone setts' tone (the texture lifted ×1.5 + 0.11, faint repair patches), on the
+  ground and on the lungarni (tint 3.3) – Florence's asphalt is not black.
 - After 1850 the street ground is asphalt or stone; the orthophoto colour is used only in yards (it had brought shadows and
   roof edges into the streets as blue-white patches).
+- The Comune's surface codes (`acPedFon`, `acVeiFon`) are read on Florence's own data only: the 2017 orthophoto inside
+  each polygon (`_dev/tmp/fon_check.py`): 0101 / 0102 / 0505 / 0506 grey (paved, ≤ 4 % green), 0201 / 0202 yellow-grey with
+  17 % green (earth and grass, left out).

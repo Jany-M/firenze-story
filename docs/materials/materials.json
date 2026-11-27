@@ -4708,5 +4708,95 @@
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Sommer,_Giorgio_(1834-1914)_-_n._2928_-_Chiesa_St._Maria_Novella_(Firenze).jpg",
   "credit": ""
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Biblioteca Nazionale Centrale di Firenze"
+  ],
+  "caption": "The front on Piazza dei Cavalleggeri: the portico, the name panel and the two towers",
+  "src_file": "Biblioteca Nazionale Centrale di Firenze.JPG",
+  "img": "landmarks/biblioteca-nazionale-centrale-di-firenze.jpg",
+  "thumb": "landmarks/thumbs/biblioteca-nazionale-centrale-di-firenze.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "7 August 2006 (according to Exif data)",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Biblioteca_Nazionale_Centrale_di_Firenze.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Biblioteca Nazionale Centrale di Firenze"
+  ],
+  "caption": "The library from the Lungarno della Zecca Vecchia",
+  "src_file": "Firenze - Florence - Lungarno della Zecca Vecchia - View NW on Biblioteca Nazionale Centrale di Firenze 1935 by Cesare Bazzaniu and V. Mazzei.jpg",
+  "img": "landmarks/firenze-florence-lungarno-della-zecca-vecchia-view-nw-on-biblioteca-na.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-lungarno-della-zecca-vecchia-view-nw-on-biblioteca-na.jpg",
+  "w": 1280,
+  "h": 853,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-22 11:09:23",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Lungarno_della_Zecca_Vecchia_-_View_NW_on_Biblioteca_Nazionale_Centrale_di_Firenze_1935_by_Cesare_Bazzaniu_and_V._Mazzei.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Biblioteca Nazionale Centrale di Firenze"
+  ],
+  "caption": "The portico of three arches, the arms of Florence and of Savoy, the name panel",
+  "src_file": "Bncf, facciata 01.JPG",
+  "img": "landmarks/bncf-facciata-01.jpg",
+  "thumb": "landmarks/thumbs/bncf-facciata-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "2013-04-16 16:07:35",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bncf,_facciata_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Biblioteca Nazionale Centrale di Firenze"
+  ],
+  "caption": "A tower: the arched opening with its bronze statue, the verse of Dante below",
+  "src_file": "Bncf, facciata, torretta 01.JPG",
+  "img": "landmarks/bncf-facciata-torretta-01.jpg",
+  "thumb": "landmarks/thumbs/bncf-facciata-torretta-01.jpg",
+  "w": 1280,
+  "h": 1182,
+  "author": "sailko",
+  "date": "2013-04-16 16:08:39",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bncf,_facciata,_torretta_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Biblioteca Nazionale Centrale di Firenze"
+  ],
+  "caption": "The rotunda on Via Magliabechi – the Tribuna, the first part finished (1929–30)",
+  "src_file": "Bncf, facciata, rotonda magliabechi.JPG",
+  "img": "landmarks/bncf-facciata-rotonda-magliabechi.jpg",
+  "thumb": "landmarks/thumbs/bncf-facciata-rotonda-magliabechi.jpg",
+  "w": 978,
+  "h": 1280,
+  "author": "sailko",
+  "date": "2013-04-16 16:14:32",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bncf,_facciata,_rotonda_magliabechi.JPG",
+  "credit": "Own work"
  }
 ]

@@ -13,7 +13,7 @@ type Role = 'walker' | 'static' | 'runner';
 interface Agent {
   obj: THREE.Object3D; mixer: THREE.AnimationMixer; actions: Record<string, THREE.AnimationAction>; body: THREE.MeshStandardMaterial;
   skin: THREE.MeshStandardMaterial[]; bones: Record<string, THREE.Bone>; rig: THREE.Object3D; worn: Record<string, THREE.Mesh>; outfit: string;
-  role: Role; a: number; b: number; t: number; len: number; speed: number; cur: string; target?: THREE.Vector3; busy: boolean; blockedN?: number;
+  role: Role; a: number; b: number; t: number; len: number; speed: number; cur: string; target?: THREE.Vector3; busy: boolean; blockedN?: number; h?: number;   // h: the way the figure faces and walks (undefined: set it at once)
   female: boolean; face: THREE.Mesh[]; talk?: Talk; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
 /** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
@@ -201,13 +201,14 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
       ag.a = near[(Math.random() * near.length) | 0]; nextEdge(ag);
       if (ag.b !== ag.a && edgeFree(ag.a, ag.b)) break;
     }
-    ag.t = Math.random() * ag.len; ag.obj.visible = true;
+    ag.t = Math.random() * ag.len; ag.obj.visible = true; ag.h = undefined;
   }
   /** An edge is walkable if no standing building, tree or prop sits on it (historic houses can stand on today's streets). */
   const edgeFree = (a: number, b: number) => { const A = G.nodes[a], B = G.nodes[b];
     for (const f of [0.25, 0.5, 0.75]) if (walk.blocked(A[0] + (B[0] - A[0]) * f, A[2] + (B[2] - A[2]) * f, 0.2)) return false; return true; };
-  function nextEdge(ag: Agent) {
-    const all = G.adj[ag.a].filter(allowed), free = all.filter(b => edgeFree(ag.a, b)), opts = free.length ? free : all;
+  function nextEdge(ag: Agent, from = -1) {
+    const all = G.adj[ag.a].filter(allowed), free0 = all.filter(b => edgeFree(ag.a, b));
+    const free = free0.length > 1 ? free0.filter(b => b !== from) : free0, opts = free.length ? free : all;   // go on, not back (unless a dead end)
     ag.b = opts.length ? opts[(Math.random() * opts.length) | 0] : ag.a;
     const A = G.nodes[ag.a], B = G.nodes[ag.b]; ag.len = Math.max(0.5, Math.hypot(B[0] - A[0], B[2] - A[2])); ag.t = 0;
   }
@@ -253,7 +254,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
       const ok = walk.nearestFree(pos.x, pos.z, 6, 0.3, role !== 'static'); if (!ok) return null;   // never inside a wall or a trunk
       if (ok[0] !== pos.x || ok[1] !== pos.z) pos = pos.clone().set(ok[0], pos.y, ok[1]);
     }
-    ag.busy = true; ag.role = role; ag.obj.visible = true; ag.obj.position.copy(pos); ag.obj.lookAt(face.x, pos.y, face.z);
+    ag.busy = true; ag.role = role; ag.obj.visible = true; ag.obj.position.copy(pos); ag.obj.lookAt(face.x, pos.y, face.z); ag.h = undefined;
     tint(ag, color, outfit); play(ag, anim); return ag;
   }
   function release(ag: Agent) { setPose(ag, null); ag.talk = undefined; ag.busy = false; ag.obj.visible = false; }
@@ -316,6 +317,26 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
     const a = r.line.geometry.getAttribute('position') as THREE.BufferAttribute;
     a.setXYZ(0, r.tip.x, r.tip.y, r.tip.z); a.setXYZ(1, r.tip.x, r.tip.y - (lift.y - wy) - 0.02 + pull * 0.6, r.tip.z + 0.4); a.needsUpdate = true;
   }
+  /** People only ever walk forwards: the heading turns towards where they are going at a limited rate (a tight curve), and
+   *  they slow down while the turn is sharp – a U-turn is a quick turn on the spot, never a step backwards. */
+  const TURN = 5;                                           // rad/s
+  const mv = new THREE.Vector3();
+  function turnMove(ag: Agent, want: number, step: number, dt: number, steer = false) {
+    if (ag.h === undefined) ag.h = want;
+    let da = want - ag.h; da = Math.atan2(Math.sin(da), Math.cos(da));
+    ag.h += Math.sign(da) * Math.min(Math.abs(da), TURN * dt);
+    const k = Math.max(0.12, Math.cos(Math.min(Math.abs(da), Math.PI / 2)));   // sharp turn: small steps while turning
+    mv.set(Math.sin(ag.h), 0, Math.cos(ag.h)).multiplyScalar(step * k);
+    if (steer) walk.steer(ag.obj.position, mv);
+    ag.obj.position.add(mv); ag.obj.rotation.y = ag.h;
+  }
+  /** A walker follows its point on the street; a jump (just placed elsewhere) is taken at once. */
+  function follow(ag: Agent, p: THREE.Vector3, speed: number, dt: number, edgeH: number) {
+    const dx = p.x - ag.obj.position.x, dz = p.z - ag.obj.position.z, L = Math.hypot(dx, dz);
+    if (ag.h === undefined || L > 6) { ag.obj.position.copy(p); ag.h = edgeH; ag.obj.rotation.y = edgeH; return; }
+    if (L > 0.05) turnMove(ag, Math.atan2(dx, dz), Math.min(L, speed * dt), dt);
+    ag.obj.position.y = p.y;
+  }
   let clock = 0, lodT = 0;
   const eye = new THREE.Vector3(1e9, 0, 0);
   function update(dt: number, cam?: THREE.Vector3) {
@@ -340,11 +361,12 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
       if (ag.pose) applyPose(ag, clock);
       if (ag.role === 'walker') {
         ag.t += ag.speed * dt;
-        if (ag.t >= ag.len) { ag.a = ag.b; nextEdge(ag); if (Math.random() < 0.02) { place(ag); continue; } }
+        if (ag.t >= ag.len) { const prev = ag.a; ag.a = ag.b; nextEdge(ag, prev); if (Math.random() < 0.02) { place(ag); continue; } }
         const A = G.nodes[ag.a], B = G.nodes[ag.b], f = ag.t / ag.len;
         // keep to the right side of the street a little, so crowds do not all walk on the centre line
         const dx = B[0] - A[0], dz = B[2] - A[2], l = Math.hypot(dx, dz) || 1, off = 1.4;
-        tmp.set(A[0] + dx * f - (dz / l) * off, A[1] + (B[1] - A[1]) * f, A[2] + dz * f + (dx / l) * off);
+        const fa = Math.min(1, f + 0.9 / l);                // the point followed: a step ahead on the street
+        tmp.set(A[0] + dx * fa - (dz / l) * off, A[1] + (B[1] - A[1]) * f, A[2] + dz * fa + (dx / l) * off);
         if (walk.blocked(tmp.x, tmp.z, 0.25)) {           // too close to a wall or a stall: walk the middle, or turn back
           tmp.set(A[0] + dx * f, tmp.y, A[2] + dz * f);
           if (walk.blocked(tmp.x, tmp.z, 0.2)) {         // the street is built over in this year: start again elsewhere
@@ -354,12 +376,12 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
           }
           ag.blockedN = 0;
         }
-        ag.obj.position.copy(tmp); ag.obj.rotation.y = Math.atan2(dx, dz);
+        follow(ag, tmp, ag.speed * 1.25, dt, Math.atan2(dx, dz));
         if (Math.hypot(tmp.x - centre.x, tmp.z - centre.z) > radius * 1.15) place(ag);
       } else if (ag.role === 'runner' && ag.target) {
         const d = tmp.subVectors(ag.target, ag.obj.position); d.y = 0; const L = d.length();
         const pace = (ag as any).pace as number | undefined;                       // scenes may set a walking pace (m/s)
-        if (L > 0.6) { d.multiplyScalar(Math.min(L, (pace ?? 5.5) * dt) / L); walk.steer(ag.obj.position, d); ag.obj.position.add(d); ag.obj.rotation.y = Math.atan2(d.x, d.z); play(ag, pace && pace < 2.5 ? 'walk' : 'run'); }
+        if (L > 0.6) { turnMove(ag, Math.atan2(d.x, d.z), Math.min(L, (pace ?? 5.5) * dt), dt, true); play(ag, pace && pace < 2.5 ? 'walk' : 'run'); }
         else play(ag, 'idle');
       }
     }
@@ -367,6 +389,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   return {
     group, claim, release, update, agents, setPose, setTalk, anim: play,
     get year() { return year; }, get epoch() { return epoch; },
+    setVisible(v: boolean) { if (!v) group.visible = false; },   // hidden for a moment (the timeline playing); update() shows them again
     setEnabled(v: boolean) { const was = enabled; enabled = v; if (!v) group.visible = false; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
     setContext(y: number, c: THREE.Vector3, _r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); if (changed && enabled) reset(); return changed; },
     get made() { return agents.length; },

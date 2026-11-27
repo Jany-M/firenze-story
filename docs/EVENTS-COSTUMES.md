@@ -72,6 +72,9 @@ no player.
 - **Gestures**: people talking in squares, markets and on the bridges move their arms: open hand, both hands open, the
   *mano a borsa* (fingers gathered, shaken), pointing, beating the rhythm, a shrug, a hand on the chest. Speakers gesture
   often with short rests, listeners now and then; a third of the time with the other arm (`web/src/sim/people.ts`, `setTalk`).
+- **Walking**: people only walk forwards – the heading turns towards the next point at 5 rad/s and the step shortens in a
+  sharp turn, so a turn back is a quick turn on the spot; at a crossing they go on rather than back unless it is a dead
+  end. They are in the streets in the Timeline and Landmarks views too (not while the years play).
 - **Costumes**: shirts, doublets, bodices and breeches cut longer and a little looser over the waist, so the belly no longer
   shows when people kneel or bend (garments now cut from the body and its joints together).
 

@@ -38,6 +38,7 @@ In the app, the same pictures appear as thumbnails in a building's or event's ca
 | [Teatro del Maggio](teatro-maggio.md) | The opera house of 2011 and its cavea on the roof |
 | [Palazzo dell'Antella](antella.md) | The painted palace on Piazza Santa Croce (1619–20) |
 | [Piazza Santa Maria Novella](piazza-smn.md) | The obelisks of the chariot race (1608), lawns and benches |
+| [Biblioteca Nazionale Centrale](biblioteca.md) | The national library by Bazzani (1911–35), its towers and rotunda |
 | [The lungarni](lungarni.md) | The river walls and parapets, from the 1280s to Poggi's works of 1865–72, the flood of 1966 and the collapse of 2016 |
 | [Loggia del Pesce](loggia-del-pesce.md) | Vasari's fish loggia: in the Mercato Vecchio until 1889, in Piazza dei Ciompi since 1955 |
 | [Ponte Vecchio](ponte-vecchio.md) | The bridge of 1345, its shops and Vasari's corridor |

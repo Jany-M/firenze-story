@@ -164,6 +164,9 @@ export const LANDMARKS: LandmarkDef[] = [
     source: 'Landmark model v1 – Teatro del Maggio Musicale Fiorentino (Blender; OSM relation 3609352, LiDAR 2023, photographs; Paolo Desideri – ABDR, inaugurated 21 December 2011)' },
   { file: 'murate', title: 'Le Murate', from: 1424, replaces: ['ex Monastero delle Murate'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Le Murate (Blender; OSM relation 1609313, LiDAR 2023; convent 1424, prison 1883–1985, recovered from 2001)' },
+  // Biblioteca Nazionale Centrale on Piazza dei Cavalleggeri (frame from pipeline/47_moderni.py): absolute scene coordinates
+  { file: 'biblioteca', title: 'Biblioteca Nazionale Centrale di Firenze', from: 1911, replaces: ['Biblioteca Nazionale Centrale di Firenze'], ids: [3968], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Biblioteca Nazionale Centrale (Blender; OSM way 102979687, LiDAR 2023 heights; Cesare Bazzani 1911–35, Tribuna 1929, Vincenzo Mazzei 1962; photographs, Commons)' },
   // Palazzo dell'Antella on Piazza Santa Croce, its painted front from a straightened photograph: absolute scene coordinates
   { file: 'antella', title: "Palazzo dell'Antella", from: 1300, replaces: ["Palazzo dell'Antella"], at: [0, 0], rot: 0, ground: 0,
     members: [{ key: 'affreschi', name: "Frescoes of Palazzo dell'Antella", from: 1620 }],

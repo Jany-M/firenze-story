@@ -13,7 +13,7 @@ const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.quer
 const esc = (s: string) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
 export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; playToggle?: () => void; seek?: (f: number) => void; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[];
-    catalogue?: { title: string; items: Rec[]; at: [number, number] | null; from: number }[] }) {
+    catalogue?: { kind: string; title: string; items: Rec[]; at: [number, number] | null; from: number }[]; kinds?: string[] }) {
   const hud = $('#hud'), modes = $('#modes'), side = $('#side'), card = $('#card'), live = $('#live'), evcard = $('#evcard'), lmk = $('#lmk');
   /** Event card (left, under the era box): summary, sources, Wikipedia. */
   function showEvent(i: number | null) {
@@ -94,15 +94,16 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   const cat = hooks.catalogue ?? [];
   // built when the tab opens (the pictures' list loads in the background)
   const renderLmk = () => { lmk.innerHTML = `<h3 class="ptitle">Landmarks</h3><p class="muted small">The buildings drawn by hand from photographs and
-    measurements. Tap one to go there – today, or in the last year it stood.</p><div class="lmk-list">${cat.map((g, gi) => {
+    measurements. Tap one to go there – today, or in the last year it stood.</p><div class="lmk-list">${(hooks.kinds ?? [...new Set(cat.map(g => g.kind))]).map(kind => {
+      const gs = cat.map((g, gi) => ({ g, gi })).filter(x => x.g.kind === kind); if (!gs.length) return '';
+      return `<section class="lmk-kind"><h4>${esc(kind)}</h4>${gs.map(({ g, gi }) => {
       const rows = g.items.length ? g.items : [];
-      const head = rows[0]?.name === g.title ? '' : `<h5>${esc(g.title)}</h5>`;
       const btn = (r: Rec) => { const t = thumbOf(r);
         return `<button class="lmk-item" data-id="${r.id}">${t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>'}
           <span class="t"><b>${esc(r.name)}</b>${r.of ? `<em>${esc(r.of)}</em>` : ''}<small>${years(r)}</small></span></button>`; };
-      return rows.length ? `<section>${head}${rows.map(btn).join('')}</section>`
-        : `<section><button class="lmk-item" data-g="${gi}">${(t => t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>')(materialsFor([`rec:${g.title}`])[0]?.thumb)}<span class="t"><b>${esc(g.title)}</b><small>${fmtYear(g.from)} → today</small></span></button></section>`;
-    }).join('')}</div>`; };
+      return rows.length ? rows.map(btn).join('')
+        : `<button class="lmk-item" data-g="${gi}">${(t => t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>')(materialsFor([`rec:${g.title}`])[0]?.thumb)}<span class="t"><b>${esc(g.title)}</b><small>${fmtYear(g.from)} → today</small></span></button>`;
+    }).join('')}</section>`; }).join('')}</div>`; };
   renderLmk();
   lmk.onclick = ev => {
     const b = (ev.target as HTMLElement).closest<HTMLElement>('.lmk-item'); if (!b) return;

@@ -1,4 +1,4 @@
-"""§12 item 7: the Santa Maria Novella station, the Stazione Leopolda, the Synagogue, the Murate and the Teatro del Maggio – geometry for
+"""§12 item 7: the Santa Maria Novella station, the Stazione Leopolda, the Synagogue, the Murate, the Teatro del Maggio and the Biblioteca Nazionale – geometry for
 blender/scripts/build_<site>.py (the same frame and raster as pipeline/45_chiese.py).
 
 For each site: a frame on the façade (a along the front from its corner A to B, o inwards, 0 = the front line), the OSM
@@ -58,12 +58,18 @@ SITES = {
     # the Teatro del Maggio Musicale Fiorentino (relation 3609352): its south-west side on Piazza Vittorio Gui, from the
     # west corner
     "teatro": {"A": (-1742.2, -731.1), "B": (-1608.2, -646.3), "ways": [], "rels": [3609352]},
+    # the Biblioteca Nazionale Centrale (way 102979687): its front on Piazza dei Cavalleggeri (south), from the west corner
+    # by the rotunda on Via Magliabechi to the east corner on Via Tripoli
+    "biblioteca": {"A": (514.9, 504.6), "B": (645.0, 529.0), "ways": [102979687], "rels": []},
 }
+ONLY = sys.argv[1:]                                                  # e.g. `47_moderni.py biblioteca`: redo one site, keep the rest
 def outline(kind, i):
     if kind == "way": return way(i), []
     r = rel(i); return r["outer"][0], r["inner"]
-out = {}
+dst = os.path.join(ROOT, "blender", "data", "moderni.json")
+out = json.load(open(dst)) if ONLY and os.path.exists(dst) else {}
 for key, S in SITES.items():
+    if ONLY and key not in ONLY: continue
     A, B = np.array(S["A"]), np.array(S["B"]); T = (B - A) / np.linalg.norm(B - A); N = np.array([-T[1], T[0]])
     polys = [outline("way", i) for i in S["ways"]]
     for i in S["rels"]:                                              # every outer ring of a relation (the station has two)
@@ -93,4 +99,4 @@ for key, S in SITES.items():
                 "grid": {"a0": a0, "o0": o0, "na": a1 - a0, "no": o1 - o0, "h": h, "g": g, "k": k}}
     print(key, "width", round(L, 1), "front ground", out[key]["ground_front"], "cells", sum(v is not None for r in h for v in r))
     print("  axis", out[key]["axis"])
-dst = os.path.join(ROOT, "blender", "data", "moderni.json"); json.dump(out, open(dst, "w", newline="\n")); print("→", dst)
+json.dump(out, open(dst, "w", newline="\n")); print("→", dst)

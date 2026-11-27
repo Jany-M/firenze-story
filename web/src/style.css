@@ -266,6 +266,7 @@ details { margin-top: 12px; font-size: 12px; } details ul { padding-left: 16px; 
 #lmk .lmk-list { display: grid; gap: 10px; margin-top: 8px; min-width: 0; }
 #lmk h5 { margin: 4px 0 4px; font: 600 12px Inter, system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--sub); }
 #lmk section { display: grid; gap: 4px; }
+#lmk .lmk-kind h4 { margin: 10px 0 2px; font: 600 12px Inter, system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(158, 11, 35, .18); padding-bottom: 3px; }
 .lmk-item { display: flex; gap: 10px; align-items: center; text-align: left; padding: 6px; border: 0; border-radius: 10px; background: rgba(255, 255, 255, .55); width: 100%; cursor: pointer; }
 .lmk-item:hover { background: rgba(200, 16, 46, .08); }
 .lmk-item img, .lmk-item .ph { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; flex: none; background: rgba(158, 11, 35, .12); }
