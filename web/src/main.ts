@@ -30,12 +30,12 @@ const LMK_KIND: Record<string, string> = {
   santo_spirito: LMK_KINDS[0], san_marco: LMK_KINDS[0], carmine: LMK_KINDS[0], felicita: LMK_KINDS[0], miniato: LMK_KINDS[0], annunziata: LMK_KINDS[0], sinagoga: LMK_KINDS[0], orsanmichele: LMK_KINDS[0],
   palazzo_vecchio: LMK_KINDS[1], bargello: LMK_KINDS[1], uffizi: LMK_KINDS[1], medici_riccardi: LMK_KINDS[1], pitti: LMK_KINDS[1], strozzi: LMK_KINDS[1],
   repubblica: LMK_KINDS[1], antella: LMK_KINDS[1], corridoio: LMK_KINDS[1],
-  loggia_lanzi: LMK_KINDS[2], loggia_pesce: LMK_KINDS[2], mercato_centrale: LMK_KINDS[2], piazza_smn: LMK_KINDS[2],
+  loggia_lanzi: LMK_KINDS[2], loggia_pesce: LMK_KINDS[2], mercato_centrale: LMK_KINDS[2], piazza_smn: LMK_KINDS[2], piazzale: LMK_KINDS[2],
   ponte_vecchio: LMK_KINDS[3], lungarni: LMK_KINDS[3], mura: LMK_KINDS[4], boboli: LMK_KINDS[5],
   stazione_smn: LMK_KINDS[6], leopolda: LMK_KINDS[6], teatro_maggio: LMK_KINDS[6], murate: LMK_KINDS[6], biblioteca: LMK_KINDS[6],
 };
 /** Where to go for a model that holds no single building of its own (the river walls, the square's obelisks and lawns). */
-const LMK_AT: Record<string, [number, number]> = { piazza_smn: [-466.75, -183], lungarni: [-100, 440] };
+const LMK_AT: Record<string, [number, number]> = { piazza_smn: [-466.75, -183], lungarni: [-100, 440], piazzale: [818.5, 976.5] };
 const lmkKindOf = (n: string) => /^(Porta |Torre |Torrino |Arco )/.test(n) ? LMK_KINDS[4] : /^(Loggia |Mercato |Obelisk|Spedale )/.test(n) ? LMK_KINDS[2]
   : /^(Kaffeehaus|Grotta|Forte |Palazzina della Meridiana)/.test(n) ? LMK_KINDS[5] : /^(Stazione |Palazzina Reale)/.test(n) ? LMK_KINDS[6] : null;
 /** 'MM-DD' → fraction of the year, for parts dated to the day (landmark names "part@1504_160-…"). */

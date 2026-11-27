@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 263 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 270 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -1168,6 +1168,41 @@ All 263 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![The rotunda on Via Magliabechi – the Tribuna, the first part finished (1929–30)](/materials/landmarks/thumbs/bncf-facciata-rotonda-magliabechi.jpg)](/materials/landmarks/bncf-facciata-rotonda-magliabechi.jpg)
 <figcaption markdown>The rotunda on Via Magliabechi – the Tribuna, the first part finished (1929–30)<br><small>sailko · 2013-04-16 16:14:32 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Bncf,_facciata,_rotonda_magliabechi.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The terrace and the monument with the bronze David (1873)](/materials/landmarks/thumbs/firenze-florence-piazzale-michelangelo-1865-by-giuseppe-poggi-view-ese.jpg)](/materials/landmarks/firenze-florence-piazzale-michelangelo-1865-by-giuseppe-poggi-view-ese.jpg)
+<figcaption markdown>The terrace and the monument with the bronze David (1873)<br><small>Txllxt TxllxT · 2010-04-22 11:56:36 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazzale_Michelangelo_1865_by_Giuseppe_Poggi_-_View_ESE_towards_bronze_copy_of_Michelangelo%27s_David_1873.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The monument in an engraving: the stepped base with posts and chains, the four allegories, the David](/materials/landmarks/thumbs/firenze-viale-dei-colli-monumento-sul-piazzale-michelangelo.jpg)](/materials/landmarks/firenze-viale-dei-colli-monumento-sul-piazzale-michelangelo.jpg)
+<figcaption markdown>The monument in an engraving: the stepped base with posts and chains, the four allegories, the David<br><small>Giuseppe Barberis · 1894 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Firenze_Viale_dei_Colli_monumento_sul_piazzale_Michelangelo.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Poggi&#x27;s Loggia above the terrace, its arcade on paired columns, the balustraded roof](/materials/landmarks/thumbs/loggia-del-poggi.jpg)](/materials/landmarks/loggia-del-poggi.jpg)
+<figcaption markdown>Poggi&#x27;s Loggia above the terrace, its arcade on paired columns, the balustraded roof<br><small>unknown · [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) · [source](https://commons.wikimedia.org/wiki/File:Loggia_del_poggi.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Loggia about 1900 (Alinari), San Salvatore and San Miniato behind](/materials/landmarks/thumbs/firenze-souvenir-1900-page-46-crop.jpg)](/materials/landmarks/firenze-souvenir-1900-page-46-crop.jpg)
+<figcaption markdown>The Loggia about 1900 (Alinari), San Salvatore and San Miniato behind<br><small>Unknown authorUnknown author · 1900 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Firenze_souvenir_1900_(page_46_crop).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The hill about 1900 (Brogi): the Rampe zigzagging up from the tower of San Niccolò to the piazzale](/materials/landmarks/thumbs/firenze-souvenir-1900-page-45-crop.jpg)](/materials/landmarks/firenze-souvenir-1900-page-45-crop.jpg)
+<figcaption markdown>The hill about 1900 (Brogi): the Rampe zigzagging up from the tower of San Niccolò to the piazzale<br><small>Unknown authorUnknown author · 1900 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Firenze_souvenir_1900_(page_45_crop).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The great grotto of the Rampe: three arches faced with spugne, cascades and basins](/materials/landmarks/thumbs/fontane-delle-rampe-del-poggi-00-firenze.jpg)](/materials/landmarks/fontane-delle-rampe-del-poggi-00-firenze.jpg)
+<figcaption markdown>The great grotto of the Rampe: three arches faced with spugne, cascades and basins<br><small>Nicola Quirico · 2019-06-30 20:30:59 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Fontane_delle_Rampe_del_Poggi_00_Firenze.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade](/materials/landmarks/thumbs/rampe-del-poggi-veduta-05.jpg)](/materials/landmarks/rampe-del-poggi-veduta-05.jpg)
+<figcaption markdown>A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade<br><small>sailko · 2013-07-26 16:18:08 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Rampe_del_poggi,_veduta_05.JPG)</small></figcaption>
 </figure>
 
 </div>

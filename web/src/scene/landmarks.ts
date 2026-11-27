@@ -164,6 +164,10 @@ export const LANDMARKS: LandmarkDef[] = [
     source: 'Landmark model v1 – Teatro del Maggio Musicale Fiorentino (Blender; OSM relation 3609352, LiDAR 2023, photographs; Paolo Desideri – ABDR, inaugurated 21 December 2011)' },
   { file: 'murate', title: 'Le Murate', from: 1424, replaces: ['ex Monastero delle Murate'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Le Murate (Blender; OSM relation 1609313, LiDAR 2023; convent 1424, prison 1883–1985, recovered from 2001)' },
+  // Piazzale Michelangelo, its Loggia and the Rampe del Poggi (Giuseppe Poggi 1869–76): absolute scene coordinates
+  { file: 'piazzale', title: 'Piazzale Michelangelo', from: 1869, replaces: [], ids: [3996], at: [0, 0], rot: 0, ground: 0,   // 3996: the Loggia, dated 1955 in the city data
+    members: [{ key: 'monumento_david', name: 'Monument to Michelangelo', from: 1873 }, { key: 'loggia', name: 'Loggia del Piazzale', from: 1873 }, { key: 'rampe', name: 'Rampe del Poggi', from: 1876 }],
+    source: 'Landmark model v1 – Piazzale Michelangelo, the Loggia and the Rampe (Blender; LiDAR 2023, orthophoto 2017, OSM way 233265215; Giuseppe Poggi 1869–76, bronze David 1873; photographs, Commons)' },
   // Biblioteca Nazionale Centrale on Piazza dei Cavalleggeri (frame from pipeline/47_moderni.py): absolute scene coordinates
   { file: 'biblioteca', title: 'Biblioteca Nazionale Centrale di Firenze', from: 1911, replaces: ['Biblioteca Nazionale Centrale di Firenze'], ids: [3968], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Biblioteca Nazionale Centrale (Blender; OSM way 102979687, LiDAR 2023 heights; Cesare Bazzani 1911–35, Tribuna 1929, Vincenzo Mazzei 1962; photographs, Commons)' },
