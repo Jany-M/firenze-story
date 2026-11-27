@@ -30,6 +30,7 @@ MAT["marciapiede"] = material("lungarno_sidewalk", "lastrico", (0.6, 0.58, 0.54)
 ASPHALT, SIDEWALK = 1950, 1870
 STONE_AGAIN = {"acciaiuoli": 2020}
 def stone_always(slug, x): return slug.startswith("archibusieri") and x < -40
+BALUSTRADE = (2.0, 40.0)               # scene x of the balustrade in front of the Uffizi's loggia (right bank)
 MAT["coping"] = material("pietra_serena", "pietra_serena", (0.5, 0.5, 0.48), 0.7, 0.5)
 NOW = K.NOW
 D = json.load(open(os.path.join(ROOT, "blender", "data", "lungarni.json"), encoding="utf-8"))
@@ -110,9 +111,20 @@ for s in D["stretches"]:
             phases = [(s["from"], br["from"]), (br["to"], NOW)]
         else:
             phases = [(s["from"], NOW)]
+        # in front of the Uffizi's loggia the parapet is a stone balustrade (Oursana's photograph from across the Arno, 2013)
+        balus = bank == "n" and BALUSTRADE[0] <= xm <= BALUSTRADE[1]
         for (a, b) in phases:
             part = f"spalletta_{slug}@{a}-{b}"
-            for (o0, o1, v0, v1, mat) in ((0.0, PT, 0.0, PH - 0.12, "spalletta"), (-0.08, PT + 0.08, PH - 0.12, PH, "coping")):
+            if balus:
+                for k in range(int(L / 0.32)):                                                  # balusters
+                    f0 = (k + 0.3) / int(L / 0.32); f1 = (k + 0.7) / int(L / 0.32)
+                    xa, za, ha = x0 + (x1 - x0) * f0, z0 + (z1 - z0) * f0, h0 + (h1 - h0) * f0
+                    xb, zb, hb = x0 + (x1 - x0) * f1, z0 + (z1 - z0) * f1, h0 + (h1 - h0) * f1
+                    for o in (0.15, 0.45):
+                        poly(bm_for(part, "coping"), [P(xa, za, ha + 0.2, o), P(xb, zb, hb + 0.2, o), P(xb, zb, hb + PH - 0.15, o), P(xa, za, ha + PH - 0.15, o)])
+            layers = ((0.0, PT, 0.0, 0.2, "coping"), (-0.08, PT + 0.08, PH - 0.15, PH, "coping")) if balus else \
+                     ((0.0, PT, 0.0, PH - 0.12, "spalletta"), (-0.08, PT + 0.08, PH - 0.12, PH, "coping"))
+            for (o0, o1, v0, v1, mat) in layers:
                 bm = bm_for(part, mat)
                 q = lambda x, z, h, o: P(x, z, h, o)
                 b0 = (h0, h1)

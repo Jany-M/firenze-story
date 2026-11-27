@@ -19,9 +19,10 @@ from landmark_kit import *
 import landmark_kit as K
 K.reset()
 MAT["stone"] = material("pietra_serena_uffizi", "pietra_serena", (0.5, 0.5, 0.47), 0.7, 0.5)
-MAT["plaster"] = material("plaster_uffizi", None, (0.84, 0.78, 0.64), 0.9)
+MAT["plaster"] = material("plaster_uffizi", None, (0.96, 0.92, 0.82), 0.9)          # pale cream (photographs)
 MAT["marble"] = material("statue_marble", None, (0.9, 0.88, 0.84), 0.45)
 MAT["rubble"] = material("old_masonry", "pietra_forte", (0.6, 0.5, 0.38), 0.9, 0.4)
+MAT["shade"] = material("loggia_shade", None, (0.3, 0.29, 0.27), 0.95)                 # deep inside the loggia: in shadow all day
 MAT["iron"] = material("wrought_iron", None, (0.08, 0.08, 0.08), 0.6, metal=0.6)
 
 LEN = 140.0                       # wings run Y 0 … 140
@@ -116,86 +117,108 @@ for tag, F, Fo, x_out, x_in, side in (("west", FWi, FWo, XW, -XI, -1), ("east", 
         rect_win(base, Fb, c, 1.7, 0.45, 4.0, None, "dark")
     roof_y(top, min(x_out, x_in) - 0.6, max(x_out, x_in) + 0.6, -0.6, LEN + 0.6, CORN, RIDGE)
 
-# ---- Arno wing (1565) with the serliana, top loggia 1580 ----
-a = f"arno@{tag_year['arno']}-{NOW}"; at = f"arno_top@1580-{NOW}"
-# the two porticoes of the long wings run on through the Arno wing and open onto the Lungarno in a big arch each (photographs:
-# Oursana 2013 from across the river, Txllxt TxllxT 2010 from the Lungarno, Joanbanjo 2011): the passage X ±(7…11.4) is open
-# to the vault (≈11 m), the coffered vault over it, the arch ringed in pietra serena between pilasters, niches with statues
-XP = XI + DEPTH
-wbox(bm_for(a, "plaster"), XW, -XP, YS, 0, 0, NOB)                                                # left block
-wbox(bm_for(a, "plaster"), XP, XE, YS, 0, 0, NOB)                                                 # right block
-for (x0, x1) in ((-XP, -XI), (XI, XP)):
-    wbox(bm_for(a, "plaster"), x0, x1, YS, 0, 11.0, NOB)                                         # over the passage
-    wbox(bm_for(a, "stone"), x0, x1, YS, 0, 10.7, 11.0)                                          # its vault (coffered: stone)
-    wbox(bm_for(a, "stone"), x0, x1, YS, 0, 0, 0.45)                                             # its floor
-    for k in range(4):                                                                           # coffer ribs
-        y = YS + (k + 0.5) * (-YS) / 4
-        wbox(bm_for(a, "dark"), x0 + 0.5, x1 - 0.5, y - 0.6, y + 0.6, 10.62, 10.7)
-wbox(bm_for(a, "plaster"), -XI, XI, YS, 0, 12.0, NOB)                                             # over the passage (above the screen)
+# ---- Arno wing (1565): the loggia on the river, top loggia 1580 ----
+# Its river front, measured on Oursana's photograph from across the Arno (2013, CC0; heights scaled on the LiDAR eaves, 26.2 m):
+# a pietra serena frame on white plaster, ±17.8 m round the piazzale's axis. Ground floor: an open loggia through the whole
+# wing (12 m deep) with three openings on the river – Vasari's serliana in the middle (a round arch 6 m wide on columns, flat
+# side bays under an architrave, across the piazzale's width) and a big arch each side (5 m wide, top ≈10.5 m) opening onto
+# the loggia from the Lungarno – between piers with niches and statues. Above: the entablature (10.7–12 m), the piano nobile
+# with three arched windows on balconies over the serliana and a pedimented window over each side arch, a band, the top loggia
+# glazed in wide bays (1580), the cornice. The blocks beyond (to the west wing's and the east wing's outer faces) are plain
+# plaster with rows of windows.
+a = f"arno@{tag_year['arno']}-{NOW}"; at = f"arno_top@1580-{NOW}"; ST = f"statues@1850-{NOW}"
+XC = 17.8                                                                                          # the frame's half width
+SPR, ENT0, ENT1 = 8.0, 10.7, 12.0                                                                  # side arches' springing, entablature
+FS = Frame((XW, YS, 0), (1, 0, 0), (0, -1, 0))                                                     # river face: u = X − XW, n outwards
+U = lambda x: x - XW
+D = 1.0                                                                                            # the front's thickness on the loggia
+wbox(bm_for(a, "plaster"), XW, -XC, YS, 0, 0, NOB)                                                 # the blocks beyond the frame
+wbox(bm_for(a, "plaster"), XC, XE, YS, 0, 0, NOB)
+wbox(bm_for(a, "stone"), -XC, XC, YS, 0, 0, 0.45)                                                  # the loggia's floor
+wbox(bm_for(a, "stone"), -XC, XC, YS + D, 0, ENT0 - 0.3, ENT0)                                     # its ceiling (stone, coffered below)
+for k in range(5):
+    y = YS + D + (k + 0.5) * (-YS - D) / 5
+    wbox(bm_for(a, "dark"), -XC + 0.6, XC - 0.6, y - 0.5, y + 0.5, ENT0 - 0.38, ENT0 - 0.3)
+wbox(bm_for(a, "plaster"), -XC, XC, YS, 0, ENT0, NOB)                                              # the floors over it
+for sgn in (-1, 1):                                                                                # the loggia's back, behind the side arches
+    x0, x1 = sorted((sgn * (XI + DEPTH), sgn * XC))
+    poly(bm_for(a, "shade"), [(x0, -0.03, 0.45), (x1, -0.03, 0.45), (x1, -0.03, ENT0 - 0.3), (x0, -0.03, ENT0 - 0.3)])
+def arch_wall(x0, x1, spring, top, mat="plaster"):
+    """The front between two piers over a round arch (x0…x1, springing, up to `top`): front and back faces, the soffit."""
+    r = (x1 - x0) / 2; xc = (x0 + x1) / 2; n = 18
+    ring = [(xc - r * math.cos(math.pi * k / n), spring + r * math.sin(math.pi * k / n)) for k in range(n + 1)]
+    for y, flip in ((YS, False), (YS + D, True)):
+        bm = bm_for(a, mat)
+        for k in range(n):
+            (ua, va), (ub, vb) = ring[k], ring[k + 1]
+            q = [(ua, y, va), (ub, y, vb), (ub, y, top), (ua, y, top)]
+            poly(bm, q[::-1] if flip else q)
+    for k in range(n):                                                                             # soffit
+        (ua, va), (ub, vb) = ring[k], ring[k + 1]
+        poly(bm_for(a, "stone"), [(ua, YS, va), (ua, YS + D, va), (ub, YS + D, vb), (ub, YS, vb)])
+    for k in range(n):                                                                             # the arch's ring in pietra serena
+        (ua, va), (ub, vb) = ring[k], ring[k + 1]
+        oa = ((ua - xc) * 1.14 + xc, (va - spring) * 1.14 + spring); ob = ((ub - xc) * 1.14 + xc, (vb - spring) * 1.14 + spring)
+        poly(bm_for(a, "stone"), [(ua, YS - 0.08, va), (ub, YS - 0.08, vb), (ob[0], YS - 0.08, ob[1]), (oa[0], YS - 0.08, oa[1])])
+def pier(x0, x1, statue=True):
+    wbox(bm_for(a, "plaster"), x0, x1, YS, YS + D, 0.45, ENT0)
+    pbox(bm_for(a, "stone"), FS, U(x0), U(x0) + 0.35, 0.45, ENT0, 0, 0.3)                          # pilaster strips in pietra serena
+    pbox(bm_for(a, "stone"), FS, U(x1) - 0.35, U(x1), 0.45, ENT0, 0, 0.3)
+    if statue:                                                                                     # niche with a statue (19th c.)
+        m = (U(x0) + U(x1)) / 2
+        box(bm_for(a, "dark"), FS, m - 0.55, m + 0.55, 2.0, 5.6, -0.06, 0.01)
+        poly(bm_for(a, "stone"), [FS.p(m - 0.75 + 1.5 * k / 8, 5.6 + 0.55 * math.sin(math.pi * k / 8), 0.06) for k in range(9)])
+        box(bm_for(ST, "stone"), FS, m - 0.4, m + 0.4, 1.4, 2.0, 0.0, 0.5)
+        box(bm_for(ST, "marble"), FS, m - 0.28, m + 0.28, 2.0, 4.6, 0.02, 0.4)
+        box(bm_for(ST, "marble"), FS, m - 0.14, m + 0.14, 4.6, 5.1, 0.06, 0.34)
+for sgn in (-1, 1):
+    xs = sorted((sgn * 17.8, sgn * 15.0)); pier(*xs)                                               # outer piers
+    xs = sorted((sgn * 10.0, sgn * 7.8)); pier(*xs)                                                # inner piers
+    xs = sorted((sgn * 15.0, sgn * 10.0)); arch_wall(xs[0], xs[1], SPR, ENT0)                      # the side arch
+    pbox(bm_for(a, "stone"), FS, U(min(sgn * 15.0, sgn * 10.0)) - 0.1, U(max(sgn * 15.0, sgn * 10.0)) + 0.1, SPR - 0.3, SPR, 0, 0.35)   # impost
+# the serliana: columns, the architrave of the side bays, the central arch
+for cx in (-7.4, -3.4, 3.4, 7.4):
+    wbox(bm_for(a, "stone"), cx - 0.32, cx + 0.32, YS + 0.2, YS + 0.84, 0.45, 6.5)
+    wbox(bm_for(a, "stone"), cx - 0.42, cx + 0.42, YS + 0.1, YS + 0.94, 6.5, 6.8)                  # capital
+for (x0, x1) in ((-7.8, -3.0), (3.0, 7.8)):
+    wbox(bm_for(a, "stone"), x0, x1, YS, YS + D, 6.8, 7.6)                                         # architrave
+    wbox(bm_for(a, "plaster"), x0, x1, YS, YS + D, 7.6, ENT0)                                      # wall over it
+arch_wall(-3.0, 3.0, 7.6, ENT0)
+# entablature across the frame, piano nobile, band, top loggia, cornice
+pbox(bm_for(a, "stone"), FS, U(-XC) - 0.2, U(XC) + 0.2, ENT0, ENT1, 0, 0.5)
+pbox(bm_for(a, "stone"), FS, U(-XC) - 0.3, U(XC) + 0.3, ENT1 - 0.25, ENT1, 0, 0.7)
+for xc in (-6.0, 0.0, 6.0):                                                                        # three arched windows on balconies
+    opening(a, FS, U(xc) - 1.2, U(xc) + 1.2, 12.7, 16.9, frame=0.32, pointed=False, fill="glass", frame_mat="stone")
+    pbox(bm_for(a, "stone"), FS, U(xc) - 1.7, U(xc) + 1.7, 12.2, 12.5, 0, 0.75)                    # balcony slab
+    for q in range(8): pbox(bm_for(a, "stone"), FS, U(xc) - 1.55 + q * 0.43, U(xc) - 1.45 + q * 0.43, 12.5, 13.3, 0.55, 0.68)
+    pbox(bm_for(a, "stone"), FS, U(xc) - 1.7, U(xc) + 1.7, 13.3, 13.45, 0.5, 0.75)
+for xc in (-12.5, 12.5):                                                                           # over the side arches
+    rect_win(a, FS, U(xc), 1.6, 12.8, 15.6, "tri", "glass")
+for xc in (-17.8, -15.0, -10.0, -7.8, 7.8, 10.0, 15.0, 17.8):                                      # pilasters of the piano nobile
+    pbox(bm_for(a, "stone"), FS, U(xc) - 0.3, U(xc) + 0.3, ENT1, 17.5, 0, 0.22)
+pbox(bm_for(a, "stone"), FS, U(-XC) - 0.2, U(XC) + 0.2, 17.5, 19.2, 0, 0.35)                      # the band under the top loggia
+for xc in (-XC, XC):                                                                               # the frame's corners up to the cornice
+    pbox(bm_for(at, "stone"), FS, U(xc) - 0.45, U(xc) + 0.45, 19.2, TOPF, 0, 0.3)
 wbox(bm_for(at, "plaster"), XW, XE, YS, 0, NOB, TOPF)
-wbox(bm_for(a, "stone"), -XI, XI, YS - 0.9, YS + 0.2, 0, 0.45)                                    # steps / threshold
-FS = Frame((XW, YS, 0), (1, 0, 0), (0, -1, 0))
-for cx in (-XI + 0.3, -3.6, 3.6, XI - 0.3):                                                       # Doric screen (serliana): columns
-    pbox(bm_for(a, "stone"), FS, cx - XW - 0.32, cx - XW + 0.32, 0.45, PORT - 0.8, 0.0, 0.9)
-    pbox(bm_for(a, "stone"), FS, cx - XW - 0.42, cx - XW + 0.42, PORT - 1.1, PORT - 0.8, 0.0, 0.95)
-box(bm_for(a, "stone"), FS, -XI - XW, XI - XW, PORT - 0.8, PORT, 0, 1.0)                           # architrave
-for k in range(16):                                                                                # central arch of the serliana (ring)
-    a0, a1 = math.pi * k / 16, math.pi * (k + 1) / 16; r0, r1 = 3.3, 4.1; cz = 8.7
-    c = -XW
-    for n in (0.0, 0.9):
-        poly(bm_for(a, "stone"), [FS.p(c + r0 * math.cos(a0), cz + r0 * math.sin(a0), n), FS.p(c + r0 * math.cos(a1), cz + r0 * math.sin(a1), n),
-                                  FS.p(c + r1 * math.cos(a1), cz + r1 * math.sin(a1), n), FS.p(c + r1 * math.cos(a0), cz + r1 * math.sin(a0), n)])
-for (s0, s1) in ((-6.6, -3.4), (3.4, 6.6)):                                                      # spandrel blocks beside the arch
-    pbox(bm_for(a, "stone"), FS, -XW + s0, -XW + s1, PORT, 12.0, 0, 0.5)
-for xc in (-(XI + XP) / 2, (XI + XP) / 2):                                                         # the two side arches
-    uc = xc - XW; rr = (XP - XI) / 2 - 0.15
-    for k in range(16):
-        a0, a1 = math.pi * k / 16, math.pi * (k + 1) / 16
-        for n in (0.0, 0.6):
-            poly(bm_for(a, "stone"), [FS.p(uc + rr * math.cos(a0), PORT + rr * math.sin(a0), n), FS.p(uc + rr * math.cos(a1), PORT + rr * math.sin(a1), n),
-                                      FS.p(uc + (rr + 0.7) * math.cos(a1), PORT + (rr + 0.7) * math.sin(a1), n), FS.p(uc + (rr + 0.7) * math.cos(a0), PORT + (rr + 0.7) * math.sin(a0), n)])
-    pts = [FS.p(uc + rr * math.cos(math.pi * k / 16), PORT + rr * math.sin(math.pi * k / 16), 0.0) for k in range(17)]
-    sp = [FS.p(uc - rr - 0.7, PORT, 0.0), FS.p(uc + rr + 0.7, PORT, 0.0)]
-    for k in range(16):                                                                          # spandrel up to the vault line
-        poly(bm_for(a, "plaster"), [pts[k], pts[k + 1], FS.p(uc + (rr + 0.7) * (1 if k < 8 else -1), 11.0, 0.0)])
-    poly(bm_for(a, "plaster"), [FS.p(uc - rr - 0.7, 11.0, 0), FS.p(uc + rr + 0.7, 11.0, 0), pts[8]])
-    for s_ in (-1, 1):                                                                           # pilasters, a niche with a statue
-        u = uc + s_ * (rr + 0.7 + 0.45)
-        pbox(bm_for(a, "stone"), FS, u - 0.45, u + 0.45, 0.45, PORT, 0, 0.5)
-        pbox(bm_for(a, "stone"), FS, u - 0.55, u + 0.55, PORT, PORT + 0.4, 0, 0.6)
-    for s_ in ((1 if xc > 0 else -1),):                                                          # the niche on the outer side
-        u = uc + s_ * (rr + 2.6)
-        if True:
-            box(bm_for(a, "dark"), FS, u - 0.6, u + 0.6, 1.6, 5.4, -0.05, 0.02)
-            box(bm_for(f"statues@1850-{NOW}", "marble"), FS, u - 0.3, u + 0.3, 1.7, 4.6, 0.02, 0.4)
-            box(bm_for(f"statues@1850-{NOW}", "marble"), FS, u - 0.15, u + 0.15, 4.6, 5.1, 0.05, 0.35)
-pbox(bm_for(a, "stone"), FS, -XP - XW - 1.2, XP - XW + 1.2, PORT, PORT + 0.3, 0, 0.7)            # the order's entablature across the middle
-for xc in (-4.0, 0.0, 4.0):                                                                        # piano nobile: three arched windows
-    opening(a, FS, xc - XW - 0.9, xc - XW + 0.9, 13.0, 16.9, frame=0.3, pointed=False, fill="glass", frame_mat="stone")
-    pbox(bm_for(a, "stone"), FS, xc - XW - 1.3, xc - XW + 1.3, 12.6, 12.85, 0, 0.6)
-    for q in range(6): pbox(bm_for(a, "iron"), FS, xc - XW - 1.2 + q * 0.48, xc - XW - 1.16 + q * 0.48, 12.85, 13.8, 0.5, 0.54)
-    pbox(bm_for(a, "iron"), FS, xc - XW - 1.25, xc - XW + 1.25, 13.75, 13.82, 0.45, 0.56)
-for xc in (-(XI + XP) / 2, (XI + XP) / 2):
-    rect_win(a, FS, xc - XW, 1.3, 13.1, 16.6, "tri", "glass")
-for xc in (-XP, -XI, XI, XP):                                                                      # pilasters of the middle section
-    pbox(bm_for(a, "stone"), FS, xc - XW - 0.35, xc - XW + 0.35, PORT + 0.3, NOB, 0, 0.25)
-# top loggia on the Arno face: three round-arched openings over the screen, windows on the blocks
-for k in range(3):
-    c = -XW + (k - 1) * 4.0
-    opening(at, FS, c - 1.5, c + 1.5, 19.2, 24.3, frame=0.3, pointed=False, fill="dark", frame_mat="stone")
-pbox(bm_for(at, "stone"), FS, 0, XE - XW, NOB, NOB + 0.5, 0, 0.5)
+for (x0, x1) in ((-15.6, -10.4), (-7.8, -4.3), (-3.0, 2.7), (4.0, 7.1), (9.7, 15.4), (17.6, 22.4)):   # top loggia: glazed bays
+    poly(bm_for(at, "glass"), [FS.p(U(x0), 19.9, 0.03), FS.p(U(x1), 19.9, 0.03), FS.p(U(x1), 24.3, 0.03), FS.p(U(x0), 24.3, 0.03)])
+    for xm in [x0 + (x1 - x0) * k / 4 for k in range(1, 4)]:                                       # glazing bars
+        pbox(bm_for(at, "stone"), FS, U(xm) - 0.05, U(xm) + 0.05, 19.9, 24.3, 0.03, 0.1)
+    pbox(bm_for(at, "stone"), FS, U(x0) - 0.25, U(x0), 19.6, 24.6, 0, 0.2); pbox(bm_for(at, "stone"), FS, U(x1), U(x1) + 0.25, 19.6, 24.6, 0, 0.2)
+    pbox(bm_for(at, "stone"), FS, U(x0) - 0.25, U(x1) + 0.25, 19.6, 19.9, 0, 0.25); pbox(bm_for(at, "stone"), FS, U(x0) - 0.25, U(x1) + 0.25, 24.3, 24.6, 0, 0.2)
 box(bm_for(at, "stone"), FS, -0.3, XE - XW + 0.3, TOPF, CORN, 0, 1.0)
-for side_u0, side_u1 in ((0, -XP - XW - 2.4), (XP - XW + 2.4, XE - XW)):
-    n = int((side_u1 - side_u0) / 2.456)
+# the blocks beyond the frame: rows of plain windows (ground, mezzanine, piano nobile, top)
+for side_u0, side_u1 in ((U(XW) + 0.8, U(-XC) - 0.8), (U(XC) + 0.8, U(XE) - 0.8)):
+    n = max(1, int((side_u1 - side_u0) / 2.6))
     for i in range(n):
         c = side_u0 + (i + 0.5) * (side_u1 - side_u0) / n
-        rect_win(a, FS, c, 1.1, 2.0, 5.4, None, "glass")
-        rect_win(a, FS, c, 1.1, 12.4, 16.0, "tri" if i % 2 == 0 else "seg", "glass")
-        rect_win(at, FS, c, 1.1, 19.3, 23.4, None, "glass")
+        rect_win(a, FS, c, 1.1, 2.0, 4.6, None, "glass")
+        rect_win(a, FS, c, 0.8, 8.4, 9.6, None, "glass")
+        rect_win(a, FS, c, 1.1, 12.6, 15.4, None, "glass")
+        if side_u0 < U(0): rect_win(at, FS, c, 1.1, 20.0, 22.6, None, "glass")
 bm = bm_for(at, "roof"); gable_roof(at, XW - 0.6, XE + 0.6, YS - 0.9, 0.6, CORN, RIDGE)
 
 # ---- 28 statues of famous Tuscans in the pier niches (1842–56; shown from 1850, inferred) ----
-ST = f"statues@1850-{NOW}"
 for F in (FWi, FEi):
     for i in range(2, 16):
         u = i * BL + PW / 2

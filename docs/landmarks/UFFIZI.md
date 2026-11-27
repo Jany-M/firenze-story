@@ -12,12 +12,18 @@ Model v1 (`blender/scripts/build_uffizi.py` → `web/public/models/landmarks/uff
 | Roofs | ≈28 m above the piazzale | LiDAR 2023 DSM |
 
 ## What the model shows (from photographs)
-- **The Arno wing's two porticoes:** the river front is not a closed wall. Each side of the serliana, the ground floor opens
-  into a portico that runs through the wing and comes out on the Lungarno: arches with rings, spandrels and pilasters on the
-  river front, a coffered vault inside at ≈10.7–11 m, statues in niches on the outer piers. The order's entablature runs across
-  the middle; the piano nobile has three arched windows (x −4, 0, 4) with iron balconies, and pedimented windows over the side
-  arches (photographs of the Arno front in the [library page](/library/uffizi/); the Lungarno degli Archibusieri view by Txllxt
-  TxllxT on Commons).
+The river front, redrawn from Oursana's photograph from across the Arno ([Commons](https://commons.wikimedia.org/wiki/File:Lungarno_Anna_Maria_Luisa_de%27_Medici_Uffizi.jpg),
+2013, CC0), its heights scaled on the LiDAR eaves (26.2 m):
+- **A pietra serena frame on pale plaster,** ±17.8 m round the piazzale's axis; plain plaster blocks with rows of windows
+  beyond it, to the outer faces of the two wings.
+- **Ground floor: an open loggia** through the whole Arno wing (12 m deep), with three openings on the river: Vasari's serliana
+  in the middle (a round arch 6 m wide on Doric columns, flat side bays under an architrave, across the piazzale's width) and
+  a big round arch each side (5 m wide, top ≈10.5 m), between piers with niches and statues (four). The loggia's back,
+  behind the side arches, in shade.
+- **Above:** the entablature (10.7–12 m); the piano nobile with three arched windows on balconies over the serliana and a
+  pedimented window over each side arch, between pilasters; a band; the top loggia (1580) glazed in wide bays; the frame's
+  corners up to the cornice; the cornice and the roof.
+- **In front, on the Lungarno:** a stone balustrade instead of the brick parapet (lungarni model).
 
 Storeys (*inferred* from the DSM and the elevation described by uffizi.it): portico to 7.6 m, mezzanine to 11.2 m, piano nobile to 18.4 m, top loggia to 25 m, cornice 26.2 m, ridge 28.5 m.
 
@@ -40,7 +46,9 @@ Credited pictures (courtyard, Arno front, Zocchi's 18th-century view, Callot's T
 
 ## Review list
 - Bay rhythm (niched pier, two columns, three windows) is simplified; compare with photographs of the piazzale front.
-- The river porticoes' vault height and the statues in the outer niches are from photographs, not measured.
+- The river front is scaled from one photograph (heights from the LiDAR); its widths (±17.8 m frame, 5 m side arches) are
+  not measured on the ground. The arcade of the old landing in the river wall below the loggia is not drawn yet, and the
+  river wall there is the lungarni's stone, not the plastered wall of the photograph.
 - Top loggia is shown with dark openings; its arcading and glazing over time are not dated.
 - Heights are measured on roofs, so the cornice and ridge levels are estimates.
 - The old quarter, the Zecca and San Pier Scheraggio are plausible masses only.
