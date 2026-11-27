@@ -235,7 +235,7 @@ async function main() {
   document.getElementById('menu-maps')!.onclick = () => { openGallery(materialsFor(['map'])); document.getElementById('menu')!.hidden = true; };
   document.getElementById('menu-help')!.onclick = () => { view.toggleHelp(); document.getElementById('menu')!.hidden = true; };
   toast(matchMedia('(pointer: coarse)').matches ? 'One finger moves · pinch to zoom · two fingers rotate · ☰ for help'
-    : 'Ctrl + mouse rotates, Ctrl + Shift + mouse moves · press H for all view controls');
+    : 'Ctrl + drag (or right-drag) rotates and tilts · press H for all view controls');
 
   // ---- loop ----
   const timer = new THREE.Timer(); let camSave = 0;
