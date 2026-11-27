@@ -52,12 +52,12 @@ def upper(part):
         for b in range(3):                                                                         # round arches
             a0, a1 = b * W / 3 + 0.45, (b + 1) * W / 3 - 0.45
             opening(part, F, a0, a1, Z1 + 0.4, Z2 - 0.7, depth=0.2, frame=0.32, pointed=False, fill="white", frame_mat="green")
-            panels(part, F, a0 + 0.4, a1 - 0.4, Z1 + 0.6, Z1 + 2.2, 2, 1)
+            panels(part, F, a0 + 0.4, a1 - 0.4, Z1 + 0.6, Z1 + 2.2, 2, 1, proud=0.14)                     # in front of the arch's fill (0.05)
             m = (a0 + a1) / 2                                                                      # window aedicule
-            opening(part, F, m - 0.55, m + 0.55, Z1 + 2.8, Z1 + 5.9, depth=0.2, frame=0.22, pointed=False, fill="dark", frame_mat="white")
+            opening(part, F, m - 0.55, m + 0.55, Z1 + 2.8, Z1 + 5.9, depth=0.2, frame=0.22, pointed=False, fill="dark", frame_mat="white", lift=0.12)
             ped = bm_for(part, "white")
-            if b == 1: poly(ped, [F.p(m - 1.0, Z1 + 6.2, 0.2), F.p(m + 1.0, Z1 + 6.2, 0.2), F.p(m, Z1 + 7.0, 0.2)])
-            else: poly(ped, [F.p(m + 0.95 * math.cos(a), Z1 + 6.2 + 0.6 * math.sin(a), 0.2) for a in [i / 10 * math.pi for i in range(11)]])
+            if b == 1: poly(ped, [F.p(m - 1.0, Z1 + 6.2, 0.3), F.p(m + 1.0, Z1 + 6.2, 0.3), F.p(m, Z1 + 7.0, 0.3)])
+            else: poly(ped, [F.p(m + 0.95 * math.cos(a), Z1 + 6.2 + 0.6 * math.sin(a), 0.3) for a in [i / 10 * math.pi for i in range(11)]])
         cornice(part, F, -0.3, W + 0.3, Z2 - 0.5, 0.8, 0.6, arches=False)
 
 def attic(part):

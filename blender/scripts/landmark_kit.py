@@ -106,16 +106,18 @@ def arch_pts(F, u0, u1, v0, vtop, n, pointed=True, seg=10):
         pts.append((u0, spring))
     return [F.p(u, v, n) for u, v in pts]
 
-def opening(part, F, u0, u1, v0, vtop, depth=0.35, frame=0.45, pointed=True, fill="glass", frame_mat="white", mullion=False):
-    """Window/portal: frame (proud ring), dark recessed fill, optional central mullion (bifora)."""
-    out = arch_pts(F, u0 - frame, u1 + frame, v0 - frame * 0.3, vtop + frame, 0.08, pointed)
-    inn = arch_pts(F, u0, u1, v0, vtop, 0.08, pointed)
+def opening(part, F, u0, u1, v0, vtop, depth=0.35, frame=0.45, pointed=True, fill="glass", frame_mat="white", mullion=False, lift=0.0):
+    """Window/portal: frame (proud ring), dark recessed fill, optional central mullion (bifora).
+    lift: extra distance off the wall, for an opening drawn inside another one's fill (a window in a blind arch), which
+    would otherwise lie in the same plane and flicker against it."""
+    out = arch_pts(F, u0 - frame, u1 + frame, v0 - frame * 0.3, vtop + frame, 0.08 + lift, pointed)
+    inn = arch_pts(F, u0, u1, v0, vtop, 0.08 + lift, pointed)
     bm = bm_for(part, frame_mat)
     va = [bm.verts.new(p) for p in out]; vb = [bm.verts.new(p) for p in inn]
     for i in range(len(out)):
         j = (i + 1) % len(out); bm.faces.new((va[i], va[j], vb[j], vb[i]))
     # walls are solid slabs, so the opening is drawn on the face: dark fill just proud of the wall, frame prouder still
-    poly(bm_for(part, fill), arch_pts(F, u0, u1, v0, vtop, 0.05, pointed))
+    poly(bm_for(part, fill), arch_pts(F, u0, u1, v0, vtop, 0.05 + lift, pointed))
     if mullion:
         m = (u0 + u1) / 2; pbox(bm_for(part, "white"), F, m - 0.12, m + 0.12, v0, vtop - (u1 - u0) * 0.45, 0.0, 0.1)
         # tracery: small oculus above the two lights
@@ -135,7 +137,7 @@ def panels(part, F, u0, u1, v0, v1, cols, rows, strip=0.24, proud=0.04, inner="w
             if accent and accent(i, j):          # inner red panel with its own green frame
                 a = u0 + i * du + du * 0.22; b = u0 + (i + 1) * du - du * 0.22; c = v0 + j * dv + dv * 0.22; d = v0 + (j + 1) * dv - dv * 0.22
                 pbox(bm_for(part, "red"), F, a, b, c, d, 0, proud * 0.6)
-                for (x0, x1, y0, y1) in ((a - 0.12, a, c, d), (b, b + 0.12, c, d), (a, b, c - 0.12, c), (a, b, d, d + 0.12)):
+                for (x0, x1, y0, y1) in ((a - 0.12, a + 0.02, c - 0.12, d + 0.12), (b - 0.02, b + 0.12, c - 0.12, d + 0.12), (a, b, c - 0.12, c + 0.02), (a, b, d - 0.02, d + 0.12)):   # overlapping the red: no shared side faces
                     pbox(g, F, x0, x1, y0, y1, 0, proud)
 
 def wall(part, F, u0, u1, v0, v1, thick=1.2, mat="white"):

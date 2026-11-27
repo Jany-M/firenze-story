@@ -294,9 +294,14 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     const roof = tiles.mul(mix(vec3(1), tint, SX(uOrtho.greaterThan(0.5), float(0.85), float(0)))).mul(mix(float(0.92), float(1.06), h));
     // ---------- ornaments ----------
     let real = SX(isRoof, roof, facade);
-    real = SX(isStone, serena.mul(1.05), real);
+    // small pieces with a material code in place of a façade coordinate (chimneys, caps, balcony slabs): their u is the code,
+    // a constant, so the wall textures would be sampled along one line and shimmer; they take world-space coordinates
+    const cuv = vec2(positionWorld.x.add(positionWorld.z), positionWorld.y);
+    const serenaC = LOW ? V3(0.5, 0.5, 0.48) : T('pietra_serena', cuv.div(2.2));
+    const plasterC = LOW ? palette : palette.mul(mix(vec3(1), T('intonaco', cuv.div(4)).mul(1.1), 0.25));
+    real = SX(isStone, serenaC.mul(1.05), real);
     real = SX(isIron, V3(0.1, 0.1, 0.11), real);
-    real = SX(isPlaster, plaster.mul(0.95), real);
+    real = SX(isPlaster, plasterC.mul(0.95), real);
     // ---------- colour modes ----------
     const pIdx = periodIndex(vStart);
     const per = textureLoad(texture(periodTex), ivec2(int(pIdx), int(0))).rgb;

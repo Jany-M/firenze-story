@@ -12,6 +12,7 @@ export const uXrayDepth = uniform(0);                             // view depth 
 export const uCamFwd = uniform(new THREE.Vector3(0, 0, -1));      // camera forward (world)
 const MAXOCC = 12;
 const uOcc = Array.from({ length: MAXOCC }, () => uniform(-1));   // record ids of the city buildings that fade
+const uOccW = Array.from({ length: MAXOCC }, () => uniform(0));   // and how far each has faded (eased: no popping, no flicker)
 
 const fadeAmount = Fn(() => {
   const depth = dot(positionWorld.sub(cameraPosition), uCamFwd);
@@ -25,9 +26,9 @@ const dither = Fn(() => { const p = floor(screenCoordinate.xy); return fract(sin
 /** City mask: keep the fragment unless its building is one of the current occluders. */
 export function cityKeep(bid: any) {
   return Fn(() => {
-    let occ: any = abs(bid.sub(uOcc[0])).lessThan(0.5);
-    for (let i = 1; i < MAXOCC; i++) occ = occ.or(abs(bid.sub(uOcc[i])).lessThan(0.5));
-    return (dither() as any).greaterThanEqual((fadeAmount() as any).mul(occ.select(float(1), float(0))));
+    let w: any = abs(bid.sub(uOcc[0])).lessThan(0.5).select(uOccW[0], float(0));
+    for (let i = 1; i < MAXOCC; i++) w = w.add(abs(bid.sub(uOcc[i])).lessThan(0.5).select(uOccW[i], float(0)));
+    return (dither() as any).greaterThanEqual((fadeAmount() as any).mul(w));
   })();
 }
 /** Mask for landmark materials while their part is an occluder (swapped in, see below). */
@@ -87,13 +88,26 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
         if (h && h.distance < D * 0.45) occParts.add(p.obj);
       }
     }
-    const ids = [...occCity].sort((a, b) => Math.hypot(recs[a].c[0] - cam.x, recs[a].c[1] - cam.z) - Math.hypot(recs[b].c[0] - cam.x, recs[b].c[1] - cam.z));
-    for (let k = 0; k < MAXOCC; k++) uOcc[k].value = ids[k] ?? -1;
+    // a building stays a candidate for 0.8 s after its last hit: the ray tests flip on and off while the camera moves
+    const now = performance.now();
+    for (const i of occCity) seen.set(i, now);
+    for (const [i, t] of seen) if (now - t > 800 && (weight.get(i) ?? 0) <= 0) seen.delete(i);
     // landmark parts: swap in the fading copy of their materials, put the originals back when they stop blocking
     for (const o of [...faded]) if (!occParts.has(o)) { restore(o); faded.delete(o); }
     for (const o of occParts) if (!faded.has(o)) { o.traverse((m: any) => { if (m.isMesh) { m.userData.preFade = m.material; m.material = fadeClone(m.material); } }); faded.add(o); }
   }
-  function clear() { for (let k = 0; k < MAXOCC; k++) uOcc[k].value = -1; for (const o of faded) restore(o); faded.clear(); }
+  const seen = new Map<number, number>(), weight = new Map<number, number>();
+  /** Ease each building's fade towards 1 while it blocks the view, back to 0 when it stops (≈0.3 s), and fill the slots. */
+  function ease(dt: number, cam: THREE.Vector3) {
+    const now = performance.now();
+    for (const i of new Set([...seen.keys(), ...weight.keys()])) {
+      const on = now - (seen.get(i) ?? -1e9) <= 800, w = (weight.get(i) ?? 0) + (on ? dt : -dt) * 3.5;
+      if (w <= 0) weight.delete(i); else weight.set(i, Math.min(1, w));
+    }
+    const ids = [...weight.keys()].sort((a, b) => Math.hypot(recs[a].c[0] - cam.x, recs[a].c[1] - cam.z) - Math.hypot(recs[b].c[0] - cam.x, recs[b].c[1] - cam.z));
+    for (let k = 0; k < MAXOCC; k++) { uOcc[k].value = ids[k] ?? -1; uOccW[k].value = ids[k] != null ? weight.get(ids[k])! : 0; }
+  }
+  function clear() { for (let k = 0; k < MAXOCC; k++) { uOcc[k].value = -1; uOccW[k].value = 0; } seen.clear(); weight.clear(); for (const o of faded) restore(o); faded.clear(); }
 
   /** Every frame. Works only near the ground: camera under ~45 m above the target, full at ~25 m. */
   function update(dt: number, year: number) {
@@ -102,6 +116,7 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
     camera.getWorldDirection(uCamFwd.value);
     uXrayDepth.value = d * uCamFwd.value.dot(target.clone().sub(camera.position).normalize()) - Math.max(6, d * 0.08);
     if (uXray.value <= 0) { if (faded.size || uOcc[0].value >= 0) clear(); return; }
+    ease(dt, camera.position);
     if ((acc += dt) < 0.15) return; acc = 0;
     scan(year);
   }
