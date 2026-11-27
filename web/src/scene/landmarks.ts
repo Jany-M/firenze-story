@@ -145,6 +145,9 @@ export const LANDMARKS: LandmarkDef[] = [
       { key: 'chiostro', name: 'Chiostro di San Miniato al Monte', from: 1455, part: { of: 'Basilica di San Miniato al Monte',
         about: "The monastery's cloister, planned in 1426 and built from 1443 to the mid-1450s between the church and the Bishops' Palace; Paolo Uccello painted scenes from the lives of the desert hermits on its walls." } }],
     source: "Landmark model v1 – San Miniato al Monte (Blender; OSM outlines and a traced outline for the monastery, LiDAR 2023; church begun 1018, marble front 12th–13th c., Bishops' Palace 1295, bell tower 1523, cloister 1443–c. 1455)" },
+  // the river walls and parapets of the lungarni (pipeline/46_lungarni.py): absolute scene coordinates
+  { file: 'lungarni', title: 'Lungarni: river walls and parapets', from: 1287, replaces: [], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Lungarni (Blender; line and heights from the LiDAR ground; walls 1287–90, 1600, 1850, 1865–90; breaches 1966 and 2016)' },
   // the sixth circle of walls: absolute scene coordinates, one model for walls, towers, gates, bastions and the Fortezza
   { file: 'mura', title: 'City walls and gates', replaces: ["Cerchia d'Arnolfo", 'Cerchia di Arnolfo', 'Baluardo del Mongibello', 'Baluardo della serpe', "Baluardo a' tre canti", 'Baluardo a San Gallo',
       // the earlier circles, drawn by the model on the ground line (the records stood on one height and sank into the slopes)
