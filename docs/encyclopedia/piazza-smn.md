@@ -27,6 +27,6 @@ done it since 1563. The lawns and benches round them are 20th-century.
 
 ## What you see
 - The two obelisks: pedestal with red panels, four bronze tortoises, the shaft, a bronze lily on top
-- Eight lawns in two ovals with clipped hedges, stone benches beside them
+- Eight flat, straight-sided lawns cut by diagonal paths, long low benches in the middle
 
 More: [the model's notes](https://github.com/Jany-M/firenze-story/blob/main/docs/landmarks/PIAZZA-SMN.md).

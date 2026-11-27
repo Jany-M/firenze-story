@@ -13,7 +13,7 @@ const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.quer
 const esc = (s: string) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
 export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; playToggle?: () => void; seek?: (f: number) => void; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[];
-    catalogue?: { kind: string; title: string; items: Rec[]; at: [number, number] | null; from: number }[]; kinds?: string[] }) {
+    catalogue?: { kind: string; title: string; items: Rec[]; at: [number, number] | null; from: number; subjects?: string[]; head?: boolean }[]; kinds?: string[] }) {
   const hud = $('#hud'), modes = $('#modes'), side = $('#side'), card = $('#card'), live = $('#live'), evcard = $('#evcard'), lmk = $('#lmk');
   /** Event card (left, under the era box): summary, sources, Wikipedia. */
   function showEvent(i: number | null) {
@@ -94,18 +94,24 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   const cat = hooks.catalogue ?? [];
   // built when the tab opens (the pictures' list loads in the background)
   const renderLmk = () => { lmk.innerHTML = `<h3 class="ptitle">Landmarks</h3><p class="muted small">The buildings drawn by hand from photographs and
-    measurements. Tap one to go there – today, or in the last year it stood.</p><div class="lmk-list">${(hooks.kinds ?? [...new Set(cat.map(g => g.kind))]).map(kind => {
+    measurements. Tap one to go there – today, or in the last year it stood; the arrow opens the buildings it holds.</p><div class="lmk-list">${(hooks.kinds ?? [...new Set(cat.map(g => g.kind))]).map(kind => {
       const gs = cat.map((g, gi) => ({ g, gi })).filter(x => x.g.kind === kind); if (!gs.length) return '';
       return `<section class="lmk-kind"><h4>${esc(kind)}</h4>${gs.map(({ g, gi }) => {
-      const rows = g.items.length ? g.items : [];
-      const btn = (r: Rec) => { const t = thumbOf(r);
-        return `<button class="lmk-item" data-id="${r.id}">${t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>'}
-          <span class="t"><b>${esc(r.name)}</b>${r.of ? `<em>${esc(r.of)}</em>` : ''}<small>${years(r)}</small></span></button>`; };
-      return rows.length ? rows.map(btn).join('')
-        : `<button class="lmk-item" data-g="${gi}">${(t => t ? `<img loading="lazy" src="./materials/${t}" alt="">` : '<span class="ph"></span>')(materialsFor([`rec:${g.title}`])[0]?.thumb)}<span class="t"><b>${esc(g.title)}</b><small>${fmtYear(g.from)} → today</small></span></button>`;
+      const gthumb = materialsFor(g.subjects ?? [`rec:${g.title}`])[0]?.thumb;
+      const img = (t?: string) => `<img loading="lazy" src="./materials/${t ?? gthumb}" alt="">`;
+      const btn = (r: Rec, sub = false) => `<button class="lmk-item${sub ? ' sub' : ''}" data-id="${r.id}">${(thumbOf(r) ?? gthumb) ? img(thumbOf(r)) : '<span class="ph"></span>'}
+          <span class="t"><b>${esc(r.name)}</b>${r.of ? `<em>${esc(r.of)}</em>` : ''}<small>${years(r)}</small></span></button>`;
+      const headBtn = g.head && g.items.length ? btn(g.items[0])
+        : `<button class="lmk-item" data-g="${gi}">${gthumb ? img() : '<span class="ph"></span>'}<span class="t"><b>${esc(g.title)}</b><small>${fmtYear(g.from)} → today</small></span></button>`;
+      const kids = (g.head ? g.items.slice(1) : g.items);
+      return `<div class="lmk-group">${kids.length ? `<div class="lmk-row">${headBtn}<button class="lmk-more" data-k="${gi}" aria-expanded="false" title="${kids.length} more">▸</button></div>
+        <div class="lmk-sub" hidden>${kids.map(r => btn(r, true)).join('')}</div>` : headBtn}</div>`;
     }).join('')}</section>`; }).join('')}</div>`; };
   renderLmk();
   lmk.onclick = ev => {
+    const more = (ev.target as HTMLElement).closest<HTMLElement>('.lmk-more');
+    if (more) { const sub = more.parentElement!.nextElementSibling as HTMLElement, open = sub.hidden; sub.hidden = !open;
+      more.setAttribute('aria-expanded', String(open)); more.textContent = open ? '▾' : '▸'; return; }
     const b = (ev.target as HTMLElement).closest<HTMLElement>('.lmk-item'); if (!b) return;
     if (b.dataset.id) {
       const r = recs[+b.dataset.id]; const y = r.end == null ? 2026 : r.end - 1;

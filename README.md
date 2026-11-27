@@ -62,6 +62,8 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/PIAZZA-SMN.md](docs/landmarks/PIAZZA-SMN.md) | Landmark model: Piazza Santa Maria Novella – obelisks (1608), lawns, benches |
 | [docs/landmarks/BIBLIOTECA.md](docs/landmarks/BIBLIOTECA.md) | Landmark model: Biblioteca Nazionale Centrale (1911–35) |
 | [docs/landmarks/PIAZZALE.md](docs/landmarks/PIAZZALE.md) | Landmark model: Piazzale Michelangelo, the Loggia and the Rampe del Poggi (1869–76) |
+| [docs/landmarks/BORSA.md](docs/landmarks/BORSA.md) | Landmark model: Palazzo della Borsa (1858–60) |
+| [docs/landmarks/CANOTTIERI.md](docs/landmarks/CANOTTIERI.md) | Landmark model: Società Canottieri Firenze, the terrace under the Uffizi (1933) |
 | [docs/landmarks/LOGGIA-DEL-PESCE.md](docs/landmarks/LOGGIA-DEL-PESCE.md) | Landmark model: the Loggia del Pesce, in the Mercato Vecchio and in Piazza dei Ciompi |
 | [docs/landmarks/ANNUNZIATA.md](docs/landmarks/ANNUNZIATA.md) | Landmark model: Piazza Santissima Annunziata (Innocenti, Loggia dei Servi, the church) |
 | [docs/REFINEMENTS.md](docs/REFINEMENTS.md) | Refinement list: the open points of every landmark model, gathered from their review lists |

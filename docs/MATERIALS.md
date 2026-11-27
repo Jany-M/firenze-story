@@ -143,3 +143,11 @@ season, the urban raster (8 m) is coarse at street edges.
 - The Comune's surface codes (`acPedFon`, `acVeiFon`) are read on Florence's own data only: the 2017 orthophoto inside
   each polygon (`_dev/tmp/fon_check.py`): 0101 / 0102 / 0505 / 0506 grey (paved, ≤ 4 % green), 0201 / 0202 yellow-grey with
   17 % green (earth and grass, left out).
+
+## Rounder ground (2026-11-28)
+The LiDAR terrain is a 4 m grid, so slopes read as straight facets meeting at sharp corners. In the app
+(`web/src/scene/terrainRefine.ts`) it is first softened – each point moves 60 % of the way to its neighbours' weighted mean,
+but only where that mean is within a metre of it, so gentle slopes and shoulders round off while real breaks (the river's
+bed, the lungarni's walls, terraces, steps) stay as measured – then resampled at 2 m with Catmull-Rom splines through the
+points, clamped to each cell's own range (no ringing at a wall's foot). The same grid serves the mesh and every height
+lookup (people, props, boats). The low device tier keeps the 4 m grid (softened only).

@@ -61,6 +61,8 @@ SITES = {
     # the Biblioteca Nazionale Centrale (way 102979687): its front on Piazza dei Cavalleggeri (south), from the west corner
     # by the rotunda on Via Magliabechi to the east corner on Via Tripoli
     "biblioteca": {"A": (514.9, 504.6), "B": (645.0, 529.0), "ways": [102979687], "rels": []},
+    # Palazzo della Borsa (relation 1602101): its front on the Lungarno Diaz (south), from the west corner
+    "borsa": {"A": (115.4, 480.0), "B": (201.7, 500.0), "ways": [], "rels": [1602101]},
 }
 ONLY = sys.argv[1:]                                                  # e.g. `47_moderni.py biblioteca`: redo one site, keep the rest
 def outline(kind, i):

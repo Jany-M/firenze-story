@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 270 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 282 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -1203,6 +1203,66 @@ All 270 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade](/materials/landmarks/thumbs/rampe-del-poggi-veduta-05.jpg)](/materials/landmarks/rampe-del-poggi-veduta-05.jpg)
 <figcaption markdown>A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade<br><small>sailko · 2013-07-26 16:18:08 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Rampe_del_poggi,_veduta_05.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Giuliano da Sangallo&#x27;s octagonal sacristy (1489–92)](/materials/landmarks/thumbs/santo-spirito-sagrestia-di-giuliano-da-sangallo-01.jpg)](/materials/landmarks/santo-spirito-sagrestia-di-giuliano-da-sangallo-01.jpg)
+<figcaption markdown>Giuliano da Sangallo&#x27;s octagonal sacristy (1489–92)<br><small>sailko · 2008-02-16 12:32:05 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Santo_Spirito,_sagrestia_di_giuliano_da_sangallo_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The entrance to the old refectory of Santo Spirito, the Cenacolo](/materials/landmarks/thumbs/cenacolo-di-santo-spirito-ingresso.jpg)](/materials/landmarks/cenacolo-di-santo-spirito-ingresso.jpg)
+<figcaption markdown>The entrance to the old refectory of Santo Spirito, the Cenacolo<br><small>sailko · 2009-09-27 04:03:23 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Cenacolo_di_santo_spirito,_ingresso.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Torrino di Santa Rosa on the Lungarno Soderini, rebuilt in 1856](/materials/landmarks/thumbs/torrino-di-santa-rosa-01.jpg)](/materials/landmarks/torrino-di-santa-rosa-01.jpg)
+<figcaption markdown>The Torrino di Santa Rosa on the Lungarno Soderini, rebuilt in 1856<br><small>sailko · 2012-09-07 10:02:33 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Torrino_di_santa_rosa_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Torre della Serpe, a tower of the city walls](/materials/landmarks/thumbs/torre-della-serpe-01.jpg)](/materials/landmarks/torre-della-serpe-01.jpg)
+<figcaption markdown>The Torre della Serpe, a tower of the city walls<br><small>sailko · 2008-05-31 17:04:55 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Torre_della_serpe_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Porta a Pinti in 1880, before its demolition – painting by Odoardo Borrani](/materials/landmarks/thumbs/old-entrance-gate-in-pinti-1880-by-odoardo-borrani.jpg)](/materials/landmarks/old-entrance-gate-in-pinti-1880-by-odoardo-borrani.jpg)
+<figcaption markdown>Porta a Pinti in 1880, before its demolition – painting by Odoardo Borrani<br><small>Odoardo Borrani · 1880 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Old_entrance_gate_in_Pinti_(1880),_by_Odoardo_Borrani.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The front on the Lungarno Diaz with the pronaos and pediment, the Palazzo Vecchio behind](/materials/landmarks/thumbs/palazzo-della-borsa-firenze-01.jpg)](/materials/landmarks/palazzo-della-borsa-firenze-01.jpg)
+<figcaption markdown>The front on the Lungarno Diaz with the pronaos and pediment, the Palazzo Vecchio behind<br><small>sailko · 2009-09-27 07:14:34 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_della_borsa,_firenze,_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![From across the Arno: the long front between the Uffizi and the Ponte alle Grazie](/materials/landmarks/thumbs/palazzo-della-borsa-firenze.jpg)](/materials/landmarks/palazzo-della-borsa-firenze.jpg)
+<figcaption markdown>From across the Arno: the long front between the Uffizi and the Ponte alle Grazie<br><small>Sailko · 2007-05-07 18:52:30 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_della_borsa_firenze.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The terrace on the Arno under the Uffizi&#x27;s corbelled loggia, chairs on the lawn, the Ponte Vecchio beyond](/materials/landmarks/thumbs/firenze-societ-canottieri-terrazza-sull-arno-01.jpg)](/materials/landmarks/firenze-societ-canottieri-terrazza-sull-arno-01.jpg)
+<figcaption markdown>The terrace on the Arno under the Uffizi&#x27;s corbelled loggia, chairs on the lawn, the Ponte Vecchio beyond<br><small>Francesco Bini · 2023-09-24 10:40:15 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_societ%C3%A0_canottieri,_terrazza_sull%27arno_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The path along the river wall and the lawn, under the Uffizi&#x27;s west end](/materials/landmarks/thumbs/firenze-societ-canottieri-terrazza-sull-arno-03.jpg)](/materials/landmarks/firenze-societ-canottieri-terrazza-sull-arno-03.jpg)
+<figcaption markdown>The path along the river wall and the lawn, under the Uffizi&#x27;s west end<br><small>Francesco Bini · 2023-09-24 10:41:30 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_societ%C3%A0_canottieri,_terrazza_sull%27arno_03.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The steps by the club&#x27;s door and the flagpole by the water](/materials/landmarks/thumbs/firenze-societ-canottieri-terrazza-sull-arno-05.jpg)](/materials/landmarks/firenze-societ-canottieri-terrazza-sull-arno-05.jpg)
+<figcaption markdown>The steps by the club&#x27;s door and the flagpole by the water<br><small>Francesco Bini · 2023-09-24 10:42:21 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_societ%C3%A0_canottieri,_terrazza_sull%27arno_05.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The club&#x27;s door in the white wall: the sign, the clock, the tablets](/materials/landmarks/thumbs/firenze-societ-canottieri-terrazza-sull-arno-ingresso-01.jpg)](/materials/landmarks/firenze-societ-canottieri-terrazza-sull-arno-ingresso-01.jpg)
+<figcaption markdown>The club&#x27;s door in the white wall: the sign, the clock, the tablets<br><small>Francesco Bini · 2023-09-24 10:43:09 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_societ%C3%A0_canottieri,_terrazza_sull%27arno,_ingresso_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The green door on the Lungarno Anna Maria Luisa de&#x27; Medici 8, the way in from the street](/materials/landmarks/thumbs/lungarno-anna-maria-luisa-de-medici-8-societ-dei-canottieri-firenze-01.jpg)](/materials/landmarks/lungarno-anna-maria-luisa-de-medici-8-societ-dei-canottieri-firenze-01.jpg)
+<figcaption markdown>The green door on the Lungarno Anna Maria Luisa de&#x27; Medici 8, the way in from the street<br><small>Sailko · 2021-04-15 15:11:28 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Lungarno_anna_maria_luisa_de%27_medici_8,_societ%C3%A0_dei_canottieri_firenze_01.jpg)</small></figcaption>
 </figure>
 
 </div>

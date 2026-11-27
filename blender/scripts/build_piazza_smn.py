@@ -7,7 +7,7 @@ two steps, a pedestal of pietra forte with polished breccia panels (renewed in t
 tortoises at the corners carrying the veined marble shaft, a bronze Florentine lily on top (added in the 1790s).
 Height ≈10 m (LiDAR 2023: north obelisk 10.0 m over the ground).
 Lawns: eight beds in two point-symmetric ovals, traced from the 2017 orthophoto (pipeline/48_piazza_smn.py), with a low
-clipped hedge along the edge; not in the 19th-century photographs (bare square) – laid out in the 20th century, year *inferred*.
+flat straight-sided beds flush with the paving (photographs, 2010s); not in the 19th-century photographs (bare square) – laid out in the 20th century, year *inferred*.
 Benches: pietra serena benches on the paving round the lawns (*inferred*).
 Run: blender -b --factory-startup --python blender/scripts/build_piazza_smn.py
 """
@@ -26,6 +26,7 @@ MAT["veined"] = material("marble_veined", None, (0.86, 0.84, 0.8), 0.45)
 MAT["hedge"] = material("box_hedge", None, (0.13, 0.26, 0.11), 0.95)
 MAT["wood"] = material("wood_painted", None, (0.55, 0.43, 0.3), 0.85)
 extra_materials()
+MAT["lawn"] = material("lawn_mown", None, (0.16, 0.33, 0.09), 0.95)            # a well-watered lawn, greener than the default
 NOW = K.NOW
 D = json.load(open(os.path.join(ROOT, "blender", "data", "piazza_smn.json"), encoding="utf-8"))
 ux, uz = D["axis"]; AXIS = Vector((ux, -uz, 0)).normalized(); NRM = Vector((-AXIS.y, AXIS.x, 0))
@@ -87,9 +88,18 @@ def hedge(part, pts, g, w=0.35, h=0.45):
         F = Frame(Vs(x0, z0), Vector((ux_, -uz_, 0)), n)
         box(bm_for(part, "hedge"), F, 0, L, g + 0.12, g + 0.12 + h, 0.05, 0.05 + w)
 
-for L in D["lawns"]:
-    bed(f"prati@{LAWNS}-{NOW}", L["pts"], L["ground"] + 0.02, curb=0.12, rail=False)
-    hedge(f"prati@{LAWNS}-{NOW}", L["pts"], L["ground"] + 0.02)
-for b in D["benches"]:
-    bench(f"panchine@{LAWNS}-{NOW}", b["c"], b["ang"], b["ground"], L=3.0)
+def lawn(part, pts, gs, top=0.06):
+    """A lawn flush with the sloping paving: every corner at its own ground + top, a stone edge down into the ground."""
+    P = list(zip(pts, gs))
+    if sum(P[i - 1][0][0] * P[i][0][1] - P[i][0][0] * P[i - 1][0][1] for i in range(len(P))) < 0: P = P[::-1]
+    poly(bm_for(part, "lawn"), [Vs(x, z, g + top) for (x, z), g in P][::-1])
+    for ((x0, z0), g0), ((x1, z1), g1) in zip(P, P[1:] + P[:1]):
+        poly(bm_for(part, "serena"), [Vs(x0, z0, g0 - 0.15), Vs(x1, z1, g1 - 0.15), Vs(x1, z1, g1 + top), Vs(x0, z0, g0 + top)][::-1])
+for L in D["lawns"]:                                               # flush with the paving, a thin stone edge, no hedge
+    lawn(f"prati@{LAWNS}-{NOW}", L["pts"], L.get("gpts") or [L["ground"]] * len(L["pts"]))
+for k, b in enumerate(D["benches"]):                               # long low benches: stone base, a wooden top on some
+    u = Vector((math.cos(b["ang"]), math.sin(b["ang"]), 0)); n = Vector((-u.y, u.x, 0))
+    F = Frame(Vs(*b["c"]) - u * 2.6, u, n); g = b["ground"]
+    box(bm_for(f"panchine@{LAWNS}-{NOW}", "serena"), F, 0, 5.2, g - 0.05, g + 0.38, -0.35, 0.35)
+    if k % 2 == 0: box(bm_for(f"panchine@{LAWNS}-{NOW}", "wood" if "wood" in MAT else "serena"), F, 0.1, 5.1, g + 0.38, g + 0.46, -0.33, 0.33)
 K.export("piazza_smn")

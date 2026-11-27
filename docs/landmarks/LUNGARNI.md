@@ -93,6 +93,17 @@ read through it).
   shows the wall from 1865.
 - **The Lungarno Corsini's parapet in 1966:** which stretch fell is not given; the model's 120 m is *inferred*.
 
+### Revisions of 2026-11-28 (Jany's review)
+- **Banks kept as banks**: the wall's face is found at the top of the big step out of the river (within 2.5 m of the street's
+  level) – a road rising gently to the houses (the Lungarno Torrigiani climbs ≈2 m) is street, not a second wall – and a
+  shelf of bank at the wall's foot (dry ground more than half a metre over the water for 4 m or more: grass strips, the
+  Canottieri's terrace under the Uffizi) stays in front of the wall instead of being covered by it.
+- **The Vasari Corridor on the Lungarno degli Archibusieri** stands on the river wall itself: the wall's face follows the
+  corridor's river face (its run from `blender/data/corridoio.json`), the parapet runs along its foot and the street passes
+  under its arches – no road between the corridor and the river (photographs).
+- **Bridge landings**: the parapet opens where a bridge lands, for that bridge's years (the plan rings and dates of
+  `web/public/data/streets.json`), so the street runs onto the deck instead of being cut across by the spalletta.
+
 ## Review list
 - The medieval dates (1287, 1290) come from the chronicles as summarised in guides; find the primary citations (Villani).
 - The Lungarno Guicciardini, Corsini, Vespucci and Soderini dates are *inferred*.

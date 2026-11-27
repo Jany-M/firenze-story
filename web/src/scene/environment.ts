@@ -1,6 +1,7 @@
 // Landscape: core terrain (LiDAR) + 12 km ring (Copernicus), ground by era (fields, meadows, earth, paving, today's
 // surfaces), the Arno with its reaches and pescaie, dated bridge phases, vegetation that disappears when the ground
 // gets built on. Everything year-dependent is decided on the GPU from uYear.
+import { terrainGrid } from './terrainRefine';
 import * as THREE from 'three/webgpu';
 import {
   Fn, uniform, texture, vec2, vec3, vec4, mix, positionWorld, positionLocal, dot, select, float, smoothstep, hash, fract, step,
@@ -24,7 +25,7 @@ const noise2: any = Fn(([p]: any) => {
 });
 const fbm = (p: any): any => noise2(p).mul(0.55).add(noise2(p.mul(2.03)).mul(0.3)).add(noise2(p.mul(4.1)).mul(0.15));
 
-export async function loadEnvironment(base: string, meta: any, ortho: THREE.Texture, blank: THREE.Texture, tex: TexSet, opts: { treeShare?: number; anisotropy?: number } = {}) {
+export async function loadEnvironment(base: string, meta: any, ortho: THREE.Texture, blank: THREE.Texture, tex: TexSet, opts: { treeShare?: number; anisotropy?: number; terrainUp?: number } = {}) {
   const group = new THREE.Group();
   const coreHalf = ((meta.terrain.n - 1) * meta.terrain.step) / 2;           // 1000 m
   const W = meta.wide, wideHalf = W.half;
@@ -160,8 +161,8 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   groundMat.colorNode = ground;
 
   // ---------- core terrain (4 m) with a skirt that hides the seam to the 40 m ring ----------
-  const h = await bin(`${base}/terrain.f32`, Float32Array);
-  const n = meta.terrain.n, size = coreHalf * 2;
+  const TG = terrainGrid(await bin(`${base}/terrain.f32`, Float32Array), meta.terrain.n, meta.terrain.step, opts.terrainUp ?? 2);
+  const h = TG.h, n = TG.n, size = coreHalf * 2, tstep = TG.step;
   const tg = new THREE.PlaneGeometry(size, size, n - 1, n - 1); tg.rotateX(-Math.PI / 2);
   const p = tg.getAttribute('position') as THREE.BufferAttribute;
   for (let i = 0; i < p.count; i++) p.setY(i, h[i]);
@@ -172,7 +173,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const sk: number[] = [], idx: number[] = []; const e = [] as number[][];
     for (let i = 0; i < n; i++) e.push([i, 0]); for (let j = 1; j < n; j++) e.push([n - 1, j]);
     for (let i = n - 2; i >= 0; i--) e.push([i, n - 1]); for (let j = n - 2; j > 0; j--) e.push([0, j]);
-    e.forEach(([i, j], k) => { const x = -coreHalf + i * meta.terrain.step, z = -coreHalf + j * meta.terrain.step, y = h[j * n + i];
+    e.forEach(([i, j], k) => { const x = -coreHalf + i * tstep, z = -coreHalf + j * tstep, y = h[j * n + i];
       sk.push(x, y, z, x, y - 8, z); const a = k * 2, b = ((k + 1) % e.length) * 2; idx.push(a, b, a + 1, b, b + 1, a + 1); });
     const sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.Float32BufferAttribute(sk, 3)); sg.setIndex(idx); sg.computeVertexNormals();
     group.add(new THREE.Mesh(sg, groundMat));
@@ -245,7 +246,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const axis: number[][] = (await (await fetch(`${base}/river.json`)).json()).axis;
   const levelAt = (x: number) => { let i = 0; while (i < axis.length - 2 && axis[i + 1][0] < x) i++;
     const [a, b2] = [axis[i], axis[i + 1]], t = Math.min(1, Math.max(0, (x - a[0]) / (b2[0] - a[0]))); return a[1] + (b2[1] - a[1]) * t; };
-  const groundAt = makeHeight(meta, h, hw);
+  const groundAt = makeHeight({ ...meta, terrain: { n, step: tstep } }, h, hw);
   const bmats = bridgeMaterials(tex) as Record<string, THREE.Material>;
   const bridges: { mesh: THREE.Object3D; x: number; start: number; end: number; name: string; kind: string }[] = [];
   for (const b of meta.streets.bridges) {
@@ -306,7 +307,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     for (const b of bridges) b.mesh.visible = year >= b.start && year < b.end;
     for (const w of weirs) w.mesh.visible = year >= w.start && year < w.end;
   }
-  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T };
+  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG };
 }
 
 /** Terrain height lookup for agents and props: LiDAR core grid, 40 m ring outside it. */

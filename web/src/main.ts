@@ -27,17 +27,15 @@ import { walk } from './sim/walk';
 const LMK_KINDS = ['Churches and places of worship', 'Palazzi', 'Squares, loggias and markets', 'Bridges and the river', 'Walls and gates', 'Gardens and forts', 'Public buildings'];
 const LMK_KIND: Record<string, string> = {
   duomo: LMK_KINDS[0], campanile: LMK_KINDS[0], baptistery: LMK_KINDS[0], santa_croce: LMK_KINDS[0], santa_maria_novella: LMK_KINDS[0], san_lorenzo: LMK_KINDS[0],
-  santo_spirito: LMK_KINDS[0], san_marco: LMK_KINDS[0], carmine: LMK_KINDS[0], felicita: LMK_KINDS[0], miniato: LMK_KINDS[0], annunziata: LMK_KINDS[0], sinagoga: LMK_KINDS[0], orsanmichele: LMK_KINDS[0],
+  santo_spirito: LMK_KINDS[0], san_marco: LMK_KINDS[0], carmine: LMK_KINDS[0], felicita: LMK_KINDS[0], miniato: LMK_KINDS[0], sinagoga: LMK_KINDS[0], orsanmichele: LMK_KINDS[0],
   palazzo_vecchio: LMK_KINDS[1], bargello: LMK_KINDS[1], uffizi: LMK_KINDS[1], medici_riccardi: LMK_KINDS[1], pitti: LMK_KINDS[1], strozzi: LMK_KINDS[1],
-  repubblica: LMK_KINDS[1], antella: LMK_KINDS[1], corridoio: LMK_KINDS[1],
-  loggia_lanzi: LMK_KINDS[2], loggia_pesce: LMK_KINDS[2], mercato_centrale: LMK_KINDS[2], piazza_smn: LMK_KINDS[2], piazzale: LMK_KINDS[2],
-  ponte_vecchio: LMK_KINDS[3], lungarni: LMK_KINDS[3], mura: LMK_KINDS[4], boboli: LMK_KINDS[5],
+  repubblica: LMK_KINDS[1], antella: LMK_KINDS[1], corridoio: LMK_KINDS[1], borsa: LMK_KINDS[1],
+  annunziata: LMK_KINDS[2], loggia_lanzi: LMK_KINDS[2], loggia_pesce: LMK_KINDS[2], mercato_centrale: LMK_KINDS[2], piazza_smn: LMK_KINDS[2], piazzale: LMK_KINDS[2],
+  ponte_vecchio: LMK_KINDS[3], lungarni: LMK_KINDS[3], canottieri: LMK_KINDS[3], mura: LMK_KINDS[4], boboli: LMK_KINDS[5],
   stazione_smn: LMK_KINDS[6], leopolda: LMK_KINDS[6], teatro_maggio: LMK_KINDS[6], murate: LMK_KINDS[6], biblioteca: LMK_KINDS[6],
 };
 /** Where to go for a model that holds no single building of its own (the river walls, the square's obelisks and lawns). */
-const LMK_AT: Record<string, [number, number]> = { piazza_smn: [-466.75, -183], lungarni: [-100, 440], piazzale: [818.5, 976.5] };
-const lmkKindOf = (n: string) => /^(Porta |Torre |Torrino |Arco )/.test(n) ? LMK_KINDS[4] : /^(Loggia |Mercato |Obelisk|Spedale )/.test(n) ? LMK_KINDS[2]
-  : /^(Kaffeehaus|Grotta|Forte |Palazzina della Meridiana)/.test(n) ? LMK_KINDS[5] : /^(Stazione |Palazzina Reale)/.test(n) ? LMK_KINDS[6] : null;
+const LMK_AT: Record<string, [number, number]> = { piazza_smn: [-466.75, -183], lungarni: [-100, 440], piazzale: [818.5, 976.5], canottieri: [30, 467] };
 /** 'MM-DD' → fraction of the year, for parts dated to the day (landmark names "part@1504_160-…"). */
 const dayFrac = (d: string) => { const [m, dd] = (d || '01-01').split('-').map(Number); return (([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][m - 1] ?? 0) + dd - 1) / 366; };
 
@@ -102,10 +100,10 @@ async function main() {
   const tlEl = document.getElementById('timeline')!;
   scene.add(mesh);
   say('Terrain, river, bridges and trees');
-  const env = await loadEnvironment(DATA, meta, ortho, blank, mtex, { treeShare: q.treeShare, anisotropy: q.anisotropy });
+  const env = await loadEnvironment(DATA, meta, ortho, blank, mtex, { treeShare: q.treeShare, anisotropy: q.anisotropy, terrainUp: q.tier === 'low' ? 1 : 2 });
   scene.add(env.group);
-  const [H, HW] = await Promise.all(['terrain', 'wide'].map(async n => new Float32Array(await (await fetch(`${DATA}/${n}.f32`)).arrayBuffer())));
-  const height = makeHeight(meta, H, HW);
+  const HW = new Float32Array(await (await fetch(`${DATA}/wide.f32`)).arrayBuffer());
+  const height = makeHeight({ ...meta, terrain: { n: env.grid.n, step: env.grid.step } }, env.grid.h, HW);   // the same rounded grid as the ground mesh
   const statues = createStatues(scene, height); statues.update(state.year);
   done(`${meta.trees.count.toLocaleString()} trees`);
   say('People and costumes');
@@ -126,7 +124,7 @@ async function main() {
   const view = createViewControls(camera, controls, renderer.domElement);
   say('River life: boats, fishermen, birds');
   const riverAxis = (await (await fetch(`${DATA}/river.json`)).json()).axis;
-  const river = createRiver(scene, props, riverPeople, height, riverAxis, env.bridges, env.weirs.map((w: any) => w.mesh.userData), env.water.geometry);
+  const river = createRiver(scene, props, riverPeople, height, riverAxis, env.bridges, env.weirs.map((w: any) => w.mesh.userData), env.water.geometry, streets.nodes);
   const splats = createSplats(scene, () => controls.target.clone(), toast);
 
   // ---- camera helpers ----
@@ -206,17 +204,15 @@ async function main() {
     ],
     // the Landmarks tab: every hand-built model and each building it holds, with its record (card, place, years)
     kinds: LMK_KINDS,
-    // grouped by kind (each building by its own kind: a gate in the walls' model is a gate, the Kaffeehaus a garden building)
+    // one entry per model, under its kind: the model's own building first, the buildings it holds folded under it
     catalogue: LANDMARKS.flatMap(l => {
       const head = [l.title, ...l.replaces].find(n => n && recs.some(r => r.name === n)) ?? l.title ?? l.replaces[0];   // the model's own record (not its aliases)
       const names = [...new Set([head, ...(l.members ?? []).map(m => m.name)].filter(Boolean) as string[])];
       const items = [...new Set(names.map(n => recs.find(r => r.name === n)).filter((r): r is Rec => !!r))];
-      const base = LMK_KIND[l.file] ?? 'Public buildings', title = l.title ?? l.replaces[0] ?? items[0]?.name ?? l.file;
-      const at = l.at[0] || l.at[1] ? l.at : LMK_AT[l.file] ?? null, from = l.from ?? 1300;
-      if (!items.length) return at ? [{ kind: base, title, items, at, from }] : [];
-      const by = new Map<string, Rec[]>();
-      for (const r of items) { const k = lmkKindOf(r.name) ?? base; by.set(k, [...(by.get(k) ?? []), r]); }
-      return [...by].map(([kind, rs]) => ({ kind, title, items: rs, at, from }));
+      const title = l.title ?? l.replaces[0] ?? items[0]?.name ?? l.file, at = l.at[0] || l.at[1] ? l.at : LMK_AT[l.file] ?? null;
+      const subjects = [...new Set([title, title.split(':')[0], ...l.replaces, ...items.map(r => r.name)])].map(n => `rec:${n}`);
+      if (!items.length && !at) return [];
+      return [{ kind: LMK_KIND[l.file] ?? 'Public buildings', title, items, at, from: l.from ?? 1300, subjects, head: !!(items[0] && items[0].name === head) }];
     }) });
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
   let laidMap = '';                         // the overlay on the ground now ("auto" follows the year)

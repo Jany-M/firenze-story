@@ -37,6 +37,34 @@ D = json.load(open(os.path.join(ROOT, "blender", "data", "lungarni.json"), encod
 W = lambda x, z, h: Vector((x, -z, h))
 PH, PT = 1.0, 0.6                      # parapet height and thickness
 
+# The bridges (web/public/data: plan rings by phase, years): where a bridge lands on the lungarno the parapet opens for the
+# bridge's years – the street runs onto the deck, it is never cut across by the spalletta.
+import numpy as np
+_SJ = json.load(open(os.path.join(ROOT, "web", "public", "data", "streets.json"), encoding="utf-8"))["bridges"]
+_BP = np.fromfile(os.path.join(ROOT, "web", "public", "data", "bridges.pos.bin"), np.float32).reshape(-1, 3)
+BRIDGE_RINGS = [(b["name"], b["start"], b["end"] if b["end"] is not None else NOW, _BP[b["base"]:b["base"] + b["count"]][:, [0, 2]]) for b in _SJ]
+def _inside(x, z, P):
+    c = False
+    for i in range(len(P)):
+        (xi, zi), (xj, zj) = P[i], P[i - 1]
+        if (zi > z) != (zj > z) and x < (xj - xi) * (z - zi) / (zj - zi) + xi: c = not c
+    return c
+def bridge_years(x, z, riv):
+    """[(from, to)] of the bridges landing at this point of the parapet (tested on it and 2 m out over the river, ±2.5 m along)."""
+    out = []
+    for name, a, b, ring in BRIDGE_RINGS:
+        if any(_inside(x + dx, z + riv * dz, ring) for dx in (-2.5, 0, 2.5) for dz in (0.0, 2.0)): out.append((a, b))
+    return out
+def minus(spans, holes):
+    for (ha, hb) in holes:
+        nxt = []
+        for (a, b) in spans:
+            if hb <= a or ha >= b: nxt.append((a, b)); continue
+            if a < ha: nxt.append((a, ha))
+            if hb < b: nxt.append((hb, b))
+        spans = nxt
+    return spans
+
 def densify(pts, step=5.0):
     out = []
     for a, b in zip(pts, pts[1:]):
@@ -113,7 +141,9 @@ for s in D["stretches"]:
             phases = [(s["from"], NOW)]
         # in front of the Uffizi's loggia the parapet is a stone balustrade (Oursana's photograph from across the Arno, 2013)
         balus = bank == "n" and BALUSTRADE[0] <= xm <= BALUSTRADE[1]
+        phases = minus(phases, bridge_years(xm, (z0 + z1) / 2, riv))
         for (a, b) in phases:
+            if a >= b: continue
             part = f"spalletta_{slug}@{a}-{b}"
             if balus:
                 for k in range(int(L / 0.32)):                                                  # balusters

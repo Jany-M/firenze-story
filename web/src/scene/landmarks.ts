@@ -164,6 +164,12 @@ export const LANDMARKS: LandmarkDef[] = [
     source: 'Landmark model v1 – Teatro del Maggio Musicale Fiorentino (Blender; OSM relation 3609352, LiDAR 2023, photographs; Paolo Desideri – ABDR, inaugurated 21 December 2011)' },
   { file: 'murate', title: 'Le Murate', from: 1424, replaces: ['ex Monastero delle Murate'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Le Murate (Blender; OSM relation 1609313, LiDAR 2023; convent 1424, prison 1883–1985, recovered from 2001)' },
+  // Palazzo della Borsa on the Lungarno Diaz (frame from pipeline/47_moderni.py): absolute scene coordinates
+  { file: 'borsa', title: 'Palazzo della Borsa', from: 1858, replaces: ['Palazzo della Borsa'], ids: [6314], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Palazzo della Borsa (Blender; OSM relation 1602101, LiDAR 2023; Michelangelo Maiorfi and Emilio De Fabris 1858–60; photographs, Commons)' },
+  // the Società Canottieri Firenze: its terrace on the bank under the Uffizi, absolute scene coordinates
+  { file: 'canottieri', title: 'Società Canottieri Firenze', from: 1933, replaces: [], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Società Canottieri Firenze, the terrace on the Arno (Blender; LiDAR 2023; seat under the Uffizi since 1933; photographs, Commons)' },
   // Piazzale Michelangelo, its Loggia and the Rampe del Poggi (Giuseppe Poggi 1869–76): absolute scene coordinates
   { file: 'piazzale', title: 'Piazzale Michelangelo', from: 1869, replaces: [], ids: [3996], at: [0, 0], rot: 0, ground: 0,   // 3996: the Loggia, dated 1955 in the city data
     members: [{ key: 'monumento_david', name: 'Monument to Michelangelo', from: 1873 }, { key: 'loggia', name: 'Loggia del Piazzale', from: 1873 }, { key: 'rampe', name: 'Rampe del Poggi', from: 1876 }],

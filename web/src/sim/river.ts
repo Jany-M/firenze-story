@@ -83,8 +83,29 @@ function waterGrid(geo: THREE.BufferGeometry | undefined) {
 }
 
 export function createRiver(scene: THREE.Scene, props: Props, people: People, height: Height, axis: Axis, bridges: { name: string; x: number }[], weirs: any[],
-  waterGeo?: THREE.BufferGeometry) {
+  waterGeo?: THREE.BufferGeometry, streetNodes: number[][] = []) {
   const group = new THREE.Group(); group.name = 'river-life'; scene.add(group);
+  // Can somebody get here? A spot on the bank is reachable if a street lies within 30 m at about its level (not 6 m up a
+  // lungarno wall), or if no street is near at all (the open fields and gravel banks outside the town).
+  const cells = new Map<string, number[][]>();
+  for (const n of streetNodes) { const k = `${Math.floor(n[0] / 20)},${Math.floor(n[2] / 20)}`; (cells.get(k) ?? cells.set(k, []).get(k)!).push(n); }
+  function reachable(x: number, z: number, y = height(x, z)) {
+    let near = false;
+    for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) for (const n of cells.get(`${Math.floor(x / 20) + i},${Math.floor(z / 20) + j}`) ?? []) {
+      const d = Math.hypot(n[0] - x, n[2] - z);
+      if (d < 60) near = true;
+      if (d < 30 && Math.abs(n[1] - y) < 2.2) return true;
+    }
+    return !near;
+  }
+  /** Rest a prop on the ground: at the ground's height under it, tilted with the slope (nothing hangs in the air or sinks). */
+  const _up = new THREE.Vector3(0, 1, 0), _n = new THREE.Vector3(), _q = new THREE.Quaternion();
+  function settle(o: THREE.Object3D, sink = 0.04, r = 0.7) {
+    const x = o.position.x, z = o.position.z, ry = o.rotation.y;
+    const hx = (height(x + r, z) - height(x - r, z)) / (2 * r), hz = (height(x, z + r) - height(x, z - r)) / (2 * r);
+    o.position.y = Math.min(height(x, z), height(x + r, z), height(x - r, z), height(x, z + r), height(x, z - r)) * 0.5 + height(x, z) * 0.5 - sink;
+    _n.set(-hx, 1, -hz).normalize(); _q.setFromUnitVectors(_up, _n); o.quaternion.copy(_q); o.rotateY(ry);
+  }
   const surface = waterGrid(waterGeo);
   const ax = axis.slice().sort((a, b) => a[0] - b[0]);
   const at = (x: number) => {               // interpolate the river axis at x
@@ -115,9 +136,9 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     const y = surface?.(x, z);                          // the drawn surface, not the interpolated axis (reaches step at the weirs)
     return new THREE.Vector3(x, y !== undefined && !Number.isNaN(y) ? y : p[1], z);
   }
-  const FLOOR_SMALL = 0.08;                            // a barchetto floats 0.1 m deep; its floorboards (0.18 m up the side) clear the water
+  const FLOOR_SMALL = 0.15;                            // a barchetto floats 0.1 m deep; its floorboards (0.18 m up the side) clear the water
   function placeOnWater(name: string, x: number, lane: number, rot = 0) {
-    const p = waterPos(x, lane); const o = props.place(name, p.x, p.y - 0.1, p.z, rot, group); if (o) statics.push(o); return o;   // small boats draw ~10 cm
+    const p = waterPos(x, lane); const o = props.place(name, p.x, p.y - 0.03, p.z, rot, group); if (o) statics.push(o); return o;   // small boats draw only a few cm, the sides well out
   }
   function onBank(x: number, north: boolean, out = 4) {
     const p = at(x), z = north ? p[3] - out : p[4] + out; return new THREE.Vector3(x, height(x, z), z);
@@ -137,7 +158,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   }
   function clear() {
     for (const o of [...statics, ...movers.filter(m => m.kind !== 'wade').map(m => m.obj), ...ducks.map(d => d.obj), ...grazers.map(g => g.obj)]) group.remove(o);
-    statics = []; movers = []; ducks = []; grazers = []; smoke.length = 0; ancientObjs = []; small = []; viewK = '';
+    statics = []; movers = []; ducks = []; workers.length = 0; grazers = []; smoke.length = 0; ancientObjs = []; small = []; viewK = '';
     for (const c of crew) people.release(c); crew = [];
   }
 
@@ -147,7 +168,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     const nav = inRange(year, RIVER_LIFE.navicelliCity) ? [xMin + 200, (bx.vecchio ?? 0) + 150] : inRange(year, RIVER_LIFE.navicelliPort) ? [xMin + 200, rosa - 80] : null;
     if (nav) for (let i = 0; i < 5; i++) {
       const o = props.place('navicello', 0, 0, 0, 0, group); if (!o) break;
-      const m: Mover = { obj: o, x: nav[0] + R() * (nav[1] - nav[0]), dir: R() < 0.5 ? 1 : -1, speed: 0.9 + R() * 0.6, x0: nav[0], x1: nav[1], lane: (R() - 0.5) * 0.6, crew: [], bob: R() * 6, kind: 'nav', draft: 0.28, floor: 0.36 };
+      const m: Mover = { obj: o, x: nav[0] + R() * (nav[1] - nav[0]), dir: R() < 0.5 ? 1 : -1, speed: 0.9 + R() * 0.6, x0: nav[0], x1: nav[1], lane: (R() - 0.5) * 0.6, crew: [], bob: R() * 6, kind: 'nav', draft: 0.2, floor: 0.36 };
       if (live) for (let k = 0; k < 2; k++) { const a = people.claim(new THREE.Vector3(), new THREE.Vector3(1, 0, 0), 'static', k ? 'idle' : 'agree', undefined, 'boatman'); if (a) { m.crew.push(a); crew.push(a); } }
       movers.push(m);
     }
@@ -164,7 +185,10 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     // fishermen: on the banks in every era – most sit on a stone with a rod, some stand; a few wade into the shallows;
     // boats between the weirs only until 1586, always outside them
     if (live) for (let i = 0; i < 9; i++) {
-      const x = (bx.carraia ?? -400) - 600 + R() * 1900, north = R() < 0.5, p = onBank(x, north, 1.2), w = waterPos(x, north ? -1 : 1);
+      let x = 0, north = false, p = new THREE.Vector3(), ok = false;
+      for (let t = 0; t < 6 && !ok; t++) { x = (bx.carraia ?? -400) - 600 + R() * 1900; north = R() < 0.5; p = onBank(x, north, 1.2); ok = reachable(p.x, p.z, p.y); }
+      if (!ok) continue;
+      const w = waterPos(x, north ? -1 : 1);
       const seated = i % 3 !== 2;
       const a = people.claim(p.clone(), waterPos(x, 0), 'static', 'idle', undefined, 'fisher'); if (!a) continue;
       crew.push(a);
@@ -206,12 +230,12 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       const big = boat === 'navicello', lane = north ? (big ? -0.74 : -0.8) : (big ? 0.74 : 0.8);
       for (let k = 0; k < n; k++) {
         const bxk = x + (k - (n - 1) / 2) * (big ? 15 : 7.5), q = waterPos(bxk, lane);
-        const b = props.place(boat, q.x, q.y - (big ? 0.28 : 0.1), q.z, 0, group); if (!b) continue; statics.push(b);
+        const b = props.place(boat, q.x, q.y - (big ? 0.2 : 0.03), q.z, 0, group); if (!b) continue; statics.push(b);
         const ah = waterPos(bxk + 5, lane); b.rotation.y = Math.atan2(-(ah.z - q.z), ah.x - q.x);
         if (big) b.children.forEach(c => { if (/sail/.test(c.name)) c.visible = false; });           // sail furled at the mooring
         else b.children.forEach(c => { if (/sand/.test(c.name)) c.visible = R() < 0.5; });
         if (live && k < crewN) {                        // unloading: one aboard, one on the landing
-          const fl = q.clone().setY(q.y - (big ? 0.28 : 0.1) + (big ? 0.36 : 0.18));
+          const fl = q.clone().setY(q.y - (big ? 0.2 : 0.03) + (big ? 0.36 : 0.18));
           const a = people.claim(fl, p, 'static', 'agree', undefined, 'boatman', true); if (a) { a.obj.position.copy(fl); crew.push(a); }
           const d = p.clone().setY(p.y + 0.15).add(new THREE.Vector3((k - 0.5) * 2, 0, 0));
           const c2 = people.claim(d, q, 'static', R() < 0.5 ? 'idle' : 'agree', undefined, 'boatman', true); if (c2) { c2.obj.position.copy(d); crew.push(c2); }
@@ -229,6 +253,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       for (let k = 0; k < 12; k++) {
         const x = x0 + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * 18;
         let ok = true; for (let d = -span / 2; d <= span / 2 && ok; d += 1.5) { const e = edge(x + d, north, out); if (walk.blocked(e.land.x, e.land.z, 0.6, false)) ok = false; }
+        if (ok) { const e = edge(x, north, out); ok = reachable(e.land.x, e.land.z, e.land.y); }
         if (ok) return x;
       }
       return null;
@@ -237,9 +262,11 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       const x = openBank(x0, north, 9, 0.55); if (x === null) continue;
       const e0 = edge(x, north, 0.2);
       // the slab slopes into the water (its front, +Z, towards the river); basket and spread linen behind on the bank
-      const l = props.place('laundry', e0.land.x, Math.max(e0.land.y, e0.water.y) - 0.05, e0.land.z, e0.dir > 0 ? Math.PI : 0, group); if (l) statics.push(l);
+      const l = props.place('laundry', e0.land.x, Math.max(e0.land.y, e0.water.y) - 0.05, e0.land.z, e0.dir > 0 ? Math.PI : 0, group); if (l) { settle(l, 0.03, 0.9); l.position.y = Math.max(l.position.y, e0.water.y - 0.05); statics.push(l); }
       if (live) for (let k = 0; k < 3 + (R() * 3 | 0); k++) {
-        const e = edge(x + (k - 2) * 1.5, north, 0.55), p = e.land, y = Math.max(p.y, e.water.y + 0.05);
+        const e = edge(x + (k - 2) * 1.5, north, 0.55), p = e.land;
+        const knees = height(p.x, p.z + e.dir * 0.25), feet = height(p.x, p.z - e.dir * 0.35);         // kneeling across the slope: knees and toes on the ground
+        const y = Math.max(Math.min(knees, feet) + 0.02, e.water.y + 0.05);
         const a = people.claim(p, e.water, 'static', k % 2 ? 'agree' : 'idle', undefined, outfitFor(year, true), true); if (!a) break;
         a.obj.position.set(p.x, y - 0.42, p.z); a.obj.lookAt(e.water.x, y - 0.42, e.water.z); people.setPose(a, 'kneel'); crew.push(a);
       }
@@ -248,12 +275,16 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     if (inRange(year, RIVER_LIFE.clay)) for (const [x0, north] of [[rosa - 520, false], [rosa - 760, true]] as [number, boolean][]) {
       const x = openBank(x0, north, 16, 8); if (x === null) continue;
       const h = onBank(x, north, 6), b = onBank(x + 7, north, 9);
-      const c = props.place('clayheap', h.x, h.y - 0.2, h.z, R() * 3, group); if (c) statics.push(c);
-      const k = props.place('bricks', b.x, b.y, b.z, north ? 0 : Math.PI, group); if (k) statics.push(k);
+      const c = props.place('clayheap', h.x, h.y - 0.2, h.z, R() * 3, group); if (c) { settle(c, 0.15, 1.2); statics.push(c); }
+      const k = props.place('bricks', b.x, b.y, b.z, north ? 0 : Math.PI, group); if (k) { settle(k, 0.02, 1.0); statics.push(k); }
       if (live) for (let i = 0; i < 3; i++) {
-        const p = i === 0 ? onBank(x - 2, north, 2.5) : onBank(x + 6 + i * 2.4, north, 8.2);
-        const a = people.claim(p, i === 0 ? h : b, 'static', i === 1 ? 'idle' : 'agree', undefined, 'boatman', true);
-        if (a) { a.obj.position.copy(p); a.obj.lookAt(i === 0 ? h.x : b.x, p.y, i === 0 ? h.z : b.z); crew.push(a); }
+        // one digs at the face of the bank, two carry clay up to the drying rows and come back, again and again
+        const p = i === 0 ? onBank(x - 2, north, 2.5) : onBank(x + 1 + i * 1.5, north, 5.5);
+        const a = people.claim(p, i === 0 ? h : b, i === 0 ? 'static' : 'runner', i === 0 ? 'idle' : 'walk', undefined, 'boatman', true);
+        if (!a) continue;
+        a.obj.position.set(p.x, height(p.x, p.z), p.z); a.obj.lookAt(i === 0 ? h.x : b.x, a.obj.position.y, i === 0 ? h.z : b.z); crew.push(a);
+        if (i === 0) workers.push({ ag: a, kind: 'dig', t: R() * 2, a: p, b: p });
+        else { const near = onBank(x + 1 + i * 1.2, north, 6.5), far = onBank(x + 6 + i * 2.4, north, 8.6); workers.push({ ag: a, kind: 'carry', t: i * 3, a: near, b: far }); }
       }
     }
     // ducks and herons (all periods)
@@ -378,6 +409,22 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
 
   const M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(1.5, 1.5, 1.5), P = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
   let t = 0;
+  /** Workers on the bank with a fixed round: diggers swing between two strokes, carriers walk to and fro with a pause at
+   *  each end (loading at the heap, setting bricks down at the rows). */
+  const workers: { ag: any; kind: 'dig' | 'carry'; t: number; a: THREE.Vector3; b: THREE.Vector3; leg?: number; wait?: number }[] = [];
+  function workerStep(dt: number) {
+    for (const w of workers) {
+      const ag = w.ag; if (!ag.obj.visible) continue;
+      w.t += dt;
+      if (w.kind === 'dig') { const ph = w.t % 1.6; people.setPose(ag, ph < 0.9 ? 'dig' : 'lift'); continue; }
+      if ((w.wait ?? 0) > 0) { w.wait! -= dt; if (w.wait! <= 0) { w.leg = (w.leg ?? 0) ^ 1; ag.target = (w.leg ? w.b : w.a).clone(); } continue; }
+      const goal = w.leg ? w.b : w.a;
+      if (!ag.target) ag.target = goal.clone();
+      (ag as any).pace = 1.1;
+      if (Math.hypot(ag.obj.position.x - goal.x, ag.obj.position.z - goal.z) < 0.7) { w.wait = 1.8 + R() * 1.5; ag.target = undefined; people.anim(ag, 'idle'); }
+      ag.obj.position.y = height(ag.obj.position.x, ag.obj.position.z);
+    }
+  }
   /** alt: camera height over the view's target. Wide, high views drop the river life: the small animals first, then the
    *  boats (nothing of it would show but a few pixels, and it all costs draw calls). */
   const BOATS_ALT = 1400, SMALL_ALT = 450;
@@ -389,6 +436,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     if (vk !== viewK) { viewK = vk; const on = alt < SMALL_ALT; for (const o of small) o.visible = on; for (const d of ducks) d.obj.visible = on; }
     if (!group.visible) return;
     t += dt;
+    workerStep(dt);
     for (const m of movers) {
       if (m.kind === 'nav') {
         m.x += m.dir * m.speed * dt; if (m.x > m.x1 || m.x < m.x0) { m.dir *= -1; m.x = Math.min(m.x1, Math.max(m.x0, m.x)); }

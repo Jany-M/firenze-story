@@ -44,6 +44,16 @@ it is still the plain, curving front that closes the square today.
 <figcaption markdown>The fountain of Piazza Santo Spirito (1660, in the square since 1812)<br><small>Francesco Bini · 2025-01-10 13:36:52 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_santo_spirito,_fontana_01.jpg)</small></figcaption>
 </figure>
 
+<figure markdown>
+[![Giuliano da Sangallo&#x27;s octagonal sacristy (1489–92)](/materials/landmarks/thumbs/santo-spirito-sagrestia-di-giuliano-da-sangallo-01.jpg)](/materials/landmarks/santo-spirito-sagrestia-di-giuliano-da-sangallo-01.jpg)
+<figcaption markdown>Giuliano da Sangallo&#x27;s octagonal sacristy (1489–92)<br><small>sailko · 2008-02-16 12:32:05 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Santo_Spirito,_sagrestia_di_giuliano_da_sangallo_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The entrance to the old refectory of Santo Spirito, the Cenacolo](/materials/landmarks/thumbs/cenacolo-di-santo-spirito-ingresso.jpg)](/materials/landmarks/cenacolo-di-santo-spirito-ingresso.jpg)
+<figcaption markdown>The entrance to the old refectory of Santo Spirito, the Cenacolo<br><small>sailko · 2009-09-27 04:03:23 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Cenacolo_di_santo_spirito,_ingresso.JPG)</small></figcaption>
+</figure>
+
 </div>
 <!-- /gallery -->
 

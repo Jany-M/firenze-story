@@ -80,7 +80,7 @@ export function createSquares(scene: THREE.Scene, props: Props, people: People, 
       const a = people.claim(p, face, 'static', anim, undefined, outfit, placed); if (a) site.ags.push(a); return a;
     };
     const day = hour >= 7 && hour < 21 ? 1 : 0.3, area = q.len * q.wid * 0.75;
-    const n = Math.round(Math.max(8, Math.min(64, (area / 22) * day)));
+    const n = Math.round(Math.max(6, Math.min(52, (area / 27) * day)));   // a little thinner than before (Jany, 2026-11-28)
     // benches along the edges of the square, facing in
     const bench = year < 1400 ? ['bench'] : year < 1850 ? ['bench_stone', 'bench_stone', 'bench'] : ['bench_park', 'bench_park', 'bench_stone'];
     let benches = Math.max(3, Math.min(14, Math.round(n / 4)));

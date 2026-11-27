@@ -88,6 +88,16 @@ of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557
 - The navicelli's crews stand along the hull's own heading (they had been set out along the x axis and some stood in the water).
 - The river banks are earth and grass (see MATERIALS, "Ground that is not paved").
 
+## 5. Who can get to the bank (2026-11-28)
+- Fishermen, washerwomen and clay diggers only go where they can get to: a spot is reachable if a street lies within 30 m at
+  about its level (not 6 m up a lungarno wall), or if no street is near at all (the fields and gravel banks outside the
+  town). Otherwise another place is tried, or nobody is put there.
+- The clay diggers work: one digs at the bank (bent over the spade, then straightening with the load), two carry clay to
+  the drying rows and come back, pausing to load and unload. Their heaps and brick rows, and the washerwomen's linen and
+  slab, rest on the ground and tilt with its slope; the washerwomen kneel with knees and toes on the ground.
+- The small boats ride higher: only a few centimetres of hull in the water (barchetti), the navicelli 0.2 m.
+- Squares hold a little fewer people (about one per 27 m², at most 52).
+
 ## Sources
 - Comune di Firenze, *Una città e il suo fiume: la vita lungo l'Arno* (2019), cultura.comune.fi.it
 - Museo Galileo, Scientific itineraries: San Niccolò weir, Santa Rosa weir (brunelleschi.imss.fi.it)

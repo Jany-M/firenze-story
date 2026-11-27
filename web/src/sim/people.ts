@@ -17,10 +17,14 @@ interface Agent {
   female: boolean; face: THREE.Mesh[]; talk?: Talk; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
 /** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
-export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel';
+export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel' | 'dig' | 'lift';
 // Xbot / Mixamo rig in T-pose: thigh forward = UpLeg.x −90°, shin down = Leg.x +90°; arm forward = Arm.y ±, down = Arm.z ±
 const POSE_BONES: Record<string, [string, number, number, number][]> = {
   sit: [['LeftUpLeg', -1.5, 0, -0.08], ['RightUpLeg', -1.5, 0, 0.08], ['LeftLeg', 1.45, 0, 0], ['RightLeg', 1.45, 0, 0]],
+  // the clay diggers' two strokes: bent over the spade, then straightening with the load
+  dig: [['Spine', 0.55, 0, 0], ['Spine1', 0.35, 0, 0], ['LeftUpLeg', -0.45, 0, -0.08], ['RightUpLeg', -0.2, 0, 0.08], ['LeftLeg', 0.55, 0, 0], ['RightLeg', 0.25, 0, 0],
+    ['RightArm', 0, 1.15, 0.85], ['LeftArm', 0, -1.15, -0.85], ['RightForeArm', 0, 0.25, 0], ['LeftForeArm', 0, -0.25, 0]],
+  lift: [['Spine', 0.12, 0, 0], ['Spine1', 0.05, 0, 0], ['RightArm', 0, 0.9, 0.55], ['LeftArm', 0, -0.9, -0.55], ['RightForeArm', 0, 1.1, 0], ['LeftForeArm', 0, -1.1, 0]],
   kneel: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0],   // kneeling, leaning over the water
     ['Spine', 0.35, 0, 0], ['Spine1', 0.25, 0, 0], ['RightArm', 0, 1.0, 0.95], ['LeftArm', 0, -1.0, -0.95], ['RightForeArm', 0, 0.4, 0], ['LeftForeArm', 0, -0.4, 0]],
   rod: [['RightArm', 0, 1.3, 0.55], ['LeftArm', 0, -1.15, -0.5], ['RightForeArm', 0, 0.35, 0], ['LeftForeArm', 0, -0.55, 0]],

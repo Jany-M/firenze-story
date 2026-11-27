@@ -61,9 +61,16 @@ def wall_point(row, side):
     land = [G(x, zb + out_ * d) for d in range(30, 71, 2)]
     street = float(np.percentile(land, 70))
     d = 0.0
-    while d < 70 and G(x, zb + out_ * d) < street - 1.0: d += 0.5   # from the river outwards to the street's level
+    # from the river outwards to the top of the big step (within 2.5 m of the street's level): a gentle rise of the road
+    # behind the wall (the Lungarno Torrigiani climbs ≈2 m to the houses) is street, not a second, inner wall
+    while d < 70 and G(x, zb + out_ * d) < street - 2.5: d += 0.5
     z_st = zb + out_ * (d - 0.5)
     low = max(min([G(x, z_st - out_ * k) for k in range(2, 20, 2)] + [street - 1.5]), wl - 1.0)
+    # a shelf of bank at the wall's foot (grass, a path, the Canottieri's terrace under the Uffizi): ground more than half a
+    # metre over the water for at least 4 m out from the wall – the wall stands behind it, the bank stays a bank
+    shelf = [G(x, z_st - out_ * k) for k in np.arange(1.0, 9.0, 1.0)]
+    dry = [v for v in shelf if v > wl + 0.6]
+    if len(dry) >= 4 and dry[0] == shelf[0]: low = max(low, min(dry))
     d2 = 0.0
     while d2 < d and G(x, zb + out_ * d2) < low + 0.35 * (street - low): d2 += 0.5
     z_w = zb + out_ * d2
@@ -115,6 +122,19 @@ for bank, x0, x1, name, year, basis, conf in STRETCHES:
                 if T[j, int(cx)] < p[3] + 1.0: need = max(need, j * st - half) if bank == "n" else min(need, j * st - half); break
                 j += int(sgn)
         p[1] = round(float(np.clip(need, p[1] - 6, p[1] + 6)), 2)
+    # The Lungarno degli Archibusieri: the Vasari Corridor stands on the river wall itself, the street runs under its
+    # arches (photographs: no road between the corridor and the river) – the wall's face is the corridor's river face.
+    if name.startswith("Lungarni degli Archibusieri"):
+        C = json.load(open(os.path.join(ROOT, "blender", "data", "corridoio.json"), encoding="utf-8"))["lungarno"]
+        cp = np.array(C["pts"], float); cw = np.array(C["width"], float)
+        tang = np.gradient(cp, axis=0); tang /= np.linalg.norm(tang, axis=1)[:, None]
+        face = cp + np.stack([-tang[:, 1], tang[:, 0]], 1) * (0.6 + cw[:, None] / 2 + 0.3)   # river side (+z), 0.3 m plinth
+        x0c, x1c = float(face[0, 0]), float(face[-1, 0])
+        for p in pts:
+            if x0c - 6 <= p[0] <= x1c:
+                zf = float(np.interp(min(max(p[0], x0c), x1c), face[:, 0], face[:, 1]))
+                w = min(1.0, (p[0] - (x0c - 6)) / 6)
+                p[1] = round(p[1] * (1 - w) + zf * w, 2)
     # the street: from the parapet to the first house (present-day footprints) within 40 m, else 14 m; its level over the
     # ground in between (the deck must not sink into the 4 m ground's slopes)
     for p in pts:
