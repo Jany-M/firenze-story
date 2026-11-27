@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 203 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 207 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -933,6 +933,26 @@ All 203 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![The apse wall, its windows closed with thin marble](/materials/landmarks/thumbs/campanile-di-san-miniato-al-monte.jpg)](/materials/landmarks/campanile-di-san-miniato-al-monte.jpg)
 <figcaption markdown>The apse wall, its windows closed with thin marble<br><small>Elisa Marianini · 2018-11-03 11:45:19 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Campanile_di_San_miniato_al_Monte.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Lungarno Torrigiani from the river: the stone wall, the brick parapet, the outlet of the old mill race](/materials/landmarks/thumbs/lunarno-torrigiani-visto-dal-fiume-01.jpg)](/materials/landmarks/lunarno-torrigiani-visto-dal-fiume-01.jpg)
+<figcaption markdown>The Lungarno Torrigiani from the river: the stone wall, the brick parapet, the outlet of the old mill race<br><small>sailko · 2013-07-26 17:43:39 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Lunarno_torrigiani_visto_dal_fiume_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Lungarno Corsini from the river: the wall in pietra forte under the brick parapet](/materials/landmarks/thumbs/lungarno-corsini-visto-dal-fiume-01.jpg)](/materials/landmarks/lungarno-corsini-visto-dal-fiume-01.jpg)
+<figcaption markdown>The Lungarno Corsini from the river: the wall in pietra forte under the brick parapet<br><small>sailko · 2013-07-26 17:21:45 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Lungarno_corsini_visto_dal_fiume_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The left bank from the Lungarno della Zecca Vecchia: the Lungarno Serristori&#x27;s wall behind the Renai](/materials/landmarks/thumbs/firenze-florence-lungarno-della-zecca-vecchia-view-wsw.jpg)](/materials/landmarks/firenze-florence-lungarno-della-zecca-vecchia-view-wsw.jpg)
+<figcaption markdown>The left bank from the Lungarno della Zecca Vecchia: the Lungarno Serristori&#x27;s wall behind the Renai<br><small>Txllxt TxllxT · 2010-04-22 11:05:36 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Lungarno_della_Zecca_Vecchia_-_View_WSW.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Giuseppe Zocchi&#x27;s view of the Lungarno Corsini (c. 1744): the walled bank with its parapet](/materials/landmarks/thumbs/giuseppe-zocchi-lungarno-corsini.jpg)](/materials/landmarks/giuseppe-zocchi-lungarno-corsini.jpg)
+<figcaption markdown>Giuseppe Zocchi&#x27;s view of the Lungarno Corsini (c. 1744): the walled bank with its parapet<br><small>see filename or category · 1744 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giuseppe_zocchi,_lungarno_corsini.jpg)</small></figcaption>
 </figure>
 
 </div>

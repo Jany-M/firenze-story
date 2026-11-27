@@ -11,6 +11,14 @@ Model v1 (`blender/scripts/build_uffizi.py` → `web/public/models/landmarks/uff
 | Arno wing | 12 m deep, serliana through the middle | OSM + LiDAR |
 | Roofs | ≈28 m above the piazzale | LiDAR 2023 DSM |
 
+## What the model shows (from photographs)
+- **The Arno wing's two porticoes:** the river front is not a closed wall. Each side of the serliana, the ground floor opens
+  into a portico that runs through the wing and comes out on the Lungarno: arches with rings, spandrels and pilasters on the
+  river front, a coffered vault inside at ≈10.7–11 m, statues in niches on the outer piers. The order's entablature runs across
+  the middle; the piano nobile has three arched windows (x −4, 0, 4) with iron balconies, and pedimented windows over the side
+  arches (photographs of the Arno front in the [library page](/library/uffizi/); the Lungarno degli Archibusieri view by Txllxt
+  TxllxT on Commons).
+
 Storeys (*inferred* from the DSM and the elevation described by uffizi.it): portico to 7.6 m, mezzanine to 11.2 m, piano nobile to 18.4 m, top loggia to 25 m, cornice 26.2 m, ridge 28.5 m.
 
 ## Phases
@@ -32,6 +40,7 @@ Credited pictures (courtyard, Arno front, Zocchi's 18th-century view, Callot's T
 
 ## Review list
 - Bay rhythm (niched pier, two columns, three windows) is simplified; compare with photographs of the piazzale front.
+- The river porticoes' vault height and the statues in the outer niches are from photographs, not measured.
 - Top loggia is shown with dark openings; its arcading and glazing over time are not dated.
 - Heights are measured on roofs, so the cornice and ridge levels are estimates.
 - The old quarter, the Zecca and San Pier Scheraggio are plausible masses only.

@@ -45,6 +45,12 @@ Effects live in `web/src/sim/fx.ts` (shared with the 1944 explosions).
   Maria, Via de' Bardi, Borgo San Jacopo and Via Guicciardini were mined (La Nazione; Uffizi "The Night of the Bridges").
   The app plays the blasts one after another in a loop (order and timing compressed; hours per bridge not documented).
 
+## 1c. The flood of 4 November 1966
+- The Arno rises through the night, comes over the lungarni about 5 a.m., reaches Piazza del Duomo by 9:45, stands highest in
+  the afternoon and falls from 8 p.m.; the streets clear on 6 November. The water's surface is calibrated on the Via dei Neri
+  plaque (4.92 m) and Piazza del Duomo (≈1.8 m); a 100 s loop, with a clock naming the hour (`web/src/sim/flood.ts`).
+  Heights, timings and sources: [landmarks/LUNGARNI.md](landmarks/LUNGARNI.md#the-flood-of-4-november-1966).
+
 ## 2. Florentine carnival (Carnevale)
 
 **Documented**

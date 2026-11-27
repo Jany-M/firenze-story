@@ -79,6 +79,14 @@ Technical page: [LOGGIA-DEL-PESCE.md](landmarks/LOGGIA-DEL-PESCE.md)
 - [ ] The seven-bay state before 1699 is an interpretation.
 - [ ] The Mercato Vecchio around it (Beccheria to 1881, churches, towers) is still the traced blocks.
 
+## The lungarni: river walls and parapets, and the flood of 1966
+Technical page: [LUNGARNI.md](landmarks/LUNGARNI.md)
+
+- [ ] The medieval dates (1287, 1290) come from the chronicles as summarised in guides; find the primary citations (Villani).
+- [ ] The Lungarno Guicciardini, Corsini, Vespucci and Soderini dates are *inferred*.
+- [ ] The flood is one surface, not a routed flow; the 1966 flood maps of the Comune (water heights street by street) would let the surface follow the real marks. The 1333 and 1844 floods have no animation.
+- [ ] The landings (scali), the Renai's mill race and the stairs down to the river are not drawn on the walls.
+
 ## Palazzo Medici Riccardi
 Technical page: [MEDICI-RICCARDI.md](landmarks/MEDICI-RICCARDI.md)
 
@@ -122,7 +130,8 @@ Technical page: [PALAZZO-VECCHIO.md](landmarks/PALAZZO-VECCHIO.md)
 ## Palazzo Pitti, the Boboli garden and Forte Belvedere
 Technical page: [PITTI-BOBOLI.md](landmarks/PITTI-BOBOLI.md)
 
-- [ ] The rear of the palace, the rondò and the Meridiana are generic buildings massed from the DSM (hipped roofs, cornices, plain windows); the Ammannati courtyard's orders, the rondò's loggia and terrace and Poccianti's ashlar are not drawn.
+- [ ] The rear of the palace and the Meridiana are generic buildings massed from the DSM (hipped roofs, cornices, plain windows); Poccianti's ashlar is not drawn. The rondò now have their arcades and terraces; the number of arches (seven) is from the photograph of the south wing, to check on the north one.
+- [ ] The forecourt's walls follow a traced line; their height comes from the ground model (4 m), so where the ground is smooth the walls are low or missing. The date of the forecourt (shown with the 1640 wings) is *inferred*.
 - [ ] The garden front (the courtyard's terrace towards the amphitheatre, the Fontana del Carciofo c. 1640) is massing only; the courtyard's orders are drawn only on the sides where the wing behind stands (the DSM 4 m back), so the low terrace side is open.
 - [ ] Boboli pieces not modelled yet: the Isolotto (1618), the Viottolone (cypresses 1637), the Limonaia (c. 1778), the Casino del Cavaliere (c. 1700) and the Giardino del Cavaliere (1790–93), the original place of the Fontana dell'Oceano.
 - [ ] The Kaffeehaus's long side wings are not drawn (only the domed pavilion).
@@ -229,6 +238,7 @@ Technical page: [STROZZI.md](landmarks/STROZZI.md)
 Technical page: [UFFIZI.md](landmarks/UFFIZI.md)
 
 - [ ] Bay rhythm (niched pier, two columns, three windows) is simplified; compare with photographs of the piazzale front.
+- [ ] The river porticoes' vault height and the statues in the outer niches are from photographs, not measured.
 - [ ] Top loggia is shown with dark openings; its arcading and glazing over time are not dated.
 - [ ] Heights are measured on roofs, so the cornice and ridge levels are estimates.
 - [ ] The old quarter, the Zecca and San Pier Scheraggio are plausible masses only.

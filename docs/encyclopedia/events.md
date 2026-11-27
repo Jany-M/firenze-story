@@ -286,9 +286,9 @@ Sources: [Events & costumes (La Nazione, Uffizi, storiadifirenze.org)](https://g
 
 *Santa Croce*
 
-On 4 November 1966 the Arno broke its banks; water reached about 5 m in Santa Croce, damaging Cimabue’s Crucifix and thousands of books and works of art; volunteers from all over the world, the "angeli del fango", came to help.
+On 4 November 1966 the Arno came over the parapets of the lungarni before dawn, broke them on the Lungarno Corsini and at Piazza Cavalleggeri, and ran through the streets: 4.92 m on the plaque in Via dei Neri, Piazza del Duomo under water by 9:45. It began to fall at 8 p.m. and left the streets on the 6th. Cimabue’s Crucifix, the Gates of Paradise and thousands of books and works of art were damaged; volunteers from all over the world, the "angeli del fango", came to help. The live scene shows the water rising hour by hour.
 
-Sources: [History notes](https://github.com/Jany-M/firenze-story/blob/main/docs/HISTORY.md); [Wikipedia](https://it.wikipedia.org/wiki/Alluvione_di_Firenze_del_4_novembre_1966)
+Sources: [History notes](https://github.com/Jany-M/firenze-story/blob/main/docs/HISTORY.md); [Lungarni and the flood (model notes)](https://github.com/Jany-M/firenze-story/blob/main/docs/landmarks/LUNGARNI.md#the-flood-of-4-november-1966); [Protezione Civile: the flood of Florence](https://servizio-nazionale.protezionecivile.gov.it/static/4019da085c64ebd948af0693ce73176e/alluvione-firenze.pdf); [1966 flood of the Arno (en.wikipedia)](https://en.wikipedia.org/wiki/1966_flood_of_the_Arno); [Wikipedia](https://it.wikipedia.org/wiki/Alluvione_di_Firenze_del_4_novembre_1966)
 
 <div class="mgallery" markdown>
 

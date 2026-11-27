@@ -31,6 +31,7 @@ In the app, the same pictures appear as thumbnails in a building's or event's ca
 | [Santa Maria del Carmine](carmine.md) | The Carmelites' church in Oltrarno, the Brancacci and Corsini chapels, the fire of 1771 |
 | [Santa Felicita](santa-felicita.md) | One of the oldest churches in the city, the nuns' church under the Vasari Corridor, the column in its piazza |
 | [San Miniato al Monte](san-miniato.md) | The Romanesque basilica on the hill, its marble front, the Bishops' Palace and the unfinished bell tower |
+| [The lungarni](lungarni.md) | The river walls and parapets, from the 1280s to Poggi's works of 1865–72, the flood of 1966 and the collapse of 2016 |
 | [Loggia del Pesce](loggia-del-pesce.md) | Vasari's fish loggia: in the Mercato Vecchio until 1889, in Piazza dei Ciompi since 1955 |
 | [Ponte Vecchio](ponte-vecchio.md) | The bridge of 1345, its shops and Vasari's corridor |
 | [Orsanmichele](orsanmichele.md) | Grain market, granary and the guilds' church |

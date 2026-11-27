@@ -3711,5 +3711,77 @@
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Campanile_di_San_miniato_al_Monte.jpg",
   "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Lungarni: river walls and parapets"
+  ],
+  "caption": "The Lungarno Torrigiani from the river: the stone wall, the brick parapet, the outlet of the old mill race",
+  "src_file": "Lunarno torrigiani visto dal fiume 01.JPG",
+  "img": "landmarks/lunarno-torrigiani-visto-dal-fiume-01.jpg",
+  "thumb": "landmarks/thumbs/lunarno-torrigiani-visto-dal-fiume-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "2013-07-26 17:43:39",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lunarno_torrigiani_visto_dal_fiume_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Lungarni: river walls and parapets"
+  ],
+  "caption": "The Lungarno Corsini from the river: the wall in pietra forte under the brick parapet",
+  "src_file": "Lungarno corsini visto dal fiume 01.JPG",
+  "img": "landmarks/lungarno-corsini-visto-dal-fiume-01.jpg",
+  "thumb": "landmarks/thumbs/lungarno-corsini-visto-dal-fiume-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "2013-07-26 17:21:45",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lungarno_corsini_visto_dal_fiume_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Lungarni: river walls and parapets"
+  ],
+  "caption": "The left bank from the Lungarno della Zecca Vecchia: the Lungarno Serristori's wall behind the Renai",
+  "src_file": "Firenze - Florence - Lungarno della Zecca Vecchia - View WSW.jpg",
+  "img": "landmarks/firenze-florence-lungarno-della-zecca-vecchia-view-wsw.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-lungarno-della-zecca-vecchia-view-wsw.jpg",
+  "w": 1280,
+  "h": 853,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-22 11:05:36",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Lungarno_della_Zecca_Vecchia_-_View_WSW.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Lungarni: river walls and parapets"
+  ],
+  "caption": "Giuseppe Zocchi's view of the Lungarno Corsini (c. 1744): the walled bank with its parapet",
+  "src_file": "Giuseppe zocchi, lungarno corsini.jpg",
+  "img": "landmarks/giuseppe-zocchi-lungarno-corsini.jpg",
+  "thumb": "landmarks/thumbs/giuseppe-zocchi-lungarno-corsini.jpg",
+  "w": 650,
+  "h": 490,
+  "author": "see filename or category",
+  "date": "1744",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Giuseppe_zocchi,_lungarno_corsini.jpg",
+  "credit": "https://www.themorgan.org/drawings/item/191925"
  }
 ]

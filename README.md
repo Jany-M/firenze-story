@@ -52,6 +52,7 @@ Florence urban history in 4D: a city that grows from the Iron Age huts to today,
 | [docs/landmarks/CARMINE.md](docs/landmarks/CARMINE.md) | Landmark model: Santa Maria del Carmine, the Corsini chapel and the convent |
 | [docs/landmarks/SANTA-FELICITA.md](docs/landmarks/SANTA-FELICITA.md) | Landmark model: Santa Felicita, its bell tower, the nunnery and the column |
 | [docs/landmarks/SAN-MINIATO.md](docs/landmarks/SAN-MINIATO.md) | Landmark model: San Miniato al Monte, the bell tower, the Bishops' Palace and the monastery |
+| [docs/landmarks/LUNGARNI.md](docs/landmarks/LUNGARNI.md) | Landmark model: the lungarni's river walls and parapets by era; the 1966 flood scene |
 | [docs/landmarks/LOGGIA-DEL-PESCE.md](docs/landmarks/LOGGIA-DEL-PESCE.md) | Landmark model: the Loggia del Pesce, in the Mercato Vecchio and in Piazza dei Ciompi |
 | [docs/landmarks/ANNUNZIATA.md](docs/landmarks/ANNUNZIATA.md) | Landmark model: Piazza Santissima Annunziata (Innocenti, Loggia dei Servi, the church) |
 | [docs/REFINEMENTS.md](docs/REFINEMENTS.md) | Refinement list: the open points of every landmark model, gathered from their review lists |

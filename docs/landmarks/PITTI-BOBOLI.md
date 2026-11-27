@@ -15,7 +15,7 @@ Buontalenti ([CORRIDOIO-VASARIANO.md](CORRIDOIO-VASARIANO.md)).
 | Piazza front | ≈201 m, 23 bays of ≈8.74 m; central 13 bays on three storeys (roof ≈38.5 m above the piazza), five bays a side on two (≈26.5 m) | LiDAR 2023 DSM along the front; 23 window axes – [Storia di Firenze (D. Smalzi)](https://www.storiadifirenze.org/wp-content/uploads/kalins-pdf/singles/novembre-1618-la-progettazione-e-l%25e2%2580%2599ampliamento-di-palazzo-e-piazza-pitti.pdf) |
 | Front block | ≈24 m deep | DSM |
 | The rest of the palace | courtyard wings, garden front, the two rondò, the Meridiana: buildings massed from the 1 m DSM raster (`blender/scripts/landmark_mass.py`): hipped roofs at the measured ridge heights, walls, eaves cornices and windows, from a 1 m raster of the DSM inside the OSM outline | [OSM relation 1637338](https://www.openstreetmap.org/relation/1637338), [relation 7071160](https://www.openstreetmap.org/relation/7071160), LiDAR |
-| Piazza | 17.0 m (scene), 57 m a.s.l. | app terrain |
+| Piazza | 17.0 m (scene), 57 m a.s.l. at the palace; it falls ≈9 m over ≈100 m to the street along the houses opposite | app terrain, sampled in the palace's frame (`ground` in `pitti.json`) |
 | Amphitheatre | tiers from r ≈30 to 41 m round the obelisk, following the ground | [OSM way 473825738](https://www.openstreetmap.org/way/473825738), app terrain |
 | Forte Belvedere | wall tops from the DSM along the OSM outline; palazzina ≈26 × 20 m, ≈17 m (*inferred* from the LiDAR shell) | [OSM way 24879633](https://www.openstreetmap.org/way/24879633) |
 
@@ -31,7 +31,15 @@ Buontalenti (Sailko, 2013), the Kaffeehaus (Rufus46, 2014), the Neptune basin (T
   rusticated arch, small barred windows in blind arches on the ground floor. The two lateral doors of the 1458 front become
   kneeling windows with a pediment and consoles from 1560.
 - **Courtyard (Ammannati):** arches on banded, rusticated columns, round-headed windows on the two upper orders, entablatures.
-- **Rear, rondò, Meridiana:** massing from the LiDAR (pietra forte; the Meridiana plastered), tiled roofs.
+- **The rondò (both ends of the front):** a curved arcade of seven arches (≈3 m wide on 1.9 m piers) in rusticated stone,
+  the yellow-plastered back wall of the loggia with its doors and barred windows, an end arch, rustication and a cornice on
+  the outer face, a balustraded terrace on top; the north one mirrors the south one.
+- **The end pavilions (1640):** the two-storey blocks where the low wings meet the rondò, with arched windows.
+- **The forecourt on the hill:** the palace stands on a rise; the paved forecourt in front of it is held by battered walls of
+  rough blocks with a stone coping, iron rails and bollards, which die into the ground where it reaches the forecourt's level
+  (segments under 2.2 m are left out). The piazza is one sloping surface from the palace down to the street in front of the
+  houses opposite, plain grey paving (no texture).
+- **Rear, Meridiana:** massing from the LiDAR (pietra forte; the Meridiana plastered), tiled roofs.
 - **Amphitheatre:** six stone tiers following the slope (a grass slope before 1599), the arena in gravel, edicules with
   statues and urns along the top (from 1634), the Egyptian obelisk (1790) and the granite basin.
 - **Grotta del Buontalenti:** plastered block, the grotto mouth between two Tuscan columns, rock work (*spugne*) above.
@@ -51,7 +59,7 @@ Buontalenti (Sailko, 2013), the Kaffeehaus (Rufus46, 2014), the Neptune basin (T
 | 1590–91 | Forte Belvedere, Buontalenti (first stone 28 October 1590) | it.wikipedia (Forte di Belvedere) |
 | 1599 | stone tiers in the amphitheatre | it.wikipedia (Boboli) |
 | 1618 / 1631 | the front lengthened by three bays to the north (Giulio Parigi) and to the south (Alfonso Parigi) | [en.wikipedia](https://en.wikipedia.org/wiki/Palazzo_Pitti) |
-| 1640 | the outer five bays a side: 23 bays in all (*inferred* year, "in the 1640s") | Storia di Firenze (D. Smalzi) |
+| 1640 | the outer five bays a side: 23 bays in all (*inferred* year, "in the 1640s"); the end pavilions, the forecourt's walls and the sloping piazza with them (*inferred*) | Storia di Firenze (D. Smalzi) |
 | 1634 | edicules and urns on the amphitheatre (Parigi, c. 1630–34; inaugurated 1637) | it.wikipedia (Boboli) |
 | 1765 | rondò delle Carrozze (south), Giuseppe Ruggieri | 1764–65 / 1764–66 – [Firenze University Press](https://books.fupress.com/isbn/9791221505276), [Flore (UniFi)](https://flore.unifi.it/handle/2158/1056695) |
 | 1776 | Kaffeehaus (Zanobi del Rosso); Palazzina della Meridiana begun | it.wikipedia (Boboli, Palazzo Pitti) |
@@ -82,8 +90,11 @@ the ground inside the walls and its scarp starting below the ground outside.
 - **The Ammannati works:** 1558–70 (staircase, wings) with the courtyard dated 1560 on it.wikipedia; no single year elsewhere.
 
 ## Review list
-- The rear of the palace, the rondò and the Meridiana are generic buildings massed from the DSM (hipped roofs, cornices,
-  plain windows); the Ammannati courtyard's orders, the rondò's loggia and terrace and Poccianti's ashlar are not drawn.
+- The rear of the palace and the Meridiana are generic buildings massed from the DSM (hipped roofs, cornices, plain windows);
+  Poccianti's ashlar is not drawn. The rondò now have their arcades and terraces; the number of arches (seven) is from the
+  photograph of the south wing, to check on the north one.
+- The forecourt's walls follow a traced line; their height comes from the ground model (4 m), so where the ground is smooth
+  the walls are low or missing. The date of the forecourt (shown with the 1640 wings) is *inferred*.
 - The garden front (the courtyard's terrace towards the amphitheatre, the Fontana del Carciofo c. 1640) is massing only; the
   courtyard's orders are drawn only on the sides where the wing behind stands (the DSM 4 m back), so the low terrace side is open.
 - Boboli pieces not modelled yet: the Isolotto (1618), the Viottolone (cypresses 1637), the Limonaia (c. 1778), the Casino del
