@@ -1822,5 +1822,65 @@
    "event:The great flood"
   ],
   "caption": "President Giuseppe Saragat visits the flooded city, 6 November 1966"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze - stazione Leopolda - 1861.jpg",
+  "subjects": [
+   "rec:Stazione Leopolda"
+  ],
+  "caption": "The Stazione Leopolda in 1861, the year of the National Exhibition"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Stazione leopolda 1850.jpg",
+  "subjects": [
+   "rec:Stazione Leopolda"
+  ],
+  "caption": "The Stazione Leopolda around 1850"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze, stazione leopolda, ingresso.JPG",
+  "subjects": [
+   "rec:Stazione Leopolda"
+  ],
+  "caption": "The entrance of the Leopolda today"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Via ghibellina, le murate 01.JPG",
+  "subjects": [
+   "rec:Le Murate",
+   "rec:ex Monastero delle Murate"
+  ],
+  "caption": "The Murate on Via Ghibellina"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Le murate, piazza delle murate 01.JPG",
+  "subjects": [
+   "rec:Le Murate",
+   "rec:ex Monastero delle Murate"
+  ],
+  "caption": "Piazza delle Murate, inside the former prison"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Firenze - Florence - Via Luigi Carlo Farini - View East on la principale Sinagoga di Firenze - the New Synagogue 1882 by Marco Treves.jpg",
+  "subjects": [
+   "rec:Tempio Maggiore Israelitico",
+   "rec:Tempio Maggiore Israelitico - Sinagoga"
+  ],
+  "caption": "The Synagogue from Via Farini: the banded front, the towers and the green dome"
+ },
+ {
+  "topic": "landmarks",
+  "file": "Synagogue of Florence.jpg",
+  "subjects": [
+   "rec:Tempio Maggiore Israelitico",
+   "rec:Tempio Maggiore Israelitico - Sinagoga"
+  ],
+  "caption": "The Synagogue and its garden"
  }
 ]

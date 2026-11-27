@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 220 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 227 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -953,6 +953,41 @@ All 220 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![Giuseppe Zocchi&#x27;s view of the Lungarno Corsini (c. 1744): the walled bank with its parapet](/materials/landmarks/thumbs/giuseppe-zocchi-lungarno-corsini.jpg)](/materials/landmarks/giuseppe-zocchi-lungarno-corsini.jpg)
 <figcaption markdown>Giuseppe Zocchi&#x27;s view of the Lungarno Corsini (c. 1744): the walled bank with its parapet<br><small>see filename or category · 1744 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Giuseppe_zocchi,_lungarno_corsini.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Stazione Leopolda in 1861, the year of the National Exhibition](/materials/landmarks/thumbs/firenze-stazione-leopolda-1861.jpg)](/materials/landmarks/firenze-stazione-leopolda-1861.jpg)
+<figcaption markdown>The Stazione Leopolda in 1861, the year of the National Exhibition<br><small>AnonymousUnknown author · 1861 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_stazione_Leopolda_-_1861.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Stazione Leopolda around 1850](/materials/landmarks/thumbs/stazione-leopolda-1850.jpg)](/materials/landmarks/stazione-leopolda-1850.jpg)
+<figcaption markdown>The Stazione Leopolda around 1850<br><small>Unknown authorUnknown author · 1850 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Stazione_leopolda_1850.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The entrance of the Leopolda today](/materials/landmarks/thumbs/firenze-stazione-leopolda-ingresso.jpg)](/materials/landmarks/firenze-stazione-leopolda-ingresso.jpg)
+<figcaption markdown>The entrance of the Leopolda today<br><small>Sailko · 2014-05-27 09:14:50 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze,_stazione_leopolda,_ingresso.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Murate on Via Ghibellina](/materials/landmarks/thumbs/via-ghibellina-le-murate-01.jpg)](/materials/landmarks/via-ghibellina-le-murate-01.jpg)
+<figcaption markdown>The Murate on Via Ghibellina<br><small>sailko · 2013-03-22 18:15:51 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Via_ghibellina,_le_murate_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![Piazza delle Murate, inside the former prison](/materials/landmarks/thumbs/le-murate-piazza-delle-murate-01.jpg)](/materials/landmarks/le-murate-piazza-delle-murate-01.jpg)
+<figcaption markdown>Piazza delle Murate, inside the former prison<br><small>sailko · 2013-04-01 16:11:36 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Le_murate,_piazza_delle_murate_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Synagogue from Via Farini: the banded front, the towers and the green dome](/materials/landmarks/thumbs/firenze-florence-via-luigi-carlo-farini-view-east-on-la-principale-sin.jpg)](/materials/landmarks/firenze-florence-via-luigi-carlo-farini-view-east-on-la-principale-sin.jpg)
+<figcaption markdown>The Synagogue from Via Farini: the banded front, the towers and the green dome<br><small>Txllxt TxllxT · 2010-04-22 10:30:00 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_Luigi_Carlo_Farini_-_View_East_on_la_principale_Sinagoga_di_Firenze_-_the_New_Synagogue_1882_by_Marco_Treves.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Synagogue and its garden](/materials/landmarks/thumbs/synagogue-of-florence.jpg)](/materials/landmarks/synagogue-of-florence.jpg)
+<figcaption markdown>The Synagogue and its garden<br><small>Yair Haklai · 2008-04-25 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Synagogue_of_Florence.jpg)</small></figcaption>
 </figure>
 
 </div>

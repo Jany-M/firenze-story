@@ -62,6 +62,11 @@ Technical page: [DUOMO.md](landmarks/DUOMO.md)
 - [ ] Dome tiles follow world-projected texture (courses not aligned to each sail); dome oculi and the marble "occhi" of the sails are missing; drum gallery only on the SE face (correct) but simplified.
 - [ ] Campanile and Baptistery are still LiDAR shells (next landmarks).
 
+## Stazione Leopolda
+Technical page: [LEOPOLDA.md](landmarks/LEOPOLDA.md)
+
+- [ ] The head's real elevation (its portico and pediment in the 1850 print) and the building's changes after 1860 are not drawn.
+
 ## Loggia dei Lanzi – landmark model
 Technical page: [LOGGIA-DEI-LANZI.md](landmarks/LOGGIA-DEI-LANZI.md)
 
@@ -86,6 +91,7 @@ Technical page: [LUNGARNI.md](landmarks/LUNGARNI.md)
 - [ ] The Lungarno Guicciardini, Corsini, Vespucci and Soderini dates are *inferred*.
 - [ ] The flood is one surface, not a routed flow; the 1966 flood maps of the Comune (water heights street by street) would let the surface follow the real marks. The 1333 and 1844 floods have no animation.
 - [ ] The landings (scali), the Renai's mill race and the stairs down to the river are not drawn on the walls.
+- [ ] The asphalt (1950), the pavements (1870) and the Acciaiuoli's stone (2020) are dated by estimate; check each lungarno against photographs (which are stone today besides the Acciaiuoli and the Archibusieri?). Trees along the Lungarno Serristori and the Cellini are not drawn.
 
 ## Palazzo Medici Riccardi
 Technical page: [MEDICI-RICCARDI.md](landmarks/MEDICI-RICCARDI.md)
@@ -111,6 +117,11 @@ Technical page: [MURA.md](landmarks/MURA.md)
 - [ ] Merlons are shown on every stretch, also where today's wall has lost them.
 - [ ] The gates' frescoes, doors and arms are stand-ins: panels at their places and sizes.
 - [ ] Fortezza da Basso: outer curtains only. The Mastio, the inner buildings and the bastion faces at their true angles are still to do.
+
+## Le Murate
+Technical page: [MURATE.md](landmarks/MURATE.md)
+
+- [ ] One phase only: the convent's buildings before the prison works and the changes of the 2000s are not told apart.
 
 ## Orsanmichele – landmark model
 Technical page: [ORSANMICHELE.md](landmarks/ORSANMICHELE.md)
@@ -224,6 +235,19 @@ Technical page: [SANTO-SPIRITO.md](landmarks/SANTO-SPIRITO.md)
 - [ ] The sacristy's vestibule (Cronaca, 1494) and the Corsini chapel are inside the massing, not drawn by hand.
 - [ ] The medieval church's size and the 1750 date of the plastering are inferred.
 
+## The Synagogue (Tempio Maggiore Israelitico)
+Technical page: [SINAGOGA.md](landmarks/SINAGOGA.md)
+
+- [ ] The front's portico and windows are simplified; the garden, its fence and the side buildings are not drawn.
+- [ ] The works of 1874–82 are not shown; the gilded domes of the first years are not drawn.
+
+## Santa Maria Novella station
+Technical page: [STAZIONE-SMN.md](landmarks/STAZIONE-SMN.md)
+
+- [ ] No free photograph found yet for the library page (the ones online are copyrighted); the front's details (the lettering, the clock, the long bands of glass) are not drawn.
+- [ ] The Maria Antonia station (1848–1930s) and Michelucci's Palazzina Reale (white marble, 1935) are not modelled.
+- [ ] The platforms' roofs and the train shed come from the DSM as flat masses.
+
 ## Palazzo Strozzi
 Technical page: [STROZZI.md](landmarks/STROZZI.md)
 
@@ -238,7 +262,7 @@ Technical page: [STROZZI.md](landmarks/STROZZI.md)
 Technical page: [UFFIZI.md](landmarks/UFFIZI.md)
 
 - [ ] Bay rhythm (niched pier, two columns, three windows) is simplified; compare with photographs of the piazzale front.
-- [ ] The river porticoes' vault height and the statues in the outer niches are from photographs, not measured.
+- [ ] The river front is scaled from one photograph (heights from the LiDAR); its widths (±17.8 m frame, 5 m side arches) are not measured on the ground. The arcade of the old landing in the river wall below the loggia is not drawn yet, and the river wall there is the lungarni's stone, not the plastered wall of the photograph.
 - [ ] Top loggia is shown with dark openings; its arcading and glazing over time are not dated.
 - [ ] Heights are measured on roofs, so the cornice and ridge levels are estimates.
 - [ ] The old quarter, the Zecca and San Pier Scheraggio are plausible masses only.

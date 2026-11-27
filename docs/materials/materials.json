@@ -4017,5 +4017,135 @@
   "license_url": "",
   "page": "https://commons.wikimedia.org/wiki/File:Saragat_alluvione_di_FIrenze_1966.jpg",
   "credit": "https://archivio.quirinale.it/aspr/fotografico/PHOTO-001-026242/presidente/giuseppe-saragat/il-sen-giovanni-gronchi-sen-umberto-tupini-e-altri-deputati-oppositori-aventiniani-presidente-della-repubbli"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Stazione Leopolda"
+  ],
+  "caption": "The Stazione Leopolda in 1861, the year of the National Exhibition",
+  "src_file": "Firenze - stazione Leopolda - 1861.jpg",
+  "img": "landmarks/firenze-stazione-leopolda-1861.jpg",
+  "thumb": "landmarks/thumbs/firenze-stazione-leopolda-1861.jpg",
+  "w": 590,
+  "h": 395,
+  "author": "AnonymousUnknown author",
+  "date": "1861",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_stazione_Leopolda_-_1861.jpg",
+  "credit": "Antica immagine"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Stazione Leopolda"
+  ],
+  "caption": "The Stazione Leopolda around 1850",
+  "src_file": "Stazione leopolda 1850.jpg",
+  "img": "landmarks/stazione-leopolda-1850.jpg",
+  "thumb": "landmarks/thumbs/stazione-leopolda-1850.jpg",
+  "w": 1280,
+  "h": 417,
+  "author": "Unknown authorUnknown author",
+  "date": "1850",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Stazione_leopolda_1850.jpg",
+  "credit": "[1]"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Stazione Leopolda"
+  ],
+  "caption": "The entrance of the Leopolda today",
+  "src_file": "Firenze, stazione leopolda, ingresso.JPG",
+  "img": "landmarks/firenze-stazione-leopolda-ingresso.jpg",
+  "thumb": "landmarks/thumbs/firenze-stazione-leopolda-ingresso.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Sailko",
+  "date": "2014-05-27 09:14:50",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze,_stazione_leopolda,_ingresso.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Le Murate",
+   "rec:ex Monastero delle Murate"
+  ],
+  "caption": "The Murate on Via Ghibellina",
+  "src_file": "Via ghibellina, le murate 01.JPG",
+  "img": "landmarks/via-ghibellina-le-murate-01.jpg",
+  "thumb": "landmarks/thumbs/via-ghibellina-le-murate-01.jpg",
+  "w": 960,
+  "h": 1280,
+  "author": "sailko",
+  "date": "2013-03-22 18:15:51",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Via_ghibellina,_le_murate_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Le Murate",
+   "rec:ex Monastero delle Murate"
+  ],
+  "caption": "Piazza delle Murate, inside the former prison",
+  "src_file": "Le murate, piazza delle murate 01.JPG",
+  "img": "landmarks/le-murate-piazza-delle-murate-01.jpg",
+  "thumb": "landmarks/thumbs/le-murate-piazza-delle-murate-01.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "sailko",
+  "date": "2013-04-01 16:11:36",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Le_murate,_piazza_delle_murate_01.JPG",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Tempio Maggiore Israelitico",
+   "rec:Tempio Maggiore Israelitico - Sinagoga"
+  ],
+  "caption": "The Synagogue from Via Farini: the banded front, the towers and the green dome",
+  "src_file": "Firenze - Florence - Via Luigi Carlo Farini - View East on la principale Sinagoga di Firenze - the New Synagogue 1882 by Marco Treves.jpg",
+  "img": "landmarks/firenze-florence-via-luigi-carlo-farini-view-east-on-la-principale-sin.jpg",
+  "thumb": "landmarks/thumbs/firenze-florence-via-luigi-carlo-farini-view-east-on-la-principale-sin.jpg",
+  "w": 1280,
+  "h": 853,
+  "author": "Txllxt TxllxT",
+  "date": "2010-04-22 10:30:00",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Via_Luigi_Carlo_Farini_-_View_East_on_la_principale_Sinagoga_di_Firenze_-_the_New_Synagogue_1882_by_Marco_Treves.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Tempio Maggiore Israelitico",
+   "rec:Tempio Maggiore Israelitico - Sinagoga"
+  ],
+  "caption": "The Synagogue and its garden",
+  "src_file": "Synagogue of Florence.jpg",
+  "img": "landmarks/synagogue-of-florence.jpg",
+  "thumb": "landmarks/thumbs/synagogue-of-florence.jpg",
+  "w": 1280,
+  "h": 960,
+  "author": "Yair Haklai",
+  "date": "2008-04-25",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Synagogue_of_Florence.jpg",
+  "credit": "Own work"
  }
 ]
