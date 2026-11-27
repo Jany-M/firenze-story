@@ -1,34 +1,57 @@
 # Santa Maria Novella station
 
-Model: `blender/scripts/build_stazione_smn.py` → `web/public/models/landmarks/stazione_smn.glb`, in absolute scene coordinates, geometry from
-`pipeline/47_moderni.py` → `blender/data/moderni.json`. Register row [M33](../DATA-SOURCES.md#M33). Library page: [/library/stazione-smn/](/library/stazione-smn/).
+Model: `blender/scripts/build_stazione_smn.py` → `web/public/models/landmarks/stazione_smn.glb`, in absolute scene coordinates, frame from
+`pipeline/47_moderni.py` → `blender/data/moderni.json`; shared helpers `blender/scripts/landmark_volume.py`. Register row [M33](../DATA-SOURCES.md#M33). Library page: [/library/stazione-smn/](/library/stazione-smn/).
 
-The passenger building of Florence's main station, on Piazza della Stazione behind the apse of Santa Maria Novella.
+The passenger building of Florence's main station on Piazza della Stazione, its tracks and platforms, the Palazzina Reale
+beside it, and the Maria Antonia station that stood here before it.
+
+Frame: a along the front from its west corner (-636, -437 scene), growing east; o inwards (north, along the tracks).
 
 ## Measured
 | Item | Value | Source |
 |---|---|---|
-| Outline | the whole complex (two outer rings, one courtyard) | [OSM relation 3324492](https://www.openstreetmap.org/relation/3324492) |
-| Front | ≈71 m on the piazza; ground 8.3 m (scene) | OSM, app terrain |
-| Heights | the entrance gallery ≈6 m, the ticket hall ≈15 m | LiDAR 2023 DSM (axis profile) |
+| Front | at o ≈ 3; a low band 7–9 m (a -10..30) | LiDAR 2023 DSM, read in the frame (`_dev/tmp/asc_smn*.txt`) |
+| Clock block | 13–14 m, a -10..4, o 24..50 | DSM |
+| Glass cascade | 9–13 m, a 4..30 | DSM |
+| High block | 14–15 m, a 30..116, o 12..50; its front swings back north-east from a 62 to a 116 (o 12 → 31) | DSM |
+| Canopy | 5–6 m, about 11 m deep in front of the high block, and along the east side | DSM |
+| East wing (Via Valfonda) | 12–14 m, leaning with the tracks: a ≈ 116 − 0.21·(o − 30) | DSM |
+| West wing (Via Alamanni) | 10–13 m, 16–18 m on its outer side | DSM |
+| Platforms | canopies 3–4 m from o ≈ 66 | DSM |
+| Palazzina Reale | 9–12 m, a 80..112, o 188..218; a low gallery west of it | DSM |
+| Maria Antonia station | front ≈ 40 m south of today's, the shed running north | map of 1873 (`web/public/data/map_1873.jpg`) |
 
 ## What the model shows
-- The whole building massed from the DSM in pietra forte with flat roofs (`landmark_mass.py`, no punched windows).
-- Along the front, the deep entrance canopy on slender piers and the glazed doors behind it.
-- Over the entrance, the glazed "cascade" in six steps from the hall's roof down to the gallery.
+From photographs (credited on the library page) and the measured heights:
+- **The front (1935):** the clock block at the west end, with its square clock of white figures on dark glass, behind
+  a low band of the same stone; then the **cascade** – frosted glass in two tiers, the lower one standing forward on a
+  stone base with doors, the upper one rising to the blocks' tops – and the high blind block, whose front swings back
+  north-east above the flat **canopy** with its deep fascia and shop fronts.
+- **The walls:** pietra forte in long, even courses (drawn as joints), thin copings, almost no openings.
+- **The sides:** the long blind east wall along Via Valfonda with the taxi-rank canopy; the west wing along Via
+  Alamanni with three floors of windows and its rounded corner towards the square.
+- **The gallery** at the head of the tracks under a glazed roof, and **nine platforms** with flat canopies on one row
+  of posts, eighteen tracks with buffer stops; the tracks run on into the yard.
+- **The Palazzina Reale (1935):** white marble, a grid of windows, a tall glazed entrance, the portico of honour on slim
+  piers by the exedra with Italo Griselli's group in its basin, a low gallery towards the platforms.
+- **The Maria Antonia station (1848–1934):** a two-storey block with arched openings and a clock turret, lower wings
+  either side, a long train shed with a glazed lantern over its four tracks (*inferred* sizes).
 
 ## Phases
 | Years | Part | Basis |
 |---|---|---|
-| 1848 | the Maria Antonia station, nearer the church (not drawn) | [en.wikipedia](https://en.wikipedia.org/wiki/Firenze_Santa_Maria_Novella_railway_station) |
-| 1932 | national competition won by the Gruppo Toscano (Baroni, Berardi, Gamberini, Guarnieri, Lusanna, led by Giovanni Michelucci) | [area-arch.it](https://www.area-arch.it/en/?p=18246), [visittuscany.com](https://www.visittuscany.com/it/attrazioni/stazione-di-santa-maria-novella/) |
-| 1933–35 | built; inaugurated 30 October 1935 (shown from 1935) | [arttrav.com](https://www.arttrav.com/florence/santa-maria-novella-michelucci/) |
+| 1848–1934 | the Maria Antonia station, opened 3 February 1848, four tracks, behind the apse of Santa Maria Novella | [Museo Galileo](https://brunelleschi.imss.fi.it/itineraries/place/FormerLeopoldaStationOfFlorenceMuseumOfRailwayObjects.html); map of 1873; photograph c. 1900 |
+| 1932 | competition won by the Gruppo Toscano (Baroni, Berardi, Gamberini, Guarnieri, Lusanna, led by Giovanni Michelucci) | [mugellotoscana.it](https://www.mugellotoscana.it/en/itineraries/in-treno/da-borgo-s-lorenzo-a-firenze/37-itinerari/in-treno/254-stazione-firenze-s-maria-novella.html) |
+| 1935 → | the passenger building, inaugurated 30 October 1935; the Palazzina Reale, inaugurated October 1935 | [arttrav.com](https://www.arttrav.com/florence/santa-maria-novella-michelucci/), [fondazionefs.it](https://www.fondazionefs.it/en/Historical-Spaces/firenze-santa-maria-novella.html) |
 
 ## Where the sources disagree
-- **Built 1932–34 or 1933–35:** manchesterhistory.net gives 1932–1934; the Michelucci foundation and the inauguration give 1935.
+- **Built 1932–34 or 1933–35:** manchesterhistory.net gives 1932–1934; the inauguration was in 1935.
+- **Who built the Maria Antonia:** Museo Galileo names Brunel's company with Benjamin Herschel Babbage; Wikipedia credits
+  Brunel himself.
 
 ## Review list
-- No free photograph found yet for the library page (the ones online are copyrighted); the front's details (the lettering,
-  the clock, the long bands of glass) are not drawn.
-- The Maria Antonia station (1848–1930s) and Michelucci's Palazzina Reale (white marble, 1935) are not modelled.
-- The platforms' roofs and the train shed come from the DSM as flat masses.
+- The Maria Antonia's end date (1934) is *inferred*: the old station was cleared while the new one rose (1933–35).
+- The platform count and the tracks are drawn evenly (nine platforms, eighteen tracks); the real layout differs in detail.
+- Not drawn: the heating plant and the other service buildings by Angiolo Mazzoni, the old platform roofs, the
+  underground passages.

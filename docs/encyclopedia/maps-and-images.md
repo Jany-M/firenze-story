@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 227 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 246 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -988,6 +988,101 @@ All 227 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![The Synagogue and its garden](/materials/landmarks/thumbs/synagogue-of-florence.jpg)](/materials/landmarks/synagogue-of-florence.jpg)
 <figcaption markdown>The Synagogue and its garden<br><small>Yair Haklai · 2008-04-25 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Synagogue_of_Florence.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The front: the clock block, the glass cascade and the canopy](/materials/landmarks/thumbs/florence-santa-maria-novella-railway-station-gruppo-toscano-1934-1.jpg)](/materials/landmarks/florence-santa-maria-novella-railway-station-gruppo-toscano-1934-1.jpg)
+<figcaption markdown>The front: the clock block, the glass cascade and the canopy<br><small>MenkinAlRire · 2021-09-13 12:15:03 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Florence,_Santa_Maria_Novella_railway_station,_Gruppo_Toscano,_1934_1.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The cascade: frosted glass in two tiers between the stone blocks](/materials/landmarks/thumbs/stazione-smn-vetrate.jpg)](/materials/landmarks/stazione-smn-vetrate.jpg)
+<figcaption markdown>The cascade: frosted glass in two tiers between the stone blocks<br><small>Giaccai · 22 October 2016 (according to Exif data) · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Stazione_SMN_vetrate.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The clock on the stone block beside the glass](/materials/landmarks/thumbs/stazione-smn-orologio.jpg)](/materials/landmarks/stazione-smn-orologio.jpg)
+<figcaption markdown>The clock on the stone block beside the glass<br><small>sailko · 2008-04-29 15:46:29 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Stazione_smn_orologio.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The long blind wall and the canopy along Via Valfonda](/materials/landmarks/thumbs/stazione-smn-lato-01.jpg)](/materials/landmarks/stazione-smn-lato-01.jpg)
+<figcaption markdown>The long blind wall and the canopy along Via Valfonda<br><small>sailko · 2008-04-29 17:51:21 · [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) · [source](https://commons.wikimedia.org/wiki/File:Stazione_smn_lato_01.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The station from the bell tower of Santa Maria Novella: the head building, the platforms and the tracks](/materials/landmarks/thumbs/smn-campanile-veduta-stazione-03.jpg)](/materials/landmarks/smn-campanile-veduta-stazione-03.jpg)
+<figcaption markdown>The station from the bell tower of Santa Maria Novella: the head building, the platforms and the tracks<br><small>Sailko · 2018-06-30 09:43:10 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Smn,_campanile,_veduta,_stazione_03.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Maria Antonia station around 1900, with its clock turret](/materials/landmarks/thumbs/firenze-stazione-1900.jpg)](/materials/landmarks/firenze-stazione-1900.jpg)
+<figcaption markdown>The Maria Antonia station around 1900, with its clock turret<br><small>AnonymousUnknown author · circa 1900 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Firenze_stazione_1900.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Palazzina Reale: white marble, the portico of honour](/materials/landmarks/thumbs/palazzina-reale-di-smn-firenze-01.jpg)](/materials/landmarks/palazzina-reale-di-smn-firenze-01.jpg)
+<figcaption markdown>The Palazzina Reale: white marble, the portico of honour<br><small>Manuelarosi · 2023-05-30 12:54:30 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzina_reale_di_SMN,_Firenze_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Palazzina Reale and Griselli&#x27;s group by the exedra](/materials/landmarks/thumbs/palazzina-reale-firenze.jpg)](/materials/landmarks/palazzina-reale-firenze.jpg)
+<figcaption markdown>The Palazzina Reale and Griselli&#x27;s group by the exedra<br><small>Freepenguin · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzina_Reale_Firenze.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Teatro del Maggio from Piazza Vittorio Gui](/materials/landmarks/thumbs/fondazione-teatro-del-maggio-musicale-fiorentino-firenze-fi.jpg)](/materials/landmarks/fondazione-teatro-del-maggio-musicale-fiorentino-firenze-fi.jpg)
+<figcaption markdown>The Teatro del Maggio from Piazza Vittorio Gui<br><small>Peaceray · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Fondazione_Teatro_del_maggio_musicale_fiorentino,_Firenze_(FI).jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The foyer under the white block, with the letters of MAGGIO](/materials/landmarks/thumbs/teatro-del-maggio-firenze.jpg)](/materials/landmarks/teatro-del-maggio-firenze.jpg)
+<figcaption markdown>The foyer under the white block, with the letters of MAGGIO<br><small>Manuelarosi · 2025-09-17 17:57:46 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Teatro_del_Maggio_Firenze.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The white block and the dark fly tower over the roofs, from the bell tower of Santa Maria Novella](/materials/landmarks/thumbs/smn-campanile-veduta-nuovo-teatro-dell-opera.jpg)](/materials/landmarks/smn-campanile-veduta-nuovo-teatro-dell-opera.jpg)
+<figcaption markdown>The white block and the dark fly tower over the roofs, from the bell tower of Santa Maria Novella<br><small>Sailko · 2018-06-30 09:55:57 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Smn,_campanile,_veduta,_nuovo_teatro_dell%27opera.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The stair up to the terraces](/materials/landmarks/thumbs/piazza-del-nuovo-teatro-dell-opera-scalinata.jpg)](/materials/landmarks/piazza-del-nuovo-teatro-dell-opera-scalinata.jpg)
+<figcaption markdown>The stair up to the terraces<br><small>Sailko · 2014-05-27 09:21:21 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_del_nuovo_teatro_dell%27opera,_scalinata.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![A concert in the cavea, before the fly tower&#x27;s dark wall](/materials/landmarks/thumbs/hake-live-at-cavea-del-teatro-del-maggio-musicale-fiorentino-florence.jpg)](/materials/landmarks/hake-live-at-cavea-del-teatro-del-maggio-musicale-fiorentino-florence.jpg)
+<figcaption markdown>A concert in the cavea, before the fly tower&#x27;s dark wall<br><small>Dennis Radaelli · 2019-07-06 21:59:16 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Hake_live_at_Cavea_del_Teatro_del_Maggio_Musicale_Fiorentino,_Florence_-_July_6,_2019.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The arches of the head behind the pergola](/materials/landmarks/thumbs/stazione-leopolda-66.jpg)](/materials/landmarks/stazione-leopolda-66.jpg)
+<figcaption markdown>The arches of the head behind the pergola<br><small>Freepenguin · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Stazione_Leopolda_66.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Leopolda during the National Exhibition of 1861 (stereo view)](/materials/landmarks/thumbs/gezicht-op-het-stazione-leopolda-te-florence-vermoedelijk-tijdens-de-e.jpg)](/materials/landmarks/gezicht-op-het-stazione-leopolda-te-florence-vermoedelijk-tijdens-de-e.jpg)
+<figcaption markdown>The Leopolda during the National Exhibition of 1861 (stereo view)<br><small>Rijksmuseum · 1861 · [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) · [source](https://commons.wikimedia.org/wiki/File:Gezicht_op_het_Stazione_Leopolda_te_Florence_(vermoedelijk)_tijdens_de_Esposizione_Nazionale_in_1861,_RP-F-F07073.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The entrance of the 1861 Exhibition: a portico of seven arches under a pediment](/materials/landmarks/thumbs/esposizione-nazionale-1861.jpg)](/materials/landmarks/esposizione-nazionale-1861.jpg)
+<figcaption markdown>The entrance of the 1861 Exhibition: a portico of seven arches under a pediment<br><small>Unknown authorUnknown author · 1861 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Esposizione_Nazionale_1861.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The Synagogue from the Duomo&#x27;s dome](/materials/landmarks/thumbs/synagogue-of-florence-from-brunelleschi-s-dome.jpg)](/materials/landmarks/synagogue-of-florence-from-brunelleschi-s-dome.jpg)
+<figcaption markdown>The Synagogue from the Duomo&#x27;s dome<br><small>Yair Haklai · 2019-04-22 09:17:57 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Synagogue_of_Florence_from_Brunelleschi%27s_Dome.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The north side: banding, horseshoe windows, the tower](/materials/landmarks/thumbs/firenze-tempio-maggiore-israelitico-esterno-lato-nord-1.jpg)](/materials/landmarks/firenze-tempio-maggiore-israelitico-esterno-lato-nord-1.jpg)
+<figcaption markdown>The north side: banding, horseshoe windows, the tower<br><small>Zairon · 2023-04-16 10:46:14 · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Tempio_Maggiore_Israelitico_Esterno_Lato_Nord_1.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The front: the great arch, the windows and the portico](/materials/landmarks/thumbs/synagoge-florenz-2.jpg)](/materials/landmarks/synagoge-florenz-2.jpg)
+<figcaption markdown>The front: the great arch, the windows and the portico<br><small>Rufus46 · 2014-08-26 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Synagoge_Florenz-2.jpg)</small></figcaption>
 </figure>
 
 </div>

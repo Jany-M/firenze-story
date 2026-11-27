@@ -65,7 +65,8 @@ Technical page: [DUOMO.md](landmarks/DUOMO.md)
 ## Stazione Leopolda
 Technical page: [LEOPOLDA.md](landmarks/LEOPOLDA.md)
 
-- [ ] The head's real elevation (its portico and pediment in the 1850 print) and the building's changes after 1860 are not drawn.
+- [ ] When the pediment of 1861 and the side arcade came down is not known (both shown to 1900, *inferred*).
+- [ ] The south wing's tall part may be later than 1848; the pergola's date (1997) is *inferred*.
 
 ## Loggia dei Lanzi – landmark model
 Technical page: [LOGGIA-DEI-LANZI.md](landmarks/LOGGIA-DEI-LANZI.md)
@@ -238,15 +239,15 @@ Technical page: [SANTO-SPIRITO.md](landmarks/SANTO-SPIRITO.md)
 ## The Synagogue (Tempio Maggiore Israelitico)
 Technical page: [SINAGOGA.md](landmarks/SINAGOGA.md)
 
-- [ ] The front's portico and windows are simplified; the garden, its fence and the side buildings are not drawn.
+- [ ] The carved ornament (the archivolt's patterns, the friezes, the window grilles) is drawn as plain bands; the side buildings of the community are not drawn.
 - [ ] The works of 1874–82 are not shown; the gilded domes of the first years are not drawn.
 
 ## Santa Maria Novella station
 Technical page: [STAZIONE-SMN.md](landmarks/STAZIONE-SMN.md)
 
-- [ ] No free photograph found yet for the library page (the ones online are copyrighted); the front's details (the lettering, the clock, the long bands of glass) are not drawn.
-- [ ] The Maria Antonia station (1848–1930s) and Michelucci's Palazzina Reale (white marble, 1935) are not modelled.
-- [ ] The platforms' roofs and the train shed come from the DSM as flat masses.
+- [ ] The Maria Antonia's end date (1934) is *inferred*: the old station was cleared while the new one rose (1933–35).
+- [ ] The platform count and the tracks are drawn evenly (nine platforms, eighteen tracks); the real layout differs in detail.
+- [ ] Not drawn: the heating plant and the other service buildings by Angiolo Mazzoni, the old platform roofs, the underground passages.
 
 ## Palazzo Strozzi
 Technical page: [STROZZI.md](landmarks/STROZZI.md)
@@ -257,6 +258,12 @@ Technical page: [STROZZI.md](landmarks/STROZZI.md)
 - [ ] The roof is a simple ring of pitched roofs; the LiDAR shows the 20th-century roof structures.
 - [ ] The piano nobile date (1495) is inferred.
 - [ ] The south side's 1938 finish is drawn like the other fronts; how far the restoration actually copied them (window count, rustication) is to check against photographs of Vicolo Strozzi, and so is the length of the cornice's returns (2.4 m).
+
+## Teatro del Maggio Musicale Fiorentino
+Technical page: [TEATRO-MAGGIO.md](landmarks/TEATRO-MAGGIO.md)
+
+- [ ] The great hall's top slant and the exact layout of the foyer and the stair to the terraces are drawn from a few photographs.
+- [ ] The golden hemisphere of the lobby and the interiors are not drawn.
 
 ## Palazzo degli Uffizi
 Technical page: [UFFIZI.md](landmarks/UFFIZI.md)
