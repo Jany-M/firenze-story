@@ -198,6 +198,10 @@ async function main() {
     panels.update(ch); timeline.update();
   });
 
+  // the user's hand on the view: a scene that frames itself waits until 4 s after the last drag or wheel
+  let camHeld = false, camHeldT = 0;
+  const holdCam = () => { camHeld = true; clearTimeout(camHeldT); camHeldT = window.setTimeout(() => (camHeld = false), 4000); };
+  renderer.domElement.addEventListener('pointerdown', holdCam); renderer.domElement.addEventListener('wheel', holdCam, { passive: true });
   // picking
   const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2(); let down = [0, 0];
   renderer.domElement.addEventListener('pointerdown', e => (down = [e.clientX, e.clientY]));
@@ -247,7 +251,7 @@ async function main() {
     } else tlEl.classList.remove('fast');
     view.update(dt); controls.update(); uTime.value += dt; city.follow(controls.target.x, controls.target.z);
     if (eventLight && performance.now() > eventLight.until) endEventLight();
-    stage.setSun(state.hour, state.year); uSky.value.copy(scene.background as THREE.Color);
+    stage.setSun(state.mode === 'live' ? scenes.lightHour() ?? state.hour : state.hour, state.year); uSky.value.copy(scene.background as THREE.Color);
     { // haze scales with zoom: close views stay crisp, the whole valley only fades at the horizon
       const d = camera.position.distanceTo(controls.target), f = scene.fog as THREE.Fog;
       if (q.tier === 'low') { f.near = Math.max(120, d * 0.7); f.far = Math.min(q.cityRadius * 0.95, Math.max(600, d * 2.2 + 300)); }   // small devices: a tight circle of focus, the rest in haze
@@ -263,6 +267,14 @@ async function main() {
       const f = scenes.follow();                       // keep a moving subject in view, the user still orbits and zooms
       if (f) { const k = Math.min(1, dt * 1.5), dx = (f.x - controls.target.x) * k, dz = (f.z - controls.target.z) * k;
         controls.target.x += dx; controls.target.z += dz; camera.position.x += dx; camera.position.z += dz; }
+      const g = scenes.camGoal();                      // a scene that frames itself (the flood): ease towards its view, same heading
+      if (g && !camHeld) {
+        const k = Math.min(1, dt * 0.9), tgt = new THREE.Vector3(g[0], height(g[0], g[1]), g[1]);
+        controls.target.lerp(tgt, k);
+        const dir = camera.position.clone().sub(controls.target), az = Math.atan2(dir.x, dir.z);
+        const want = controls.target.clone().add(new THREE.Vector3().setFromSphericalCoords(g[2], g[3], az));
+        camera.position.lerp(want, k);
+      }
     }
     if ((camSave += dt) > 1) { camSave = 0; panels.legend(); state.cam = [...camera.position.toArray(), ...controls.target.toArray()].map(v => Math.round(v)); }
     pipeline.render();

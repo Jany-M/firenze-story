@@ -14,11 +14,15 @@ type Height = (x: number, z: number) => number;
 const STEP = 8, X0 = -1700, X1 = 1700, Z0 = -720, Z1 = 1100;
 const NERI = { x: 250, z: 315, depth: 4.92 }, DUOMO = { x: 27, z: -139, depth: 1.8 };
 const BREAK = 5.0, DUOMO_AT = 9.75, PEAK = 16.0, FALL = 20.0, DRY = 56.0;     // hours from 00:00 on 4 November
+const START = 3.5;                                                             // the scene opens before dawn, the Arno high in its bed
+// where the water first came into the city: over and through the parapet at Piazza Cavalleggeri, into Santa Croce (Sky TG24)
+const CAVALLEGGERI = 560;
 
 export function createFlood(root: THREE.Object3D, height: Height) {
   const uH = uniform(0);
   let probe: (x: number, z: number) => number[] = () => [];
   let mesh: THREE.Mesh | null = null, label: HTMLDivElement | null = null, t = 0;
+  let breach = { x: CAVALLEGGERI, z: 0 };
 
   async function build(base: string) {
     const axis: number[][] = (await (await fetch(`${base}/river.json`)).json()).axis;
@@ -43,7 +47,12 @@ export function createFlood(root: THREE.Object3D, height: Height) {
     // cell after the banks give way at a speed set by its distance from the nearer bank: Duomo at 9:45.
     const bank = (x: number, z: number) => { const [, , zn, zs] = ax(x); return z < zn ? zn - z : z > zs ? z - zs : 0; };
     const speed = bank(DUOMO.x, DUOMO.z) / (DUOMO_AT - BREAK);                // metres an hour
-    for (let c = 0; c < N; c++) if (!ch[c] && G[c] < S[c]) A[c] = BREAK + bank(X0 + (c % nx) * STEP, Z0 + ((c / nx) | 0) * STEP) / speed;
+    // Piazza Cavalleggeri goes first: from there the water runs into Santa Croce ahead of the overflow along the other banks
+    breach = { x: CAVALLEGGERI, z: ax(CAVALLEGGERI)[2] };
+    for (let c = 0; c < N; c++) if (!ch[c] && G[c] < S[c]) {
+      const x = X0 + (c % nx) * STEP, z = Z0 + ((c / nx) | 0) * STEP;
+      A[c] = Math.min(BREAK + 0.5 + bank(x, z) / speed, BREAK + Math.hypot(x - breach.x, z - breach.z) / (speed * 1.6));
+    }
     probe = (x, z) => { const c = Math.round((z - Z0) / STEP) * nx + Math.round((x - X0) / STEP); return [G[c], S[c], A[c], ch[c]]; };
     // the mesh: one quad a cell, vertices carry ground, surface and arrival time
     const pos = new Float32Array(N * 3), ga = new Float32Array(N), sa = new Float32Array(N), aa = new Float32Array(N);
@@ -61,7 +70,7 @@ export function createFlood(root: THREE.Object3D, height: Height) {
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('g0', new THREE.BufferAttribute(ga, 1));
     g.setAttribute('s1', new THREE.BufferAttribute(sa, 1)); g.setAttribute('arr', new THREE.BufferAttribute(aa, 1));
     g.setIndex(idx); g.computeVertexNormals(); g.computeBoundingSphere();
-    const mat = new THREE.MeshStandardNodeMaterial({ color: 0x6e5a3c, roughness: 0.3, metalness: 0.05 });
+    const mat = new THREE.MeshStandardNodeMaterial({ color: 0x55707a, roughness: 0.22, metalness: 0.08 });   // grey-blue, a little silt
     mat.positionNode = Fn(() => {
       const g0 = attribute('g0', 'float'), s1 = attribute('s1', 'float'), arr = attribute('arr', 'float');
       const rise = clamp(uH.sub(arr).div(float(PEAK).sub(arr).max(1)), 0, 1);
@@ -75,11 +84,12 @@ export function createFlood(root: THREE.Object3D, height: Height) {
     label.style.cssText = 'position:fixed;top:64px;left:50%;transform:translateX(-50%);padding:4px 12px;border-radius:12px;background:rgba(255,255,255,.85);font:600 13px system-ui;color:#5a1c1c;z-index:20;pointer-events:none';
     document.body.appendChild(label);
   }
-  /** Loop of 100 s: 00:00 → 22:00 on 4 November in 70 s, then the fall to 08:00 on 6 November, a pause. */
+  /** Loop of 100 s: 03:30 → 22:00 on 4 November in 70 s, then the fall to 08:00 on 6 November, a pause. */
+  const hourAt = (t: number) => t < 70 ? START + t / 70 * (22 - START) : t < 95 ? 22 + (t - 70) / 25 * (DRY - 22) : DRY;
   function update(dt: number) {
     if (!mesh) return;
     t = (t + dt) % 100;
-    const h = t < 70 ? t / 70 * 22 : t < 95 ? 22 + (t - 70) / 25 * (DRY - 22) : DRY;
+    const h = hourAt(t);
     uH.value = h;
     if (label) {
       const day = 4 + Math.floor(h / 24), hh = Math.floor(h % 24), mm = Math.floor((h % 1) * 60 / 15) * 15;
@@ -89,8 +99,29 @@ export function createFlood(root: THREE.Object3D, height: Height) {
   }
   function clear() { if (mesh) { mesh.geometry.dispose(); root.remove(mesh); mesh = null; } label?.remove(); label = null; t = 0; }
   /** Jump the loop to an hour of 4 November (debug and the timeline). */
-  function seek(h: number) { t = h <= 22 ? h / 22 * 70 : 70 + (h - 22) / (DRY - 22) * 25; }
-  const api = { build, update, clear, seek, probe: (x: number, z: number) => probe(x, z), get on() { return !!mesh; } };
+  function seek(h: number) { t = h <= 22 ? Math.max(0, h - START) / (22 - START) * 70 : 70 + (h - 22) / (DRY - 22) * 25; }
+  /** The hour for the sun (the scene lights itself, from night to day and back). */
+  // Sunrise in Florence in early November is ≈6:50, sunset ≈17:00. The night is drawn as a deep dawn and dusk so the
+  // water stays readable: 03:30 opens at first light and brightens to day by 7:30.
+  const lightHour = () => {
+    if (!mesh) return null;
+    const h = hourAt(t) % 24;
+    if (h < 7.5) return 6.15 + Math.max(0, h - 3.5) / 4 * 1.35;
+    if (h > 17.5) return 17.8;                                                    // the evening held at dusk
+    return h;
+  };
+  /** Where the camera should look: close over the first break in the parapet, then out over the flooded quarters. */
+  const ease = (a: number, b: number, h: number) => { const k = Math.min(1, Math.max(0, (h - a) / (b - a))); return k * k * (3 - 2 * k); };
+  function camGoal(): [number, number, number, number] | null {
+    if (!mesh) return null;
+    const h = hourAt(t);
+    const k1 = ease(5.5, 8.5, h), k2 = ease(8.5, 13, h), k3 = ease(DRY - 30, DRY - 4, h);
+    let x = breach.x + (330 - breach.x) * k1, z = breach.z + (200 - breach.z) * k1;          // towards Santa Croce
+    x += (120 - x) * k2; z += (120 - z) * k2;                                                     // then the whole centre
+    const dist = 230 + 650 * k1 + 800 * k2 - 600 * k3, pitch = 0.72 + 0.2 * k2;
+    return [x, z, dist, pitch];
+  }
+  const api = { build, update, clear, seek, lightHour, camGoal, probe: (x: number, z: number) => probe(x, z), get on() { return !!mesh; } };
   (window as unknown as { __flood?: typeof api }).__flood = api;
   return api;
 }
