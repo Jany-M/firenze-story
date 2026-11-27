@@ -22,6 +22,7 @@ MAT["stone"] = material("pietra_serena_uffizi", "pietra_serena", (0.5, 0.5, 0.47
 MAT["plaster"] = material("plaster_uffizi", None, (0.84, 0.78, 0.64), 0.9)
 MAT["marble"] = material("statue_marble", None, (0.9, 0.88, 0.84), 0.45)
 MAT["rubble"] = material("old_masonry", "pietra_forte", (0.6, 0.5, 0.38), 0.9, 0.4)
+MAT["iron"] = material("wrought_iron", None, (0.08, 0.08, 0.08), 0.6, metal=0.6)
 
 LEN = 140.0                       # wings run Y 0 … 140
 XI = 7.0                          # piazzale half width
@@ -117,8 +118,19 @@ for tag, F, Fo, x_out, x_in, side in (("west", FWi, FWo, XW, -XI, -1), ("east", 
 
 # ---- Arno wing (1565) with the serliana, top loggia 1580 ----
 a = f"arno@{tag_year['arno']}-{NOW}"; at = f"arno_top@1580-{NOW}"
-wbox(bm_for(a, "plaster"), XW, -XI, YS, 0, 0, NOB)                                                # left block
-wbox(bm_for(a, "plaster"), XI, XE, YS, 0, 0, NOB)                                                 # right block
+# the two porticoes of the long wings run on through the Arno wing and open onto the Lungarno in a big arch each (photographs:
+# Oursana 2013 from across the river, Txllxt TxllxT 2010 from the Lungarno, Joanbanjo 2011): the passage X ±(7…11.4) is open
+# to the vault (≈11 m), the coffered vault over it, the arch ringed in pietra serena between pilasters, niches with statues
+XP = XI + DEPTH
+wbox(bm_for(a, "plaster"), XW, -XP, YS, 0, 0, NOB)                                                # left block
+wbox(bm_for(a, "plaster"), XP, XE, YS, 0, 0, NOB)                                                 # right block
+for (x0, x1) in ((-XP, -XI), (XI, XP)):
+    wbox(bm_for(a, "plaster"), x0, x1, YS, 0, 11.0, NOB)                                         # over the passage
+    wbox(bm_for(a, "stone"), x0, x1, YS, 0, 10.7, 11.0)                                          # its vault (coffered: stone)
+    wbox(bm_for(a, "stone"), x0, x1, YS, 0, 0, 0.45)                                             # its floor
+    for k in range(4):                                                                           # coffer ribs
+        y = YS + (k + 0.5) * (-YS) / 4
+        wbox(bm_for(a, "dark"), x0 + 0.5, x1 - 0.5, y - 0.6, y + 0.6, 10.62, 10.7)
 wbox(bm_for(a, "plaster"), -XI, XI, YS, 0, 12.0, NOB)                                             # over the passage (above the screen)
 wbox(bm_for(at, "plaster"), XW, XE, YS, 0, NOB, TOPF)
 wbox(bm_for(a, "stone"), -XI, XI, YS - 0.9, YS + 0.2, 0, 0.45)                                    # steps / threshold
@@ -135,13 +147,45 @@ for k in range(16):                                                             
                                   FS.p(c + r1 * math.cos(a1), cz + r1 * math.sin(a1), n), FS.p(c + r1 * math.cos(a0), cz + r1 * math.sin(a0), n)])
 for (s0, s1) in ((-6.6, -3.4), (3.4, 6.6)):                                                      # spandrel blocks beside the arch
     pbox(bm_for(a, "stone"), FS, -XW + s0, -XW + s1, PORT, 12.0, 0, 0.5)
+for xc in (-(XI + XP) / 2, (XI + XP) / 2):                                                         # the two side arches
+    uc = xc - XW; rr = (XP - XI) / 2 - 0.15
+    for k in range(16):
+        a0, a1 = math.pi * k / 16, math.pi * (k + 1) / 16
+        for n in (0.0, 0.6):
+            poly(bm_for(a, "stone"), [FS.p(uc + rr * math.cos(a0), PORT + rr * math.sin(a0), n), FS.p(uc + rr * math.cos(a1), PORT + rr * math.sin(a1), n),
+                                      FS.p(uc + (rr + 0.7) * math.cos(a1), PORT + (rr + 0.7) * math.sin(a1), n), FS.p(uc + (rr + 0.7) * math.cos(a0), PORT + (rr + 0.7) * math.sin(a0), n)])
+    pts = [FS.p(uc + rr * math.cos(math.pi * k / 16), PORT + rr * math.sin(math.pi * k / 16), 0.0) for k in range(17)]
+    sp = [FS.p(uc - rr - 0.7, PORT, 0.0), FS.p(uc + rr + 0.7, PORT, 0.0)]
+    for k in range(16):                                                                          # spandrel up to the vault line
+        poly(bm_for(a, "plaster"), [pts[k], pts[k + 1], FS.p(uc + (rr + 0.7) * (1 if k < 8 else -1), 11.0, 0.0)])
+    poly(bm_for(a, "plaster"), [FS.p(uc - rr - 0.7, 11.0, 0), FS.p(uc + rr + 0.7, 11.0, 0), pts[8]])
+    for s_ in (-1, 1):                                                                           # pilasters, a niche with a statue
+        u = uc + s_ * (rr + 0.7 + 0.45)
+        pbox(bm_for(a, "stone"), FS, u - 0.45, u + 0.45, 0.45, PORT, 0, 0.5)
+        pbox(bm_for(a, "stone"), FS, u - 0.55, u + 0.55, PORT, PORT + 0.4, 0, 0.6)
+    for s_ in ((1 if xc > 0 else -1),):                                                          # the niche on the outer side
+        u = uc + s_ * (rr + 2.6)
+        if True:
+            box(bm_for(a, "dark"), FS, u - 0.6, u + 0.6, 1.6, 5.4, -0.05, 0.02)
+            box(bm_for(f"statues@1850-{NOW}", "marble"), FS, u - 0.3, u + 0.3, 1.7, 4.6, 0.02, 0.4)
+            box(bm_for(f"statues@1850-{NOW}", "marble"), FS, u - 0.15, u + 0.15, 4.6, 5.1, 0.05, 0.35)
+pbox(bm_for(a, "stone"), FS, -XP - XW - 1.2, XP - XW + 1.2, PORT, PORT + 0.3, 0, 0.7)            # the order's entablature across the middle
+for xc in (-4.0, 0.0, 4.0):                                                                        # piano nobile: three arched windows
+    opening(a, FS, xc - XW - 0.9, xc - XW + 0.9, 13.0, 16.9, frame=0.3, pointed=False, fill="glass", frame_mat="stone")
+    pbox(bm_for(a, "stone"), FS, xc - XW - 1.3, xc - XW + 1.3, 12.6, 12.85, 0, 0.6)
+    for q in range(6): pbox(bm_for(a, "iron"), FS, xc - XW - 1.2 + q * 0.48, xc - XW - 1.16 + q * 0.48, 12.85, 13.8, 0.5, 0.54)
+    pbox(bm_for(a, "iron"), FS, xc - XW - 1.25, xc - XW + 1.25, 13.75, 13.82, 0.45, 0.56)
+for xc in (-(XI + XP) / 2, (XI + XP) / 2):
+    rect_win(a, FS, xc - XW, 1.3, 13.1, 16.6, "tri", "glass")
+for xc in (-XP, -XI, XI, XP):                                                                      # pilasters of the middle section
+    pbox(bm_for(a, "stone"), FS, xc - XW - 0.35, xc - XW + 0.35, PORT + 0.3, NOB, 0, 0.25)
 # top loggia on the Arno face: three round-arched openings over the screen, windows on the blocks
 for k in range(3):
     c = -XW + (k - 1) * 4.0
     opening(at, FS, c - 1.5, c + 1.5, 19.2, 24.3, frame=0.3, pointed=False, fill="dark", frame_mat="stone")
 pbox(bm_for(at, "stone"), FS, 0, XE - XW, NOB, NOB + 0.5, 0, 0.5)
 box(bm_for(at, "stone"), FS, -0.3, XE - XW + 0.3, TOPF, CORN, 0, 1.0)
-for side_u0, side_u1 in ((0, -XI - XW), (XI - XW, XE - XW)):
+for side_u0, side_u1 in ((0, -XP - XW - 2.4), (XP - XW + 2.4, XE - XW)):
     n = int((side_u1 - side_u0) / 2.456)
     for i in range(n):
         c = side_u0 + (i + 0.5) * (side_u1 - side_u0) / n

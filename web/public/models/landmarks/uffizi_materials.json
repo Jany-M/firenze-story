@@ -270,5 +270,21 @@
   "rough": 0.9,
   "scale": 0.4,
   "metal": 0.0
+ },
+ "fs_wrought_iron": {
+  "tex": null,
+  "color": [
+   0.08,
+   0.08,
+   0.08
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.6
  }
 }
