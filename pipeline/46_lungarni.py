@@ -13,7 +13,9 @@ import numpy as np
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 D = os.path.join(ROOT, "web", "public", "data")
 m = json.load(open(os.path.join(D, "meta.json")))["terrain"]; n_, st = m["n"], m["step"]
-T = np.fromfile(os.path.join(D, "terrain.f32"), dtype=np.float32).reshape(n_, n_); half = (n_ - 1) * st / 2
+# the ground before 21_build_env holds it at the walls' foot (that step reads this file's output: read its raw copy)
+RAW_T = os.path.join(ROOT, "_dev", "data", "build", "terrain_raw.f32")
+T = np.fromfile(RAW_T if os.path.exists(RAW_T) else os.path.join(D, "terrain.f32"), dtype=np.float32).reshape(n_, n_); half = (n_ - 1) * st / 2
 def G(x, z):
     fx, fz = (x + half) / st, (z + half) / st
     i, j = min(max(int(fx), 0), n_ - 2), min(max(int(fz), 0), n_ - 2); a, b = fx - i, fz - j
@@ -69,6 +71,20 @@ for bank, x0, x1, name, year, basis, conf in STRETCHES:
         z2 = np.array([p[4] for p in pts]); z2s = z2.copy()
         for i in range(2, len(z2) - 2): z2s[i] = np.median(z2[i - 2:i + 3])
         for p, v in zip(pts, z2s): p[4] = round(float(v), 2)
+    # The 4 m ground is drawn as triangles: a street-level vertex next to a river-level one makes a slope that runs out
+    # through a face set between them, as teeth over the water. Put the face on the first river-level vertex of every grid
+    # column within 20 m (a straight face between two points then stays in front of all of them), at most 6 m further out.
+    sgn = 1.0 if bank == "n" else -1.0                       # riverward
+    for p in pts:
+        need = p[1]
+        for cx in np.arange(np.ceil((p[0] - 20 + half) / st), np.floor((p[0] + 20 + half) / st) + 1):
+            if not 0 <= cx < n_: continue
+            j = int(round((p[4] + half) / st))
+            for _ in range(20):
+                if not 0 <= j < n_: break
+                if T[j, int(cx)] < p[3] + 1.0: need = max(need, j * st - half) if bank == "n" else min(need, j * st - half); break
+                j += int(sgn)
+        p[1] = round(float(np.clip(need, p[1] - 6, p[1] + 6)), 2)
     out["stretches"].append({"bank": bank, "name": name, "from": year, "basis": basis, "conf": conf, "pts": pts})
     print(f"{bank} {name:55s} {year} {len(pts)} points, street ≈{np.median([p[2] for p in pts]):.1f}, river ≈{np.median([p[3] for p in pts]):.1f}")
 dst = os.path.join(ROOT, "blender", "data", "lungarni.json"); json.dump(out, open(dst, "w", newline="\n")); print("→", dst)

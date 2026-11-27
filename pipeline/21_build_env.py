@@ -216,6 +216,25 @@ xs = X0 + np.arange(n) * STEP; ys = Y1 - np.arange(n) * STEP
 XX, YY = np.meshgrid(xs, ys)
 H = core_smooth(XX.ravel(), YY.ravel()).reshape(n, n)
 H = carve(H, XX, YY)
+os.makedirs(BUILD, exist_ok=True); (H - BASE_Z).astype(np.float32).tofile(os.path.join(BUILD, "terrain_raw.f32"))   # for 46_lungarni.py
+# The lungarni's walls (pipeline/46_lungarni.py → blender/data/lungarni.json, from an earlier run of this step): the 4 m
+# grid draws the vertical wall as a slope whose vertices poke out of the water in front of the model's wall as teeth.
+# From two cells behind each wall face (under the model's road) to 25 m out, the ground is held at the foot of the wall.
+LJ = os.path.join(ROOT, "blender", "data", "lungarni.json")
+if os.path.exists(LJ):
+    zs_scene = -(YY - ORIGIN[1]); xs_scene = XX - ORIGIN[0]; held = 0
+    for st in json.load(open(LJ, encoding="utf-8"))["stretches"]:
+        P = np.array(st["pts"], float)
+        if len(P) < 2: continue
+        m = (xs_scene >= P[0, 0]) & (xs_scene <= P[-1, 0])
+        zf = np.interp(xs_scene[m], P[:, 0], P[:, 1]); low = np.interp(xs_scene[m], P[:, 0], P[:, 3])
+        out = zs_scene[m] - zf if st["bank"] == "n" else zf - zs_scene[m]          # metres riverward of the face
+        roadw = np.abs(np.interp(xs_scene[m], P[:, 0], P[:, 4]) - zf)                  # the model's road, face → street edge
+        # two grid cells landward too (under the model's road): else the slope from it runs out through the wall's face
+        sel = (out > -np.minimum(8.5, roadw - 0.5)) & (out < 25)
+        sub = H[m]; cap = low + BASE_Z + 0.2
+        held += int((sub[sel] > cap[sel]).sum()); sub[sel] = np.minimum(sub[sel], cap[sel]); H[m] = sub
+    print("lungarni: ground held at the wall foot", held)
 (H - BASE_Z).astype(np.float32).tofile(os.path.join(OUT, "terrain.f32"))
 HW = carve(HW, WXX, WYY, 2.0)
 (HW - BASE_Z).astype(np.float32).tofile(os.path.join(OUT, "wide.f32"))

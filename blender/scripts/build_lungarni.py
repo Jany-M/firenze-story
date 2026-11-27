@@ -8,8 +8,8 @@ right bank (Acciaiuoli, the Archibusieri to the Grazie, 1287–90), the Lungarno
 Soderini before 1865, Poggi's lungarni from 1865 (Zecca 1865, Serristori 1870, Torrigiani and Cellini 1872). Where houses stand
 in the river (Borgo San Jacopo, Via de' Bardi before 1869) there is no wall.
 The wall: a vertical face of squared pietra forte and alberese from below the river-side ground up to the street; the parapet
-on it ≈1 m high and 0.6 m thick, in the same stone, with a pietra serena coping (photographs of the lungarni; heights from the
-LiDAR ground). Parapets that came down: the 1966 flood on the Lungarno Corsini (shown missing 1966–68, the stretch's place
+on it ≈1 m high and 0.6 m thick, of brick (red, its joints in lime) under a stone coping – so on the Lungarno Corsini and the
+Lungarno Torrigiani in Sailko's photographs from the river (2013); heights from the LiDAR ground). Parapets that came down: the 1966 flood on the Lungarno Corsini (shown missing 1966–68, the stretch's place
 *inferred*), the collapse of the Lungarno Torrigiani on 25 May 2016 (wall top and parapet, ≈150 m, shown missing 2016–17).
 """
 import os, sys, math, json
@@ -19,7 +19,7 @@ import landmark_kit as K
 from mathutils import Vector
 K.reset()
 MAT["muro"] = material("lungarno_wall", "pietra_forte", (0.56, 0.5, 0.42), 0.92, 0.35, tint=(2.4, 2.3, 2.15))
-MAT["spalletta"] = material("lungarno_parapet", "pietra_forte", (0.62, 0.53, 0.42), 0.9, 0.3, tint=(2.7, 2.5, 2.2))
+MAT["spalletta"] = material("lungarno_parapet_brick", "cotto", (0.62, 0.33, 0.25), 0.88, 1.2)
 MAT["strada"] = material("lungarno_road", None, (0.42, 0.41, 0.4), 0.95)
 MAT["coping"] = material("pietra_serena", "pietra_serena", (0.5, 0.5, 0.48), 0.7, 0.5)
 NOW = K.NOW

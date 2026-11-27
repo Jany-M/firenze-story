@@ -223,20 +223,20 @@
   "scale": 0.35,
   "metal": 0.0
  },
- "fs_lungarno_parapet": {
-  "tex": "pietra_forte",
+ "fs_lungarno_parapet_brick": {
+  "tex": "cotto",
   "color": [
    0.62,
-   0.53,
-   0.42
+   0.33,
+   0.25
   ],
   "tint": [
-   2.7,
-   2.5,
-   2.2
+   1,
+   1,
+   1
   ],
-  "rough": 0.9,
-  "scale": 0.3,
+  "rough": 0.88,
+  "scale": 1.2,
   "metal": 0.0
  },
  "fs_lungarno_road": {
