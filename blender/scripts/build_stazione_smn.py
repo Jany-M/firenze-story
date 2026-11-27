@@ -9,7 +9,8 @@ Measured (LiDAR 2023 DSM, height above the ground, read in this frame):
   "cascade" 9–13 m (a 4..30); the high block 14–15 m (a 30..116, o 12..50) whose front swings back north-east from
   a 62 to a 116 (o 12 → 31); the canopy 5–6 m in front of it; the east wing 12–14 m along Via Valfonda leaning with the
   tracks (a ≈ 116 − 0.21·(o − 30)); the west wing 10–13 m (16–18 m on its outer side) along Via Alamanni; platform
-  canopies 3–4 m from o ≈ 66; the Palazzina Reale 9–12 m (a 80..112, o 188..218) with a low gallery west of it.
+  canopies 3–4 m from o ≈ 66; the Palazzina Reale 9–12 m on OSM relation 13782297 (turned with the tracks, its exedra
+  north of it), the offices along the tracks on the same outline to o ≈ 368.
 From photographs (Commons; credited in docs/landmarks/STAZIONE-SMN.md): the long low front in pietra forte, the clock
 block with its square clock, the cascade of frosted glass in two tiers between two stone blocks, the flat canopy with a
 deep fascia running along the front and the whole east side, the blind stone walls with their courses; the Palazzina in
@@ -103,11 +104,11 @@ for F, L, p0, p1 in V.edges(CAN):
 for a in (34, 44, 54):                                            # slim steel posts at the front corner of the canopy
     cylinder(NEW, "steel", V.W(a, 0.8), 0.14, G, G + 4.6, seg=8)
 # the east wing along Via Valfonda: a long blind wall leaning with the tracks, its canopy (the taxi rank) along it
-EW = [(a_east(30) - 12, 30), (a_east(30), 30), (a_east(205), 205), (a_east(205) - 12, 205)]
+EW = [(a_east(30) - 12, 30), (a_east(30), 30), (a_east(184), 184), (a_east(184) - 12, 184)]
 stone_block(NEW, EW, G + 14.0)
-Fe, Le = V.frame(a_east(30), 30, a_east(205), 205, inside=(a_east(100) - 6, 100))
+Fe, Le = V.frame(a_east(30), 30, a_east(184), 184, inside=(a_east(100) - 6, 100))
 glass_wall(NEW, Fe, 3, Le - 3, G, G + 4.3, int(Le / 5), rows=1)
-ECAN = [(a_east(31), 31), (a_east(31) + 9, 31), (a_east(195) + 9, 195), (a_east(195), 195)]
+ECAN = [(a_east(31), 31), (a_east(31) + 9, 31), (a_east(184) + 9, 184), (a_east(184), 184)]
 V.prism(NEW, "concrete", ECAN, G + 4.6, G + 5.5, top=True, bottom=True)
 for F, L, p0, p1 in V.edges(ECAN):
     pbox(bm_for(NEW, "pf_trim"), F, 0, L, G + 4.5, G + 5.6, 0, 0.12)
@@ -151,37 +152,56 @@ for k in range(9):
     # the yard beyond the platforms: the same tracks run on north-west (o 300 → 430)
     tracks(V, YARD, lambda o, k=k: pcen(k, o) + 5.3, 300, 430, 2, pitch=4.6, g=G)
 
-# ------------------------------------------------------------------ the Palazzina Reale (1935), north of the east wing
-PALB = V.rect(80, 112, 188, 218); HP = G + 11.6
+# ------------------------------------------------------------------ the Palazzina Reale (1935), at the north end of the east wing
+# Outline from OSM relation 13782297 (in this frame): the block turns with the tracks (≈13°), the exedra opens north of it,
+# the portico of honour runs along its east side, a small wing joins Palazzo di Valfonda; the same outline carries the
+# station's offices north along the tracks to o ≈ 368.
+PALB = [(71.0, 182.2), (122.3, 194.6), (114.4, 225.0), (104.7, 224.0), (81.4, 218.4), (61.6, 221.3)]; HP = G + 11.6
 V.prism(PAL, "marble_w", PALB, G - 0.3, HP, top_mat="roof_m")
 for F, L, p0, p1 in V.edges(PALB):
     pbox(bm_for(PAL, "marble_w"), F, -0.2, L + 0.2, HP - 0.5, HP, 0, 0.4)                 # thin coping
-Fn, Ln = V.frame(80, 218, 112, 218, inside=(96, 200))                                      # north: a grid of windows
-punched(PAL, Fn, 1.5, Ln - 1.5, G + 1.0, G + 4.6, 2.2, 4.6, fill="glass", frame="steel")
-punched(PAL, Fn, 1.5, Ln - 1.5, G + 6.4, G + 9.4, 2.2, 4.6, fill="glass", frame="steel")
-Fe2, Le2 = V.frame(112, 188, 112, 218, inside=(96, 200))                                   # east: the tall glazed entrance
+Fn, Ln = V.frame(81.4, 218.4, 104.7, 224.0, inside=(95, 200))                              # north, on the exedra: a grid of windows
+punched(PAL, Fn, 1.0, Ln - 1.0, G + 1.0, G + 4.6, 2.2, 4.0, fill="glass", frame="steel")
+punched(PAL, Fn, 1.0, Ln - 1.0, G + 6.4, G + 9.4, 2.2, 4.0, fill="glass", frame="steel")
+Fw2, Lw2 = V.frame(61.6, 221.3, 81.4, 218.4, inside=(90, 200))
+punched(PAL, Fw2, 1.0, Lw2 - 1.0, G + 6.4, G + 9.4, 2.2, 4.0, fill="glass", frame="steel")
+Fe2, Le2 = V.frame(122.3, 194.6, 114.4, 225.0, inside=(95, 205))                            # east, under the portico: the entrance
 poly(bm_for(PAL, "dark"), [Fe2.p(Le2 / 2 - 3.2, G, 0.03), Fe2.p(Le2 / 2 + 3.2, G, 0.03), Fe2.p(Le2 / 2 + 3.2, G + 9.6, 0.03), Fe2.p(Le2 / 2 - 3.2, G + 9.6, 0.03)])
 glass_wall(PAL, Fe2, Le2 / 2 - 2.8, Le2 / 2 + 2.8, G, G + 9.4, 4, rows=4)
 punched(PAL, Fe2, 1.5, Le2 / 2 - 4.5, G + 6.4, G + 9.4, 2.0, 4.2, fill="glass", frame="steel")
 punched(PAL, Fe2, Le2 / 2 + 4.5, Le2 - 1.5, G + 6.4, G + 9.4, 2.0, 4.2, fill="glass", frame="steel")
-# the portico of honour on slim marble piers along the east side, the exedra with the sculpture group in its basin
-V.prism(PAL, "marble_w", V.rect(112, 122, 190, 216), G + 7.4, G + 8.2, bottom=True)
-for o in range(191, 217, 3):
-    pbox(bm_for(PAL, "marble_w"), Frame(V.W(120.5, o), S.TA, S.NO), -0.35, 0.35, G, G + 7.4, -0.35, 0.35)
-c_ex = V.W(132, 203)
-for k in range(13):                                               # the exedra wall, open towards the portico
-    t0 = -math.pi / 2 + math.pi * k / 13; t1 = -math.pi / 2 + math.pi * (k + 1) / 13
-    u = S.TA * math.cos(t0) + S.NO * math.sin(t0); w = S.TA * math.cos(t1) + S.NO * math.sin(t1)
-    poly(bm_for(PAL, "marble_w"), [c_ex + u * 13 + Vector((0, 0, G)), c_ex + w * 13 + Vector((0, 0, G)), c_ex + w * 13 + Vector((0, 0, G + 3.2)), c_ex + u * 13 + Vector((0, 0, G + 3.2))])
-fc = V.W(128, 203)
-cylinder(PAL, "marble_w", fc, 4.2, G, G + 0.7, seg=24)
-cylinder(PAL, "water", fc, 3.8, G + 0.7, G + 0.74, seg=24)
-pbox(bm_for(PAL, "marble"), Frame(fc, S.TA, S.NO), -1.6, 1.6, G + 0.7, G + 1.9, -0.9, 0.9)
+# the portico of honour: a thin marble roof on slim piers between the block and Via Valfonda
+PORT = [(122.3, 194.6), (132.8, 197.0), (126.6, 224.8), (114.4, 225.0)]
+V.prism(PAL, "marble_w", PORT, G + 7.6, G + 8.4, bottom=True)
+for k in range(10):
+    t_ = (k + 0.5) / 10
+    a = 132.2 + (126.2 - 132.2) * t_; o = 197.4 + (224.4 - 197.4) * t_
+    pbox(bm_for(PAL, "marble_w"), Frame(V.W(a, o), S.TA, S.NO), -0.3, 0.3, G, G + 7.6, -0.3, 0.3)
+# the small wing towards Palazzo di Valfonda
+WV = [(126.6, 224.8), (138.3, 226.5), (136.5, 250.6), (125.5, 249.2), (125.9, 243.7), (126.9, 232.1)]
+V.prism(PAL, "marble_w", WV, G - 0.3, G + 9.6, top_mat="roof_m")
+Fv, Lv = V.frame(138.3, 226.5, 136.5, 250.6, inside=(130, 238))
+punched(PAL, Fv, 1.0, Lv - 1.0, G + 1.0, G + 4.0, 1.8, 3.6, fill="glass", frame="steel")
+punched(PAL, Fv, 1.0, Lv - 1.0, G + 5.6, G + 8.4, 1.8, 3.6, fill="glass", frame="steel")
+# the exedra: a curved marble wall north of the block (the outline's hook), the sculpture group in its basin
+EX = [(104.7, 224.0), (104.2, 228.8), (107.4, 234.7), (111.3, 237.2), (115.2, 238.3), (120.3, 237.9), (123.8, 236.2), (126.9, 232.1)]
+for (a0, o0), (a1, o1) in zip(EX, EX[1:]):
+    F, L = V.frame(a0, o0, a1, o1, inside=(115.5, 228))
+    pbox(bm_for(PAL, "marble_w"), F, 0, L, G, G + 5.2, -0.8, 0.0)
+    pbox(bm_for(PAL, "marble_w"), F, -0.1, L + 0.1, G + 5.2, G + 5.6, -1.0, 0.15)
+fc = V.W(115.5, 230.5)
+cylinder(PAL, "marble_w", fc, 3.6, G, G + 0.7, seg=24)
+cylinder(PAL, "water", fc, 3.2, G + 0.7, G + 0.74, seg=24)
+Fs = Frame(fc, S.TA, S.NO)
+pbox(bm_for(PAL, "marble"), Fs, -1.6, 1.6, G + 0.7, G + 1.9, -0.9, 0.9)
 for dx, hh in ((-0.7, 2.3), (0.7, 2.0)):                          # two figures (the Arno and his valley)
-    pbox(bm_for(PAL, "marble"), Frame(fc, S.TA, S.NO), dx - 0.45, dx + 0.45, G + 1.9, G + 1.9 + hh, -0.5, 0.4)
+    pbox(bm_for(PAL, "marble"), Fs, dx - 0.45, dx + 0.45, G + 1.9, G + 1.9 + hh, -0.5, 0.4)
     sphere(PAL, "marble", fc + S.TA * dx + Vector((0, 0, G + 2.2 + hh)), 0.28)
-V.prism(PAL, "pf", V.rect(56, 80, 188, 216), G - 0.3, G + 4.2, top_mat="roof_m")              # the low gallery to the platforms
-glass_wall(PAL, V.frame(56, 216, 80, 216, inside=(68, 200))[0], 1, 23, G, G + 3.6, 6, rows=1)
+# the station's offices running on north along the tracks (same outline)
+NOFF = [(61.6, 221.3), (76.7, 221.9), (51.1, 315.6), (43.3, 346.0), (31.7, 368.6), (26.2, 368.1), (60.8, 224.7)]
+stone_block(NEW, NOFF, G + 12.0)
+for F, L, p0, p1 in V.edges(NOFF):
+    if L > 60: punched(NEW, F, 3, L - 3, G + 5.0, G + 6.8, 1.3, 4.4, fill="glass", frame="pf_trim")
 
 # ------------------------------------------------------------------ the Maria Antonia station (1848–1934), nearer the church
 OF = -45.0                                                        # its front (map of 1873: ≈ 40 m south of today's)

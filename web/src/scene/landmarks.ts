@@ -148,6 +148,7 @@ export const LANDMARKS: LandmarkDef[] = [
   // §12 item 7 (pipeline/47_moderni.py, blender/data/moderni.json): absolute scene coordinates
   { file: 'stazione_smn', title: 'Stazione di Santa Maria Novella', from: 1848, replaces: ['Stazione di Santa Maria Novella'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Santa Maria Novella station (Blender; LiDAR 2023, photographs; Gruppo Toscano 1932–35, inaugurated 30 October 1935; the Maria Antonia station 1848, map of 1873)',
+    ids: [9939],   // the Palazzina Reale and the offices north of it (OSM relation 13782297), its centre outside its hooked outline
     members: [
       { key: 'palazzina_reale', name: 'Palazzina Reale di Santa Maria Novella', from: 1935, part: { of: 'Stazione di Santa Maria Novella',
         about: 'The royal pavilion of the station, inaugurated in October 1935: white marble, a portico of honour and the exedra with Italo Griselli\'s marble group "The Arno and its valley".',

@@ -19,7 +19,7 @@ Frame: a along the front from its west corner (-636, -437 scene), growing east; 
 | East wing (Via Valfonda) | 12–14 m, leaning with the tracks: a ≈ 116 − 0.21·(o − 30) | DSM |
 | West wing (Via Alamanni) | 10–13 m, 16–18 m on its outer side | DSM |
 | Platforms | canopies 3–4 m from o ≈ 66 | DSM |
-| Palazzina Reale | 9–12 m, a 80..112, o 188..218; a low gallery west of it | DSM |
+| Palazzina Reale | 9–12 m; outline turned with the tracks (≈13°), the exedra's curve north of it, the portico strip and a small wing along Via Valfonda; the same outline carries the offices along the tracks to o ≈ 368 | [OSM relation 13782297](https://www.openstreetmap.org/relation/13782297), DSM |
 | Maria Antonia station | front ≈ 40 m south of today's, the shed running north | map of 1873 (`web/public/data/map_1873.jpg`) |
 
 ## What the model shows
@@ -33,8 +33,11 @@ From photographs (credited on the library page) and the measured heights:
   Alamanni with three floors of windows and its rounded corner towards the square.
 - **The gallery** at the head of the tracks under a glazed roof, and **nine platforms** with flat canopies on one row
   of posts, eighteen tracks with buffer stops; the tracks run on into the yard.
-- **The Palazzina Reale (1935):** white marble, a grid of windows, a tall glazed entrance, the portico of honour on slim
-  piers by the exedra with Italo Griselli's group in its basin, a low gallery towards the platforms.
+- **The Palazzina Reale (1935):** white marble at the north end of the east wing, turned with the tracks; a grid of
+  windows on the exedra side, a tall glazed entrance under the portico of honour on slim piers along Via Valfonda, a small
+  wing joining Palazzo di Valfonda, the curved exedra with Italo Griselli's group in its basin. The city's shell for
+  this outline (record 9939, a generic building cutting through the Palazzina) is replaced.
+- **The offices** north of the Palazzina along the tracks, on the same outline.
 - **The Maria Antonia station (1848–1934):** a two-storey block with arched openings and a clock turret, lower wings
   either side, a long train shed with a glazed lantern over its four tracks (*inferred* sizes).
 
