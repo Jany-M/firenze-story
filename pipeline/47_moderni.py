@@ -1,4 +1,4 @@
-"""§12 item 7: the Santa Maria Novella station, the Stazione Leopolda, the Synagogue and the Murate – geometry for
+"""§12 item 7: the Santa Maria Novella station, the Stazione Leopolda, the Synagogue, the Murate and the Teatro del Maggio – geometry for
 blender/scripts/build_<site>.py (the same frame and raster as pipeline/45_chiese.py).
 
 For each site: a frame on the façade (a along the front from its corner A to B, o inwards, 0 = the front line), the OSM
@@ -55,6 +55,9 @@ SITES = {
     "sinagoga": {"A": (879.5, -145.2), "B": (867.4, -125.5), "ways": [102979678], "rels": []},
     # the Murate (relation 1609313): the front on Via Ghibellina (south)
     "murate": {"A": (965.9, 271.8), "B": (1065.1, 296.6), "ways": [], "rels": [1609313]},
+    # the Teatro del Maggio Musicale Fiorentino (relation 3609352): its south-west side on Piazza Vittorio Gui, from the
+    # west corner
+    "teatro": {"A": (-1742.2, -731.1), "B": (-1608.2, -646.3), "ways": [], "rels": [3609352]},
 }
 def outline(kind, i):
     if kind == "way": return way(i), []

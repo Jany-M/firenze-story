@@ -208,19 +208,35 @@
   "metal": 0.3
  },
  "fs_plaster_leopolda": {
-  "tex": null,
+  "tex": "intonaco",
   "color": [
    0.86,
-   0.8,
-   0.68
+   0.78,
+   0.62
   ],
   "tint": [
-   1,
-   1,
-   1
+   1.0,
+   0.93,
+   0.8
   ],
   "rough": 0.9,
-  "scale": 1.0,
+  "scale": 0.25,
+  "metal": 0.0
+ },
+ "fs_rusticated_stone": {
+  "tex": "pietra_forte",
+  "color": [
+   0.7,
+   0.62,
+   0.5
+  ],
+  "tint": [
+   2.2,
+   2.2,
+   2.05
+  ],
+  "rough": 0.85,
+  "scale": 0.35,
   "metal": 0.0
  },
  "fs_pietra_serena": {
@@ -238,6 +254,70 @@
   "rough": 0.7,
   "scale": 0.5,
   "metal": 0.0
+ },
+ "fs_pergola_steel": {
+  "tex": null,
+  "color": [
+   0.3,
+   0.36,
+   0.32
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.6,
+  "scale": 1.0,
+  "metal": 0.5
+ },
+ "fs_concrete": {
+  "tex": null,
+  "color": [
+   0.74,
+   0.72,
+   0.68
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.9,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_track_ballast": {
+  "tex": null,
+  "color": [
+   0.33,
+   0.3,
+   0.27
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 1.0,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_rail_steel": {
+  "tex": null,
+  "color": [
+   0.46,
+   0.44,
+   0.42
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.4,
+  "scale": 1.0,
+  "metal": 0.7
  },
  "fs_lawn": {
   "tex": null,

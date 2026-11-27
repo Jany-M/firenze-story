@@ -146,12 +146,21 @@ export const LANDMARKS: LandmarkDef[] = [
         about: "The monastery's cloister, planned in 1426 and built from 1443 to the mid-1450s between the church and the Bishops' Palace; Paolo Uccello painted scenes from the lives of the desert hermits on its walls." } }],
     source: "Landmark model v1 – San Miniato al Monte (Blender; OSM outlines and a traced outline for the monastery, LiDAR 2023; church begun 1018, marble front 12th–13th c., Bishops' Palace 1295, bell tower 1523, cloister 1443–c. 1455)" },
   // §12 item 7 (pipeline/47_moderni.py, blender/data/moderni.json): absolute scene coordinates
-  { file: 'stazione_smn', title: 'Stazione di Santa Maria Novella', from: 1935, replaces: ['Stazione di Santa Maria Novella'], at: [0, 0], rot: 0, ground: 0,
-    source: 'Landmark model v1 – Santa Maria Novella station (Blender; OSM relation 3324492, LiDAR 2023; Gruppo Toscano 1933–35, inaugurated 30 October 1935)' },
+  { file: 'stazione_smn', title: 'Stazione di Santa Maria Novella', from: 1848, replaces: ['Stazione di Santa Maria Novella'], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Santa Maria Novella station (Blender; LiDAR 2023, photographs; Gruppo Toscano 1932–35, inaugurated 30 October 1935; the Maria Antonia station 1848, map of 1873)',
+    members: [
+      { key: 'palazzina_reale', name: 'Palazzina Reale di Santa Maria Novella', from: 1935, part: { of: 'Stazione di Santa Maria Novella',
+        about: 'The royal pavilion of the station, inaugurated in October 1935: white marble, a portico of honour and the exedra with Italo Griselli\'s marble group "The Arno and its valley".',
+        wiki: 'https://en.wikipedia.org/wiki/Palazzina_Reale_di_Santa_Maria_Novella' } },
+      { key: 'maria_antonia', name: 'Stazione Maria Antonia', from: 1848, to: 1934, part: { of: 'Stazione di Santa Maria Novella',
+        about: 'The first station on this site, opened on 3 February 1848 for the line to Prato and Pistoia, with four tracks, just behind the apse of Santa Maria Novella; renamed Santa Maria Novella after 1860 and replaced by the station of 1935.' } },
+    ] },
   { file: 'leopolda', title: 'Stazione Leopolda', from: 1848, replaces: ['Stazione Leopolda'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Stazione Leopolda (Blender; OSM way 269666091, LiDAR 2023; Enrico Presenti, opened 2 June 1848, passengers to 1860)' },
   { file: 'sinagoga', title: 'Tempio Maggiore Israelitico', from: 1882, replaces: ['Tempio Maggiore Israelitico - Sinagoga'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – the Synagogue (Blender; OSM way 102979678, LiDAR 2023; Treves, Falcini, Micheli 1874–82)' },
+  { file: 'teatro_maggio', title: 'Teatro del Maggio Musicale Fiorentino', from: 2011, replaces: ['Teatro del Maggio Musicale Fiorentino'], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Teatro del Maggio Musicale Fiorentino (Blender; OSM relation 3609352, LiDAR 2023, photographs; Paolo Desideri – ABDR, inaugurated 21 December 2011)' },
   { file: 'murate', title: 'Le Murate', from: 1424, replaces: ['ex Monastero delle Murate'], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Le Murate (Blender; OSM relation 1609313, LiDAR 2023; convent 1424, prison 1883–1985, recovered from 2001)' },
   // the river walls and parapets of the lungarni (pipeline/46_lungarni.py): absolute scene coordinates
