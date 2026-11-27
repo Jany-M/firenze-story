@@ -79,14 +79,23 @@ export const CLOTHING: { to: number; colors: string[] }[] = [
 ];
 export const clothingFor = (y: number) => (CLOTHING.find(c => y <= c.to) ?? CLOTHING[CLOTHING.length - 1]).colors;
 
-export const MAP_OVERLAYS = [
+/** Historic maps laid on the ground. `from` is the year each one shows; "auto" lays the map of the year on screen,
+ *  each from its year until the next one, none before the first (the cadastre's Florence sheets, 1832 *inferred*). */
+export const MAP_OVERLAYS: { id: string; name: string; from?: number }[] = [
   { id: 'none', name: 'No map' },
-  { id: 'map_cadastre1830s.png', name: 'Catasto Generale Toscano 1830s (partial)' },
-  { id: 'map_1843.jpg', name: 'Fantozzi map 1843' },
-  { id: 'map_1873.jpg', name: 'IGM map 1873' },
-  { id: 'map_1937.jpg', name: 'City map 1937' },
-  { id: 'ortho2017.jpg', name: 'Orthophoto 2017' },
+  { id: 'auto', name: 'The map of the year shown' },
+  { id: 'map_cadastre1830s.png', name: 'Catasto Generale Toscano 1830s (partial)', from: 1832 },
+  { id: 'map_1843.jpg', name: 'Fantozzi map 1843', from: 1843 },
+  { id: 'map_1873.jpg', name: 'IGM map 1873', from: 1873 },
+  { id: 'map_1937.jpg', name: 'City map 1937', from: 1937 },
+  { id: 'ortho2017.jpg', name: 'Orthophoto 2017', from: 2017 },
 ];
+/** The overlay to lay for a choice and a year: "auto" picks the latest map made by that year, or none. */
+export const overlayFor = (choice: string, year: number) => {
+  if (choice !== 'auto') return choice;
+  let id = 'none'; for (const m of MAP_OVERLAYS) if (m.from !== undefined && m.from <= year) id = m.id;
+  return id;
+};
 
 export const CREDITS = [
   'Comune di Firenze – open data (CC-BY 4.0): LiDAR 2023, 1:500 cartography, archaeology, historic maps & cadastre (WMS)',

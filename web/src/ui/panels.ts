@@ -4,9 +4,9 @@ import { layout } from './layout';
 import { galleryHtml, wireGallery, materialsFor } from './gallery';
 import { libraryUrl } from '../data/library';
 import { state, set, fmtYear, fmtDay, fmtHour, MONTHS, type Mode } from '../state';
-import { epochAt, EVENTS, EVENT_REFS, PERIODS, CONF_COLORS, MAP_OVERLAYS, CREDITS, SOURCE_LAYERS } from '../data/history';
+import { epochAt, EVENTS, EVENT_REFS, PERIODS, CONF_COLORS, MAP_OVERLAYS, CREDITS, SOURCE_LAYERS, overlayFor } from '../data/history';
 import { ANCIENT_SITES, NECROPOLES } from '../sim/river';
-import { isAlive, type Rec } from '../scene/city';
+import { isAlive, uPeriodPick, type Rec } from '../scene/city';
 import { linkSource, sceneToLatLon, streetNameIn, fmtNo, DATASET, A07_PAGES, type Addresses, type SourceLink, type AddrRec } from '../data/sources';
 
 const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.querySelector(s) as T;
@@ -37,15 +37,20 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   side.innerHTML = `
     <h3 class="ptitle">Sources &amp; layers</h3>
     <h4>Colour buildings by</h4>
-    <div class="seg" id="cm"><button data-c="real">Realistic</button><button data-c="period">Construction period</button><button data-c="confidence">Confidence</button></div>
+    <div class="seg" id="cm"><button data-c="real">Realistic</button><button data-c="period">Period</button><button data-c="confidence">Confidence</button></div>
     <div id="legend"></div>
     <h4>Historic map on the ground</h4>
     <select id="ov">${MAP_OVERLAYS.map(o => `<option value="${o.id}">${o.name}</option>`).join('')}</select>
+    <p class="muted small" id="ovnow"></p>
     <label class="row">opacity <input id="ovo" type="range" min="0" max="1" step="0.05"></label>
     <details><summary>Credits & data</summary><ul>${CREDITS.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
       <p><a href="docs/" target="_blank" rel="noopener">Documentation</a> · dataset ids, landmarks, sources, history</p>
       <p class="muted">Renderer: ${hooks.backend}. Drop a Gaussian splat (.ply/.spz/.splat/.ksplat) onto the page to place it at the focus point.</p></details>`;
   $('#cm', side).onclick = ev => { const c = (ev.target as HTMLElement).dataset.c; if (c) set({ color: c as any }); };
+  // a period in the legend: only its buildings in colour, the others grey; a second click shows them all again
+  let pick = -1;
+  $('#legend', side).onclick = ev => { const p = (ev.target as HTMLElement).closest<HTMLElement>('[data-p]'); if (!p) return;
+    pick = pick === +p.dataset.p! ? -1 : +p.dataset.p!; uPeriodPick.value = pick; legend(); };
   const ov = $<HTMLSelectElement>('#ov', side), ovo = $<HTMLInputElement>('#ovo', side);
   ov.value = state.overlay; ovo.value = String(state.overlayOpacity);
   ov.onchange = () => set({ overlay: ov.value }); ovo.oninput = () => set({ overlayOpacity: +ovo.value });
@@ -253,7 +258,8 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
     const L = $('#legend', side); const y = state.year;
     if (state.color === 'period') {
       const cnt = PERIODS.map(() => 0); recs.forEach(r => { if (isAlive(r, y)) cnt[PERIODS.findIndex(p => r.start <= p.to)]++; });
-      L.innerHTML = layers((l) => l.color) + PERIODS.map((p, i) => `<div class="lg"><i style="background:${p.color}"></i>${p.name}<span>${cnt[i].toLocaleString()}</span></div>`).join('');   // oldest first
+      L.innerHTML = layers((l) => l.color) + PERIODS.map((p, i) => `<div class="lg pick${pick === i ? ' on' : ''}${pick >= 0 && pick !== i ? ' off' : ''}" data-p="${i}" title="Show only this period"><i style="background:${p.color}"></i>${p.name}<span>${cnt[i].toLocaleString()}</span></div>`).join('')   // oldest first
+        + (pick >= 0 ? '<p class="muted small">Only one period in colour · click it again for all</p>' : '<p class="muted small">Click a period to show only its buildings in colour</p>');
     } else if (state.color === 'confidence') {
       const cnt: Record<string, number> = { documented: 0, inferred: 0, conjectural: 0 }; recs.forEach(r => { if (isAlive(r, y)) cnt[r.conf]++; });
       const txt: Record<string, string> = { documented: 'surveyed / dated by a source', inferred: 'from historic maps & data', conjectural: 'estimated (typology, zone)' };
@@ -357,6 +363,8 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
       if (stripCode) openStrip(stripCode);
     }
     modes.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b as HTMLElement).dataset.m === state.mode));
+    { const id = overlayFor(state.overlay, state.year), m = MAP_OVERLAYS.find(o => o.id === id);
+      $('#ovnow', side).textContent = state.overlay !== 'auto' ? '' : m && id !== 'none' ? `Now: ${m.name}` : 'No map documented for this year yet (the first is the 1830s cadastre).'; }
     side.querySelectorAll('#cm button').forEach(b => b.classList.toggle('on', (b as HTMLElement).dataset.c === state.color));
     side.hidden = state.mode !== 'sources'; live.hidden = state.mode !== 'live'; lmk.hidden = state.mode !== 'landmarks';
     const [mm, dday] = state.date.split('-').map(Number);

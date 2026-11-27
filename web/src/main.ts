@@ -4,7 +4,7 @@ import { createStage, uTilt, DEFAULT_HOUR } from './scene/stage';
 import { detectQuality } from './quality';
 import { createXray } from './scene/xray';
 import { createStatues } from './scene/statues';
-import { type Rec, loadCity, setCorridorCut, uYear, uColorMode, uSelected, pickHit, periodOf } from './scene/city';
+import { type Rec, loadCity, setCorridorCut, uYear, uColorMode, uPeriodPick, uSelected, pickHit, periodOf } from './scene/city';
 import { loadLandmarks, LANDMARKS } from './scene/landmarks';
 import { createStreetHighlight } from './scene/streetview';
 import { loadEnvironment, makeHeight, uOverlayOpacity, uTime, uSky } from './scene/environment';
@@ -18,7 +18,7 @@ import { createTimeline } from './ui/timeline';
 import { createPanels, toast } from './ui/panels';
 import { layout } from './ui/layout';
 import { open as openGallery, materialsFor } from './ui/gallery';
-import { EVENTS, CONF_COLORS, SOURCE_LAYERS, PERIODS } from './data/history';
+import { EVENTS, CONF_COLORS, SOURCE_LAYERS, PERIODS, overlayFor } from './data/history';
 import { walk } from './sim/walk';
 /** 'MM-DD' → fraction of the year, for parts dated to the day (landmark names "part@1504_160-…"). */
 const dayFrac = (d: string) => { const [m, dd] = (d || '01-01').split('-').map(Number); return (([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][m - 1] ?? 0) + dd - 1) / 366; };
@@ -178,16 +178,21 @@ async function main() {
       return { title: l.title ?? l.replaces[0] ?? items[0]?.name ?? l.file, items, at: l.at[0] || l.at[1] ? l.at : null, from: l.from ?? 1300 };
     }).filter(g => g.items.length || g.at) });
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
+  let laidMap = '';                         // the overlay on the ground now ("auto" follows the year)
   on((s, ch) => {
     if (eventLight && ((('year' in ch) && Math.round(s.year) !== eventLight.year) || (('date' in ch) && s.date !== eventLight.date) || ('mode' in ch))) endEventLight();
     if ('year' in ch) { uYear.value = s.year; statues.update(s.year); walk.setYear(s.year); env.update(s.year); splats.update(s.year); }
     if ('color' in ch) uColorMode.value = { real: 0, period: 1, confidence: 2 }[s.color];
     if ('selected' in ch) uSelected.value = s.selected;
-    if ('overlay' in ch) {
-      if (s.overlay === 'none') { env.overlayNode.value = blank; uOverlayOpacity.value = 0; }
-      else loadTex(s.overlay).then(t => { env.overlayNode.value = t; uOverlayOpacity.value = s.overlayOpacity; });
+    if ('overlay' in ch || ('year' in ch && s.overlay === 'auto')) {
+      const id = overlayFor(s.overlay, s.year);
+      if (id !== laidMap) {
+        laidMap = id;
+        if (id === 'none') { env.overlayNode.value = blank; uOverlayOpacity.value = 0; }
+        else loadTex(id).then(t => { if (laidMap !== id) return; env.overlayNode.value = t; uOverlayOpacity.value = state.overlayOpacity; });
+      }
     }
-    if ('overlayOpacity' in ch && s.overlay !== 'none') uOverlayOpacity.value = s.overlayOpacity;
+    if ('overlayOpacity' in ch && laidMap !== 'none') uOverlayOpacity.value = s.overlayOpacity;
     if ('mode' in ch || 'tiltShift' in ch) applyMode();
     if (('date' in ch || 'hour' in ch) && s.mode === 'live') refreshLive(true);
     panels.update(ch); timeline.update();
@@ -250,7 +255,7 @@ async function main() {
       stage.fitClip(f.far); }
     xray.update(dt, state.year);
     river.update(dt, state.year, true); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
-    landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => PERIODS[periodOf(r.start)]?.color ?? '#888'));
+    landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => { const p = periodOf(r.start); return uPeriodPick.value >= 0 && p !== uPeriodPick.value ? '#a3a09b' : PERIODS[p]?.color ?? '#888'; }));   // a period picked in the legend: the others grey
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);
     riverPeople.setContext(Math.round(state.year), controls.target, 2000); riverPeople.update(dt);
     if (state.mode === 'live') {

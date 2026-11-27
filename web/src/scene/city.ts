@@ -21,6 +21,7 @@ export interface Rec {
 const TEXW = 256;
 export const uYear = uniform(1490);
 export const uColorMode = uniform(0);      // 0 real, 1 period, 2 confidence
+export const uPeriodPick = uniform(-1);    // period mode: the one period left in colour (-1 all)
 export const uSelected = uniform(-1);
 export const uOrtho = uniform(1);          // 1 = tint roofs with their 2017 orthophoto colour
 export const uSky = uniform(new THREE.Color(0xb8c8d6));   // sky colour (set every frame), reflected by glass and water
@@ -302,7 +303,10 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     const cc = SX(conf.lessThan(0.5), vec3(confCols[0].r, confCols[0].g, confCols[0].b),
       SX(conf.lessThan(1.5), vec3(confCols[1].r, confCols[1].g, confCols[1].b), vec3(confCols[2].r, confCols[2].g, confCols[2].b)));
     const shade = select(isRoof, float(1), float(0.82));
-    const col = SX(uColorMode.lessThan(0.5), real, SX(uColorMode.lessThan(1.5), per.mul(shade), cc.mul(shade)));
+    // one period picked in the legend: the others in grey
+    const grey = vec3(dot(per, vec3(0.299, 0.587, 0.114)).mul(0.55).add(0.32));
+    const perC = SX(uPeriodPick.lessThan(0).or(abs(float(pIdx).sub(uPeriodPick)).lessThan(0.5)), per, grey);
+    const col = SX(uColorMode.lessThan(0.5), real, SX(uColorMode.lessThan(1.5), perC.mul(shade), cc.mul(shade)));
     const sel = abs(aBid.sub(uSelected)).lessThan(0.5);
     return vec4(SX(sel, mix(col, vec3(1.0, 0.72, 0.25), 0.55), col), 1);
   })();
