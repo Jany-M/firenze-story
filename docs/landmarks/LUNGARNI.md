@@ -31,6 +31,9 @@ Lungarno Corsini (c. 1744).
   the Lungarno degli Acciaiuoli goes back to stone with its 2020 renovation, the Lungarno degli Archibusieri by the Uffizi stays
   stone throughout. Pavements from 1870 or the lungarno's own year (*inferred*); before them the paving runs to the houses.
   Where no houses stand within 40 m, a 14 m road without a pavement.
+- **One line from stretch to stretch:** each stretch starts and ends exactly at its x (end points interpolated), so the walls
+  and roads of neighbouring lungarni meet; at every bridge the road rises at 6 % to the bridge's deck (water level + 7.2 m,
+  the deck height the app gives the bridges) from 8 m on each side of its abutment, so there is no step onto the bridge.
 - **The dates:** each stretch appears in the year its wall is first documented (table below).
 - **The breaks:** the Lungarno Corsini's parapet is missing from 1966 to 1968; on the Lungarno Torrigiani the top 2.5 m of the
   wall and the parapet are missing from 25 May 2016 to 2017, then rebuilt.
@@ -60,8 +63,9 @@ ground before that hold, `_dev/data/build/terrain_raw.f32`).
 
 ## The flood of 4 November 1966
 A Live scene (Events tab, 4 November 1966): it opens at 3:30 a.m. in a deep-dawn light with the Arno high in its bed, the
-camera close over Piazza Cavalleggeri, where the water first came through the parapet into Santa Croce. The water comes over
-the parapets about 5 a.m., the camera draws back over Santa Croce and then the whole centre as Piazza del Duomo floods (9:45),
+camera low over the south bank, the parapet at Piazza Cavalleggeri in front and Santa Croce behind – where the water first
+came through into the city. As soon as the water is out (5 a.m.) the camera rises and draws back quickly over Santa Croce
+(by 6:15) and then over the whole centre (by 8:30), so the water is seen running through it; Piazza del Duomo floods at 9:45,
 the light turning to day; it stands highest in the afternoon, falls from 8 p.m., and the streets clear on 6 November. A
 clock at the top names the hour and the stage; the camera leaves the user alone for 4 s after a drag or a wheel.
 The water is grey-blue (river water with silt; the photographs of the day show it brown with mud – softened so the streets

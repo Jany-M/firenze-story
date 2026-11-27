@@ -69,9 +69,30 @@ def wall_point(row, side):
     z_w = zb + out_ * d2
     return [round(x, 1), round(z_w, 2), round(street, 2), round(low, 2), round(z_st, 2)]
 
+def row_at(x):
+    """The river's section at any x, interpolated between the 20 m rows of river.json."""
+    i = max(0, min(len(axis) - 2, int((x - axis[0][0]) // (axis[1][0] - axis[0][0]))))
+    a, b = axis[i], axis[i + 1]; f = (x - a[0]) / (b[0] - a[0])
+    return [x] + [a[k] + (b[k] - a[k]) * f for k in range(1, 5)]
+# The bridges (21_build_env.py: one plan polygon per phase, the latest used here): the lungarno's road rises to the bridge's
+# deck, as it does in town. The app's deck stands at max(ground at its ends, water + 7 m) + 0.2 (web/src/scene/bridges.ts).
+SJ = json.load(open(os.path.join(D, "streets.json"), encoding="utf-8"))["bridges"]
+BP = np.fromfile(os.path.join(D, "bridges.pos.bin"), np.float32).reshape(-1, 3)
+BRIDGES = {}
+for b in SJ:
+    if b["end"] is None: BRIDGES[b["name"]] = BP[b["base"]:b["base"] + b["count"]]
+RAMP = 0.06                                                                                       # 6 % up to the deck
+def bridge_ramp(x, road):
+    for name, ring in BRIDGES.items():
+        bx0, bx1 = float(ring[:, 0].min()), float(ring[:, 0].max()); xm = (bx0 + bx1) / 2
+        deck = max(row_at(xm)[1] + 7.2, road)
+        d = 0.0 if bx0 <= x <= bx1 else min(abs(x - bx0), abs(x - bx1))
+        road = max(road, deck - RAMP * d)
+    return road
 out = {"stretches": [], "breaches": [{"bank": b, "x0": a, "x1": c, "from": f, "to": t, "why": w} for b, a, c, f, t, w in BREACHES]}
 for bank, x0, x1, name, year, basis, conf in STRETCHES:
-    rows = [r for r in axis if x0 <= r[0] <= x1]
+    # the stretch runs exactly from x0 to x1 (interpolated end rows), so that neighbouring stretches meet without a gap
+    rows = [row_at(x0)] + [r for r in axis if x0 < r[0] < x1] + [row_at(x1)]
     pts = [wall_point(r, bank) for r in rows]
     if len(pts) >= 5:                                    # smooth the line (running median of 5) so it does not wander
         z = np.array([p[1] for p in pts]); zs_ = z.copy()
@@ -103,7 +124,7 @@ for bank, x0, x1, name, year, basis, conf in STRETCHES:
             d += 0.5
         p.append(round(p[1] - sgn * (hit if hit else 14.0), 2))
         gs = [G(p[0], p[1] - sgn * k) for k in np.arange(1.0, (hit or 14.0) - 0.5, 1.0)] or [p[2]]
-        p.append(round(max(p[2], float(np.percentile(gs, 90))) + 0.03, 2))
+        p.append(round(bridge_ramp(p[0], max(p[2], float(np.percentile(gs, 90))) + 0.03), 2))
         p.append(1 if hit else 0)
     if len(pts) >= 5:
         for k in (5, 6):

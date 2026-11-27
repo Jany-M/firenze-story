@@ -186,7 +186,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   wm.colorNode = Fn(() => {
     const V = normalize(cameraPosition.sub(positionWorld));
     const fres = pow(float(1).sub(max(V.y, 0)), 4);
-    const body = mix(vec3(0.1, 0.16, 0.12), vec3(0.2, 0.24, 0.17), noise2(positionWorld.xz.mul(0.02)));   // Arno: green-brown, silty
+    const body = mix(vec3(0.09, 0.15, 0.15), vec3(0.17, 0.23, 0.22), noise2(positionWorld.xz.mul(0.02)));   // Arno: green, a touch of blue, silty
     const sparkle = smoothstep(0.85, 1, wave(positionWorld.xz.mul(1.7))).mul(0.06);
     return vec4(mix(body, uSky.mul(0.8), fres.mul(0.45)).add(sparkle), 1);
   })();
