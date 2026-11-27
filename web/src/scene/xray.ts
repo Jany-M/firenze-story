@@ -1,53 +1,38 @@
 // "X-ray" for close views near the ground: a building that stands between the camera and the point being looked at
-// (controls.target) fades out with a screen-door dither, inside a soft disc round the middle of the screen. Nothing fades
-// just because it is in front of the camera: a few rays from the camera through the middle of the screen look for
-// structures they pass right through, well short of the target (entering in the first 45 %, leaving before 65 % of the
-// way, above their own ground). Those, and only those, fade: city buildings by record id, landmark parts by object.
+// (controls.target) is taken out of the view, whole, as in a game – not faded into a see-through pattern. A few rays from the
+// camera through the middle of the screen look for structures they pass right through, well short of the target (entering
+// in the first 45 %, leaving before 65 % of the way, above their own ground). Those, and only those, go: city buildings by
+// record id, landmark parts by object. Never the building being looked at: a structure whose box holds the target stays,
+// and for a landmark the box is the whole building's (zooming onto the Duomo, the Baptistery or Pitti never opens them up).
+// A structure stays hidden 0.8 s after its last hit, so it does not blink while the camera moves.
 import * as THREE from 'three/webgpu';
-import { Fn, uniform, positionWorld, cameraPosition, dot, smoothstep, screenUV, screenSize, screenCoordinate, vec2, length, floor, float, abs } from 'three/tsl';
+import { Fn, uniform, float, abs } from 'three/tsl';
 import { isAlive, type Rec } from './city';
 
 export const uXray = uniform(0);                                  // 0 off … 1 full (camera height near the ground)
-export const uXrayDepth = uniform(0);                             // view depth of the target minus a margin
+export const uXrayDepth = uniform(0);                             // view depth of the target minus a margin (kept for callers)
 export const uCamFwd = uniform(new THREE.Vector3(0, 0, -1));      // camera forward (world)
 const MAXOCC = 12;
-const uOcc = Array.from({ length: MAXOCC }, () => uniform(-1));   // record ids of the city buildings that fade
-const uOccW = Array.from({ length: MAXOCC }, () => uniform(0));   // and how far each has faded (eased: no popping, no flicker)
-
-const fadeAmount = Fn(() => {
-  const depth = dot(positionWorld.sub(cameraPosition), uCamFwd);
-  const c = screenUV.sub(0.5).mul(vec2(screenSize.x.div(screenSize.y), 1));
-  const inFront = float(1).sub(smoothstep(uXrayDepth.sub(8), uXrayDepth, depth));
-  const centre = float(1).sub(smoothstep(float(0.3), float(0.65), length(c)));
-  return inFront.mul(centre).mul(uXray).mul(0.9);
-});
-// ordered (Bayer 4×4) dither: an even screen-door pattern that reads as transparency; white-noise dither sparkled as the
-// fade eased in and out while the camera moved
-const dither = Fn(() => {
-  const p = floor(screenCoordinate.xy);
-  const x0 = p.x.mod(2), y0 = p.y.mod(2), x1 = floor(p.x.div(2)).mod(2), y1 = floor(p.y.div(2)).mod(2);
-  const m0 = abs(x0.sub(y0)).mul(2).add(y0), m1 = abs(x1.sub(y1)).mul(2).add(y1);
-  return m0.mul(4).add(m1).add(0.5).div(16);
-});
+const uOcc = Array.from({ length: MAXOCC }, () => uniform(-1));   // record ids of the city buildings taken out of the view
+const uOccW = Array.from({ length: MAXOCC }, () => uniform(0));   // 1 while hidden
 
 /** City mask: keep the fragment unless its building is one of the current occluders. */
 export function cityKeep(bid: any) {
   return Fn(() => {
     let w: any = abs(bid.sub(uOcc[0])).lessThan(0.5).select(uOccW[0], float(0));
     for (let i = 1; i < MAXOCC; i++) w = w.add(abs(bid.sub(uOcc[i])).lessThan(0.5).select(uOccW[i], float(0)));
-    return (dither() as any).greaterThanEqual((fadeAmount() as any).mul(w));
+    return w.mul(uXray).lessThan(0.5);
   })();
 }
-/** Mask for landmark materials while their part is an occluder (swapped in, see below). */
-const landmarkKeep = Fn(() => (dither() as any).greaterThanEqual(fadeAmount() as any));
+/** Landmark parts in the way: their materials swapped for invisible copies while hidden. */
 const fadeClones = new WeakMap<THREE.Material, THREE.Material>();
 function fadeClone(m: THREE.Material) {
   let c = fadeClones.get(m);
-  if (!c) { c = m.clone(); (c as any).maskNode = landmarkKeep(); fadeClones.set(m, c); }
+  if (!c) { c = m.clone(); c.visible = false; fadeClones.set(m, c); }
   return c;
 }
 
-export interface LandmarkPart { obj: THREE.Object3D; box: THREE.Box3 }
+export interface LandmarkPart { obj: THREE.Object3D; box: THREE.Box3; whole?: THREE.Box3 }
 
 export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector3, city: { boxes: Float32Array; recs: Rec[] }, landmarkParts: () => LandmarkPart[]) {
   // one box per city record (from its triangles), filled in by the city as its tiles load
@@ -69,6 +54,9 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
   let acc = 0;
   const restore = (o: THREE.Object3D) => o.traverse((m: any) => { if (m.isMesh && m.userData.preFade) { m.material = m.userData.preFade; m.userData.preFade = null; } });
 
+  /** Is the target inside this box (1.5 m of slack: a target on a front lies on the box's face)? */
+  const inBox = (x0: number, y0: number, z0: number, x1: number, y1: number, z1: number) =>
+    target.x > x0 - 1.5 && target.x < x1 + 1.5 && target.y > y0 - 1.5 && target.y < y1 + 1.5 && target.z > z0 - 1.5 && target.z < z1 + 1.5;
   function scan(year: number) {
     occCity.clear(); occParts.clear();
     const d = camera.position.distanceTo(target), cam = camera.position;
@@ -86,9 +74,12 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
         const o = i * 6; if (B[o] === Infinity) continue;
         const cx = (B[o] + B[o + 3]) / 2, cz = (B[o + 2] + B[o + 5]) / 2;
         if (Math.abs(cx - cam.x) > D || Math.abs(cz - cam.z) > D) continue;          // cheap reject
+        if (inBox(B[o], B[o + 1], B[o + 2], B[o + 3], B[o + 4], B[o + 5])) continue;   // the building being looked at
         if (isOcc(slab(cam, dir, [B[o], B[o + 1], B[o + 2]], [B[o + 3], B[o + 4], B[o + 5]]), B[o + 1])) occCity.add(i);
       }
       for (const p of parts) {
+        const w = p.whole ?? p.box;
+        if (inBox(w.min.x, w.min.y, w.min.z, w.max.x, w.max.y, w.max.z)) continue;   // the landmark being looked at, whole
         if (!isOcc(slab(cam, dir, [p.box.min.x, p.box.min.y, p.box.min.z], [p.box.max.x, p.box.max.y, p.box.max.z]), p.box.min.y)) continue;
         // a big part (a whole stretch of wall) only fades if the ray really hits it that close
         const h = rc.intersectObject(p.obj, true)[0];
@@ -99,22 +90,22 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
     const now = performance.now();
     for (const i of occCity) seen.set(i, now);
     for (const [i, t] of seen) if (now - t > 800 && (weight.get(i) ?? 0) <= 0) seen.delete(i);
-    // landmark parts: swap in the fading copy of their materials, put the originals back when they stop blocking
-    for (const o of [...faded]) if (!occParts.has(o)) { restore(o); faded.delete(o); }
+    // landmark parts: swap in invisible copies of their materials, put the originals back 0.8 s after they stop blocking
+    for (const o of occParts) seenPart.set(o, now);
+    for (const o of [...faded]) if (!occParts.has(o) && now - (seenPart.get(o) ?? 0) > 800) { restore(o); faded.delete(o); seenPart.delete(o); }
     for (const o of occParts) if (!faded.has(o)) { o.traverse((m: any) => { if (m.isMesh) { m.userData.preFade = m.material; m.material = fadeClone(m.material); } }); faded.add(o); }
   }
-  const seen = new Map<number, number>(), weight = new Map<number, number>();
-  /** Ease each building's fade towards 1 while it blocks the view, back to 0 when it stops (≈0.3 s), and fill the slots. */
-  function ease(dt: number, cam: THREE.Vector3) {
+  const seen = new Map<number, number>(), weight = new Map<number, number>(), seenPart = new Map<THREE.Object3D, number>();
+  /** A building goes at once while it blocks the view and comes back 0.8 s after it stops; fill the slots. */
+  function ease(_dt: number, cam: THREE.Vector3) {
     const now = performance.now();
     for (const i of new Set([...seen.keys(), ...weight.keys()])) {
-      const on = now - (seen.get(i) ?? -1e9) <= 800, w = (weight.get(i) ?? 0) + (on ? dt : -dt) * 3.5;
-      if (w <= 0) weight.delete(i); else weight.set(i, Math.min(1, w));
+      if (now - (seen.get(i) ?? -1e9) <= 800) weight.set(i, 1); else weight.delete(i);
     }
     const ids = [...weight.keys()].sort((a, b) => Math.hypot(recs[a].c[0] - cam.x, recs[a].c[1] - cam.z) - Math.hypot(recs[b].c[0] - cam.x, recs[b].c[1] - cam.z));
     for (let k = 0; k < MAXOCC; k++) { uOcc[k].value = ids[k] ?? -1; uOccW[k].value = ids[k] != null ? weight.get(ids[k])! : 0; }
   }
-  function clear() { for (let k = 0; k < MAXOCC; k++) { uOcc[k].value = -1; uOccW[k].value = 0; } seen.clear(); weight.clear(); for (const o of faded) restore(o); faded.clear(); }
+  function clear() { for (let k = 0; k < MAXOCC; k++) { uOcc[k].value = -1; uOccW[k].value = 0; } seen.clear(); weight.clear(); seenPart.clear(); for (const o of faded) restore(o); faded.clear(); }
 
   /** Every frame. Works only near the ground: camera under ~45 m above the target, full at ~25 m. */
   function update(dt: number, year: number) {

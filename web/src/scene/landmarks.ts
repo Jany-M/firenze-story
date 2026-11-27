@@ -167,7 +167,7 @@ export const LANDMARKS: LandmarkDef[] = [
 
 export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[], base = './models/landmarks') {
   const group = new THREE.Group(); group.name = 'landmarks'; scene.add(group);
-  const parts: { obj: THREE.Object3D; from: number; to: number }[] = [];
+  const parts: { obj: THREE.Object3D; from: number; to: number; root?: THREE.Object3D }[] = [];
   const loader = new GLTFLoader();
   const items: { def: LandmarkDef; root: THREE.Object3D; rec?: Rec; members: { key: string; rec?: Rec }[] }[] = [];
   const clearIds: number[] = [];
@@ -208,7 +208,7 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
         if (o.isMesh) { o.material = mats[o.material.name] ?? o.material; o.castShadow = o.receiveShadow = true; o.userData.mat0 = o.material; }
         // "part@1504_160-1873" – years, optionally with a day of the year (glTF loaders strip dots from node names)
         const m = /@(-?\d+)(?:_(\d+))?-(-?\d+)(?:_(\d+))?/.exec(o.name);
-        if (m) parts.push({ obj: o, from: +m[1] + (m[2] ? (+m[2] - 1) / 366 : 0), to: +m[3] + (m[4] ? (+m[4] - 1) / 366 : 0) });
+        if (m) parts.push({ obj: o, root, from: +m[1] + (m[2] ? (+m[2] - 1) / 366 : 0), to: +m[3] + (m[4] ? (+m[4] - 1) / 366 : 0) });
       });
       for (const r of [...recs.filter(r => def.replaces.includes(r.name)), ...inside]) if (!r.src.includes(def.source)) r.src = [def.source, ...r.src];
       group.add(root); items.push({ def, root, rec, members });
@@ -252,12 +252,19 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
   const changes = parts.flatMap(p => [p.from, p.to]).filter(y => y < 9999);
   /** Parts standing now, with their world boxes (for the x-ray of close views, scene/xray.ts). */
   const boxes = new Map<THREE.Object3D, THREE.Box3>();
+  /** Parts that may hide (x-ray), each with the box of the building it belongs to: a building being looked at never hides
+   *  its own parts (zooming onto the Duomo must not open it up). Models spread over the whole city (walls, lungarni) count
+   *  part by part. */
   function xrayParts() {
-    const out: { obj: THREE.Object3D; box: THREE.Box3 }[] = [];
+    const out: { obj: THREE.Object3D; box: THREE.Box3; whole: THREE.Box3 }[] = [];
     for (const p of parts) {
       if (!p.obj.visible) continue;
       let b = boxes.get(p.obj); if (!b) { p.obj.updateWorldMatrix(true, true); b = new THREE.Box3().setFromObject(p.obj); boxes.set(p.obj, b); }
-      if (!b.isEmpty()) out.push({ obj: p.obj, box: b });
+      if (b.isEmpty()) continue;
+      let w = p.root ? boxes.get(p.root) : undefined;
+      if (p.root && !w) { p.root.updateWorldMatrix(true, true); w = new THREE.Box3().setFromObject(p.root); boxes.set(p.root, w); }
+      const big = !w || w.getSize(new THREE.Vector3()).length() > 400;
+      out.push({ obj: p.obj, box: b, whole: big ? b : w! });
     }
     return out;
   }
