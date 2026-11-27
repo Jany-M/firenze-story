@@ -188,7 +188,10 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     const win = select(win0.greaterThan(0.5).and(win0.lessThan(2.5)).and(uYear.greaterThan(remodel)).and(keepOld.not()), float(0), win0);
     const u = aFu, rel = vRel, wuv = vec2(u, rel);
     // size of one screen pixel on the wall (metres): fine detail and then the window grid fade out as it shrinks (no moire)
-    const pxm = max(fwidth(u), fwidth(rel));
+    // (also measured on the world position: small rooftop pieces – chimneys, altane – whose u is constant along a face would
+    // otherwise get full detail, slats and sills aliasing into flickering stripes)
+    const pxm0 = max(max(fwidth(u), fwidth(rel)), length(fwidth(positionWorld)).mul(0.7));
+    const pxm = select(fwidth(u).lessThan(fwidth(rel).mul(0.02)), float(1), pxm0);   // a face along which u does not run: plain wall
     const near = LOW ? float(0) : smoothstep(0.1, 0.035, pxm);   // slats, glazing bars, planks
     const mid = LOW ? smoothstep(0.2, 0.09, pxm) : smoothstep(0.32, 0.14, pxm);   // windows: below ~4 px each (low tier: ~7 px) they average into the wall
     const thin = LOW ? float(0) : smoothstep(0.09, 0.04, pxm);   // frames, sills, string courses (~15 cm): only when wider than ~2 px
@@ -296,12 +299,24 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     let real = SX(isRoof, roof, facade);
     // small pieces with a material code in place of a façade coordinate (chimneys, caps, balcony slabs): their u is the code,
     // a constant, so the wall textures would be sampled along one line and shimmer; they take world-space coordinates
-    const cuv = vec2(positionWorld.x.add(positionWorld.z), positionWorld.y);
-    const serenaC = LOW ? V3(0.5, 0.5, 0.48) : T('pietra_serena', cuv.div(2.2));
-    const plasterC = LOW ? palette : palette.mul(mix(vec3(1), T('intonaco', cuv.div(4)).mul(1.1), 0.25));
+    // (along each face: a box turned at 45° has faces along which x + z does not change, and a cap's top has no y – the
+    // texture was then read along a single line and flickered; now u runs along the face and tops take x, z)
+    const cN = fN0, cT = vec2(cN.z.negate(), cN.x).div(max(length(vec2(cN.x, cN.z)), float(1e-4)));
+    const cuv = select(abs(cN.y).greaterThan(0.7), vec2(positionWorld.x, positionWorld.z), vec2(dot(vec2(positionWorld.x, positionWorld.z), cT), positionWorld.y));
+    // (small pieces: the texture fades to its mean tone as they shrink on screen – a 0.6 m chimney drawn with a grainy
+    // texture sparkled at every movement of the view)
+    const pxS = length(fwidth(positionWorld)), grain = smoothstep(0.035, 0.008, pxS);
+    const serenaC = LOW ? V3(0.5, 0.5, 0.48) : mix(V3(0.5, 0.5, 0.48), T('pietra_serena', cuv.div(2.2)), grain);
+    const plasterC = LOW ? palette : palette.mul(mix(vec3(1), T('intonaco', cuv.div(4)).mul(1.1), grain.mul(0.18)));
     real = SX(isStone, serenaC.mul(1.05), real);
-    real = SX(isIron, V3(0.1, 0.1, 0.11), real);
+    // balcony railings (5 cm bars) seen from afar are thinner than a pixel: black and white flickered on every altana and
+    // balcony; past ~2 px per bar they fade to the grey of bars against the wall behind
+    real = SX(isIron, mix(V3(0.1, 0.1, 0.11), V3(0.5, 0.48, 0.45), smoothstep(0.02, 0.07, pxS)), real);
     real = SX(isPlaster, plasterC.mul(0.95), real);
+    // near-vertical faces of a LiDAR roof are its chimneys, dormers and parapets caught by the scan: plastered, not tiled (the
+    // tiles and the orthophoto's tint stretched down a vertical face read as grey-white grain that sparkled as the view moved)
+    real = SX(isRoof.and(fN.y.lessThan(0.45)), palette.mul(0.93), real);
+
     // ---------- colour modes ----------
     const pIdx = periodIndex(vStart);
     const per = textureLoad(texture(periodTex), ivec2(int(pIdx), int(0))).rgb;

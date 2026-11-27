@@ -29,12 +29,28 @@ Lean, DRY, reusable shared modules, standard formats, so other tools can plug in
 - Flicker: decoration boxes in the Blender kit (`pbox`) have no back face when they sit on a wall; camera near plane =
   3 % of the distance to the target (0.5–20 m); the sun's shadow camera covers 1.25 × that distance (90–700 m, in 30 m
   steps) and its centre is snapped to the shadow-map texel grid; normal bias scales with the texel size.
-- Close views (`web/src/scene/xray.ts`): only near the ground (from ~45 m camera height above the target, full at
-  ~25 m). Every 0.15 s nine rays through the middle of the screen are tested against one box per city record and per
-  landmark part; a structure is an occluder only if a ray passes right through it (enters in the first 45 % of the way
-  to the target, leaves before 65 %, above its own ground). Occluding city buildings (up to 12 record ids, uniforms) and
-  landmark parts (a dithered copy of their materials is swapped in) fade with a screen-door dither inside a soft disc in
-  the middle of the screen; whatever is being looked at stays solid.
+- Close views (`web/src/scene/xray.ts`): only near the ground (from ~30 m camera height above the target, full at
+  ~18 m; 2026-11-27, was 45/25). Every 0.15 s nine rays through the middle of the screen are tested against one box per
+  city record and per landmark part; a city building is an occluder only if the middle ray, or at least three rays of the
+  ring, pass right through it (enter in the first 35 % of the way to the target, leave before 50 %, above its own ground).
+  Occluding city buildings (up to 12 record ids, uniforms) are taken out whole; a landmark model goes whole too – every
+  part of the model a blocking part belongs to (the city-wide ones, walls and lungarni, part by part). Whatever is being
+  looked at stays.
+- Hidden by hand: a right click on a building seen up close (camera under 60 m over the ground, the building within 80 m)
+  offers "Hide this building"; it stays out of the view (city buildings: up to 6 record ids, uniforms; landmark models:
+  invisible copies of their materials) until the camera is 20 m further from it than when it was hidden (at least 30 m) or
+  20 m above its top. A chip at the bottom shows how many are hidden and brings them back.
+- Compass (header, next to the era): the rose turns with the view (north up when looking north); beside it the camera's
+  height over the ground right under it.
+- Ground shaped round the models (`models/landmarks/ground_edits.json`, `web/src/scene/terrainRefine.ts`): polygons that
+  cut the ground down (`max`), fill it up (`min`) or lower it under a slab (`drop`), written by the build scripts of the
+  Piazzale (walls, staircase, paving) and of the lungarni (roads); applied once to the refined ground grid, so the mesh,
+  people, props and trees all stand on the same surface. No tree on a lungarno's road or a landmark's paving.
+- People stand on what they walk on: the ground, or on the street graph's bridge edges the deck under them (a ray down onto
+  the app's bridges and the landmark models, the first walkable face below 14 m over the ground, cached per half metre).
+- Small pieces on the city mesh: textures on chimneys and caps fade to their mean tone as they shrink on screen, iron
+  railings fade towards grey below ~2 px a bar, near-vertical faces of LiDAR roofs are plastered (not tiled), and the
+  window detail fades by the true pixel size on the wall (faces along which the façade coordinate does not run get none).
 - Ground: orthophoto → Sentinel-2 blend over an irregular ring (74–99 % of the core half-width), not the square tile edge.
 - Roofs: the tile UV comes from each face's own normal (screen derivatives), v down the slope in true length.
 - Dev: `vite.config.ts` reloads open pages when `public/models`, `data`, `textures` or `materials` change.

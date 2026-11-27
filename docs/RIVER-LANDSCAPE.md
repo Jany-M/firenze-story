@@ -95,6 +95,11 @@ of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557
 - The clay diggers work: one digs at the bank (bent over the spade, then straightening with the load), two carry clay to
   the drying rows and come back, pausing to load and unload. Their heaps and brick rows, and the washerwomen's linen and
   slab, rest on the ground and tilt with its slope; the washerwomen kneel with knees and toes on the ground.
+- Since 2026-11-27 every bank worker has a round of tasks, looped (`web/src/sim/river.ts`, steps of poses or walks): the
+  digger cuts clay at the bank's face and takes it to the heap; the moulder fetches clay from the heap and works it at a table;
+  the carrier takes the moulded bricks to the drying rows; each walks with the load held in both arms. The washerwomen,
+  kneeling, scrub on the slab (two strokes), wring and beat the linen, each at her own point of the round. The order of the
+  work is that of a brickfield, *inferred* for the Arno's banks.
 - The small boats ride higher: only a few centimetres of hull in the water (barchetti), the navicelli 0.2 m.
 - Squares hold a little fewer people (about one per 27 m², at most 52).
 

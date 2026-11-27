@@ -111,6 +111,22 @@ async function main() {
   // made on demand for the area in view (river crews, squares and bridges near the camera); none drawn above PEOPLE_ALT
   const riverPeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.riverPeople });
   const squarePeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.squarePeople });
+  // what people stand on: the ground, or a bridge's deck where the street crosses one (a ray down onto the bridges standing
+  // this year, cached per half metre)
+  const deckRay = new THREE.Raycaster(), downV = new THREE.Vector3(0, -1, 0), deckCache = new Map<number, number>(); let deckYear = NaN;
+  const walkY = (x: number, z: number, bridge: boolean) => {
+    const g = height(x, z); if (!bridge) return g;
+    const yr = Math.round(state.year); if (yr !== deckYear) { deckCache.clear(); deckYear = yr; }
+    const k = Math.round(x * 2) * 100000 + Math.round(z * 2); const c = deckCache.get(k); if (c !== undefined) return c;
+    deckRay.set(new THREE.Vector3(x, g + 60, z), downV); deckRay.far = 80;
+    // the bridges drawn by the app and the landmark models (Ponte Vecchio, Santa Trinita…): the highest walkable face under
+    // the ray, not a roof (the Corridor over Ponte Vecchio): the first hit below 12 m over the ground's level
+    const shown = (o: THREE.Object3D) => { for (let p: THREE.Object3D | null = o; p; p = p.parent) if (!p.visible) return false; return true; };
+    const hits = deckRay.intersectObjects([...env.bridges.filter(b => b.mesh.visible).map(b => b.mesh), landmarks.group], true);
+    const hit = hits.find(h => shown(h.object) && h.point.y < g + 14 && (h.face?.normal.y ?? 1) > 0.3 && !(((h.object as THREE.Mesh).material as any)?.visible === false));
+    const y = hit ? Math.max(g, hit.point.y) : g; deckCache.set(k, y); return y;
+  };
+  people.setGround(walkY);
   say('Props, boats and animals');
   const props = await loadProps(mtex, './models');
   const scenes = createScenes(scene, people, height, props, streets.squares);
@@ -246,6 +262,7 @@ async function main() {
   const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2(); let down = [0, 0];
   renderer.domElement.addEventListener('pointerdown', e => (down = [e.clientX, e.clientY]));
   renderer.domElement.addEventListener('pointerup', e => {
+    if (e.button !== 0) return;                                          // right button: pan or the hide button
     if (Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4) return;
     // with something selected, a click on the map only deselects; the next click picks again
     if (panels.hasSelection()) { panels.clearSelection(); return; }
@@ -262,6 +279,37 @@ async function main() {
       if (code) panels.showStreet(code); else { panels.showSite(null); set({ selected: -1 }); }
     }
   });
+  // right click on a building seen up close (camera under 60 m over the ground, the building within 80 m): a button that takes
+  // it out of the view until the camera moves away (scene/xray.ts) – for a look at a detail across a narrow street
+  const hidePop = document.getElementById('hide-pop')!, hideBtn = document.getElementById('hide-btn')!, hiddenChip = document.getElementById('hidden-chip')!;
+  let rDown = [0, 0], hideTarget: (() => void) | null = null;
+  renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 2) rDown = [e.clientX, e.clientY]; hidePop.hidden = true; });
+  renderer.domElement.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    if (Math.hypot(e.clientX - rDown[0], e.clientY - rDown[1]) > 4) return;          // that was a pan
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera);
+    const above = camera.position.y - height(camera.position.x, camera.position.z);
+    const hit = pickHit(mesh, recs, ray, state.year), lm = landmarks.pick(ray);
+    const useLm = lm && lm.dist <= hit.dist + 0.5, dist = useLm ? lm!.dist : hit.dist;
+    if (above > 60 || dist > 80 || (!useLm && hit.id < 0)) return;
+    hideTarget = useLm ? () => xray.hideObject(lm!.obj) : () => xray.hideCity(hit.id);
+    hidePop.style.left = e.clientX + 'px'; hidePop.style.top = e.clientY + 'px'; hidePop.hidden = false;
+  });
+  hideBtn.onclick = () => { hideTarget?.(); hideTarget = null; hidePop.hidden = true; };
+  xray.onHidden(n => { hiddenChip.hidden = n === 0; hiddenChip.textContent = n === 1 ? '1 building hidden · show it' : `${n} buildings hidden · show them`; });
+  hiddenChip.onclick = () => xray.showAll();
+  // compass: the rose turns with the view (north up when looking north); the camera's height over the ground under it
+  const rose = document.getElementById('compass-rose')!, compH = document.getElementById('compass-h')!, fwd = new THREE.Vector3();
+  let compT = 0;
+  const compass = (dt: number) => {
+    if ((compT += dt) < 0.08) return; compT = 0;
+    camera.getWorldDirection(fwd);
+    const head = Math.atan2(fwd.x, -fwd.z) * 180 / Math.PI;                       // 0 = looking north, 90 = east
+    rose.setAttribute('transform', `rotate(${(-head).toFixed(1)})`);
+    const hgt = camera.position.y - height(camera.position.x, camera.position.z);
+    compH.textContent = `↥ ${hgt < 100 ? hgt.toFixed(0) : Math.round(hgt / 10) * 10} m`;
+  };
   addEventListener('keydown', e => {
     if ((e.target as HTMLElement).tagName === 'INPUT') return;
     if (e.code === 'Space') { e.preventDefault(); set({ playing: !state.playing }); }
@@ -304,7 +352,7 @@ async function main() {
       if (q.tier === 'low') { f.near = Math.max(120, d * 0.7); f.far = Math.min(q.cityRadius * 0.95, Math.max(600, d * 2.2 + 300)); }   // small devices: a tight circle of focus, the rest in haze
       else { f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); }
       stage.fitClip(f.far); }
-    xray.update(dt, state.year);
+    xray.update(dt, state.year); compass(dt);
     river.update(dt, state.year, true, camera.position.y - controls.target.y); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => { const p = periodOf(r.start); return uPeriodPick.value >= 0 && p !== uPeriodPick.value ? '#a3a09b' : PERIODS[p]?.color ?? '#888'; }));   // a period picked in the legend: the others grey
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);

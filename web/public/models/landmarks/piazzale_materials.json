@@ -208,7 +208,7 @@
   "metal": 0.3
  },
  "fs_pietra_forte_poggi": {
-  "tex": null,
+  "tex": "pietra_forte",
   "color": [
    0.72,
    0.62,
@@ -220,7 +220,7 @@
    1
   ],
   "rough": 0.9,
-  "scale": 1.0,
+  "scale": 0.5,
   "metal": 0.0
  },
  "fs_pietra_forte_joints": {
@@ -303,20 +303,100 @@
   "scale": 1.0,
   "metal": 0.0
  },
- "fs_piazzale_paving": {
+ "fs_piazzale_asphalt": {
+  "tex": "asfalto",
+  "color": [
+   0.45,
+   0.44,
+   0.42
+  ],
+  "tint": [
+   2.5,
+   2.46,
+   2.4
+  ],
+  "rough": 0.95,
+  "scale": 0.25,
+  "metal": 0.0
+ },
+ "fs_piazzale_gravel": {
+  "tex": "terra",
+  "color": [
+   0.72,
+   0.68,
+   0.6
+  ],
+  "tint": [
+   1.25,
+   1.2,
+   1.1
+  ],
+  "rough": 1.0,
+  "scale": 0.3,
+  "metal": 0.0
+ },
+ "fs_cast_iron_pietraforte": {
   "tex": null,
   "color": [
-   0.5,
-   0.49,
-   0.47
+   0.66,
+   0.58,
+   0.45
   ],
   "tint": [
    1,
    1,
    1
   ],
-  "rough": 0.95,
+  "rough": 0.7,
   "scale": 1.0,
+  "metal": 0.25
+ },
+ "fs_cast_iron_lamp": {
+  "tex": null,
+  "color": [
+   0.2,
+   0.22,
+   0.23
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.5,
+  "scale": 1.0,
+  "metal": 0.6
+ },
+ "fs_lamp_globe": {
+  "tex": null,
+  "color": [
+   0.95,
+   0.94,
+   0.9
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.3,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_pietra_steps": {
+  "tex": "lastrico",
+  "color": [
+   0.62,
+   0.6,
+   0.56
+  ],
+  "tint": [
+   1,
+   1,
+   1
+  ],
+  "rough": 0.85,
+  "scale": 0.5,
   "metal": 0.0
  },
  "fs_lawn": {
@@ -414,21 +494,5 @@
   "rough": 0.5,
   "scale": 1.0,
   "metal": 0.0
- },
- "fs_wrought_iron": {
-  "tex": null,
-  "color": [
-   0.08,
-   0.08,
-   0.08
-  ],
-  "tint": [
-   1,
-   1,
-   1
-  ],
-  "rough": 0.6,
-  "scale": 1.0,
-  "metal": 0.6
  }
 }

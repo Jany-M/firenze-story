@@ -26,5 +26,6 @@ The Chamber of Commerce's palace on the Lungarno Diaz, between the Uffizi and th
 | | Michelangelo Maiorfi's design reworked by Emilio De Fabris, who replaced the rusticated portico with the columned pronaos | [fi.camcom.gov.it](https://www.fi.camcom.gov.it/en/print/1753), [pietredirapolano.com](https://www.pietredirapolano.com/en/the-stock-exchange-building-in-florence-and-the-use-of-travertine/) |
 | 1931 → 1933 | the Borsa's hall fitted out inside | borsaitaliana.it |
 
-The model is shown from 1858 (the works). Open: the city data dates the record 1220 and some houses on the site end in 1868 –
-they should end at 1858; the side fronts and the tiratoio before it are not drawn.
+The model is shown from 1858 (the works). The five houses the 1830s cadastre shows on the site now end in 1858, when the
+works began (`SITE_CLEAR` in `20_build_city.py`; before, they ran on to 1868 because the IGM 1873 map was the first to miss
+them). Open: the city data dates the record 1220; the side fronts and the tiratoio before it are not drawn.

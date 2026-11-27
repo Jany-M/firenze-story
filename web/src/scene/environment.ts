@@ -1,7 +1,7 @@
 // Landscape: core terrain (LiDAR) + 12 km ring (Copernicus), ground by era (fields, meadows, earth, paving, today's
 // surfaces), the Arno with its reaches and pescaie, dated bridge phases, vegetation that disappears when the ground
 // gets built on. Everything year-dependent is decided on the GPU from uYear.
-import { terrainGrid } from './terrainRefine';
+import { terrainGrid, applyGroundEdits, surfaceTest, type GroundEdit } from './terrainRefine';
 import * as THREE from 'three/webgpu';
 import {
   Fn, uniform, texture, vec2, vec3, vec4, mix, positionWorld, positionLocal, dot, select, float, smoothstep, hash, fract, step,
@@ -162,6 +162,11 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
 
   // ---------- core terrain (4 m) with a skirt that hides the seam to the 40 m ring ----------
   const TG = terrainGrid(await bin(`${base}/terrain.f32`, Float32Array), meta.terrain.n, meta.terrain.step, opts.terrainUp ?? 2);
+  let edits: GroundEdit[] = [];
+  try {                                                                   // the ground gives way to the landmark models
+    const ge = await fetch(`${base.replace(/data\/?$/, '')}models/landmarks/ground_edits.json`).then(r => (r.ok ? r.json() : {}));
+    edits = Object.values(ge as Record<string, GroundEdit[]>).flat(); applyGroundEdits(TG, edits);
+  } catch { /* no edits */ }
   const h = TG.h, n = TG.n, size = coreHalf * 2, tstep = TG.step;
   const tg = new THREE.PlaneGeometry(size, size, n - 1, n - 1); tg.rotateX(-Math.PI / 2);
   const p = tg.getAttribute('position') as THREE.BufferAttribute;
@@ -270,9 +275,10 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const trunkG = new THREE.CylinderGeometry(0.1, 0.16, 1, 5);
   const trees: THREE.InstancedMesh[] = [];
   const M = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), v = new THREE.Vector3();
+  const onSurface = surfaceTest(edits);                 // no tree on a lungarno's road or a landmark's paved terrace
   species.forEach((sp, ty) => {
     const share = opts.treeShare ?? 1;   // small devices draw a thinned forest (quality.ts); the same trees every time
-    const ids: number[] = []; for (let i = 0; i < N; i++) if (T[i * S + 4] === ty && (share >= 1 || ((Math.imul(i, 2654435761) >>> 0) / 4294967296) < share)) ids.push(i);
+    const ids: number[] = []; for (let i = 0; i < N; i++) if (T[i * S + 4] === ty && (share >= 1 || ((Math.imul(i, 2654435761) >>> 0) / 4294967296) < share) && !onSurface(T[i * S], T[i * S + 2])) ids.push(i);
     if (!ids.length) return;
     const life = new Float32Array(ids.length * 2);
     const mk = (geo: THREE.BufferGeometry, isCrown: boolean) => {
@@ -293,7 +299,8 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const crown = mk(sp.crown, true), trunk = mk(trunkG, false);
     ids.forEach((i, k) => {
       // heights: LiDAR canopy in the core, typical species heights outside; olives are kept low (4–8 m), crowns narrower
-      const [x, y, z] = [T[i * S], T[i * S + 1], T[i * S + 2]], ht = Math.min(T[i * S + 3] * sp.hk, ty === 1 ? 20 : 16);
+      // standing on the ground as drawn (rounded, shaped round the landmarks), not on the pipeline's raw 4 m heights
+      const x = T[i * S], z = T[i * S + 2], y = Math.abs(x) < coreHalf && Math.abs(z) < coreHalf ? groundAt(x, z) : T[i * S + 1], ht = Math.min(T[i * S + 3] * sp.hk, ty === 1 ? 20 : 16);
       life[k * 2] = T[i * S + 5]; life[k * 2 + 1] = T[i * S + 6];
       const rx = ht * sp.sx, ry = ht * sp.sy, rot = (i * 2.399) % 6.28;
       q.setFromAxisAngle(v.set(0, 1, 0), rot);

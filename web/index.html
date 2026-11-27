@@ -27,6 +27,17 @@
       </a>
     </div>
     <button id="era" class="pill" aria-expanded="false" title="About this period"><span id="era-name">…</span><span class="car">▾</span></button>
+    <div id="compass" class="pill" title="Which way the view looks, and how high the camera is over the ground below it" aria-hidden="true">
+      <svg viewBox="-20 -20 40 40" width="34" height="34"><g id="compass-rose">
+        <circle r="17" fill="none" stroke="currentColor" stroke-opacity=".25"/>
+        <path d="M0-15 3.2 0H-3.2Z" fill="#b3122e"/><path d="M0 15 3.2 0H-3.2Z" fill="currentColor" fill-opacity=".45"/>
+        <text y="-9.5" font-size="6.5" text-anchor="middle" dominant-baseline="middle" fill="#b3122e" font-weight="700">N</text>
+        <text x="11.5" font-size="5.5" text-anchor="middle" dominant-baseline="middle" fill="currentColor">E</text>
+        <text y="11.5" font-size="5.5" text-anchor="middle" dominant-baseline="middle" fill="currentColor">S</text>
+        <text x="-11.5" font-size="5.5" text-anchor="middle" dominant-baseline="middle" fill="currentColor">W</text>
+      </g></svg>
+      <span id="compass-h">–</span>
+    </div>
     <div id="search-wrap" class="pill">
       <button id="search-btn" aria-label="Search"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M11.5 10.1 15.2 13.8a1 1 0 0 1-1.4 1.4l-3.7-3.7A6.5 6.5 0 1 1 11.5 10Zm-5 .9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"/></svg></button>
       <input id="search" placeholder="Search a building, landmark, street or event…" autocomplete="off" enterkeyhint="search" />
@@ -56,5 +67,7 @@
   <footer id="timeline" class="glass"></footer>
   <div id="loading"><div><img class="stemma" src="./img/stemma-firenze.svg" alt="" /><h2>Firenze <em>Story</em></h2><p>Starting renderer…</p></div></div>
   <script type="module" src="./src/main.ts"></script>
+  <div id="hide-pop" hidden><button id="hide-btn" title="Take this building out of the view until you move away from it"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M1.3 1.3a.7.7 0 0 1 1 0l12.4 12.4a.7.7 0 1 1-1 1l-2.3-2.3A7.6 7.6 0 0 1 8 13.4C4.4 13.4 1.7 10.8.4 8.4a.9.9 0 0 1 0-.8 9.9 9.9 0 0 1 2.7-3.2L1.3 2.3a.7.7 0 0 1 0-1ZM8 2.6c3.6 0 6.3 2.6 7.6 5a.9.9 0 0 1 0 .8 9.8 9.8 0 0 1-1.9 2.5L11 8.2A3 3 0 0 0 7.8 5L5.9 3.1A7.5 7.5 0 0 1 8 2.6Z"/></svg> Hide this building</button></div>
+  <button id="hidden-chip" class="pill" hidden title="Show the hidden buildings again"></button>
 </body>
 </html>

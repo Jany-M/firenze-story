@@ -604,6 +604,16 @@ def _river_bed():
 RIVER_BED = _river_bed() or (None, None)
 SKIPPED_IN_RIVER = []
 
+# Sites cleared for a known building: houses standing there end the year the works began, not at the next map.
+# (local A, B along the front, depth inward on the left of A->B, year, why)
+SITE_CLEAR = [((115.4, 480.0), (201.7, 500.0), 32, 1858, "cleared for the Palazzo della Borsa (works 1858)")]
+def site_clear(c):
+    x, z = c.x - ORIGIN[0], -(c.y - ORIGIN[1])
+    for A, B, depth, yr, why in SITE_CLEAR:
+        L = math.hypot(B[0] - A[0], B[1] - A[1]); ux, uz = (B[0] - A[0]) / L, (B[1] - A[1]) / L
+        u = (x - A[0]) * ux + (z - A[1]) * uz; v = (x - A[0]) * uz - (z - A[1]) * ux
+        if -2 < u < L + 2 and 0 < v < depth: return yr, why
+    return None
 def demolished_from(mask, label, conf, individual=False, keep=None):
     """Historic buildings absent today. individual=True: mask already separates units (cadastre fill), no merging."""
     old_r = np.zeros(mask.shape, np.uint8)
@@ -627,7 +637,8 @@ def demolished_from(mask, label, conf, individual=False, keep=None):
         if rc is not None and old_r[rc].mean() > 0.4: continue
         f73, f37 = frac(BM["m1873"], rc), frac(BM["m1937"], rc)
         if keep is not None and not keep(P, f73): continue
-        if REPUBBLICA.contains(P.centroid): end, why = 1888, "Risanamento of Mercato Vecchio and the ghetto (1885–95)"
+        if site_clear(P.centroid): end, why = site_clear(P.centroid)
+        elif REPUBBLICA.contains(P.centroid): end, why = 1888, "Risanamento of Mercato Vecchio and the ghetto (1885–95)"
         elif f73 < 0.3: end, why = 1868, "absent on IGM 1873 map"
         elif f37 < 0.3: end, why = 1900, "absent on 1937 map"
         else: end, why = 1944, "present 1937, gone today (war damage Aug 1944 or later)"

@@ -17,7 +17,7 @@ interface Agent {
   female: boolean; face: THREE.Mesh[]; talk?: Talk; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
 /** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
-export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel' | 'dig' | 'lift';
+export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel' | 'dig' | 'lift' | 'knead' | 'knead2' | 'carry' | 'kneel2' | 'wring' | 'beat';
 // Xbot / Mixamo rig in T-pose: thigh forward = UpLeg.x −90°, shin down = Leg.x +90°; arm forward = Arm.y ±, down = Arm.z ±
 const POSE_BONES: Record<string, [string, number, number, number][]> = {
   sit: [['LeftUpLeg', -1.5, 0, -0.08], ['RightUpLeg', -1.5, 0, 0.08], ['LeftLeg', 1.45, 0, 0], ['RightLeg', 1.45, 0, 0]],
@@ -27,6 +27,15 @@ const POSE_BONES: Record<string, [string, number, number, number][]> = {
   lift: [['Spine', 0.12, 0, 0], ['Spine1', 0.05, 0, 0], ['RightArm', 0, 0.9, 0.55], ['LeftArm', 0, -0.9, -0.55], ['RightForeArm', 0, 1.1, 0], ['LeftForeArm', 0, -1.1, 0]],
   kneel: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0],   // kneeling, leaning over the water
     ['Spine', 0.35, 0, 0], ['Spine1', 0.25, 0, 0], ['RightArm', 0, 1.0, 0.95], ['LeftArm', 0, -1.0, -0.95], ['RightForeArm', 0, 0.4, 0], ['LeftForeArm', 0, -0.4, 0]],
+  // working the clay at the table: leaning over it, the hands pressing the lump, then pulling it back
+  knead: [['Spine', 0.42, 0, 0], ['Spine1', 0.2, 0, 0], ['RightArm', 0, 1.05, 0.7], ['LeftArm', 0, -1.05, -0.7], ['RightForeArm', 0, 0.55, 0], ['LeftForeArm', 0, -0.55, 0]],
+  knead2: [['Spine', 0.55, 0, 0], ['Spine1', 0.28, 0, 0], ['RightArm', 0, 1.25, 0.95], ['LeftArm', 0, -1.25, -0.95], ['RightForeArm', 0, 0.15, 0], ['LeftForeArm', 0, -0.15, 0]],
+  // carrying a load in both arms, held to the chest
+  carry: [['Spine', 0.05, 0, 0], ['RightArm', 0, 1.25, 0.6], ['LeftArm', 0, -1.25, -0.6], ['RightForeArm', 0, 1.25, 0], ['LeftForeArm', 0, -1.25, 0]],
+  // the washerwomen, kneeling: scrubbing on the slab (two strokes), wringing, beating the linen
+  kneel2: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.45, 0, 0], ['Spine1', 0.3, 0, 0], ['RightArm', 0, 0.75, 1.1], ['LeftArm', 0, -1.2, -0.8], ['RightForeArm', 0, 0.15, 0], ['LeftForeArm', 0, -0.55, 0]],
+  wring: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.15, 0, 0], ['RightArm', 0, 1.2, 0.5], ['LeftArm', 0, -1.2, -0.5], ['RightForeArm', 0, 1.35, 0], ['LeftForeArm', 0, -1.35, 0]],
+  beat: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.05, 0, 0], ['RightArm', 0, 1.1, -0.35], ['LeftArm', 0, -1.1, 0.35], ['RightForeArm', 0, 0.3, 0], ['LeftForeArm', 0, -0.3, 0]],
   rod: [['RightArm', 0, 1.3, 0.55], ['LeftArm', 0, -1.15, -0.5], ['RightForeArm', 0, 0.35, 0], ['LeftForeArm', 0, -0.55, 0]],
 };
 // Talking hands: arm poses from the T-pose (as POSE_BONES), blended over whatever clip plays. Florentines talk with their
@@ -112,6 +121,11 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   const adj: number[][] = streets.nodes.map(() => []);
   for (const [a, b] of streets.edges) { adj[a].push(b); adj[b].push(a); }
   const G: Graph = { nodes: streets.nodes, edges: streets.edges, zone: streets.zone, adj };
+  // the walking surface: the ground (with the landmarks' terraces and lungarni roads, scene/terrainRefine.ts) and, on the
+  // street graph's bridge edges, the bridge's deck – set by the app (people never walk the straight line between two nodes'
+  // heights, nor under a bridge)
+  const BR = new Set<number>(); for (const e of streets.edges) if (e[2]) { BR.add(e[0] * 1e6 + e[1]); BR.add(e[1] * 1e6 + e[0]); }
+  let ground: ((x: number, z: number, bridge: boolean) => number) | null = null;
   const group = new THREE.Group(); group.name = 'people'; scene.add(group);
   const agents: Agent[] = [];
   function makeAgent(): Agent | null {
@@ -381,16 +395,19 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
           ag.blockedN = 0;
         }
         follow(ag, tmp, ag.speed * 1.25, dt, Math.atan2(dx, dz));
+        if (ground) ag.obj.position.y = ground(ag.obj.position.x, ag.obj.position.z, BR.has(ag.a * 1e6 + ag.b));
         if (Math.hypot(tmp.x - centre.x, tmp.z - centre.z) > radius * 1.15) place(ag);
       } else if (ag.role === 'runner' && ag.target) {
         const d = tmp.subVectors(ag.target, ag.obj.position); d.y = 0; const L = d.length();
         const pace = (ag as any).pace as number | undefined;                       // scenes may set a walking pace (m/s)
-        if (L > 0.6) { turnMove(ag, Math.atan2(d.x, d.z), Math.min(L, (pace ?? 5.5) * dt), dt, true); play(ag, pace && pace < 2.5 ? 'walk' : 'run'); }
+        if (L > 0.6) { turnMove(ag, Math.atan2(d.x, d.z), Math.min(L, (pace ?? 5.5) * dt), dt, true); play(ag, pace && pace < 2.5 ? 'walk' : 'run');
+          if (ground && !(ag as any).keepY) ag.obj.position.y = ground(ag.obj.position.x, ag.obj.position.z, false); }
         else play(ag, 'idle');
       }
     }
   }
   return {
+    setGround: (f: (x: number, z: number, bridge: boolean) => number) => { ground = f; },
     group, claim, release, update, agents, setPose, setTalk, anim: play,
     get year() { return year; }, get epoch() { return epoch; },
     setVisible(v: boolean) { if (!v) group.visible = false; },   // hidden for a moment (the timeline playing); update() shows them again

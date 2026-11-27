@@ -12,11 +12,12 @@ The rowing club's terrace on the Arno's bank under the Uffizi's Arno wing, betwe
 | Wall and water's edge | wall (10, 458.8) → (62, 478); water (6, 463) → (62, 482.5) | `pipeline/46_lungarni.py`, DTM |
 
 ## What the model shows
-- The lawn with green iron tables and chairs, rose bushes along the wall, a path of stone flags along the wall and brick
-  steps at the west end.
+- The lawn with green iron tables and chairs, rose bushes along the wall, a path of stone flags along the wall.
 - The club's door: a round-headed arch in a white plastered stretch of the wall, with the sign, a clock and tablets.
-- A flagpole in the city's white and red by the water; a floating landing at the west end with two rowing shells (the club
-  keeps its boats inside, in the Uffizi's old vaults).
+- A flagpole in the city's white and red by the water; a floating landing at the west end, out into the river at a right
+  angle from the bank (2026-11-27: it had been drawn along the bank, at a slant to it), 12 m long and 2.6 m wide, reached by
+  four brick-edged steps down from the terrace's edge (the steps that stood against the wall and led nowhere are gone), two
+  rowing shells laid on it (the club keeps its boats inside, in the Uffizi's old vaults).
 
 ## Phases
 | Years | Part | Basis |

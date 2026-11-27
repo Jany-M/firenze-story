@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 282 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 285 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -1263,6 +1263,21 @@ All 282 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![The green door on the Lungarno Anna Maria Luisa de&#x27; Medici 8, the way in from the street](/materials/landmarks/thumbs/lungarno-anna-maria-luisa-de-medici-8-societ-dei-canottieri-firenze-01.jpg)](/materials/landmarks/lungarno-anna-maria-luisa-de-medici-8-societ-dei-canottieri-firenze-01.jpg)
 <figcaption markdown>The green door on the Lungarno Anna Maria Luisa de&#x27; Medici 8, the way in from the street<br><small>Sailko · 2021-04-15 15:11:28 · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) · [source](https://commons.wikimedia.org/wiki/File:Lungarno_anna_maria_luisa_de%27_medici_8,_societ%C3%A0_dei_canottieri_firenze_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![One of the cast-iron lamps on the terrace&#x27;s balustrade](/materials/landmarks/thumbs/firenze-piazzale-michelangelo-latarnia.jpg)](/materials/landmarks/firenze-piazzale-michelangelo-latarnia.jpg)
+<figcaption markdown>One of the cast-iron lamps on the terrace&#x27;s balustrade<br><small>Andrzej Otrębski · Taken on 28 August 2009, 13:07:20 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Piazzale_Michelangelo_latarnia.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The terrace in the 1890s: the gravel ground, the balustrade and a lamp, the Loggia behind (Giorgio Sommer)](/materials/landmarks/thumbs/sommer-giorgio-1834-1914-n-5570-firenze-piazza-michelangelo.jpg)](/materials/landmarks/sommer-giorgio-1834-1914-n-5570-firenze-piazza-michelangelo.jpg)
+<figcaption markdown>The terrace in the 1890s: the gravel ground, the balustrade and a lamp, the Loggia behind (Giorgio Sommer)<br><small>Sommer, Giorgio (1834-1914) · before 1914 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Sommer,_Giorgio_(1834-1914)_-_n._5570_-_FIRENZE._Piazza_Michelangelo.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The city from the lower terrace by the piazzale, about 1897 (Photochrom, Detroit Publishing)](/materials/landmarks/thumbs/8569-p-z-florence-tuscany-italy-ca-1897.jpg)](/materials/landmarks/8569-p-z-florence-tuscany-italy-ca-1897.jpg)
+<figcaption markdown>The city from the lower terrace by the piazzale, about 1897 (Photochrom, Detroit Publishing)<br><small>Detroit Publishing Co., under license from Photoglob Zürich · circa 1897 · Public domain · [source](https://commons.wikimedia.org/wiki/File:8569_P.Z._Florence,_Tuscany,_Italy,_ca._1897.jpg)</small></figcaption>
 </figure>
 
 </div>

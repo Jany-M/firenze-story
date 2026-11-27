@@ -5,9 +5,10 @@ Measured (LiDAR 2023 DTM; the lungarni's wall line from pipeline/46_lungarni.py)
 between the river wall under the Uffizi's Arno wing and the water, ≈10–12 m wide from x ≈ 5 to 62: the wall from (10, 458.8)
 to (30, 463.9), (50, 472.3), (62, 478); the water's edge from (6, 463) to (28, 470.5), (44, 476.5), (62, 482.5).
 From photographs (Commons: Francesco Bini 2023, Sailko 2021; credited on the library page): a lawn with green iron chairs and
-tables, rose bushes along the wall, a path of stone flags along the wall and brick-edged steps down to the lawn at the
-west end, the club's door (a round-headed arch in a white plastered wall, the sign, a clock and memorial tablets) under the
-Uffizi's corbelled loggia, a flagpole by the water, the boats kept inside (rowing shells on a floating landing).
+tables, rose bushes along the wall, a path of stone flags along the wall, the club's door (a round-headed arch in a white plastered wall, the sign, a clock and memorial tablets) under the
+Uffizi's corbelled loggia, a flagpole by the water, the boats kept inside, a floating landing out into the river at a right angle from the bank's
+west end (rowing shells laid on it), reached by a few steps down from the terrace (2026-11-27: the landing had been drawn
+along the bank, and the steps against the wall led nowhere).
 History: the club, founded in 1886 (the Federation's list of centenary clubs; another account gives 1911, heir to the
 Libertas of 1890), has had its seat under the Uffizi and the Ponte Vecchio since May 1933 (La Nazione).
 """
@@ -45,10 +46,6 @@ for x0, x1 in zip(xs, xs[1:]):
     poly(bm_for(P, "flags"), [Vs(x0, w0, GB + 0.05), Vs(x1, w1, GB + 0.05), Vs(x1, w1 + 2.4, GB + 0.05), Vs(x0, w0 + 2.4, GB + 0.05)][::-1])
     poly(bm_for(P, "lawn"), [Vs(x0, w0 + 2.4, GB + 0.04), Vs(x1, w1 + 2.4, GB + 0.04), Vs(x1, e1 - 0.4, GB + 0.04), Vs(x0, e0 - 0.4, GB + 0.04)][::-1])
     poly(bm_for(P, "flags"), [Vs(x0, e0 - 0.4, GB + 0.06), Vs(x1, e1 - 0.4, GB + 0.06), Vs(x1, e1, GB - 0.3), Vs(x0, e0, GB - 0.3)][::-1])   # the stone edge to the water
-for k in range(4):                                                  # steps from the door's level down to the lawn
-    x0 = 7.0 + k * 0.45
-    F = Frame(Vs(x0, lerp(WALL, x0)), Vector((0, -1, 0)), Vector((-1, 0, 0)))
-    box(bm_for(P, "brick"), F, 0, 4.0, GB, GB + 0.6 - k * 0.15, -0.45, 0)
 # the door: a round-headed arch in a white plastered stretch of the wall, sign, clock and tablets
 dx = 16.0; F = Frame(Vs(dx - 4, lerp(WALL, dx - 4)), (Vs(dx + 4, lerp(WALL, dx + 4)) - Vs(dx - 4, lerp(WALL, dx - 4))).normalized(), Vector((0, 0, 0)))
 F.n = Vector((F.u.y, -F.u.x, 0)) if Vector((F.u.y, -F.u.x, 0)).y < 0 else Vector((-F.u.y, F.u.x, 0))   # towards the river (−y in Blender is +z, south)
@@ -77,11 +74,21 @@ fx = 40.0; fz = lerp(EDGE, fx) - 1.2
 cylinder(P, "white", Vs(fx, fz), 0.06, GB, GB + 9.0, seg=6)
 Ff = Frame(Vs(fx, fz, 0), Vector((1, 0, 0)), Vector((0, -1, 0)))
 pbox(bm_for(P, "white"), Ff, 0.05, 1.6, GB + 7.9, GB + 8.9, -0.01, 0.01); pbox(bm_for(P, "bloom"), Ff, 0.05, 1.6, GB + 8.4, GB + 8.6, -0.012, 0.012)   # white and red
-# the floating landing at the west end, two rowing shells on it
-for k in range(6):
-    x = -6 + k * 2.0; z = lerp(EDGE, 6) + 0.5
-    box(bm_for(P, "deck"), Frame(Vs(x, z, 0), Vector((1, 0, 0)), Vector((0, -1, 0))), 0, 1.9, 1.85, 2.05, -0.2, 2.6)
-for k, off in enumerate((0.6, 1.7)):
-    F = Frame(Vs(-6.5, lerp(EDGE, 6) + 0.5 + off, 0), Vector((1, 0, 0)), Vector((0, -1, 0)))
-    box(bm_for(P, "hull"), F, 0, 11.5, 2.05, 2.3, -0.18, 0.18)
+# the floating landing at the west end, out from the bank at a right angle into the river (as in the photographs from the
+# Ponte Vecchio), reached from the terrace by a short flight of brick-edged steps; two rowing shells laid on it
+tdx, tdz = EDGE[2][0] - EDGE[1][0], EDGE[2][1] - EDGE[1][1]; tl = math.hypot(tdx, tdz); tx, tz = tdx / tl, tdz / tl
+nx, nz = -tz, tx                                                       # across the river (+z: towards the water)
+if nz < 0: nx, nz = -nx, -nz
+bx, bz = 8.0, lerp(EDGE, 8.0)
+def Fp(o):                                                             # frame on the landing: u out into the river, n along the bank
+    return Frame(Vs(bx + nx * o, bz + nz * o, 0), Vector((nx, -nz, 0)), Vector((tx, -tz, 0)))
+DECK = 2.05
+for k in range(4):                                                     # the steps down from the terrace's edge
+    box(bm_for(P, "brick"), Fp(0), k * 0.38, (k + 1) * 0.38, DECK - 0.4, GB - 0.3 - (k + 1) * (GB - 0.3 - DECK) / 4.5, -1.1, 1.1)
+for k in range(6):                                                     # the landing: planks on floats, 2.6 m wide, 12 m out
+    box(bm_for(P, "deck"), Fp(1.6 + k * 2.0), 0, 1.95, DECK - 0.2, DECK, -1.3, 1.3)
+for side in (-1.3, 1.3):                                               # the edge boards
+    box(bm_for(P, "deck"), Fp(1.6), 0, 12.0, DECK - 0.35, DECK + 0.05, side - 0.06, side + 0.06)
+for off in (-0.55, 0.55):                                              # two shells, keel up, along the landing
+    box(bm_for(P, "hull"), Fp(1.9), 0, 11.3, DECK, DECK + 0.25, off - 0.17, off + 0.17)
 K.export("canottieri")

@@ -4,7 +4,7 @@
 // mode, and so do their crews and the pre-urban villagers (own small crowd, never reset by the event scenes).
 import * as THREE from 'three/webgpu';
 import type { Props } from '../scene/assets';
-import { outfitFor, type People } from './people';
+import { outfitFor, type People, type Pose } from './people';
 import { walk } from './walk';
 
 type Height = (x: number, z: number) => number;
@@ -12,6 +12,7 @@ type Axis = number[][];                     // [x, level, z centre, z north bank
 const R = Math.random;
 
 /** Date ranges (inclusive start, exclusive end) and the reaches where things happen. */
+type Step = { dur?: number; poses?: Pose[]; every?: number; face?: THREE.Vector3; go?: THREE.Vector3; carry?: boolean };
 export const RIVER_LIFE = {
   // weirs: San Niccolò (east) and Santa Rosa / Ognissanti (west), x from weirs.json
   navicelliCity: [-30, 1300],     // up to the old port between Carraia and San Niccolò "until the 13th century" (Comune 2019, meer.com)
@@ -269,6 +270,9 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
         const y = Math.max(Math.min(knees, feet) + 0.02, e.water.y + 0.05);
         const a = people.claim(p, e.water, 'static', k % 2 ? 'agree' : 'idle', undefined, outfitFor(year, true), true); if (!a) break;
         a.obj.position.set(p.x, y - 0.42, p.z); a.obj.lookAt(e.water.x, y - 0.42, e.water.z); people.setPose(a, 'kneel'); crew.push(a);
+        // a round of three tasks, each woman at her own point in it: scrubbing on the slab, wringing, beating the linen
+        workers.push({ ag: a, t: R() * 20, steps: [
+          { dur: 7, poses: ['kneel', 'kneel2'], every: 0.7 }, { dur: 3.5, poses: ['wring'] }, { dur: 4.5, poses: ['beat', 'kneel'], every: 0.55 }] });
       }
     }
     // fornaciai digging clay from the bank below the city, bricks drying in rows
@@ -277,14 +281,26 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       const h = onBank(x, north, 6), b = onBank(x + 7, north, 9);
       const c = props.place('clayheap', h.x, h.y - 0.2, h.z, R() * 3, group); if (c) { settle(c, 0.15, 1.2); statics.push(c); }
       const k = props.place('bricks', b.x, b.y, b.z, north ? 0 : Math.PI, group); if (k) { settle(k, 0.02, 1.0); statics.push(k); }
-      if (live) for (let i = 0; i < 3; i++) {
-        // one digs at the face of the bank, two carry clay up to the drying rows and come back, again and again
-        const p = i === 0 ? onBank(x - 2, north, 2.5) : onBank(x + 1 + i * 1.5, north, 5.5);
-        const a = people.claim(p, i === 0 ? h : b, i === 0 ? 'static' : 'runner', i === 0 ? 'idle' : 'walk', undefined, 'boatman', true);
-        if (!a) continue;
-        a.obj.position.set(p.x, height(p.x, p.z), p.z); a.obj.lookAt(i === 0 ? h.x : b.x, a.obj.position.y, i === 0 ? h.z : b.z); crew.push(a);
-        if (i === 0) workers.push({ ag: a, kind: 'dig', t: R() * 2, a: p, b: p });
-        else { const near = onBank(x + 1 + i * 1.2, north, 6.5), far = onBank(x + 6 + i * 2.4, north, 8.6); workers.push({ ag: a, kind: 'carry', t: i * 3, a: near, b: far }); }
+      // the moulding table between the heap and the rows
+      const tb = onBank(x + 3.5, north, 7.4);
+      const tbl = props.place('table', tb.x, tb.y, tb.z, north ? 0 : Math.PI, group); if (tbl) { settle(tbl, 0.0, 1.0); statics.push(tbl); }
+      if (live) {
+        // three men, each with a round of his own, looped: the digger cuts clay at the face of the bank and takes it to the
+        // heap; the moulder fetches clay from the heap and works it at the table; the carrier takes the moulded bricks from
+        // the table to the drying rows (presets, the order of the work as on a brickfield – *inferred* for the Arno banks)
+        const D = onBank(x - 2, north, 2.6), H = onBank(x + 1.0, north, 4.6), T = onBank(x + 3.5, north, 6.4), B = onBank(x + 7, north, 7.6);
+        const plans: { at: THREE.Vector3; steps: Step[] }[] = [
+          { at: D, steps: [{ dur: 6, poses: ['dig', 'lift'], every: 0.8, face: h }, { go: H, carry: true }, { dur: 1.6, poses: ['dig'] }, { go: D }] },
+          { at: T, steps: [{ dur: 7, poses: ['knead', 'knead2'], every: 0.65, face: tb }, { go: H }, { dur: 1.8, poses: ['dig'] }, { go: T, carry: true }] },
+          { at: T, steps: [{ dur: 2, poses: ['dig'], face: tb }, { go: B, carry: true }, { dur: 2.2, poses: ['dig', 'lift'], every: 1.1 }, { go: T }] },
+        ];
+        plans.forEach((pl, i) => {
+          const p = i === 2 ? onBank(x + 4.6, north, 6.6) : pl.at;
+          const a = people.claim(p, h, 'runner', 'idle', undefined, 'boatman', true);
+          if (!a) return;
+          a.obj.position.set(p.x, height(p.x, p.z), p.z); crew.push(a);
+          workers.push({ ag: a, t: 0, steps: pl.steps, k: 0, st: i * 2.5 });
+        });
       }
     }
     // ducks and herons (all periods)
@@ -409,19 +425,32 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
 
   const M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(1.5, 1.5, 1.5), P = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
   let t = 0;
-  /** Workers on the bank with a fixed round: diggers swing between two strokes, carriers walk to and fro with a pause at
-   *  each end (loading at the heap, setting bricks down at the rows). */
-  const workers: { ag: any; kind: 'dig' | 'carry'; t: number; a: THREE.Vector3; b: THREE.Vector3; leg?: number; wait?: number }[] = [];
+  /** Workers on the bank with a fixed round of steps, looped: a step either holds poses for a while (alternating every
+   *  `every` s – two strokes of a spade, of kneading, of scrubbing) or walks to a point (with a load in the arms when
+   *  `carry`). People stand on the ground as they go (height under their feet each frame). */
+  const workers: { ag: any; t: number; steps: Step[]; k?: number; st?: number; load?: THREE.Object3D }[] = [];
+  const loadGeo = new THREE.BoxGeometry(0.42, 0.22, 0.3), loadMat = new THREE.MeshStandardMaterial({ color: 0x9a6a48, roughness: 0.95 });
   function workerStep(dt: number) {
     for (const w of workers) {
       const ag = w.ag; if (!ag.obj.visible) continue;
-      w.t += dt;
-      if (w.kind === 'dig') { const ph = w.t % 1.6; people.setPose(ag, ph < 0.9 ? 'dig' : 'lift'); continue; }
-      if ((w.wait ?? 0) > 0) { w.wait! -= dt; if (w.wait! <= 0) { w.leg = (w.leg ?? 0) ^ 1; ag.target = (w.leg ? w.b : w.a).clone(); } continue; }
-      const goal = w.leg ? w.b : w.a;
-      if (!ag.target) ag.target = goal.clone();
-      (ag as any).pace = 1.1;
-      if (Math.hypot(ag.obj.position.x - goal.x, ag.obj.position.z - goal.z) < 0.7) { w.wait = 1.8 + R() * 1.5; ag.target = undefined; people.anim(ag, 'idle'); }
+      if (!w.steps.some(s => s.go)) {                         // kneeling crews: poses only, the position stays
+        w.t += dt; const total = w.steps.reduce((a, s) => a + (s.dur ?? 0), 0); let ph = w.t % total;
+        for (const s of w.steps) { if (ph < s.dur!) { const ps = s.poses!; people.setPose(ag, ps[Math.floor(ph / (s.every ?? 1e9)) % ps.length]); break; } ph -= s.dur!; }
+        continue;
+      }
+      if ((w.st ?? 0) > 0) { w.st! -= dt; people.anim(ag, 'idle'); continue; }   // staggered starts
+      const s = w.steps[w.k ?? 0];
+      if (s.go) {
+        if (!ag.target) { ag.target = s.go.clone(); (ag as any).pace = 1.05; people.setPose(ag, s.carry ? 'carry' : null); }
+        if (s.carry && !w.load) { w.load = new THREE.Mesh(loadGeo, loadMat); w.load.position.set(0, 1.05, 0.38); ag.obj.add(w.load); }
+        if (s.carry) people.setPose(ag, 'carry');
+        if (Math.hypot(ag.obj.position.x - s.go.x, ag.obj.position.z - s.go.z) < 0.6) { ag.target = undefined; w.k = ((w.k ?? 0) + 1) % w.steps.length; w.t = 0; }
+      } else {
+        if (w.load) { ag.obj.remove(w.load); w.load = undefined; }
+        if (w.t === 0) { people.anim(ag, 'idle'); if (s.face) ag.obj.lookAt(s.face.x, ag.obj.position.y, s.face.z); }
+        w.t += dt; const ps = s.poses!; people.setPose(ag, ps[Math.floor(w.t / (s.every ?? 1e9)) % ps.length]);
+        if (w.t >= s.dur!) { w.t = 0; w.k = ((w.k ?? 0) + 1) % w.steps.length; people.setPose(ag, null); }
+      }
       ag.obj.position.y = height(ag.obj.position.x, ag.obj.position.z);
     }
   }

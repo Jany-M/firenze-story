@@ -5140,5 +5140,59 @@
   "license_url": "https://creativecommons.org/licenses/by/3.0",
   "page": "https://commons.wikimedia.org/wiki/File:Lungarno_anna_maria_luisa_de%27_medici_8,_societ%C3%A0_dei_canottieri_firenze_01.jpg",
   "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Piazzale Michelangelo"
+  ],
+  "caption": "One of the cast-iron lamps on the terrace's balustrade",
+  "src_file": "Firenze Piazzale Michelangelo latarnia.jpg",
+  "img": "landmarks/firenze-piazzale-michelangelo-latarnia.jpg",
+  "thumb": "landmarks/thumbs/firenze-piazzale-michelangelo-latarnia.jpg",
+  "w": 670,
+  "h": 1280,
+  "author": "Andrzej Otrębski",
+  "date": "Taken on 28 August 2009, 13:07:20",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_Piazzale_Michelangelo_latarnia.jpg",
+  "credit": "Own work"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Piazzale Michelangelo"
+  ],
+  "caption": "The terrace in the 1890s: the gravel ground, the balustrade and a lamp, the Loggia behind (Giorgio Sommer)",
+  "src_file": "Sommer, Giorgio (1834-1914) - n. 5570 - FIRENZE. Piazza Michelangelo.JPG",
+  "img": "landmarks/sommer-giorgio-1834-1914-n-5570-firenze-piazza-michelangelo.jpg",
+  "thumb": "landmarks/thumbs/sommer-giorgio-1834-1914-n-5570-firenze-piazza-michelangelo.jpg",
+  "w": 950,
+  "h": 636,
+  "author": "Sommer, Giorgio (1834-1914)",
+  "date": "before 1914",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Sommer,_Giorgio_(1834-1914)_-_n._5570_-_FIRENZE._Piazza_Michelangelo.JPG",
+  "credit": "ebay"
+ },
+ {
+  "topic": "landmarks",
+  "subjects": [
+   "rec:Piazzale Michelangelo"
+  ],
+  "caption": "The city from the lower terrace by the piazzale, about 1897 (Photochrom, Detroit Publishing)",
+  "src_file": "8569 P.Z. Florence, Tuscany, Italy, ca. 1897.jpg",
+  "img": "landmarks/8569-p-z-florence-tuscany-italy-ca-1897.jpg",
+  "thumb": "landmarks/thumbs/8569-p-z-florence-tuscany-italy-ca-1897.jpg",
+  "w": 1280,
+  "h": 938,
+  "author": "Detroit Publishing Co., under license from Photoglob Zürich",
+  "date": "circa 1897",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:8569_P.Z._Florence,_Tuscany,_Italy,_ca._1897.jpg",
+  "credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppmsc.06458.This tag does not indicate the copyright status of the attached wo"
  }
 ]

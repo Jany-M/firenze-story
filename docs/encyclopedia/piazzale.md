@@ -43,6 +43,21 @@ and fountains climbing from the tower of San Niccolò, whose water runs again si
 <figcaption markdown>A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade<br><small>sailko · 2013-07-26 16:18:08 · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) · [source](https://commons.wikimedia.org/wiki/File:Rampe_del_poggi,_veduta_05.JPG)</small></figcaption>
 </figure>
 
+<figure markdown>
+[![One of the cast-iron lamps on the terrace&#x27;s balustrade](/materials/landmarks/thumbs/firenze-piazzale-michelangelo-latarnia.jpg)](/materials/landmarks/firenze-piazzale-michelangelo-latarnia.jpg)
+<figcaption markdown>One of the cast-iron lamps on the terrace&#x27;s balustrade<br><small>Andrzej Otrębski · Taken on 28 August 2009, 13:07:20 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_Piazzale_Michelangelo_latarnia.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The terrace in the 1890s: the gravel ground, the balustrade and a lamp, the Loggia behind (Giorgio Sommer)](/materials/landmarks/thumbs/sommer-giorgio-1834-1914-n-5570-firenze-piazza-michelangelo.jpg)](/materials/landmarks/sommer-giorgio-1834-1914-n-5570-firenze-piazza-michelangelo.jpg)
+<figcaption markdown>The terrace in the 1890s: the gravel ground, the balustrade and a lamp, the Loggia behind (Giorgio Sommer)<br><small>Sommer, Giorgio (1834-1914) · before 1914 · Public domain · [source](https://commons.wikimedia.org/wiki/File:Sommer,_Giorgio_(1834-1914)_-_n._5570_-_FIRENZE._Piazza_Michelangelo.JPG)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The city from the lower terrace by the piazzale, about 1897 (Photochrom, Detroit Publishing)](/materials/landmarks/thumbs/8569-p-z-florence-tuscany-italy-ca-1897.jpg)](/materials/landmarks/8569-p-z-florence-tuscany-italy-ca-1897.jpg)
+<figcaption markdown>The city from the lower terrace by the piazzale, about 1897 (Photochrom, Detroit Publishing)<br><small>Detroit Publishing Co., under license from Photoglob Zürich · circa 1897 · Public domain · [source](https://commons.wikimedia.org/wiki/File:8569_P.Z._Florence,_Tuscany,_Italy,_ca._1897.jpg)</small></figcaption>
+</figure>
+
 </div>
 <!-- /gallery -->
 

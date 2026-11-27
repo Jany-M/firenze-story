@@ -22,7 +22,8 @@ from 1873, opened 1875); the bronze David (Clemente Papi's cast) set up on 25 Ju
 of Michelangelo's works, a café-restaurant from 1876 (its building date taken as 1873, *inferred*); the Rampe 1872–76,
 their fountains dry for most of the 20th century and running again from 2019.
 """
-import os, sys, math
+import os, sys, math, json
+import numpy as np, bmesh
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from landmark_kit import *
 import landmark_kit as K
@@ -30,16 +31,31 @@ from landmark_detail import *
 from landmark_church import Vs, extra_materials
 from mathutils import Vector
 K.reset()
-MAT["forte"] = material("pietra_forte_poggi", None, (0.72, 0.62, 0.47), 0.9)
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+WJ = json.load(open(os.path.join(ROOT, "blender", "data", "piazzale_walls.json")))   # walls snapped to the LiDAR (_dev/tmp/wall_snap.py)
+DTM = np.load(os.path.join(ROOT, "blender", "data", "piazzale_dtm.npy"))             # LiDAR 2023 DTM, 1 m, x 680.., z 760..
+def dtm(x, z):
+    fx, fz = x - 680, z - 760; i, j = int(fx), int(fz)
+    i = max(0, min(DTM.shape[1] - 2, i)); j = max(0, min(DTM.shape[0] - 2, j)); a, b = fx - i, fz - j
+    return float((DTM[j, i] * (1 - a) + DTM[j, i + 1] * a) * (1 - b) + (DTM[j + 1, i] * (1 - a) + DTM[j + 1, i + 1] * a) * b)
+EDITS = []                                                            # ground edits: the terrain gives way to the model
+MAT["forte"] = material("pietra_forte_poggi", "pietra_forte", (0.72, 0.62, 0.47), 0.9, 0.5)
 MAT["fortedk"] = material("pietra_forte_joints", None, (0.55, 0.46, 0.34), 0.9)
 MAT["spugne"] = material("spugne_tufa", None, (0.78, 0.76, 0.7), 0.95)
 MAT["pinkm"] = material("marble_red_panels", None, (0.78, 0.5, 0.45), 0.5)
 MAT["bronzev"] = material("bronze_verdigris", None, (0.25, 0.45, 0.38), 0.45, metal=0.5)
 MAT["stucco"] = material("loggia_stucco", None, (0.86, 0.82, 0.72), 0.85)
-MAT["asph"] = material("piazzale_paving", None, (0.5, 0.49, 0.47), 0.95)
+MAT["asph"] = material("piazzale_asphalt", "asfalto", (0.45, 0.44, 0.42), 0.95, 0.25, tint=(2.5, 2.46, 2.4))
+MAT["gravel"] = material("piazzale_gravel", "terra", (0.72, 0.68, 0.6), 1.0, 0.3, tint=(1.25, 1.2, 1.1))
+MAT["ghisa"] = material("cast_iron_pietraforte", None, (0.66, 0.58, 0.45), 0.7, metal=0.25)     # the cast-iron balustrade, painted the colour of pietra forte (Comune 2017)
+MAT["iron"] = material("cast_iron_lamp", None, (0.2, 0.22, 0.23), 0.5, metal=0.6)
+MAT["globe"] = material("lamp_globe", None, (0.95, 0.94, 0.9), 0.3)
+MAT["step"] = material("pietra_steps", "lastrico", (0.62, 0.6, 0.56), 0.85, 0.5)
 extra_materials()
 NOW = K.NOW
 PZ, MO, LG, RA = f"piazzale@1869-{NOW}", f"monumento_david@1873-{NOW}", f"loggia@1873-{NOW}", f"rampe@1876-{NOW}"
+VW = f"viale_muri@1869-{NOW}"                                           # the Viale's containing walls below the piazzale
+GRAVEL, ASPH = "piazzale_ghiaia@1869-1959", f"piazzale_asfalto@1960-{NOW}"
 
 def seg(p0, p1, out):
     """Frame on the segment p0 → p1 (scene x, z): u along it, n horizontal towards the point `out`."""
@@ -52,14 +68,33 @@ def rusticated(part, F, L, v0, v1, course=0.6, depth=1.4):
     v = v0 + course
     while v < v1 - 0.2:
         pbox(bm_for(part, "fortedk"), F, 0, L, v - 0.05, v, 0, 0.015); v += course
-def balustrade(part, F, L, v, h=1.0, step=0.36):
-    pbox(bm_for(part, "forte"), F, -0.1, L + 0.1, v, v + 0.16, -0.5, 0.1)
-    pbox(bm_for(part, "forte"), F, -0.1, L + 0.1, v + h - 0.16, v + h, -0.5, 0.1)
-    for k in range(int(L / step)):
-        u = (k + 0.5) * L / int(L / step)
-        cylinder(part, "forte", F.p(u, 0, -0.2), 0.1, v + 0.16, v + h - 0.16, seg=6)
-    for k in range(int(L / 4.0) + 1):                                   # piers
-        u = min(L, k * 4.0); pbox(bm_for(part, "forte"), F, u - 0.25, u + 0.25, v, v + h + 0.08, -0.55, 0.15)
+def balustrade(part, F, L, v, h=1.05, step=0.3, pier=6.0):
+    """Poggi's balustrade: a pietra forte base, squat Doric cast-iron balusters and a cast-iron cap rail (Fonderia di
+    Follonica, 1865–75), painted the colour of the stone; stone dados at intervals (spacing *inferred*)."""
+    b0 = 0.32
+    pbox(bm_for(part, "forte"), F, -0.05, L + 0.05, v, v + b0, -0.55, 0.05)
+    pbox(bm_for(part, "ghisa"), F, -0.05, L + 0.05, v + h - 0.12, v + h, -0.42, -0.08)
+    nb = max(1, int(L / step))
+    for k in range(nb):
+        c = F.p((k + 0.5) * L / nb, 0, -0.25)
+        cone(part, "ghisa", c, 0.08, 0.11, v + b0, v + b0 + 0.18, seg=6)                   # the swelling foot
+        cone(part, "ghisa", c, 0.11, 0.06, v + b0 + 0.18, v + h - 0.2, seg=6)              # the tapering shaft
+        cylinder(part, "ghisa", c, 0.09, v + h - 0.2, v + h - 0.12, seg=6, cap=False)       # the capital
+    for kk in range(int(L / pier) + 1):
+        u = min(L, kk * pier); pbox(bm_for(part, "forte"), F, u - 0.22, u + 0.22, v, v + h + 0.06, -0.5, 0.0)
+def lamp(part, x, z, g):
+    """The candelabra on the balustrade line: a lion-paw tripod, a twisted shaft, scrolled arms and four white globes
+    (photograph: Otrębski 2015 on Commons). The same lamp is drawn in every year (the older heads are *inferred*)."""
+    c = Vs(x, z)
+    cone(part, "iron", c, 0.42, 0.22, g, g + 0.6, seg=6)
+    cylinder(part, "iron", c, 0.11, g + 0.6, g + 3.6, seg=8)
+    for k in range(6): cylinder(part, "iron", c, 0.135, g + 0.9 + k * 0.45, g + 1.05 + k * 0.45, seg=8, cap=False)   # the twist
+    cone(part, "iron", c, 0.13, 0.2, g + 3.6, g + 3.9, seg=8)
+    for a in range(3):
+        t = a * 2 * math.pi / 3 + 0.4; d = Vector((math.cos(t), math.sin(t), 0))
+        Fa = Frame(c, d, Vector((-d.y, d.x, 0))); pbox(bm_for(part, "iron"), Fa, 0, 0.62, g + 3.75, g + 3.83, -0.03, 0.03)
+        cylinder(part, "iron", c + d * 0.62, 0.03, g + 3.75, g + 4.15, seg=5); sphere(part, "globe", c + d * 0.62 + Vector((0, 0, g + 4.38)), 0.24)
+    cylinder(part, "iron", c, 0.05, g + 3.9, g + 4.5, seg=5); sphere(part, "globe", c + Vector((0, 0, g + 4.75)), 0.25)
 def grotto(part, F, u, v0, w, h, depth=1.6):
     """A round-headed grotto niche faced with spugne, dark inside."""
     arch_fill(part, "dark", F, u - w / 2, u + w / 2, v0, v0 + h - w / 2, n=0.03)
@@ -72,19 +107,106 @@ def basin(part, cx, cz, w, d, g, rim=0.5):
                              (cx - w / 2, cz - d / 2, cx - w / 2 + 0.35, cz + d / 2), (cx + w / 2 - 0.35, cz - d / 2, cx + w / 2, cz + d / 2)):
         F, L = seg((x0, (z0 + z1) / 2), (x1, (z0 + z1) / 2), (x0, z1 + 5)); box(bm_for(part, "spugne"), F, 0, L, g - 0.2, g + rim, -(z1 - z0) / 2, (z1 - z0) / 2)
 
-# ------------------------------------------------------------------ the terrace's north wall and balustrade
-NW = [(745, 927), (790, 936.5), (845, 939), (848, 950), (895, 957.5)]
+# ------------------------------------------------------------------ walls from the LiDAR (snapped lines, _dev/tmp/wall_snap.py)
+def med(a, k=2):
+    return [sorted(a[max(0, i - k):i + k + 1])[len(a[max(0, i - k):i + k + 1]) // 2] for i in range(len(a))]
+def strip(p0, p1, n, a, b):
+    """Ground-edit polygon along p0 -> p1, from a to b metres along the normal n (scene x, z)."""
+    return [[p0[0] + n[0] * a, p0[1] + n[1] * a], [p1[0] + n[0] * a, p1[1] + n[1] * a], [p1[0] + n[0] * b, p1[1] + n[1] * b], [p0[0] + n[0] * b, p0[1] + n[1] * b]]
+def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None, cut=5.0, fill=3.0, grottoes=()):
+    """A retaining wall along the snapped line `name`: rusticated pietra forte from the foot to the top, a coping, then
+    the balustrade (rail="bal"), a plain stone parapet ("parapet", *inferred*) or nothing. The ground in front is cut
+    down to the foot and filled up behind to the top. grottoes: (x, width, height) – niches at that x along the wall."""
+    w = WJ[name]; P = [p for p in w["pts"] if upto is None or upto(p)]; nx, nz = w["low"]
+    tops = med([p[2] for p in P]); feet = med([p[3] for p in P])
+    if top is not None: tops = [top] * len(P)
+    frames = []
+    for i in range(len(P) - 1):
+        p0, p1 = (P[i][0], P[i][1]), (P[i + 1][0], P[i + 1][1])
+        F, L = seg(p0, p1, ((p0[0] + p1[0]) / 2 + nx * 10, (p0[1] + p1[1]) / 2 + nz * 10))
+        t, f = max(tops[i], tops[i + 1]), min(feet[i], feet[i + 1])
+        if t - f < 0.4: t = f + 0.4
+        rusticated(part, F, L, f - 0.8, t, course=course, depth=depth)
+        pbox(bm_for(part, "forte"), F, -0.15, L + 0.15, t - 0.35, t, 0, 0.3)                   # coping
+        if rail == "bal": balustrade(part, F, L, t)
+        elif rail == "parapet": box(bm_for(part, "forte"), F, -0.05, L + 0.05, t, t + 0.85, -0.5, 0.05)
+        for gx, gw, gh in grottoes:
+            lo, hi = sorted((p0[0], p1[0]))
+            if lo <= gx < hi: grotto(part, F, abs(gx - p0[0]) / max(1e-6, abs(p1[0] - p0[0])) * L, f, gw, min(gh, t - f - 0.8))
+        # the ground is cut to the foot from just behind the face (under the wall's body) to `cut` in front, and filled to
+        # the top beyond: the nearest terrain point behind the face (2 m grid) is always cut, so the step between the two falls
+        # inside the wall's body (4.5 m deep), never in front of the face
+        EDITS.append({"poly": strip(p0, p1, (nx, nz), -2.1, cut), "max": round(f - 0.05, 2)})
+        EDITS.append({"poly": strip(p0, p1, (nx, nz), -2.2 - fill, -2.2), "min": round(t - 0.08, 2)})
+        frames.append((F, L, t, f, p0, p1))
+    return frames
+
+# ------------------------------------------------------------------ the terrace: walls on the city side, the Iris side, the west
 TOP = 63.2
-for (p0, p1), low in zip(zip(NW, NW[1:]), (55.2, 55.6, 55.6, 54.4)):
-    F, L = seg(p0, p1, ((p0[0] + p1[0]) / 2, min(p0[1], p1[1]) - 20))   # facing north, over the city
-    rusticated(PZ, F, L, low - 1.0, TOP)
-    pbox(bm_for(PZ, "forte"), F, -0.2, L + 0.2, TOP - 0.45, TOP, 0, 0.35)                   # coping
-    balustrade(PZ, F, L, TOP)
-# lamp posts along the balustrade
-for k in range(9):
-    t = (k + 0.5) / 9; i = min(int(t * (len(NW) - 1)), len(NW) - 2); f = t * (len(NW) - 1) - i
-    x = NW[i][0] + (NW[i + 1][0] - NW[i][0]) * f; z = NW[i][1] + (NW[i + 1][1] - NW[i][1]) * f + 2.0
-    cylinder(PZ, "iron", Vs(x, z), 0.09, TOP, TOP + 4.2, seg=6); sphere(PZ, "marble", Vs(x, z, TOP + 4.4), 0.28)
+for nm in ("north_w", "north_step", "north_e"): wall_line(nm, PZ, top=TOP)
+wall_line("east", PZ)
+wall_line("west_n", PZ, top=63.3)
+wall_line("west_s", PZ, upto=lambda p: p[1] < 1004)
+# the containing walls below, along Viale Poggi's bends and on the Iris garden side (built with the Viale, 1865–76)
+for nm in ("viale_low", "viale_w1", "viale_w2", "iris"): wall_line(nm, VW, rail="parapet")
+
+# ------------------------------------------------------------------ the great staircase on the city side (west end)
+# 40 steps (OSM way 233265212) from the terrace (63.4) down to the lower terrace by the Belvedere (57.3), 12 m wide,
+# LiDAR: the flight runs x 736.5 -> 720.5 between z 955.5 and 967.5
+SX0, SX1, SZ0, SZ1, NST = 736.5, 720.5, 955.5, 967.5, 40
+lowg, topg = 57.3, 63.35; rise = (topg - lowg) / NST; run = (SX0 - SX1) / NST
+for k in range(NST):
+    x_hi = SX0 - k * run; x_lo = x_hi - run; v = topg - (k + 1) * rise
+    wbox(bm_for(PZ, "step"), x_lo, x_hi + 0.02, -SZ1, -SZ0, lowg - 0.4, v + rise)          # Blender y = -z
+for zz in (SZ0, SZ1):                                               # the side walls, a balustrade stepping down with them
+    s_ = -1 if zz == SZ0 else 1
+    for k in range(0, NST, 4):
+        x_hi = SX0 - k * run; x_lo = max(SX1, x_hi - 4 * run); v = topg - k * rise
+        ya, yb = sorted((-(zz + s_ * 0.6), -zz)); wbox(bm_for(PZ, "forte"), x_lo, x_hi, ya, yb, lowg - 0.4, v + 0.2)
+        Fb, Lb = seg((x_hi, zz + s_ * 0.3), (x_lo, zz + s_ * 0.3), (x_lo, zz + s_ * 5)); balustrade(PZ, Fb, Lb, v + 0.2, pier=Lb + 1)
+for x, z in ((SX0 + 0.8, SZ0 - 0.8), (SX0 + 0.8, SZ1 + 0.8), (SX1 - 0.6, SZ0 - 0.8), (SX1 - 0.6, SZ1 + 0.8)):
+    lamp(PZ, x, z, topg if x > 730 else lowg)
+EDITS.append({"poly": [[SX1 - 0.5, SZ0 - 0.5], [SX0 + 0.3, SZ0 - 0.5], [SX0 + 0.3, SZ1 + 0.5], [SX1 - 0.5, SZ1 + 0.5]], "max": lowg - 0.1})
+
+# ------------------------------------------------------------------ the terrace's ground: gravel at first, asphalt today
+# (gravel in the photographs of the 1870s–1900s, asphalt in those of the 1990s on; the change is dated 1960, *inferred*)
+def wl(nm, cond=lambda p: True): return [(p[0], p[1]) for p in WJ[nm]["pts"] if cond(p)]
+PAVE = wl("north_w") + wl("north_step") + wl("north_e") + wl("east", lambda p: p[1] < 1021) + \
+       [(896.2, 1021.9), (882.9, 1028.3), (870.5, 1015.7), (858.0, 1006.8), (839.2, 997.3), (820.1, 991.7), (800.3, 988.8), (780.3, 991.3), (763.4, 997.3), (747.0, 1006.5)] + \
+       wl("west_s", lambda p: p[1] < 1004)[::-1] + [(SX0, SZ1), (SX0, SZ0)] + wl("west_n")[::-1]
+def slab(part, mat, ring, lift=0.04, cell=4.0):
+    """A ground slab on the polygon, cut into 4 m cells and laid on the LiDAR heights."""
+    bt = bmesh.new(); vs = [bt.verts.new(Vs(x, z)) for x, z in ring]
+    try: bt.faces.new(vs)
+    except ValueError: return
+    xs = [x for x, _ in ring]; zs = [z for _, z in ring]
+    for x in np.arange(math.floor(min(xs)), max(xs), cell):
+        bmesh.ops.bisect_plane(bt, geom=bt.verts[:] + bt.edges[:] + bt.faces[:], plane_co=(x, 0, 0), plane_no=(1, 0, 0))
+    for z in np.arange(math.floor(min(zs)), max(zs), cell):
+        bmesh.ops.bisect_plane(bt, geom=bt.verts[:] + bt.edges[:] + bt.faces[:], plane_co=(0, -z, 0), plane_no=(0, 1, 0))
+    bmesh.ops.triangulate(bt, faces=bt.faces[:])
+    for v in bt.verts: v.co.z = dtm(v.co.x, -v.co.y) + lift
+    tb = bm_for(part, mat)
+    for f in bt.faces: poly(tb, [v.co.copy() for v in f.verts])
+    bt.free()
+# the south part: the carriageway round the square and the strip up to the wall under the Loggia
+SOUTH = [(747.0, 1006.5), (763.4, 997.3), (780.3, 991.3), (800.3, 988.8), (820.1, 991.7), (839.2, 997.3), (858.0, 1006.8), (870.5, 1015.7),
+         (882.9, 1028.3), (896.2, 1021.9), (897.0, 1040.0), (883.4, 1056.1)] + [(p[0], p[1]) for p in WJ["loggia"]["pts"][::-1]] + [(760.0, 1038.0), (750.0, 1016.0)]
+for rg in (PAVE, SOUTH):
+    slab(GRAVEL, "gravel", rg); slab(ASPH, "asph", rg)
+    EDITS.append({"poly": [list(p) for p in rg], "drop": 0.3})
+
+# lamp posts along the balustrades (every ≈ 24 m, *inferred* spacing; on the line in every photograph)
+def along(nm, every, off, g=TOP):
+    P = WJ[nm]["pts"]; nx, nz = WJ[nm]["low"]; acc = every / 2
+    for a, b in zip(P, P[1:]):
+        L = math.hypot(b[0] - a[0], b[1] - a[1]); t = acc
+        while t < L:
+            x = a[0] + (b[0] - a[0]) * t / L - nx * off; z = a[1] + (b[1] - a[1]) * t / L - nz * off
+            lamp(PZ, x, z, g if g is not None else dtm(x, z)); t += every
+        acc = t - L
+for nm in ("north_w", "north_e"): along(nm, 24, 1.0)
+along("east", 24, 1.0, None); along("west_n", 24, 1.0)
 
 # ------------------------------------------------------------------ the monument to Michelangelo
 C = (818.5, 976.5); G = 63.4
@@ -130,6 +252,30 @@ box(bm_for(MO, "bronzev"), Fm, 0.3, 0.7, D + 3.9, D + 4.2, -0.12, 0.12)
 box(bm_for(MO, "bronzev"), Fm, -0.12, 0.12, D + 4.1, D + 4.35, -0.12, 0.12)             # neck
 sphere(MO, "bronzev", Fm.p(0, D + 4.62, 0), 0.32)                                        # head and hair
 
+
+# ------------------------------------------------------------------ the Rampe: walls on the measured lines, grottoes, basins
+def at_x(frames, x):
+    """The wall segment over x and the distance along it."""
+    for F, L, t, f, p0, p1 in frames:
+        lo, hi = sorted((p0[0], p1[0]))
+        if lo <= x <= hi: return F, abs(x - p0[0]) / max(1e-6, abs(p1[0] - p0[0])) * L, t, f
+    F, L, t, f, p0, p1 = frames[len(frames) // 2]; return F, L / 2, t, f
+wall_line("r1", RA, course=0.55, depth=4.5, grottoes=((790, 2.2, 3.8), (800.5, 2.2, 3.8), (811, 2.2, 3.8)))   # the lower fountains, behind the tower
+for nm in ("r1e", "r2", "r3e", "r4w", "r4w2", "r6", "r6e", "r7"): wall_line(nm, RA, course=0.55, depth=4.5)
+f3 = wall_line("r3", RA, course=0.55, depth=4.5, grottoes=((805, 3.0, 3.8),))                                 # the first level's fountain
+F, u, t, f = at_x(f3, 805); basin(RA, 804.8, 828.3, 10, 3.2, f)                                                # OSM way 463430105
+f5 = wall_line("r5", RA, course=0.55, depth=4.5)                                                               # the middle level: the great grotto
+F3, u3, t5, f5_ = at_x(f5, 807.5)
+box(bm_for(RA, "spugne"), F3, u3 - 13, u3 + 13, f5_ - 0.4, t5 + 0.4, 0, 1.6)                                 # the rock-faced front, a curved crest
+F3f = Frame(F3.p(0, 0, 1.6), F3.u, F3.n)
+for du in (-6.5, 0, 6.5): grotto(RA, F3f, u3 + du, f5_ + 0.2, 4.6, min(6.6, t5 - f5_ - 0.6), depth=2.5)
+for du in (-3.25, 3.25): pbox(bm_for(RA, "water"), F3f, u3 + du - 0.6, u3 + du + 0.6, f5_ + 0.5, t5 - 0.6, 0, 0.05)   # the cascades
+for k in range(9):
+    tt = k / 8; pbox(bm_for(RA, "spugne"), F3, u3 - 13 + tt * 26 - 1.6, u3 - 13 + tt * 26 + 1.6, t5 + 0.4, t5 + 0.4 + 1.6 * math.sin(math.pi * tt) + 0.3, 0, 1.6)
+basin(RA, 807.5, 851.0, 38, 3.2, f5_, rim=0.6)                                                                 # OSM way 690889344, the road just below it
+f6 = wall_line("r6r", RA, course=0.55, depth=4.5, grottoes=((803.5, 3.2, 4.0),))                               # the upper fountain's recess
+F6, u6, t6, f6_ = at_x(f6, 803.5); basin(RA, 803.5, 881.0, 18, 4.0, f6_)
+
 # ------------------------------------------------------------------ the Loggia and the terrace wall below it
 GL = 67.5
 Ff, Lf = seg((790, 1069), (814, 1069), (802, 1060))                  # its front, towards the piazzale (north)
@@ -151,36 +297,14 @@ for i in (0, 4):                                                    # the closed
     u = BAY * (i + 0.5); poly(bm_for(LG, "glass" if "glass" in MAT else "dark"), [Ff.p(u - 0.8, GL + 2.5, 0.03), Ff.p(u + 0.8, GL + 2.5, 0.03), Ff.p(u + 0.8, GL + 5.0, 0.03), Ff.p(u - 0.8, GL + 5.0, 0.03)])
 pbox(bm_for(LG, "stucco"), Ff, 0, Lf, GL + 7.8, GL + 8.4, 0, 0.6)                       # entablature
 box(bm_for(LG, "forte"), Ff, -3.0, Lf + 3.0, GL - 0.6, GL + 0.6, 0, 3.5)                 # its podium and steps
-Fw, Lw = seg((768, 1050), (836, 1050), (802, 1040))                  # the balcony wall under the loggia (the epigraph)
-rusticated(LG, Fw, Lw, 63.8, 67.2)
-balustrade(LG, Fw, Lw, 67.2)
-pbox(bm_for(LG, "marble"), Fw, Lw / 2 - 3.0, Lw / 2 + 3.0, 64.8, 66.4, 0, 0.06)         # the inscription
+fl = wall_line("loggia", LG)                                         # the balcony wall under the loggia (the epigraph), on its measured line
+Fw, uw, tw, fw = at_x(fl, 800)
+pbox(bm_for(LG, "marble"), Fw, uw - 3.0, uw + 3.0, fw + 0.8, min(tw - 0.6, fw + 2.4), 0, 0.06)         # the inscription
 
-# ------------------------------------------------------------------ the Rampe: retaining walls, grottoes, basins, balustrades
-def rampe_wall(x0, x1, z, low, top, grottoes=(), w=2.2):
-    F, L = seg((x0, z), (x1, z), ((x0 + x1) / 2, z - 10))            # facing north, down to the river
-    rusticated(RA, F, L, low - 0.6, top, course=0.55, depth=2.0)
-    pbox(bm_for(RA, "forte"), F, -0.2, L + 0.2, top - 0.4, top, 0, 0.3)
-    balustrade(RA, F, L, top)
-    for gx in grottoes: grotto(RA, F, gx - x0, low, w, min(top - low - 0.8, 3.8))
-    return F, L
-rampe_wall(783, 818, 808, 8.6, 13.8, grottoes=(790, 800.5, 811))     # the lower fountains, behind the tower
-basin(RA, 800.5, 804.5, 30, 4.0, 8.6)
-rampe_wall(790, 830, 829, 13.9, 21.2, grottoes=(810,), w=3.0)          # the first level's fountain
-basin(RA, 810, 826.0, 9, 3.0, 13.9)
-F3, L3 = rampe_wall(748, 852, 853, 21.4, 30.2, grottoes=(760, 840))     # the middle level: the great grotto in its centre
-G3 = 800.0
-box(bm_for(RA, "spugne"), F3, G3 - 748 - 13, G3 - 748 + 13, 21.0, 30.6, 0, 1.6)        # the rock-faced front, a curved crest
-F3f = Frame(F3.p(0, 0, 1.6), F3.u, F3.n)                           # on the rock face's front
-for du in (-6.5, 0, 6.5): grotto(RA, F3f, G3 - 748 + du, 21.6, 4.6, 6.6, depth=2.5)
-for du in (-3.25, 3.25):                                            # the cascades between the arches
-    pbox(bm_for(RA, "water"), F3f, G3 - 748 + du - 0.6, G3 - 748 + du + 0.6, 22.0, 29.6, 0, 0.05)
-for k in range(9):
-    t = k / 8; pbox(bm_for(RA, "spugne"), F3, G3 - 748 - 13 + t * 26 - 1.6, G3 - 748 - 13 + t * 26 + 1.6, 30.6, 30.6 + 1.6 * math.sin(math.pi * t) + 0.3, 0, 1.6)
-basin(RA, G3, 851.2, 26, 3.4, 21.4, rim=0.6)                      # the road (Viale Poggi's bend) runs just below it
-rampe_wall(765, 795, 869, 30.4, 35.0); rampe_wall(820, 850, 869, 30.4, 35.0)
-for x in (795, 820):                                                # the upper fountain's recess
-    F, L = seg((x, 869), (x, 881), (807.5, 875)); rusticated(RA, F, L, 30.4, 37.5, depth=1.5); balustrade(RA, F, L, 37.5)
-F4, L4 = rampe_wall(795, 820, 881, 30.4, 39.0, grottoes=(807.5,), w=3.2)
-basin(RA, 807.5, 876.0, 18, 5.0, 30.4)
+
+# ------------------------------------------------------------------ the ground edits for the web terrain
+GE = os.path.join(ROOT, "web", "public", "models", "landmarks", "ground_edits.json")
+ge = json.load(open(GE)) if os.path.exists(GE) else {}
+ge["piazzale"] = EDITS; json.dump(ge, open(GE, "w"), separators=(",", ":"))
+print("ground edits", len(EDITS))
 K.export("piazzale")

@@ -39,7 +39,7 @@ export async function createStage(container: HTMLElement, q: Quality) {
   const sc = sun.shadow.camera as THREE.OrthographicCamera; sc.near = 10; sc.far = 3200;
   let half = 0;
   const setHalf = (h: number) => { if (h === half) return; half = h; sc.left = -h; sc.right = h; sc.top = h; sc.bottom = -h; sc.updateProjectionMatrix();
-    const texel = (2 * h) / q.shadowSize; sun.shadow.bias = -0.0002; sun.shadow.normalBias = Math.max(0.15, texel * 1.6); };
+    const texel = (2 * h) / q.shadowSize; sun.shadow.bias = -0.0005; sun.shadow.normalBias = Math.max(0.35, texel * 3.0); };   // small pieces (chimneys) showed acne as a flickering grain with less
   setHalf(700);
   scene.add(sun, sun.target);
 

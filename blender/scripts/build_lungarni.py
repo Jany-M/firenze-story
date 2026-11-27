@@ -34,6 +34,7 @@ BALUSTRADE = (2.0, 40.0)               # scene x of the balustrade in front of t
 MAT["coping"] = material("pietra_serena", "pietra_serena", (0.5, 0.5, 0.48), 0.7, 0.5)
 NOW = K.NOW
 D = json.load(open(os.path.join(ROOT, "blender", "data", "lungarni.json"), encoding="utf-8"))
+EDITS = []
 W = lambda x, z, h: Vector((x, -z, h))
 PH, PT = 1.0, 0.6                      # parapet height and thickness
 
@@ -114,6 +115,13 @@ for s in D["stretches"]:
         def edge(bm, za, zb, ha0, ha1, hb0, hb1):            # a vertical band along the street (the kerb)
             poly(bm, [W(x0, za, ha0), W(x1, zb, hb0), W(x1, zb, hb1), W(x0, za, ha1)])
         rs0, rs1 = z0 - riv * PT, z1 - riv * PT               # the road starts behind the parapet
+        # the ground under the road is brought to the road's level (web terrain, ground_edits.json): the road never floats
+        # over a dip of the 4 m ground model, and people walking the street walk on it, not under it
+        # (raised from 2.2 m behind the face; from 2.1 m behind it to 2 m out in front the ground is cut to the bank's level, so
+        # the step between bank and road falls under the road, never in front of the wall's face)
+        EDITS.append({"poly": [[x0 - nx * 2.2, z0 - nz * 2.2], [x1 - nx * 2.2, z1 - nz * 2.2], [x1, b1], [x0, b0]], "min": round(min(h0, h1) - 0.08, 2)})
+        EDITS.append({"poly": [[x0 - nx * 2.2, z0 - nz * 2.2], [x1 - nx * 2.2, z1 - nz * 2.2], [x1, b1], [x0, b0]], "max": round(min(h0, h1) - 0.03, 2)})
+        EDITS.append({"poly": [[x0 - nx * 2.1, z0 - nz * 2.1], [x1 - nx * 2.1, z1 - nz * 2.1], [x1 + nx * 2.0, z1 + nz * 2.0], [x0 + nx * 2.0, z0 + nz * 2.0]], "max": round(min(l0, l1, h0 - 1.5, h1 - 1.5), 2)})
         re0, re1 = b0 + riv * sw, b1 + riv * sw               # and ends at the pavement
         y0r, y1r = s["from"], NOW
         stone_to = NOW if stone_always(slug, xm) else ASPHALT
@@ -163,4 +171,7 @@ for s in D["stretches"]:
                 poly(bm, [q(x0, z0, h0 + v1, o0), q(x1, z1, h1 + v1, o0), q(x1, z1, h1 + v1, o1), q(x0, z0, h0 + v1, o1)])           # top
     # the ends of each stretch: close the parapet
 print("stretches", len(D["stretches"]))
+GE = os.path.join(ROOT, "web", "public", "models", "landmarks", "ground_edits.json")
+ge = json.load(open(GE)) if os.path.exists(GE) else {}
+ge["lungarni"] = EDITS; json.dump(ge, open(GE, "w"), separators=(",", ":")); print("ground edits", len(EDITS))
 K.export("lungarni")

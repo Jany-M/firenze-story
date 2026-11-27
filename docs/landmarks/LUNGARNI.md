@@ -56,6 +56,11 @@ Lungarno Corsini (c. 1744).
 | Lungarno Torrigiani: collapse | 25 May 2016 – 2017 | a burst water main undermined ≈200 m of the road, 7 m wide; the wall was deformed and shored with a 120 m retaining wall and piles by September 2016 ([Il Post](https://www.ilpost.it/2016/05/25/e-crollato-un-pezzo-di-lungarno-a-firenze/), [MeteoWeb](https://www.meteoweb.eu/2016/10/firenze-lungarno-torrigiani-conclusi-in-anticipo-i-lavori/763028/), [EGU 2020](https://meetingorganizer.copernicus.org/EGU2020/EGU2020-6857.html)) |
 
 ## Standing on the ground
+Since 2026-11-27 the app's ground is shaped under the lungarni too (`models/landmarks/ground_edits.json`, written by
+`build_lungarni.py`): under each stretch's road, from 2.2 m behind the wall's face to the houses, the ground is brought to the
+road's level, and from 2.1 m behind the face to 2 m out in front it is cut to the bank's level. The step between bank and road
+then falls under the road, never in front of the face (it had shown as green spikes along the walls), the road never floats
+over a dip, and people walking the street walk on it. Trees are not planted on a lungarno's road.
 The 4 m ground model turns a vertical wall into a slope. The face is put on the first river-level vertex of each grid column
 (so the slope stays behind it), the road is carried flat over the slope to the street, and `pipeline/21_build_env.py` holds the
 ground at the wall's foot from under that road to 25 m out (it reads the line from `lungarni.json`; `46_lungarni.py` reads the

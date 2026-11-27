@@ -274,7 +274,7 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
   const replacedIds = new Set(clearIds);
   /** The landmark model under the ray (only its parts standing in the current year) → its record id and distance. */
   const ray0: THREE.Object3D[] = [];
-  function pick(ray: THREE.Raycaster): { id: number; dist: number } | null {
+  function pick(ray: THREE.Raycaster): { id: number; dist: number; obj: THREE.Object3D } | null {
     ray0.length = 0;
     const visible = (o: THREE.Object3D) => { for (let p: THREE.Object3D | null = o; p; p = p.parent) if (!p.visible) return false; return true; };
     group.traverse(o => { if ((o as THREE.Mesh).isMesh && visible(o)) ray0.push(o); });
@@ -286,7 +286,10 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
       const m = it.members.find(m => p!.name.startsWith(m.key + '@') || p!.name.startsWith(m.key + '_'));
       if (m) { rec = m.rec ?? rec; break; }
     }
-    return rec ? { id: rec.id, dist: h.distance } : null;
+    // the object to hide by hand: the whole model, or for the city-wide ones (walls, lungarni) the part that was hit
+    let part: THREE.Object3D = h.object; while (part.parent && part.parent !== it.root) part = part.parent;
+    const wb = new THREE.Box3().setFromObject(it.root), big = wb.getSize(new THREE.Vector3()).length() > 400;
+    return rec ? { id: rec.id, dist: h.distance, obj: big ? part : it.root } : null;
   }
   /** every year a landmark part appears or goes (for the timeline's fast-forward through quiet stretches) */
   const changes = parts.flatMap(p => [p.from, p.to]).filter(y => y < 9999);
@@ -296,7 +299,7 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
    *  its own parts (zooming onto the Duomo must not open it up). Models spread over the whole city (walls, lungarni) count
    *  part by part. */
   function xrayParts() {
-    const out: { obj: THREE.Object3D; box: THREE.Box3; whole: THREE.Box3 }[] = [];
+    const out: { obj: THREE.Object3D; box: THREE.Box3; whole: THREE.Box3; root?: THREE.Object3D }[] = [];
     for (const p of parts) {
       if (!p.obj.visible) continue;
       let b = boxes.get(p.obj); if (!b) { p.obj.updateWorldMatrix(true, true); b = new THREE.Box3().setFromObject(p.obj); boxes.set(p.obj, b); }
@@ -304,7 +307,7 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
       let w = p.root ? boxes.get(p.root) : undefined;
       if (p.root && !w) { p.root.updateWorldMatrix(true, true); w = new THREE.Box3().setFromObject(p.root); boxes.set(p.root, w); }
       const big = !w || w.getSize(new THREE.Vector3()).length() > 400;
-      out.push({ obj: p.obj, box: b, whole: big ? b : w! });
+      out.push({ obj: p.obj, box: b, whole: big ? b : w!, root: big ? undefined : p.root });   // a model's parts go together
     }
     return out;
   }

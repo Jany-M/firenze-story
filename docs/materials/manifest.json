@@ -1,2349 +1,2373 @@
 [
- {
-  "topic": "maps",
-  "file": "local:maps/circles-of-walls.jpg",
-  "subjects": [
-   "map",
-   "rec:Cerchia d'Arnolfo",
-   "rec:citywalls",
-   "rec:mura matildine",
-   "rec:prima cerchia comunale",
-   "map:circles"
-  ],
-  "caption": "The circles of walls of Florence on today's terrain: Roman, Carolingian, Matildine, the first communal circle (1172) and the sixth circle (1284–1333) with its gates, towers and bastions. Firenze Story, from OpenHistoricalMap and OpenStreetMap",
-  "author": "Firenze Story (lines: OpenHistoricalMap contributors, OpenStreetMap contributors)",
-  "license": "CC BY-SA 4.0 (map); ODbL (OSM data)",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-  "page": "https://github.com/Jany-M/firenze-story/blob/main/docs/landmarks/MURA.md",
-  "date": "2026"
- },
- {
-  "topic": "maps",
-  "file": "Francesco Rosselli (attribution). Pianta della Catena, 1470.jpg",
-  "subjects": [
-   "map"
-  ],
-  "caption": "The 'Pianta della Catena', view of Florence c. 1470–82 (attr. Francesco Rosselli): the sixth circle of walls with all its towers"
- },
- {
-  "topic": "maps",
-  "file": "Madonna bigallo, firenze view.jpg",
-  "subjects": [
-   "map",
-   "rec:Cerchia d'Arnolfo"
-  ],
-  "caption": "The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery"
- },
- {
-  "topic": "maps",
-  "file": "prefix:Miniatore fiorentino, pianta di firenze da poggio bracciolini",
-  "subjects": [
-   "map"
-  ],
-  "caption": "Plan of Florence in a 15th-century manuscript of Poggio Bracciolini's Historia florentina"
- },
- {
-  "topic": "maps",
-  "file": "Florence1493.png",
-  "subjects": [
-   "map"
-  ],
-  "caption": "Florence in the Nuremberg Chronicle, 1493"
- },
- {
-  "topic": "maps",
-  "file": "Stefano buonsignori, pianta di firenze, 1594, 01.jpg",
-  "subjects": [
-   "map"
-  ],
-  "caption": "Stefano Buonsignori's bird's-eye plan of Florence, 1584 (1594 printing): every street, garden, wall and gate"
- },
- {
-  "topic": "maps",
-  "file": "Ca. 1660 map of Florence by Wenceslaus Hollar.jpg",
-  "subjects": [
-   "map"
-  ],
-  "caption": "Wenceslaus Hollar, plan of Florence, c. 1660"
- },
- {
-  "topic": "maps",
-  "file": "prefix:Pianta della Città di Firenze nelle sue vere misure",
-  "subjects": [
-   "map"
-  ],
-  "caption": "Ferdinando Ruggieri, plan of the city 'in its true measures', 1731"
- },
- {
-  "topic": "maps",
-  "file": "Pianta alluvione firenze 1740.jpeg",
-  "subjects": [
-   "map",
-   "event:Great flood of the Arno"
-  ],
-  "caption": "Ferdinando Morozzi's plan of the flood of 1740, the water heights street by street"
- },
- {
-  "topic": "maps",
-  "file": "1835 map of Florence.jpg",
-  "subjects": [
-   "map"
-  ],
-  "caption": "Plan of Florence, 1835 (W. B. Clarke for the SDUK): the walls still whole, before Poggi"
- },
- {
-  "topic": "maps",
-  "file": "prefix:Map Urban development - Bologna and Firenze 1992 - Sviluppo urbano di Firen",
-  "subjects": [
-   "map",
-   "rec:Cerchia d'Arnolfo"
-  ],
-  "caption": "The growth of Florence and its successive circles of walls (Touring Club Italiano, 1992)"
- },
- {
-  "topic": "maps",
-  "file": "prefix:Map Urban development -Bologna and Firenze 1992 - Evoluzione di Firenze",
-  "subjects": [
-   "map",
-   "rec:Cerchia d'Arnolfo"
-  ],
-  "caption": "Florence from the Roman colony to the 20th century, phase by phase (Touring Club Italiano, 1992)"
- },
- {
-  "topic": "walls",
-  "file": "Pianta mura romane di Firenze.jpg",
-  "subjects": [
-   "rec:citywalls",
-   "map"
-  ],
-  "caption": "Plan of the Roman walls of Florentia"
- },
- {
-  "topic": "walls",
-  "file": "Museo Firenze com'era, plastico Florentia 1.JPG",
-  "subjects": [
-   "rec:citywalls",
-   "event:Foundation of Florentia (traditional date)"
-  ],
-  "caption": "Model of Roman Florentia (Museo Firenze com'era)"
- },
- {
-  "topic": "maps",
-  "file": "Mura di Firenze.JPG",
-  "subjects": [
-   "map",
-   "rec:Cerchia d'Arnolfo",
-   "event:Florence capital of Italy · walls demolished (Poggi plan)"
-  ],
-  "caption": "Antonio Campani's plan of Florence, 1822: the sixth circle of walls whole, with its gates and bastions"
- },
- {
-  "topic": "walls",
-  "file": "Michelangelo, studio per porta san gallo.jpg",
-  "subjects": [
-   "rec:Cerchia d'Arnolfo",
-   "rec:Porta San Gallo",
-   "rec:Baluardo a San Gallo"
-  ],
-  "caption": "Michelangelo, study for the fortifications at Porta San Gallo, c. 1525"
- },
- {
-  "topic": "walls",
-  "file": "Sala di Clemente VII, stradano, assedio di Firenze.JPG",
-  "subjects": [
-   "rec:Cerchia d'Arnolfo",
-   "event:Calcio during the siege"
-  ],
-  "caption": "The siege of 1529–30, fresco by Stradano and Vasari in Palazzo Vecchio: the walls, the bastions and the camp outside"
- },
- {
-  "topic": "walls",
-  "file": "Mura san niccolo.JPG",
-  "subjects": [
-   "rec:Cerchia d'Arnolfo",
-   "rec:Torre San Niccolò"
-  ],
-  "caption": "The Oltrarno walls climbing from San Niccolò to San Miniato today"
- },
- {
-  "topic": "walls",
-  "file": "Forte di Belvedere, bastione.jpg",
-  "subjects": [
-   "rec:Cerchia d'Arnolfo",
-   "rec:Forte di Belvedere"
-  ],
-  "caption": "A bastion of the Forte di Belvedere"
- },
- {
-  "topic": "walls",
-  "file": "Porta romana, firenze, esterno.JPG",
-  "subjects": [
-   "rec:Porta Romana"
-  ],
-  "caption": "Porta Romana from outside"
- },
- {
-  "topic": "walls",
-  "file": "Porta romana, firenze, interno.JPG",
-  "subjects": [
-   "rec:Porta Romana"
-  ],
-  "caption": "Porta Romana from the city side"
- },
- {
-  "topic": "walls",
-  "file": "Porta romana, firenze, affresco.JPG",
-  "subjects": [
-   "rec:Porta Romana"
-  ],
-  "caption": "The fresco in the lunette of Porta Romana"
- },
- {
-  "topic": "walls",
-  "file": "Porta romana, braccio di legno con catena.jpg",
-  "subjects": [
-   "rec:Porta Romana"
-  ],
-  "caption": "Porta Romana: the original wooden doors' bar and chain"
- },
- {
-  "topic": "walls",
-  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (19).jpg",
-  "subjects": [
-   "rec:Porta San Frediano"
-  ],
-  "caption": "Porta San Frediano, painted by Fabio Borbottoni (19th century)"
- },
- {
-  "topic": "walls",
-  "file": "Porta san frediano 02.JPG",
-  "subjects": [
-   "rec:Porta San Frediano"
-  ],
-  "caption": "Porta San Frediano today"
- },
- {
-  "topic": "walls",
-  "file": "Porta san frediano, interno.JPG",
-  "subjects": [
-   "rec:Porta San Frediano"
-  ],
-  "caption": "Porta San Frediano from the city side"
- },
- {
-  "topic": "walls",
-  "file": "Porta san frediano, portone originale.JPG",
-  "subjects": [
-   "rec:Porta San Frediano"
-  ],
-  "caption": "The original 14th-century doors of Porta San Frediano"
- },
- {
-  "topic": "walls",
-  "file": "Piazza Cesare Beccaria, porta alla croce 03.jpg",
-  "subjects": [
-   "rec:Porta alla Croce"
-  ],
-  "caption": "Porta alla Croce alone in Piazza Beccaria since Poggi's works"
- },
- {
-  "topic": "walls",
-  "file": "Porta alla croce, lato interno, lapide 1310, 2.jpg",
-  "subjects": [
-   "rec:Porta alla Croce"
-  ],
-  "caption": "Porta alla Croce: the inscription of 1310 on the city side"
- },
- {
-  "topic": "walls",
-  "file": "Firenze, porta al prato, veduta da via ponte alle mosse.jpg",
-  "subjects": [
-   "rec:Porta al Prato"
-  ],
-  "caption": "Porta al Prato"
- },
- {
-  "topic": "walls",
-  "file": "Firenze, porta al prato, lapide 1311.jpg",
-  "subjects": [
-   "rec:Porta al Prato"
-  ],
-  "caption": "Porta al Prato: the inscription of 1311"
- },
- {
-  "topic": "walls",
-  "file": "Porta san gallo 11.JPG",
-  "subjects": [
-   "rec:Porta San Gallo"
-  ],
-  "caption": "Porta San Gallo"
- },
- {
-  "topic": "walls",
-  "file": "Porta San Gallo epigrafe 1.JPG",
-  "subjects": [
-   "rec:Porta San Gallo"
-  ],
-  "caption": "Porta San Gallo: the founding inscription"
- },
- {
-  "topic": "walls",
-  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (17).jpg",
-  "subjects": [
-   "rec:Torre San Niccolò"
-  ],
-  "caption": "Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni"
- },
- {
-  "topic": "walls",
-  "file": "Torre di san niccolò, estate 01.JPG",
-  "subjects": [
-   "rec:Torre San Niccolò"
-  ],
-  "caption": "Torre San Niccolò, the only tower never cut down"
- },
- {
-  "topic": "walls",
-  "file": "Torre di san niccolò, estate 02 scale.JPG",
-  "subjects": [
-   "rec:Torre San Niccolò"
-  ],
-  "caption": "Inside Torre San Niccolò: the stairs in the tower open towards the city"
- },
- {
-  "topic": "walls",
-  "file": "Florence, Porta San Giorgio, RP-F-F25436-AQ.jpg",
-  "subjects": [
-   "rec:Porta San Giorgio"
-  ],
-  "caption": "Porta San Giorgio, photograph c. 1858 (Rijksmuseum)"
- },
- {
-  "topic": "walls",
-  "file": "Cento vedute di Firenze antica, 1789 (page 57 crop).jpg",
-  "subjects": [
-   "rec:Porta San Giorgio"
-  ],
-  "caption": "Porta San Giorgio in the 'Cento vedute di Firenze antica', 1789"
- },
- {
-  "topic": "walls",
-  "file": "Porta san giorgio, ext. 01.JPG",
-  "subjects": [
-   "rec:Porta San Giorgio"
-  ],
-  "caption": "Porta San Giorgio from outside, with the St George relief"
- },
- {
-  "topic": "walls",
-  "file": "Porta san giorgio, int. 02 affresco.JPG",
-  "subjects": [
-   "rec:Porta San Giorgio"
-  ],
-  "caption": "Bicci di Lorenzo's Madonna inside Porta San Giorgio"
- },
- {
-  "topic": "walls",
-  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (54).jpg",
-  "subjects": [
-   "rec:Porta San Miniato"
-  ],
-  "caption": "Porta San Miniato, painted by Fabio Borbottoni"
- },
- {
-  "topic": "walls",
-  "file": "Porta san miniato, veduta esterna 01.jpg",
-  "subjects": [
-   "rec:Porta San Miniato"
-  ],
-  "caption": "Porta San Miniato from outside"
- },
- {
-  "topic": "walls",
-  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (35).jpg",
-  "subjects": [
-   "rec:Torre della Zecca"
-  ],
-  "caption": "The Torre della Zecca on the river, painted by Fabio Borbottoni"
- },
- {
-  "topic": "walls",
-  "file": "Torre della Zecca - Firenze.jpg",
-  "subjects": [
-   "rec:Torre della Zecca"
-  ],
-  "caption": "Torre della Zecca in Piazza Piave today"
- },
- {
-  "topic": "walls",
-  "file": "prefix:Marcus Tuscher, Frantz Stephans",
-  "subjects": [
-   "rec:Arco di Trionfo"
-  ],
-  "caption": "Carl Marcus Tuscher, the triumphal arch for Francis Stephen of Lorraine's entry, 1739"
- },
- {
-  "topic": "walls",
-  "file": "Firenze, arco lorenese, lato nord 02.jpg",
-  "subjects": [
-   "rec:Arco di Trionfo"
-  ],
-  "caption": "The Arco di Trionfo dei Lorena by Porta San Gallo"
- },
- {
-  "topic": "walls",
-  "file": "Fortezza da basso 01.jpg",
-  "subjects": [
-   "rec:Fortezza da Basso",
-   "rec:Cerchia d'Arnolfo"
-  ],
-  "caption": "The Fortezza da Basso"
- },
- {
-  "topic": "walls",
-  "file": "Fortezza da basso, ingresso 01.JPG",
-  "subjects": [
-   "rec:Fortezza da Basso",
-   "rec:Cerchia d'Arnolfo"
-  ],
-  "caption": "The entrance of the Fortezza da Basso"
- },
- {
-  "topic": "landmarks",
-  "file": "Codice rustici, santa maria del fiore.jpg",
-  "subjects": [
-   "rec:Cattedrale di Santa Maria del Fiore"
-  ],
-  "caption": "Santa Maria del Fiore in the Codex Rustici, 1440s"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Franco gizdulich, modello della facciata medievale",
-  "subjects": [
-   "rec:Cattedrale di Santa Maria del Fiore"
-  ],
-  "caption": "Model of Arnolfo's unfinished medieval façade (Franco Gizdulich)"
- },
- {
-  "topic": "landmarks",
-  "file": "Dante Domenico di Michelino Duomo Florence.jpg",
-  "subjects": [
-   "rec:Cattedrale di Santa Maria del Fiore"
-  ],
-  "caption": "Domenico di Michelino, Dante and the Divine Comedy, 1465, with the new dome"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Giovan battista nelli (attr.), ricostruzione dei ponteggi",
-  "subjects": [
-   "rec:Cattedrale di Santa Maria del Fiore",
-   "event:Consecration of the Duomo with Brunelleschi’s dome"
-  ],
-  "caption": "The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)"
- },
- {
-  "topic": "landmarks",
-  "file": "Paolo uccello, orologio di smf.jpg",
-  "subjects": [
-   "rec:Cattedrale di Santa Maria del Fiore"
-  ],
-  "caption": "Paolo Uccello's clock inside the Duomo, 1443"
- },
- {
-  "topic": "landmarks",
-  "file": "Battistero-Duomo-Campanile.jpg",
-  "subjects": [
-   "rec:Cattedrale di Santa Maria del Fiore",
-   "rec:Campanile di Giotto",
-   "rec:Battistero di San Giovanni"
-  ],
-  "caption": "Baptistery, Duomo and Campanile today"
- },
- {
-  "topic": "landmarks",
-  "file": "CampanileGiotto-01.jpg",
-  "subjects": [
-   "rec:Campanile di Giotto"
-  ],
-  "caption": "Giotto's Campanile"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Andrea pisano, creazione di adamo, 1334-48",
-  "subjects": [
-   "rec:Campanile di Giotto"
-  ],
-  "caption": "Andrea Pisano, the Creation of Adam, relief from the Campanile, 1334–48"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Andrea e nino pisano, architettura, 1348-50",
-  "subjects": [
-   "rec:Campanile di Giotto"
-  ],
-  "caption": "Andrea and Nino Pisano, Architecture, relief from the Campanile"
- },
- {
-  "topic": "landmarks",
-  "file": "Battistero Firenze 2019.jpg",
-  "subjects": [
-   "rec:Battistero di San Giovanni"
-  ],
-  "caption": "The Baptistery of San Giovanni"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Section of Baptistery, Florence Cathedral",
-  "subjects": [
-   "rec:Battistero di San Giovanni"
-  ],
-  "caption": "Section of the Baptistery (C. H. Moore, 1905)"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Fra' Jacopo, mosaici dell'abside del battistero",
-  "subjects": [
-   "rec:Battistero di San Giovanni"
-  ],
-  "caption": "The apse mosaics of the Baptistery, from 1225"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Lorenzo ghiberti, porta del paradiso, 1425-52",
-  "subjects": [
-   "rec:Battistero di San Giovanni"
-  ],
-  "caption": "Ghiberti's Gates of Paradise, 1425–52 (detail)"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza della signoria, palazzo vecchio, veduta 01.jpg",
-  "subjects": [
-   "rec:Palazzo Vecchio"
-  ],
-  "caption": "Palazzo Vecchio on Piazza della Signoria"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Vecchio Cortile interno.JPG",
-  "subjects": [
-   "rec:Palazzo Vecchio"
-  ],
-  "caption": "The courtyard of Palazzo Vecchio"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo vecchio, salone dei 500 soffitto.JPG",
-  "subjects": [
-   "rec:Palazzo Vecchio"
-  ],
-  "caption": "The ceiling of the Salone dei Cinquecento"
- },
- {
-  "topic": "landmarks",
-  "file": "Vasari Corridor 1.JPG",
-  "subjects": [
-   "rec:Palazzo Vecchio",
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "Vasari's corridor, 1565"
- },
- {
-  "topic": "landmarks",
-  "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (3).jpg",
-  "subjects": [
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "Ponte Vecchio, painted by Fabio Borbottoni"
- },
- {
-  "topic": "landmarks",
-  "file": "Ponto Vecchio, Florence, Italy LCCN2007663196.tif",
-  "subjects": [
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Ponte vecchio 21r-23r, lapide ricostruzione del ponte nel 1345",
-  "subjects": [
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "The inscription on the rebuilding of the bridge in 1345"
- },
- {
-  "topic": "landmarks",
-  "file": "Florence - UNESCO - PHOTO0000004875 0001.tiff",
-  "subjects": [
-   "rec:Ponte Vecchio",
-   "event:The great flood"
-  ],
-  "caption": "Ponte Vecchio after the flood of November 1966 (UNESCO)"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze aka Florence, Italy (42195674311).jpg",
-  "subjects": [
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "Ponte Vecchio today"
- },
- {
-  "topic": "landmarks",
-  "file": "Basílica de la Santa Cruz, Florencia, Italia, 2022-09-18, DD 95.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Croce"
-  ],
-  "caption": "Santa Croce"
- },
- {
-  "topic": "landmarks",
-  "file": "Calcio fiorentino 1688.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Croce",
-   "event:Calcio during the siege",
-   "event:Calcio Storico final (San Giovanni)"
-  ],
-  "caption": "A match of calcio in Piazza Santa Croce, 1688"
- },
- {
-  "topic": "landmarks",
-  "file": "Santa croce, interior 00.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Croce"
-  ],
-  "caption": "Inside Santa Croce"
- },
- {
-  "topic": "landmarks",
-  "file": "Pazzi Chapel Santa Croce Apr 2008 P.JPG",
-  "subjects": [
-   "rec:Basilica di Santa Croce",
-   "event:Pazzi conspiracy"
-  ],
-  "caption": "Brunelleschi's Pazzi Chapel at Santa Croce"
- },
- {
-  "topic": "landmarks",
-  "file": "Santa Maria Novella (Florence).jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria Novella"
-  ],
-  "caption": "Santa Maria Novella"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Facciata di santa maria novella, vela rucellai",
-  "subjects": [
-   "rec:Basilica di Santa Maria Novella"
-  ],
-  "caption": "Alberti's façade: the Rucellai sail in the frieze"
- },
- {
-  "topic": "landmarks",
-  "file": "Fabio borbottoni, 1820-1902, interno di santa maria novella.JPG",
-  "subjects": [
-   "rec:Basilica di Santa Maria Novella"
-  ],
-  "caption": "Inside Santa Maria Novella, painted by Fabio Borbottoni"
- },
- {
-  "topic": "landmarks",
-  "file": "Santa maria novella, cappella tornabuoni, domenico ghirlandaio3.JPG",
-  "subjects": [
-   "rec:Basilica di Santa Maria Novella"
-  ],
-  "caption": "Ghirlandaio's frescoes in the Tornabuoni Chapel"
- },
- {
-  "topic": "landmarks",
-  "file": "Museo di santa maria novella, chiostro verde.JPG",
-  "subjects": [
-   "rec:Basilica di Santa Maria Novella"
-  ],
-  "caption": "The Chiostro Verde"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Orsanmichele e il cavalcavia prima del restauro",
-  "subjects": [
-   "rec:Chiesa di Orsanmichele"
-  ],
-  "caption": "Orsanmichele and its overpass before the restoration, 1880s–90s"
- },
- {
-  "topic": "landmarks",
-  "file": "FirenzeOrsanmichele01.jpg",
-  "subjects": [
-   "rec:Chiesa di Orsanmichele"
-  ],
-  "caption": "Orsanmichele"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Chiesa di Orsammichele, tabernacolo dell'Orcagna-edit.jpg",
-  "subjects": [
-   "rec:Chiesa di Orsanmichele"
-  ],
-  "caption": "Orcagna's tabernacle inside Orsanmichele"
- },
- {
-  "topic": "landmarks",
-  "file": "Orsanmichele, interno, buca per le granaglie 01.JPG",
-  "subjects": [
-   "rec:Chiesa di Orsanmichele"
-  ],
-  "caption": "A chute for the grain, from the time Orsanmichele was the city granary"
- },
- {
-  "topic": "landmarks",
-  "file": "Orsanmichele, san matteo di Ghiberti 02.JPG",
-  "subjects": [
-   "rec:Chiesa di Orsanmichele"
-  ],
-  "caption": "Ghiberti's St Matthew in its niche"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo del bargello visto da piazza san firenze.JPG",
-  "subjects": [
-   "rec:Palazzo del Bargello"
-  ],
-  "caption": "The Bargello from Piazza San Firenze"
- },
- {
-  "topic": "landmarks",
-  "file": "Museo del bargello, cortile.jpg",
-  "subjects": [
-   "rec:Palazzo del Bargello"
-  ],
-  "caption": "The courtyard of the Bargello"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo del Podestà - Escutcheons - overview E.jpg",
-  "subjects": [
-   "rec:Palazzo del Bargello"
-  ],
-  "caption": "The coats of arms of the podestà in the courtyard"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, loggia dei lanzi (2020) 01.jpg",
-  "subjects": [
-   "rec:Loggia dei Lanzi"
-  ],
-  "caption": "The Loggia dei Lanzi"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:The Lodge of the Lancers (i.e. Loggia dei Lanzi)",
-  "subjects": [
-   "rec:Loggia dei Lanzi"
-  ],
-  "caption": "The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze.Loggia.Perseus01.JPG",
-  "subjects": [
-   "rec:Loggia dei Lanzi"
-  ],
-  "caption": "Cellini's Perseus, 1554"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze.Loggia.Sabine01.JPG",
-  "subjects": [
-   "rec:Loggia dei Lanzi"
-  ],
-  "caption": "Giambologna's Rape of the Sabines, 1583"
- },
- {
-  "topic": "landmarks",
-  "file": "Lion of Loggia de' Lanzi left.JPG",
-  "subjects": [
-   "rec:Loggia dei Lanzi"
-  ],
-  "caption": "One of the Medici lions, placed in 1789"
- },
- {
-  "topic": "history",
-  "file": "Necropoli di Palastreto 02.JPG",
-  "subjects": [
-   "event:Villanovan village by the Arno ford"
-  ],
-  "caption": "Villanovan graves found in Florence (Palastreto)"
- },
- {
-  "topic": "history",
-  "file": "Totila fa dstruggere la città di Firenze.jpg",
-  "subjects": [
-   "history"
-  ],
-  "caption": "Totila destroys Florence (miniature from Villani's Chronicle)"
- },
- {
-  "topic": "history",
-  "file": "prefix:Orcagna, la cacciata del duca d'atene",
-  "subjects": [
-   "history"
-  ],
-  "caption": "Orcagna (attr.), the expulsion of the Duke of Athens, 1343"
- },
- {
-  "topic": "history",
-  "file": "Francesco granacci, entrata di Carlo VIII a Firenze.jpg",
-  "subjects": [
-   "history"
-  ],
-  "caption": "Francesco Granacci, Charles VIII enters Florence, 1494"
- },
- {
-  "topic": "history",
-  "file": "Fabio borbottoni, 1820-1902, piazza della luna nel mercato vecchio.JPG",
-  "subjects": [
-   "event:A market morning in Mercato Vecchio",
-   "event:Mercato Vecchio & ghetto demolished"
-  ],
-  "caption": "Piazza della Luna in the Mercato Vecchio, painted by Fabio Borbottoni before the demolitions"
- },
- {
-  "topic": "history",
-  "file": "prefix:Brindellone dello scoppio del carro di firenze, che si dice del 1494",
-  "subjects": [
-   "event:Scoppio del Carro – the new Brindellone",
-   "event:Scoppio del Carro (Easter)"
-  ],
-  "caption": "The Brindellone, the cart of the Scoppio del Carro"
- },
- {
-  "topic": "history",
-  "file": "Calcio Storico partita.JPG",
-  "subjects": [
-   "event:Calcio Storico final (San Giovanni)"
-  ],
-  "caption": "A match of Calcio Storico in Piazza Santa Croce"
- },
- {
-  "topic": "history",
-  "file": "Porta alla croce, lato interno, lapide alluvione 1966.JPG",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "The 1966 flood line marked at Porta alla Croce"
- },
- {
-  "topic": "history",
-  "file": "prefix:Unknown painter - Execution of Savonarola on the Piazza della Signoria",
-  "subjects": [
-   "event:Execution of Savonarola",
-   "event:Bonfire of the Vanities",
-   "rec:Palazzo Vecchio"
-  ],
-  "caption": "The execution of Savonarola in Piazza della Signoria, 23 May 1498 (anonymous, after Francesco Rosselli, Museo di San Marco)"
- },
- {
-  "topic": "history",
-  "file": "Stefano Ussi - The Execution of Savonarola - WGA24194.jpg",
-  "subjects": [
-   "event:Execution of Savonarola"
-  ],
-  "caption": "Stefano Ussi, The Execution of Savonarola, c. 1850"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazzale degli Uffizi perspective view, Florence, Italy, August 2025.jpg",
-  "subjects": [
-   "rec:Galleria degli Uffizi"
-  ],
-  "caption": "The Piazzale degli Uffizi from Piazza della Signoria towards the Arno"
- },
- {
-  "topic": "landmarks",
-  "file": "Uffizi courtyard, Florence.jpg",
-  "subjects": [
-   "rec:Galleria degli Uffizi"
-  ],
-  "caption": "The Uffizi courtyard: portico, mezzanine, piano nobile and top loggia"
- },
- {
-  "topic": "landmarks",
-  "file": "Uffizi visti dal fiume 11 vasariano.JPG",
-  "subjects": [
-   "rec:Galleria degli Uffizi",
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "The Uffizi and the Vasari Corridor seen from the Arno"
- },
- {
-  "topic": "history",
-  "file": "prefix:Palazzo degli Uffizi te Florence Veduta degli Ufizi",
-  "subjects": [
-   "rec:Galleria degli Uffizi"
-  ],
-  "caption": "Giuseppe Zocchi's view of the Uffizi, 18th century (Rijksmuseum)"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Firenze - Florence - Lungarno degli Archibugieri - Passage below the Vasari Corr",
-  "subjects": [
-   "rec:Galleria degli Uffizi",
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "The Vasari Corridor on its arcade along Lungarno degli Archibusieri"
- },
- {
-  "topic": "history",
-  "file": "Jacques Callot - Interlude in the Medici Theater - WGA3781.jpg",
-  "subjects": [
-   "rec:Galleria degli Uffizi"
-  ],
-  "caption": "Jacques Callot, an interlude in the Teatro Mediceo of the Uffizi, c. 1617"
- },
- {
-  "topic": "history",
-  "file": "Pianta del buonsignori, dettaglio 128 san piero scheraggio.jpg",
-  "subjects": [
-   "rec:Galleria degli Uffizi"
-  ],
-  "caption": "San Pier Scheraggio on Buonsignori's map of 1584, already inside the Uffizi"
- },
- {
-  "topic": "landmarks",
-  "file": "San pier scheraggio, veduta dell'ex-abside.JPG",
-  "subjects": [
-   "rec:Galleria degli Uffizi"
-  ],
-  "caption": "What is left of San Pier Scheraggio: the old apse in Via della Ninna"
- },
- {
-  "topic": "landmarks",
-  "file": "Corridoio Vasariano, curva.JPG",
-  "subjects": [
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "Inside the Vasari Corridor"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01.jpg",
-  "subjects": [
-   "rec:Ponte Vecchio"
-  ],
-  "caption": "The Vasari Corridor crossing Piazza di Santa Felicita"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Basilica di San Lorenzo Esterno Facciata 1.jpg",
-  "subjects": [
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "San Lorenzo's bare brick façade on Piazza San Lorenzo"
- },
- {
-  "topic": "history",
-  "file": "Michelangelo (disegno), modellino per la facciata di san lorenzo, 1518 ca..JPG",
-  "subjects": [
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "Model after Michelangelo's design for the façade, c. 1518 – never built (Casa Buonarroti)"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Firenze - Florence - Piazza di San Lorenzo - View West on Basilica di San Lorenz",
-  "subjects": [
-   "rec:Basilica di San Lorenzo",
-   "rec:Cappella dei Principi"
-  ],
-  "caption": "The basilica from the piazza, with the domes of the crossing and of the Cappella dei Principi behind"
- },
- {
-  "topic": "landmarks",
-  "file": "Filippo Brunelleschi, Sacrestia Vecchia.JPG",
-  "subjects": [
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "Brunelleschi's Old Sacristy, 1421–28"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Basilica di San Lorenzo Esterno Chiostro 1.jpg",
-  "subjects": [
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "The canons' cloister, 1457–60"
- },
- {
-  "topic": "landmarks",
-  "file": "Sagrestia nuova di michelangelo, cupola 02.jpg",
-  "subjects": [
-   "rec:Basilica di San Lorenzo",
-   "rec:Cappella dei Principi"
-  ],
-  "caption": "The dome of Michelangelo's New Sacristy from inside"
- },
- {
-  "topic": "history",
-  "file": "prefix:San Lorenzo, Library, Ricetto, window, elevation (recto)",
-  "subjects": [
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "16th-century drawing of a window of the Laurentian Library's vestibule (ricetto)"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Ferdinando e giuseppe ruggieri (progetto), esterno della cappella dei principi",
-  "subjects": [
-   "rec:Cappella dei Principi",
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "The Cappella dei Principi from outside: the exterior finished to the Ruggieris' design in the 18th century"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, cappelle medicee, esterno, finestrone 06 cartiglio con data 1642.jpg",
-  "subjects": [
-   "rec:Cappella dei Principi"
-  ],
-  "caption": "A cartouche dated 1642 over a window of the Cappella dei Principi"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Firenze - Florence - Via Cavour - Palazzo Medici-Riccardi 1444-1460 by Michelozz",
-  "subjects": [
-   "rec:Palazzo Medici Riccardi"
-  ],
-  "caption": "Michelozzo's front on Via Larga (Via Cavour)"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo medici riccardi, finestra inginocchiata.JPG",
-  "subjects": [
-   "rec:Palazzo Medici Riccardi"
-  ],
-  "caption": "One of the kneeling windows that closed the corner loggia in 1517"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Palazzo Medici Riccardi Cortile Interno 1.jpg",
-  "subjects": [
-   "rec:Palazzo Medici Riccardi"
-  ],
-  "caption": "Michelozzo's courtyard"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo medici riccardi, facciata interna sul giardino 01.JPG",
-  "subjects": [
-   "rec:Palazzo Medici Riccardi"
-  ],
-  "caption": "The garden front, Medici side"
- },
- {
-  "topic": "history",
-  "file": "Palazzo Medici-Riccardi etching.jpg",
-  "subjects": [
-   "rec:Palazzo Medici Riccardi"
-  ],
-  "caption": "Palazzo Medici Riccardi, 19th-century etching"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Firenze Basilica di San Lorenzo Esterno Angolo Nord",
-  "subjects": [
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "The north flank: blind arches of the chapels, oculi, clerestory, the crossing tiburio and the domes"
- },
- {
-  "topic": "landmarks",
-  "file": "Esterno della Cappella dei Principi.jpg",
-  "subjects": [
-   "rec:Cappella dei Principi",
-   "rec:Basilica di San Lorenzo"
-  ],
-  "caption": "The Cappella dei Principi and Ruggieri's bell tower from Piazza Madonna degli Aldobrandini"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Firenze - Florence - Via de' Gori - View Up on Palazzo Medici",
-  "subjects": [
-   "rec:Palazzo Medici Riccardi"
-  ],
-  "caption": "The corner of the palace: rusticated bosses, the loggia arch and the great cornice"
- },
- {
-  "topic": "landmarks",
-  "file": "Lungarno degli archibugieri (corridoio vasariano) visto dal fiume 02.JPG",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The loggia on the Lungarno degli Archibusieri from the Arno: arches on piers, the corridor above with its windows to the river"
- },
- {
-  "topic": "landmarks",
-  "file": "Corridoio vasariano, veduta di lungarno archibugieri.JPG",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "Looking along the Lungarno from a corridor window: the loggia's arches and the oculi on the city side"
- },
- {
-  "topic": "history",
-  "file": "prefix:Lungarno degli archibusieri con la loggia del corridoio vasariano ancora tamponata",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The loggia still walled up into shops, before 1890"
- },
- {
-  "topic": "landmarks",
-  "file": "Via della ninna, veduta col cavalcavia del corridoio vasariano.jpg",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The overpass on Via della Ninna between the Uffizi and Palazzo Vecchio"
- },
- {
-  "topic": "landmarks",
-  "file": "Torre dei Mannelli-Vasari Corridor.jpg",
-  "subjects": [
-   "rec:Torre dei Mannelli",
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "Torre dei Mannelli: the corridor goes round it on pietra serena corbels"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Via guicciadini, veduta sul cavalcavia del corridoio vasariano su via de' bardi",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The stretch over Via de' Bardi, rebuilt after 1944 with a wider arch"
- },
- {
-  "topic": "history",
-  "file": "Via guicciardini prima delle demolizioni del 1944 (anni 1890s).jpg",
-  "subjects": [
-   "rec:Corridoio Vasariano",
-   "rec:Torre dei Mannelli"
-  ],
-  "caption": "Via de' Guicciardini at the bridge before the German mines of 1944 (1890s)"
- },
- {
-  "topic": "landmarks",
-  "file": "Santafelicita.jpg",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "Santa Felicita: the corridor on Vasari's portico, the Arco dei Rossi on the left"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The Arco dei Rossi, where the corridor crosses the lane beside Santa Felicita"
- },
- {
-  "topic": "landmarks",
-  "file": "Corridoio vasariano, affaccio su santa felicita.JPG",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The grand-ducal window from the corridor into Santa Felicita"
- },
- {
-  "topic": "landmarks",
-  "file": "Boboli, corridoio vasariano.JPG",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The last stretch along the Boboli garden: small windows and oculi over a row of corbels"
- },
- {
-  "topic": "history",
-  "file": "Pianta del buonsignori, dettaglio 046 corridore del gran duca (corridoio vasariano).jpg",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The \"corridore del Gran Duca\" on Buonsignori's map of 1584"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Pitti (Florence) - Facade.jpg",
-  "subjects": [
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "The front on Piazza Pitti: rusticated stone, arched windows on two and three storeys"
- },
- {
-  "topic": "history",
-  "file": "Pitti boboli utens.jpg",
-  "subjects": [
-   "rec:Palazzo Pitti",
-   "rec:Forte di Belvedere",
-   "rec:Grotta del Buontalenti"
-  ],
-  "caption": "Giusto Utens's lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Pitti, cortile dell'ammannati 22.jpg",
-  "subjects": [
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "Ammannati's courtyard: banded orders of rustication"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo pitti, cortile dell'ammannati, lato nord, finestra inginocchiata.jpg",
-  "subjects": [
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "A kneeling window in Ammannati's style"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Pitti Nebenflügel mit Hauptbau.jpg",
-  "subjects": [
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "The long front with a rondò wing projecting into the piazza"
- },
- {
-  "topic": "landmarks",
-  "file": "Boboli, palazzina della meridiana, esterno 01.JPG",
-  "subjects": [
-   "rec:Palazzina della Meridiana",
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "The Palazzina della Meridiana on the garden side"
- },
- {
-  "topic": "landmarks",
-  "file": "Boboli, anfiteatro, obelisco 01.JPG",
-  "subjects": [
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "The Boboli amphitheatre with the Egyptian obelisk and the granite basin"
- },
- {
-  "topic": "landmarks",
-  "file": "Grotta del buontalenti, festina lente sulla facciata.JPG",
-  "subjects": [
-   "rec:Grotta del Buontalenti"
-  ],
-  "caption": "The front of the Grotta del Buontalenti"
- },
- {
-  "topic": "landmarks",
-  "file": "Kaffeehaus Boboli-Garten Florenz-01.jpg",
-  "subjects": [
-   "rec:Kaffeehaus del Giardino di Boboli"
-  ],
-  "caption": "Zanobi del Rosso's Kaffeehaus, 1776"
- },
- {
-  "topic": "landmarks",
-  "file": "prefix:Firenze - Florence - Giardino di Boboli - View SSE on La fontana del Nettuno",
-  "subjects": [
-   "rec:Palazzo Pitti"
-  ],
-  "caption": "The Neptune basin in Boboli, Stoldo Lorenzi's Neptune on its rock"
- },
- {
-  "topic": "landmarks",
-  "file": "Forte belvedere, edificio principale 02.JPG",
-  "subjects": [
-   "rec:Forte di Belvedere"
-  ],
-  "caption": "The palazzina inside Forte Belvedere"
- },
- {
-  "topic": "landmarks",
-  "file": "Florence, Palazzo Strozzi, North and West facade, Benedetto da Maiano, 1489-1538.jpg",
-  "subjects": [
-   "rec:Palazzo Strozzi"
-  ],
-  "caption": "The north and west fronts: rustication, two rows of arched double windows, the cornice"
- },
- {
-  "topic": "landmarks",
-  "file": "Façade van Palazzo Strozzi te Florence, RP-F-00-3012.jpg",
-  "subjects": [
-   "rec:Palazzo Strozzi"
-  ],
-  "caption": "The front in a photograph of c. 1875–1900, with the stone bench along the base"
- },
- {
-  "topic": "landmarks",
-  "file": "Cortile di palazzo strozzi, 2012, 01.JPG",
-  "subjects": [
-   "rec:Palazzo Strozzi"
-  ],
-  "caption": "Cronaca's courtyard: arches on pietra serena columns"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Strozzi, lucerna del Caparra 01.JPG",
-  "subjects": [
-   "rec:Palazzo Strozzi"
-  ],
-  "caption": "One of Caparra's wrought-iron corner lanterns, 1491–98"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Palazzo dell'Arcone di Piazza.jpg",
-  "subjects": [
-   "rec:Piazza della Repubblica",
-   "rec:Palazzo dell'Arcone di Piazza"
-  ],
-  "caption": "The Arcone from Via degli Strozzi: paired columns, the inscription, the statues of the arts"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Piazza della Repubblica - View WNW on the Arcone 1895 by Vincenzo Micheli.jpg",
-  "subjects": [
-   "rec:Piazza della Repubblica",
-   "rec:Palazzo dell'Arcone di Piazza"
-  ],
-  "caption": "The square towards Micheli's arch and its portico"
- },
- {
-  "topic": "landmarks",
-  "file": "Portici, piazza della Repubblica (Firenze).jpg",
-  "subjects": [
-   "rec:Piazza della Repubblica",
-   "rec:Palazzo dell'Arcone di Piazza"
-  ],
-  "caption": "Under the portico of the Palazzo dell'Arcone"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza della repubblica in 1895.jpg",
-  "subjects": [
-   "rec:Piazza della Repubblica"
-  ],
-  "caption": "The square in 1895, then Piazza Vittorio Emanuele II, with the king's statue"
- },
- {
-  "topic": "landmarks",
-  "file": "Mercato centrale di san lorenzo 01.jpg",
-  "subjects": [
-   "rec:Mercato di San Lorenzo"
-  ],
-  "caption": "The market from the piazza: stone arches below, the red iron and glass hall above"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Via dell'Ariento - View SE on Mercato Centrale 1874 by Giuseppe Mengoni.jpg",
-  "subjects": [
-   "rec:Mercato di San Lorenzo"
-  ],
-  "caption": "Along Via dell'Ariento: shutters and iron fans in the arches"
- },
- {
-  "topic": "landmarks",
-  "file": "Hotel baglioni, terrazza, veduta giorno, mercato centrale.JPG",
-  "subjects": [
-   "rec:Mercato di San Lorenzo"
-  ],
-  "caption": "The market's roofs from a terrace nearby"
- },
- {
-  "topic": "landmarks",
-  "file": "Veduta esterna del mercato centrale di Firenze durante l’esposizione di Floricultura (xilografia).jpg",
-  "subjects": [
-   "rec:Mercato di San Lorenzo"
-  ],
-  "caption": "The new market during the Horticultural Exhibition of 1874 (wood engraving)"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo strozzi, cornicione interrotto.JPG",
-  "subjects": [
-   "rec:Palazzo Strozzi"
-  ],
-  "caption": "Where Cronaca's cornice stops: only its dentils and frieze run on along the side"
- },
- {
-  "topic": "landmarks",
-  "file": "Ospedale degli Innocenti Florenz.jpg",
-  "subjects": [
-   "rec:Spedale degli Innocenti"
-  ],
-  "caption": "The Innocenti front: nine arches on steps, a window over each, the end bays"
- },
- {
-  "topic": "landmarks",
-  "file": "Andrea della robbia, putti in fasce della facciata dello spedale degli innocenti, 1487, B 02.jpg",
-  "subjects": [
-   "rec:Spedale degli Innocenti"
-  ],
-  "caption": "One of Andrea della Robbia's tondi, 1487: a baby in swaddling clothes"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, loggiato dei serviti (2020).jpg",
-  "subjects": [
-   "rec:Loggia dei Servi di Maria"
-  ],
-  "caption": "The Loggia dei Servi di Maria, copying the Innocenti across the square"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Piazza della Santissima Annunziata - View NE on la Basilica della Santissima Annunziata - Church-Front 1444 by Michelozzo.jpg",
-  "subjects": [
-   "rec:Basilica della Santissima Annunziata"
-  ],
-  "caption": "The church's portico of 1601 with the Pucci inscription and the canopy over the middle arch"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza SS Annunziata Firenze Apr 2008.jpg",
-  "subjects": [
-   "rec:Spedale degli Innocenti",
-   "rec:Basilica della Santissima Annunziata",
-   "rec:Loggia dei Servi di Maria"
-  ],
-  "caption": "The square: the Loggia dei Servi, the church and the Innocenti"
- },
- {
-  "topic": "landmarks",
-  "file": "Da giuseppe zocchi, piazza e tempio della SS. annunziata di firenze, xviii-xix secolo.jpg",
-  "subjects": [
-   "rec:Basilica della Santissima Annunziata",
-   "rec:Spedale degli Innocenti"
-  ],
-  "caption": "Giuseppe Zocchi's view of the square, 18th century"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Fontane dei Mostri Marini (40924836380).jpg",
-  "subjects": [
-   "rec:Basilica della Santissima Annunziata"
-  ],
-  "caption": "One of Tacca's sea-monster fountains, set up in 1641"
- },
- {
-  "topic": "landmarks",
-  "file": "Loggia del pesce before 1880.jpg",
-  "subjects": [
-   "rec:Loggia del Pesce"
-  ],
-  "caption": "The loggia in the Mercato Vecchio before 1880, with the stalls and their awnings"
- },
- {
-  "topic": "landmarks",
-  "file": "Loggia del pesce nel MercatoVecchio, Firenze avanti 1885.jpg",
-  "subjects": [
-   "rec:Loggia del Pesce"
-  ],
-  "caption": "The Loggia del Pesce in the Mercato Vecchio, before 1885"
- },
- {
-  "topic": "landmarks",
-  "file": "Giuseppe moricci, la loggia del pesce, firenze, 1870s, coll. priv..jpg",
-  "subjects": [
-   "rec:Loggia del Pesce"
-  ],
-  "caption": "Giuseppe Moricci's painting of the loggia, 1870s"
- },
- {
-  "topic": "landmarks",
-  "file": "P.zaCiompi2018 01.jpg",
-  "subjects": [
-   "rec:Loggia del Pesce"
-  ],
-  "caption": "The loggia rebuilt in Piazza dei Ciompi, 2018"
- },
- {
-  "topic": "landmarks",
-  "file": "Vasari corridor (Corridoio Vasariano), Florence (26073081173).jpg",
-  "subjects": [
-   "rec:Corridoio Vasariano"
-  ],
-  "caption": "The corridor's head at the Uffizi: the great arch over the street, the small door on the river side"
- },
- {
-  "topic": "landmarks",
-  "file": "Chiesa di Santo Spirito, Firenze facciata.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "The plain plastered front with its curving gable"
- },
- {
-  "topic": "landmarks",
-  "file": "14 - Basilica di Santo Spirito, Firenze.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "Santo Spirito from the square"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, chiesa e convento di san marco, facciata 01.jpg",
-  "subjects": [
-   "rec:Basilica di San Marco",
-   "rec:Ex convento di San Marco"
-  ],
-  "caption": "The church front of 1777–78 and the convent on Piazza San Marco"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Basilica di San Marco Esterno Facciata Portale.jpg",
-  "subjects": [
-   "rec:Basilica di San Marco"
-  ],
-  "caption": "The portal of San Marco with the cherub group"
- },
- {
-  "topic": "landmarks",
-  "file": "San Marco Klosterhof.jpg",
-  "subjects": [
-   "rec:Ex convento di San Marco"
-  ],
-  "caption": "Michelozzo's cloister of Sant'Antonino"
- },
- {
-  "topic": "landmarks",
-  "file": "San marco, biblioteca di michelozzo 01.jpg",
-  "subjects": [
-   "rec:Ex convento di San Marco"
-  ],
-  "caption": "Michelozzo's library, 1440s"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Campanile di Giotto Vista su la Basilica di Santo Spirito.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "Santo Spirito from Giotto's tower: the transept, the dome and the bell tower"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, basilica di Santo Spirito, campanile - Veduta dalla piazza.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "Baccio d'Agnolo's bell tower, with AVSPICIIS COSMI under the belfry"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Campanile di Giotto Vista su la Basilica di San Marco.jpg",
-  "subjects": [
-   "rec:Basilica di San Marco"
-  ],
-  "caption": "San Marco from Giotto's tower: the front of 1777–78, the bell tower, the chapel with its lantern"
- },
- {
-  "topic": "landmarks",
-  "file": "Santo spirito, chiostro dei morti, 01.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "The Chiostro dei Morti, c. 1620"
- },
- {
-  "topic": "landmarks",
-  "file": "Santo spirito, chiostro grande dell'ammannati 01.JPG",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "Ammannati's Chiostro Grande, 1564–69"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza santo spirito, fontana 01.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Santo Spirito"
-  ],
-  "caption": "The fountain of Piazza Santo Spirito (1660, in the square since 1812)"
- },
- {
-  "topic": "landmarks",
-  "file": "Courtyard of San Marco in Firenze.jpg",
-  "subjects": [
-   "rec:Ex convento di San Marco"
-  ],
-  "caption": "The cloister of Sant'Antonino"
- },
- {
-  "topic": "landmarks",
-  "file": "S. marco, chiostro di San Domenico 01.JPG",
-  "subjects": [
-   "rec:Ex convento di San Marco"
-  ],
-  "caption": "The cloister of San Domenico"
- },
- {
-  "topic": "landmarks",
-  "file": "Chiesa del carmine, facciata.JPG",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Carmine"
-  ],
-  "caption": "The unfinished front of the Carmine on its square"
- },
- {
-  "topic": "landmarks",
-  "file": "Santa Maria del Carmine from Brunelleschi's Dome.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Carmine",
-   "rec:Cappella Corsini"
-  ],
-  "caption": "The Carmine from the Duomo: the long flank with its big windows, the octagon over the crossing and the Corsini chapel"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, basilica di Santa Maria del Carmine - Veduta esterna da ovest.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Carmine",
-   "rec:Convento del Carmine"
-  ],
-  "caption": "The Carmine from the west: the flank, the octagon over the crossing and the bell gable"
- },
- {
-  "topic": "landmarks",
-  "file": "Chiesa del carmine, ext. retro, cappella corsini 01.JPG",
-  "subjects": [
-   "rec:Cappella Corsini",
-   "rec:Basilica di Santa Maria del Carmine"
-  ],
-  "caption": "Silvani's Corsini chapel from the garden behind the church"
- },
- {
-  "topic": "landmarks",
-  "file": "Via dell'ardiglione, giardino dei nidiaci, veduta su retro del carmine 01.jpg",
-  "subjects": [
-   "rec:Basilica di Santa Maria del Carmine"
-  ],
-  "caption": "The back of the Carmine: the choir and the octagon over the crossing"
- },
- {
-  "topic": "landmarks",
-  "file": "Santa Maria del Carmine (Florence) - Cloister 2013.jpg",
-  "subjects": [
-   "rec:Primo chiostro del Carmine",
-   "rec:Basilica di Santa Maria del Carmine",
-   "rec:Convento del Carmine"
-  ],
-  "caption": "The first cloister of the Carmine, 1597–1612"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Franceschi-Dragomanni, veduta, s. felicita 03.JPG",
-  "subjects": [
-   "rec:Chiesa di Santa Felicita",
-   "rec:Campanile di Santa Felicita"
-  ],
-  "caption": "Santa Felicita's flank and bell tower over the roofs of the Oltrarno"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo Franceschi-Dragomanni, veduta, s. felicita 01.JPG",
-  "subjects": [
-   "rec:Campanile di Santa Felicita",
-   "rec:Chiesa di Santa Felicita"
-  ],
-  "caption": "The bell tower of Santa Felicita"
- },
- {
-  "topic": "landmarks",
-  "file": "Facciata basilica san miniato al monte.jpg",
-  "subjects": [
-   "rec:Basilica di San Miniato al Monte"
-  ],
-  "caption": "San Miniato's front in white marble and green serpentine, with the mosaic and the eagle of the Calimala"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Viale Galileo - View SE on La basilica di San Miniato al Monte I.jpg",
-  "subjects": [
-   "rec:Basilica di San Miniato al Monte",
-   "rec:Palazzo dei Vescovi"
-  ],
-  "caption": "San Miniato from the stairs below the terrace"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Basilica di San Miniato al Monte Esterno Coro.jpg",
-  "subjects": [
-   "rec:Basilica di San Miniato al Monte",
-   "rec:Campanile di San Miniato al Monte"
-  ],
-  "caption": "The apse and Baccio d'Agnolo's unfinished bell tower"
- },
- {
-  "topic": "landmarks",
-  "file": "Campanile di San miniato al Monte.jpg",
-  "subjects": [
-   "rec:Basilica di San Miniato al Monte"
-  ],
-  "caption": "The apse wall, its windows closed with thin marble"
- },
- {
-  "topic": "landmarks",
-  "file": "Lunarno torrigiani visto dal fiume 01.JPG",
-  "subjects": [
-   "rec:Lungarni: river walls and parapets"
-  ],
-  "caption": "The Lungarno Torrigiani from the river: the stone wall, the brick parapet, the outlet of the old mill race"
- },
- {
-  "topic": "landmarks",
-  "file": "Lungarno corsini visto dal fiume 01.JPG",
-  "subjects": [
-   "rec:Lungarni: river walls and parapets"
-  ],
-  "caption": "The Lungarno Corsini from the river: the wall in pietra forte under the brick parapet"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Lungarno della Zecca Vecchia - View WSW.jpg",
-  "subjects": [
-   "rec:Lungarni: river walls and parapets"
-  ],
-  "caption": "The left bank from the Lungarno della Zecca Vecchia: the Lungarno Serristori's wall behind the Renai"
- },
- {
-  "topic": "landmarks",
-  "file": "Giuseppe zocchi, lungarno corsini.jpg",
-  "subjects": [
-   "rec:Lungarni: river walls and parapets"
-  ],
-  "caption": "Giuseppe Zocchi's view of the Lungarno Corsini (c. 1744): the walled bank with its parapet"
- },
- {
-  "topic": "history",
-  "file": "All2.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "A lungarno after the flood: the parapet broken, tree trunks and wreckage on the road"
- },
- {
-  "topic": "history",
-  "file": "All1.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "A street after the water went down: mud and wreckage along the walls"
- },
- {
-  "topic": "history",
-  "file": "All4.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "A square after the flood, its cars wrecked and buried in mud"
- },
- {
-  "topic": "history",
-  "file": "All5.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Wrecked cars piled up in a street, one on top of another"
- },
- {
-  "topic": "history",
-  "file": "All6.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Cars and wreckage in water still standing in the street"
- },
- {
-  "topic": "history",
-  "file": "All3.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "A car buried under the mud"
- },
- {
-  "topic": "history",
-  "file": "Bottega via dei canacci di Foresto Marianini a firenze alluvionata nel 1966.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Foresto Marianini's workshop in Via dei Canacci after the flood"
- },
- {
-  "topic": "history",
-  "file": "Angeli del fango.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Angeli del fango: soldiers clearing the mud with spades and a cart"
- },
- {
-  "topic": "history",
-  "file": "Volontari Firenze 1966.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Volunteers carrying works of art out of the mud, November 1966"
- },
- {
-  "topic": "history",
-  "file": "Angeli del fango della Scuola Sottufficiali Carabinieri, fotografati a novembre del 1966.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Cadets of the Carabinieri NCO school, angeli del fango, at a field kitchen, November 1966"
- },
- {
-  "topic": "history",
-  "file": "National Library manuscripts being washed in Florence after the 1966 flood of the Arno - UNESCO - PHOTO 0000001407 0001 - Restoration.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Manuscripts of the Biblioteca Nazionale being washed after the flood"
- },
- {
-  "topic": "history",
-  "file": "Books, Florence - UNESCO - PHOTO0000001410 0001.tiff",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "Restoring books damaged by the flood"
- },
- {
-  "topic": "history",
-  "file": "Saragat alluvione di FIrenze 1966.jpg",
-  "subjects": [
-   "event:The great flood"
-  ],
-  "caption": "President Giuseppe Saragat visits the flooded city, 6 November 1966"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - stazione Leopolda - 1861.jpg",
-  "subjects": [
-   "rec:Stazione Leopolda"
-  ],
-  "caption": "The Stazione Leopolda in 1861, the year of the National Exhibition"
- },
- {
-  "topic": "landmarks",
-  "file": "Stazione leopolda 1850.jpg",
-  "subjects": [
-   "rec:Stazione Leopolda"
-  ],
-  "caption": "The Stazione Leopolda around 1850"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, stazione leopolda, ingresso.JPG",
-  "subjects": [
-   "rec:Stazione Leopolda"
-  ],
-  "caption": "The entrance of the Leopolda today"
- },
- {
-  "topic": "landmarks",
-  "file": "Via ghibellina, le murate 01.JPG",
-  "subjects": [
-   "rec:Le Murate",
-   "rec:ex Monastero delle Murate"
-  ],
-  "caption": "The Murate on Via Ghibellina"
- },
- {
-  "topic": "landmarks",
-  "file": "Le murate, piazza delle murate 01.JPG",
-  "subjects": [
-   "rec:Le Murate",
-   "rec:ex Monastero delle Murate"
-  ],
-  "caption": "Piazza delle Murate, inside the former prison"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Via Luigi Carlo Farini - View East on la principale Sinagoga di Firenze - the New Synagogue 1882 by Marco Treves.jpg",
-  "subjects": [
-   "rec:Tempio Maggiore Israelitico",
-   "rec:Tempio Maggiore Israelitico - Sinagoga"
-  ],
-  "caption": "The Synagogue from Via Farini: the banded front, the towers and the green dome"
- },
- {
-  "topic": "landmarks",
-  "file": "Synagogue of Florence.jpg",
-  "subjects": [
-   "rec:Tempio Maggiore Israelitico",
-   "rec:Tempio Maggiore Israelitico - Sinagoga"
-  ],
-  "caption": "The Synagogue and its garden"
- },
- {
-  "topic": "landmarks",
-  "file": "Florence, Santa Maria Novella railway station, Gruppo Toscano, 1934 1.jpg",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The front: the clock block, the glass cascade and the canopy"
- },
- {
-  "topic": "landmarks",
-  "file": "Stazione SMN vetrate.jpg",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The cascade: frosted glass in two tiers between the stone blocks"
- },
- {
-  "topic": "landmarks",
-  "file": "Stazione smn orologio.JPG",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The clock on the stone block beside the glass"
- },
- {
-  "topic": "landmarks",
-  "file": "Stazione smn lato 01.JPG",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The long blind wall and the canopy along Via Valfonda"
- },
- {
-  "topic": "landmarks",
-  "file": "Smn, campanile, veduta, stazione 03.jpg",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The station from the bell tower of Santa Maria Novella: the head building, the platforms and the tracks"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze stazione 1900.jpg",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The Maria Antonia station around 1900, with its clock turret"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzina reale di SMN, Firenze 01.jpg",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The Palazzina Reale: white marble, the portico of honour"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzina Reale Firenze.JPG",
-  "subjects": [
-   "rec:Stazione di Santa Maria Novella"
-  ],
-  "caption": "The Palazzina Reale and Griselli's group by the exedra"
- },
- {
-  "topic": "landmarks",
-  "file": "Fondazione Teatro del maggio musicale fiorentino, Firenze (FI).jpg",
-  "subjects": [
-   "rec:Teatro del Maggio Musicale Fiorentino"
-  ],
-  "caption": "The Teatro del Maggio from Piazza Vittorio Gui"
- },
- {
-  "topic": "landmarks",
-  "file": "Teatro del Maggio Firenze.jpg",
-  "subjects": [
-   "rec:Teatro del Maggio Musicale Fiorentino"
-  ],
-  "caption": "The foyer under the white block, with the letters of MAGGIO"
- },
- {
-  "topic": "landmarks",
-  "file": "Smn, campanile, veduta, nuovo teatro dell'opera.jpg",
-  "subjects": [
-   "rec:Teatro del Maggio Musicale Fiorentino"
-  ],
-  "caption": "The white block and the dark fly tower over the roofs, from the bell tower of Santa Maria Novella"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza del nuovo teatro dell'opera, scalinata.JPG",
-  "subjects": [
-   "rec:Teatro del Maggio Musicale Fiorentino"
-  ],
-  "caption": "The stair up to the terraces"
- },
- {
-  "topic": "landmarks",
-  "file": "Hake live at Cavea del Teatro del Maggio Musicale Fiorentino, Florence - July 6, 2019.jpg",
-  "subjects": [
-   "rec:Teatro del Maggio Musicale Fiorentino"
-  ],
-  "caption": "A concert in the cavea, before the fly tower's dark wall"
- },
- {
-  "topic": "landmarks",
-  "file": "Stazione Leopolda 66.JPG",
-  "subjects": [
-   "rec:Stazione Leopolda"
-  ],
-  "caption": "The arches of the head behind the pergola"
- },
- {
-  "topic": "landmarks",
-  "file": "Gezicht op het Stazione Leopolda te Florence (vermoedelijk) tijdens de Esposizione Nazionale in 1861, RP-F-F07073.jpg",
-  "subjects": [
-   "rec:Stazione Leopolda"
-  ],
-  "caption": "The Leopolda during the National Exhibition of 1861 (stereo view)"
- },
- {
-  "topic": "landmarks",
-  "file": "Esposizione Nazionale 1861.jpg",
-  "subjects": [
-   "rec:Stazione Leopolda"
-  ],
-  "caption": "The entrance of the 1861 Exhibition: a portico of seven arches under a pediment"
- },
- {
-  "topic": "landmarks",
-  "file": "Synagogue of Florence from Brunelleschi's Dome.jpg",
-  "subjects": [
-   "rec:Tempio Maggiore Israelitico",
-   "rec:Tempio Maggiore Israelitico - Sinagoga"
-  ],
-  "caption": "The Synagogue from the Duomo's dome"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Tempio Maggiore Israelitico Esterno Lato Nord 1.jpg",
-  "subjects": [
-   "rec:Tempio Maggiore Israelitico",
-   "rec:Tempio Maggiore Israelitico - Sinagoga"
-  ],
-  "caption": "The north side: banding, horseshoe windows, the tower"
- },
- {
-  "topic": "landmarks",
-  "file": "Synagoge Florenz-2.jpg",
-  "subjects": [
-   "rec:Tempio Maggiore Israelitico",
-   "rec:Tempio Maggiore Israelitico - Sinagoga"
-  ],
-  "caption": "The front: the great arch, the windows and the portico"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza di Santa Croce 18-22 Florenz.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The painted front on Piazza Santa Croce – the photograph straightened onto the model's front"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Piazza di Santa Croce - View SSW on Palazzo dell'Antella 1619 by Giulio Parigi.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The palace from the square, its upper floors on stone brackets"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo dell'Antella, ext. 01.JPG",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The front in 2014"
- },
- {
-  "topic": "landmarks",
-  "file": "Palais Antella - Florence (IT52) - 2022-08-31 - 1.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The palace in the row on the south side of the square"
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza di Santa Croce 20-21-22, Palazzo dell'Antella, busto di cosimo II di chiarissimo fancelli, 01.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "Chiarissimo Fancelli's bust of Cosimo II on the front"
- },
- {
-  "topic": "landmarks",
-  "file": "local:landmarks/antella-jany-2.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The allegories between the piano nobile's windows, under painted red drapes; the frieze above",
-  "author": "Jany Martelli",
-  "date": "2026",
-  "license": "CC BY-SA 4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page": ""
- },
- {
-  "topic": "landmarks",
-  "file": "local:landmarks/antella-jany-3.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The frieze: framed scenes in colour between grisaille putti and garlands",
-  "author": "Jany Martelli",
-  "date": "2026",
-  "license": "CC BY-SA 4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page": ""
- },
- {
-  "topic": "landmarks",
-  "file": "local:landmarks/antella-jany-4.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "The attic panels and the frieze: an angel, a putto, a seated figure in a roundel",
-  "author": "Jany Martelli",
-  "date": "2026",
-  "license": "CC BY-SA 4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page": ""
- },
- {
-  "topic": "landmarks",
-  "file": "local:landmarks/antella-jany-5.jpg",
-  "subjects": [
-   "rec:Palazzo dell'Antella"
-  ],
-  "caption": "An allegory in grisaille between two windows of the piano nobile",
-  "author": "Jany Martelli",
-  "date": "2026",
-  "license": "CC BY-SA 4.0",
-  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page": ""
- },
- {
-  "topic": "landmarks",
-  "file": "Piazza di Santa Maria Novella, obelischi della corsa dei Cocchi, su dis. di bartolomeo ammannati, 1570-1608, Nord 01.jpg",
-  "subjects": [
-   "rec:Piazza Santa Maria Novella"
-  ],
-  "caption": "The north obelisk: steps, pedestal with breccia panels, the four bronze tortoises, the lily on top"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Piazza di Santa Maria Novella 01.jpg",
-  "subjects": [
-   "rec:Piazza Santa Maria Novella"
-  ],
-  "caption": "The lawns and an obelisk before Santa Maria Novella"
- },
- {
-  "topic": "landmarks",
-  "file": "Sommer, Giorgio (1834-1914) - n. 2928 - Chiesa St. Maria Novella (Firenze).jpg",
-  "subjects": [
-   "rec:Piazza Santa Maria Novella"
-  ],
-  "caption": "The square in the later 19th century: bare ground round the obelisks, no lawns yet"
- },
- {
-  "topic": "landmarks",
-  "file": "Biblioteca Nazionale Centrale di Firenze.JPG",
-  "subjects": [
-   "rec:Biblioteca Nazionale Centrale di Firenze"
-  ],
-  "caption": "The front on Piazza dei Cavalleggeri: the portico, the name panel and the two towers"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Lungarno della Zecca Vecchia - View NW on Biblioteca Nazionale Centrale di Firenze 1935 by Cesare Bazzaniu and V. Mazzei.jpg",
-  "subjects": [
-   "rec:Biblioteca Nazionale Centrale di Firenze"
-  ],
-  "caption": "The library from the Lungarno della Zecca Vecchia"
- },
- {
-  "topic": "landmarks",
-  "file": "Bncf, facciata 01.JPG",
-  "subjects": [
-   "rec:Biblioteca Nazionale Centrale di Firenze"
-  ],
-  "caption": "The portico of three arches, the arms of Florence and of Savoy, the name panel"
- },
- {
-  "topic": "landmarks",
-  "file": "Bncf, facciata, torretta 01.JPG",
-  "subjects": [
-   "rec:Biblioteca Nazionale Centrale di Firenze"
-  ],
-  "caption": "A tower: the arched opening with its bronze statue, the verse of Dante below"
- },
- {
-  "topic": "landmarks",
-  "file": "Bncf, facciata, rotonda magliabechi.JPG",
-  "subjects": [
-   "rec:Biblioteca Nazionale Centrale di Firenze"
-  ],
-  "caption": "The rotunda on Via Magliabechi – the Tribuna, the first part finished (1929–30)"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze - Florence - Piazzale Michelangelo 1865 by Giuseppe Poggi - View ESE towards bronze copy of Michelangelo's David 1873.jpg",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "The terrace and the monument with the bronze David (1873)"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze Viale dei Colli monumento sul piazzale Michelangelo.jpg",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "The monument in an engraving: the stepped base with posts and chains, the four allegories, the David"
- },
- {
-  "topic": "landmarks",
-  "file": "Loggia del poggi.JPG",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "Poggi's Loggia above the terrace, its arcade on paired columns, the balustraded roof"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze souvenir 1900 (page 46 crop).jpg",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "The Loggia about 1900 (Alinari), San Salvatore and San Miniato behind"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze souvenir 1900 (page 45 crop).jpg",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "The hill about 1900 (Brogi): the Rampe zigzagging up from the tower of San Niccolò to the piazzale"
- },
- {
-  "topic": "landmarks",
-  "file": "Fontane delle Rampe del Poggi 00 Firenze.jpg",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "The great grotto of the Rampe: three arches faced with spugne, cascades and basins"
- },
- {
-  "topic": "landmarks",
-  "file": "Rampe del poggi, veduta 05.JPG",
-  "subjects": [
-   "rec:Piazzale Michelangelo"
-  ],
-  "caption": "A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade"
- },
- {
-  "topic": "landmarks",
-  "file": "Santo Spirito, sagrestia di giuliano da sangallo 01.JPG",
-  "subjects": [
-   "rec:Sagrestia di Santo Spirito"
-  ],
-  "caption": "Giuliano da Sangallo's octagonal sacristy (1489–92)"
- },
- {
-  "topic": "landmarks",
-  "file": "Cenacolo di santo spirito, ingresso.JPG",
-  "subjects": [
-   "rec:Cenacolo di Santo Spirito"
-  ],
-  "caption": "The entrance to the old refectory of Santo Spirito, the Cenacolo"
- },
- {
-  "topic": "landmarks",
-  "file": "Torrino di santa rosa 01.JPG",
-  "subjects": [
-   "rec:Torrino di Santa Rosa"
-  ],
-  "caption": "The Torrino di Santa Rosa on the Lungarno Soderini, rebuilt in 1856"
- },
- {
-  "topic": "landmarks",
-  "file": "Torre della serpe 01.JPG",
-  "subjects": [
-   "rec:Torre della Serpe"
-  ],
-  "caption": "The Torre della Serpe, a tower of the city walls"
- },
- {
-  "topic": "landmarks",
-  "file": "Old entrance gate in Pinti (1880), by Odoardo Borrani.jpg",
-  "subjects": [
-   "rec:Porta a Pinti"
-  ],
-  "caption": "Porta a Pinti in 1880, before its demolition – painting by Odoardo Borrani"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo della borsa, firenze, 01.JPG",
-  "subjects": [
-   "rec:Palazzo della Borsa"
-  ],
-  "caption": "The front on the Lungarno Diaz with the pronaos and pediment, the Palazzo Vecchio behind"
- },
- {
-  "topic": "landmarks",
-  "file": "Palazzo della borsa firenze.JPG",
-  "subjects": [
-   "rec:Palazzo della Borsa"
-  ],
-  "caption": "From across the Arno: the long front between the Uffizi and the Ponte alle Grazie"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, società canottieri, terrazza sull'arno 01.jpg",
-  "subjects": [
-   "rec:Società Canottieri Firenze"
-  ],
-  "caption": "The terrace on the Arno under the Uffizi's corbelled loggia, chairs on the lawn, the Ponte Vecchio beyond"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, società canottieri, terrazza sull'arno 03.jpg",
-  "subjects": [
-   "rec:Società Canottieri Firenze"
-  ],
-  "caption": "The path along the river wall and the lawn, under the Uffizi's west end"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, società canottieri, terrazza sull'arno 05.jpg",
-  "subjects": [
-   "rec:Società Canottieri Firenze"
-  ],
-  "caption": "The steps by the club's door and the flagpole by the water"
- },
- {
-  "topic": "landmarks",
-  "file": "Firenze, società canottieri, terrazza sull'arno, ingresso 01.jpg",
-  "subjects": [
-   "rec:Società Canottieri Firenze"
-  ],
-  "caption": "The club's door in the white wall: the sign, the clock, the tablets"
- },
- {
-  "topic": "landmarks",
-  "file": "Lungarno anna maria luisa de' medici 8, società dei canottieri firenze 01.jpg",
-  "subjects": [
-   "rec:Società Canottieri Firenze"
-  ],
-  "caption": "The green door on the Lungarno Anna Maria Luisa de' Medici 8, the way in from the street"
- }
+  {
+    "topic": "maps",
+    "file": "local:maps/circles-of-walls.jpg",
+    "subjects": [
+      "map",
+      "rec:Cerchia d'Arnolfo",
+      "rec:citywalls",
+      "rec:mura matildine",
+      "rec:prima cerchia comunale",
+      "map:circles"
+    ],
+    "caption": "The circles of walls of Florence on today's terrain: Roman, Carolingian, Matildine, the first communal circle (1172) and the sixth circle (1284–1333) with its gates, towers and bastions. Firenze Story, from OpenHistoricalMap and OpenStreetMap",
+    "author": "Firenze Story (lines: OpenHistoricalMap contributors, OpenStreetMap contributors)",
+    "license": "CC BY-SA 4.0 (map); ODbL (OSM data)",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "page": "https://github.com/Jany-M/firenze-story/blob/main/docs/landmarks/MURA.md",
+    "date": "2026"
+  },
+  {
+    "topic": "maps",
+    "file": "Francesco Rosselli (attribution). Pianta della Catena, 1470.jpg",
+    "subjects": [
+      "map"
+    ],
+    "caption": "The 'Pianta della Catena', view of Florence c. 1470–82 (attr. Francesco Rosselli): the sixth circle of walls with all its towers"
+  },
+  {
+    "topic": "maps",
+    "file": "Madonna bigallo, firenze view.jpg",
+    "subjects": [
+      "map",
+      "rec:Cerchia d'Arnolfo"
+    ],
+    "caption": "The oldest view of Florence, 1342 (Madonna della Misericordia, Bigallo): walls, towers and the Baptistery"
+  },
+  {
+    "topic": "maps",
+    "file": "prefix:Miniatore fiorentino, pianta di firenze da poggio bracciolini",
+    "subjects": [
+      "map"
+    ],
+    "caption": "Plan of Florence in a 15th-century manuscript of Poggio Bracciolini's Historia florentina"
+  },
+  {
+    "topic": "maps",
+    "file": "Florence1493.png",
+    "subjects": [
+      "map"
+    ],
+    "caption": "Florence in the Nuremberg Chronicle, 1493"
+  },
+  {
+    "topic": "maps",
+    "file": "Stefano buonsignori, pianta di firenze, 1594, 01.jpg",
+    "subjects": [
+      "map"
+    ],
+    "caption": "Stefano Buonsignori's bird's-eye plan of Florence, 1584 (1594 printing): every street, garden, wall and gate"
+  },
+  {
+    "topic": "maps",
+    "file": "Ca. 1660 map of Florence by Wenceslaus Hollar.jpg",
+    "subjects": [
+      "map"
+    ],
+    "caption": "Wenceslaus Hollar, plan of Florence, c. 1660"
+  },
+  {
+    "topic": "maps",
+    "file": "prefix:Pianta della Città di Firenze nelle sue vere misure",
+    "subjects": [
+      "map"
+    ],
+    "caption": "Ferdinando Ruggieri, plan of the city 'in its true measures', 1731"
+  },
+  {
+    "topic": "maps",
+    "file": "Pianta alluvione firenze 1740.jpeg",
+    "subjects": [
+      "map",
+      "event:Great flood of the Arno"
+    ],
+    "caption": "Ferdinando Morozzi's plan of the flood of 1740, the water heights street by street"
+  },
+  {
+    "topic": "maps",
+    "file": "1835 map of Florence.jpg",
+    "subjects": [
+      "map"
+    ],
+    "caption": "Plan of Florence, 1835 (W. B. Clarke for the SDUK): the walls still whole, before Poggi"
+  },
+  {
+    "topic": "maps",
+    "file": "prefix:Map Urban development - Bologna and Firenze 1992 - Sviluppo urbano di Firen",
+    "subjects": [
+      "map",
+      "rec:Cerchia d'Arnolfo"
+    ],
+    "caption": "The growth of Florence and its successive circles of walls (Touring Club Italiano, 1992)"
+  },
+  {
+    "topic": "maps",
+    "file": "prefix:Map Urban development -Bologna and Firenze 1992 - Evoluzione di Firenze",
+    "subjects": [
+      "map",
+      "rec:Cerchia d'Arnolfo"
+    ],
+    "caption": "Florence from the Roman colony to the 20th century, phase by phase (Touring Club Italiano, 1992)"
+  },
+  {
+    "topic": "walls",
+    "file": "Pianta mura romane di Firenze.jpg",
+    "subjects": [
+      "rec:citywalls",
+      "map"
+    ],
+    "caption": "Plan of the Roman walls of Florentia"
+  },
+  {
+    "topic": "walls",
+    "file": "Museo Firenze com'era, plastico Florentia 1.JPG",
+    "subjects": [
+      "rec:citywalls",
+      "event:Foundation of Florentia (traditional date)"
+    ],
+    "caption": "Model of Roman Florentia (Museo Firenze com'era)"
+  },
+  {
+    "topic": "maps",
+    "file": "Mura di Firenze.JPG",
+    "subjects": [
+      "map",
+      "rec:Cerchia d'Arnolfo",
+      "event:Florence capital of Italy · walls demolished (Poggi plan)"
+    ],
+    "caption": "Antonio Campani's plan of Florence, 1822: the sixth circle of walls whole, with its gates and bastions"
+  },
+  {
+    "topic": "walls",
+    "file": "Michelangelo, studio per porta san gallo.jpg",
+    "subjects": [
+      "rec:Cerchia d'Arnolfo",
+      "rec:Porta San Gallo",
+      "rec:Baluardo a San Gallo"
+    ],
+    "caption": "Michelangelo, study for the fortifications at Porta San Gallo, c. 1525"
+  },
+  {
+    "topic": "walls",
+    "file": "Sala di Clemente VII, stradano, assedio di Firenze.JPG",
+    "subjects": [
+      "rec:Cerchia d'Arnolfo",
+      "event:Calcio during the siege"
+    ],
+    "caption": "The siege of 1529–30, fresco by Stradano and Vasari in Palazzo Vecchio: the walls, the bastions and the camp outside"
+  },
+  {
+    "topic": "walls",
+    "file": "Mura san niccolo.JPG",
+    "subjects": [
+      "rec:Cerchia d'Arnolfo",
+      "rec:Torre San Niccolò"
+    ],
+    "caption": "The Oltrarno walls climbing from San Niccolò to San Miniato today"
+  },
+  {
+    "topic": "walls",
+    "file": "Forte di Belvedere, bastione.jpg",
+    "subjects": [
+      "rec:Cerchia d'Arnolfo",
+      "rec:Forte di Belvedere"
+    ],
+    "caption": "A bastion of the Forte di Belvedere"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta romana, firenze, esterno.JPG",
+    "subjects": [
+      "rec:Porta Romana"
+    ],
+    "caption": "Porta Romana from outside"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta romana, firenze, interno.JPG",
+    "subjects": [
+      "rec:Porta Romana"
+    ],
+    "caption": "Porta Romana from the city side"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta romana, firenze, affresco.JPG",
+    "subjects": [
+      "rec:Porta Romana"
+    ],
+    "caption": "The fresco in the lunette of Porta Romana"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta romana, braccio di legno con catena.jpg",
+    "subjects": [
+      "rec:Porta Romana"
+    ],
+    "caption": "Porta Romana: the original wooden doors' bar and chain"
+  },
+  {
+    "topic": "walls",
+    "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (19).jpg",
+    "subjects": [
+      "rec:Porta San Frediano"
+    ],
+    "caption": "Porta San Frediano, painted by Fabio Borbottoni (19th century)"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san frediano 02.JPG",
+    "subjects": [
+      "rec:Porta San Frediano"
+    ],
+    "caption": "Porta San Frediano today"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san frediano, interno.JPG",
+    "subjects": [
+      "rec:Porta San Frediano"
+    ],
+    "caption": "Porta San Frediano from the city side"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san frediano, portone originale.JPG",
+    "subjects": [
+      "rec:Porta San Frediano"
+    ],
+    "caption": "The original 14th-century doors of Porta San Frediano"
+  },
+  {
+    "topic": "walls",
+    "file": "Piazza Cesare Beccaria, porta alla croce 03.jpg",
+    "subjects": [
+      "rec:Porta alla Croce"
+    ],
+    "caption": "Porta alla Croce alone in Piazza Beccaria since Poggi's works"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta alla croce, lato interno, lapide 1310, 2.jpg",
+    "subjects": [
+      "rec:Porta alla Croce"
+    ],
+    "caption": "Porta alla Croce: the inscription of 1310 on the city side"
+  },
+  {
+    "topic": "walls",
+    "file": "Firenze, porta al prato, veduta da via ponte alle mosse.jpg",
+    "subjects": [
+      "rec:Porta al Prato"
+    ],
+    "caption": "Porta al Prato"
+  },
+  {
+    "topic": "walls",
+    "file": "Firenze, porta al prato, lapide 1311.jpg",
+    "subjects": [
+      "rec:Porta al Prato"
+    ],
+    "caption": "Porta al Prato: the inscription of 1311"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san gallo 11.JPG",
+    "subjects": [
+      "rec:Porta San Gallo"
+    ],
+    "caption": "Porta San Gallo"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta San Gallo epigrafe 1.JPG",
+    "subjects": [
+      "rec:Porta San Gallo"
+    ],
+    "caption": "Porta San Gallo: the founding inscription"
+  },
+  {
+    "topic": "walls",
+    "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (17).jpg",
+    "subjects": [
+      "rec:Torre San Niccolò"
+    ],
+    "caption": "Porta San Niccolò with the walls still in place, painted by Fabio Borbottoni"
+  },
+  {
+    "topic": "walls",
+    "file": "Torre di san niccolò, estate 01.JPG",
+    "subjects": [
+      "rec:Torre San Niccolò"
+    ],
+    "caption": "Torre San Niccolò, the only tower never cut down"
+  },
+  {
+    "topic": "walls",
+    "file": "Torre di san niccolò, estate 02 scale.JPG",
+    "subjects": [
+      "rec:Torre San Niccolò"
+    ],
+    "caption": "Inside Torre San Niccolò: the stairs in the tower open towards the city"
+  },
+  {
+    "topic": "walls",
+    "file": "Florence, Porta San Giorgio, RP-F-F25436-AQ.jpg",
+    "subjects": [
+      "rec:Porta San Giorgio"
+    ],
+    "caption": "Porta San Giorgio, photograph c. 1858 (Rijksmuseum)"
+  },
+  {
+    "topic": "walls",
+    "file": "Cento vedute di Firenze antica, 1789 (page 57 crop).jpg",
+    "subjects": [
+      "rec:Porta San Giorgio"
+    ],
+    "caption": "Porta San Giorgio in the 'Cento vedute di Firenze antica', 1789"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san giorgio, ext. 01.JPG",
+    "subjects": [
+      "rec:Porta San Giorgio"
+    ],
+    "caption": "Porta San Giorgio from outside, with the St George relief"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san giorgio, int. 02 affresco.JPG",
+    "subjects": [
+      "rec:Porta San Giorgio"
+    ],
+    "caption": "Bicci di Lorenzo's Madonna inside Porta San Giorgio"
+  },
+  {
+    "topic": "walls",
+    "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (54).jpg",
+    "subjects": [
+      "rec:Porta San Miniato"
+    ],
+    "caption": "Porta San Miniato, painted by Fabio Borbottoni"
+  },
+  {
+    "topic": "walls",
+    "file": "Porta san miniato, veduta esterna 01.jpg",
+    "subjects": [
+      "rec:Porta San Miniato"
+    ],
+    "caption": "Porta San Miniato from outside"
+  },
+  {
+    "topic": "walls",
+    "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (35).jpg",
+    "subjects": [
+      "rec:Torre della Zecca"
+    ],
+    "caption": "The Torre della Zecca on the river, painted by Fabio Borbottoni"
+  },
+  {
+    "topic": "walls",
+    "file": "Torre della Zecca - Firenze.jpg",
+    "subjects": [
+      "rec:Torre della Zecca"
+    ],
+    "caption": "Torre della Zecca in Piazza Piave today"
+  },
+  {
+    "topic": "walls",
+    "file": "prefix:Marcus Tuscher, Frantz Stephans",
+    "subjects": [
+      "rec:Arco di Trionfo"
+    ],
+    "caption": "Carl Marcus Tuscher, the triumphal arch for Francis Stephen of Lorraine's entry, 1739"
+  },
+  {
+    "topic": "walls",
+    "file": "Firenze, arco lorenese, lato nord 02.jpg",
+    "subjects": [
+      "rec:Arco di Trionfo"
+    ],
+    "caption": "The Arco di Trionfo dei Lorena by Porta San Gallo"
+  },
+  {
+    "topic": "walls",
+    "file": "Fortezza da basso 01.jpg",
+    "subjects": [
+      "rec:Fortezza da Basso",
+      "rec:Cerchia d'Arnolfo"
+    ],
+    "caption": "The Fortezza da Basso"
+  },
+  {
+    "topic": "walls",
+    "file": "Fortezza da basso, ingresso 01.JPG",
+    "subjects": [
+      "rec:Fortezza da Basso",
+      "rec:Cerchia d'Arnolfo"
+    ],
+    "caption": "The entrance of the Fortezza da Basso"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Codice rustici, santa maria del fiore.jpg",
+    "subjects": [
+      "rec:Cattedrale di Santa Maria del Fiore"
+    ],
+    "caption": "Santa Maria del Fiore in the Codex Rustici, 1440s"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Franco gizdulich, modello della facciata medievale",
+    "subjects": [
+      "rec:Cattedrale di Santa Maria del Fiore"
+    ],
+    "caption": "Model of Arnolfo's unfinished medieval façade (Franco Gizdulich)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Dante Domenico di Michelino Duomo Florence.jpg",
+    "subjects": [
+      "rec:Cattedrale di Santa Maria del Fiore"
+    ],
+    "caption": "Domenico di Michelino, Dante and the Divine Comedy, 1465, with the new dome"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Giovan battista nelli (attr.), ricostruzione dei ponteggi",
+    "subjects": [
+      "rec:Cattedrale di Santa Maria del Fiore",
+      "event:Consecration of the Duomo with Brunelleschi’s dome"
+    ],
+    "caption": "The scaffolding inside the dome, reconstructed (attr. G. B. Nelli)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Paolo uccello, orologio di smf.jpg",
+    "subjects": [
+      "rec:Cattedrale di Santa Maria del Fiore"
+    ],
+    "caption": "Paolo Uccello's clock inside the Duomo, 1443"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Battistero-Duomo-Campanile.jpg",
+    "subjects": [
+      "rec:Cattedrale di Santa Maria del Fiore",
+      "rec:Campanile di Giotto",
+      "rec:Battistero di San Giovanni"
+    ],
+    "caption": "Baptistery, Duomo and Campanile today"
+  },
+  {
+    "topic": "landmarks",
+    "file": "CampanileGiotto-01.jpg",
+    "subjects": [
+      "rec:Campanile di Giotto"
+    ],
+    "caption": "Giotto's Campanile"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Andrea pisano, creazione di adamo, 1334-48",
+    "subjects": [
+      "rec:Campanile di Giotto"
+    ],
+    "caption": "Andrea Pisano, the Creation of Adam, relief from the Campanile, 1334–48"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Andrea e nino pisano, architettura, 1348-50",
+    "subjects": [
+      "rec:Campanile di Giotto"
+    ],
+    "caption": "Andrea and Nino Pisano, Architecture, relief from the Campanile"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Battistero Firenze 2019.jpg",
+    "subjects": [
+      "rec:Battistero di San Giovanni"
+    ],
+    "caption": "The Baptistery of San Giovanni"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Section of Baptistery, Florence Cathedral",
+    "subjects": [
+      "rec:Battistero di San Giovanni"
+    ],
+    "caption": "Section of the Baptistery (C. H. Moore, 1905)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Fra' Jacopo, mosaici dell'abside del battistero",
+    "subjects": [
+      "rec:Battistero di San Giovanni"
+    ],
+    "caption": "The apse mosaics of the Baptistery, from 1225"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Lorenzo ghiberti, porta del paradiso, 1425-52",
+    "subjects": [
+      "rec:Battistero di San Giovanni"
+    ],
+    "caption": "Ghiberti's Gates of Paradise, 1425–52 (detail)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza della signoria, palazzo vecchio, veduta 01.jpg",
+    "subjects": [
+      "rec:Palazzo Vecchio"
+    ],
+    "caption": "Palazzo Vecchio on Piazza della Signoria"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Vecchio Cortile interno.JPG",
+    "subjects": [
+      "rec:Palazzo Vecchio"
+    ],
+    "caption": "The courtyard of Palazzo Vecchio"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo vecchio, salone dei 500 soffitto.JPG",
+    "subjects": [
+      "rec:Palazzo Vecchio"
+    ],
+    "caption": "The ceiling of the Salone dei Cinquecento"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Vasari Corridor 1.JPG",
+    "subjects": [
+      "rec:Palazzo Vecchio",
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "Vasari's corridor, 1565"
+  },
+  {
+    "topic": "landmarks",
+    "file": "View of Ancient Florence by Fabio Borbottoni 1820-1902 (3).jpg",
+    "subjects": [
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "Ponte Vecchio, painted by Fabio Borbottoni"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Ponto Vecchio, Florence, Italy LCCN2007663196.tif",
+    "subjects": [
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "Ponte Vecchio, photochrom c. 1890–1900 (Library of Congress)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Ponte vecchio 21r-23r, lapide ricostruzione del ponte nel 1345",
+    "subjects": [
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "The inscription on the rebuilding of the bridge in 1345"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Florence - UNESCO - PHOTO0000004875 0001.tiff",
+    "subjects": [
+      "rec:Ponte Vecchio",
+      "event:The great flood"
+    ],
+    "caption": "Ponte Vecchio after the flood of November 1966 (UNESCO)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze aka Florence, Italy (42195674311).jpg",
+    "subjects": [
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "Ponte Vecchio today"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Basílica de la Santa Cruz, Florencia, Italia, 2022-09-18, DD 95.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Croce"
+    ],
+    "caption": "Santa Croce"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Calcio fiorentino 1688.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Croce",
+      "event:Calcio during the siege",
+      "event:Calcio Storico final (San Giovanni)"
+    ],
+    "caption": "A match of calcio in Piazza Santa Croce, 1688"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santa croce, interior 00.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Croce"
+    ],
+    "caption": "Inside Santa Croce"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Pazzi Chapel Santa Croce Apr 2008 P.JPG",
+    "subjects": [
+      "rec:Basilica di Santa Croce",
+      "event:Pazzi conspiracy"
+    ],
+    "caption": "Brunelleschi's Pazzi Chapel at Santa Croce"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santa Maria Novella (Florence).jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria Novella"
+    ],
+    "caption": "Santa Maria Novella"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Facciata di santa maria novella, vela rucellai",
+    "subjects": [
+      "rec:Basilica di Santa Maria Novella"
+    ],
+    "caption": "Alberti's façade: the Rucellai sail in the frieze"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Fabio borbottoni, 1820-1902, interno di santa maria novella.JPG",
+    "subjects": [
+      "rec:Basilica di Santa Maria Novella"
+    ],
+    "caption": "Inside Santa Maria Novella, painted by Fabio Borbottoni"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santa maria novella, cappella tornabuoni, domenico ghirlandaio3.JPG",
+    "subjects": [
+      "rec:Basilica di Santa Maria Novella"
+    ],
+    "caption": "Ghirlandaio's frescoes in the Tornabuoni Chapel"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Museo di santa maria novella, chiostro verde.JPG",
+    "subjects": [
+      "rec:Basilica di Santa Maria Novella"
+    ],
+    "caption": "The Chiostro Verde"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Orsanmichele e il cavalcavia prima del restauro",
+    "subjects": [
+      "rec:Chiesa di Orsanmichele"
+    ],
+    "caption": "Orsanmichele and its overpass before the restoration, 1880s–90s"
+  },
+  {
+    "topic": "landmarks",
+    "file": "FirenzeOrsanmichele01.jpg",
+    "subjects": [
+      "rec:Chiesa di Orsanmichele"
+    ],
+    "caption": "Orsanmichele"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Chiesa di Orsammichele, tabernacolo dell'Orcagna-edit.jpg",
+    "subjects": [
+      "rec:Chiesa di Orsanmichele"
+    ],
+    "caption": "Orcagna's tabernacle inside Orsanmichele"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Orsanmichele, interno, buca per le granaglie 01.JPG",
+    "subjects": [
+      "rec:Chiesa di Orsanmichele"
+    ],
+    "caption": "A chute for the grain, from the time Orsanmichele was the city granary"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Orsanmichele, san matteo di Ghiberti 02.JPG",
+    "subjects": [
+      "rec:Chiesa di Orsanmichele"
+    ],
+    "caption": "Ghiberti's St Matthew in its niche"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo del bargello visto da piazza san firenze.JPG",
+    "subjects": [
+      "rec:Palazzo del Bargello"
+    ],
+    "caption": "The Bargello from Piazza San Firenze"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Museo del bargello, cortile.jpg",
+    "subjects": [
+      "rec:Palazzo del Bargello"
+    ],
+    "caption": "The courtyard of the Bargello"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo del Podestà - Escutcheons - overview E.jpg",
+    "subjects": [
+      "rec:Palazzo del Bargello"
+    ],
+    "caption": "The coats of arms of the podestà in the courtyard"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, loggia dei lanzi (2020) 01.jpg",
+    "subjects": [
+      "rec:Loggia dei Lanzi"
+    ],
+    "caption": "The Loggia dei Lanzi"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:The Lodge of the Lancers (i.e. Loggia dei Lanzi)",
+    "subjects": [
+      "rec:Loggia dei Lanzi"
+    ],
+    "caption": "The Loggia dei Lanzi, photochrom c. 1890–1900 (Library of Congress)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze.Loggia.Perseus01.JPG",
+    "subjects": [
+      "rec:Loggia dei Lanzi"
+    ],
+    "caption": "Cellini's Perseus, 1554"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze.Loggia.Sabine01.JPG",
+    "subjects": [
+      "rec:Loggia dei Lanzi"
+    ],
+    "caption": "Giambologna's Rape of the Sabines, 1583"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Lion of Loggia de' Lanzi left.JPG",
+    "subjects": [
+      "rec:Loggia dei Lanzi"
+    ],
+    "caption": "One of the Medici lions, placed in 1789"
+  },
+  {
+    "topic": "history",
+    "file": "Necropoli di Palastreto 02.JPG",
+    "subjects": [
+      "event:Villanovan village by the Arno ford"
+    ],
+    "caption": "Villanovan graves found in Florence (Palastreto)"
+  },
+  {
+    "topic": "history",
+    "file": "Totila fa dstruggere la città di Firenze.jpg",
+    "subjects": [
+      "history"
+    ],
+    "caption": "Totila destroys Florence (miniature from Villani's Chronicle)"
+  },
+  {
+    "topic": "history",
+    "file": "prefix:Orcagna, la cacciata del duca d'atene",
+    "subjects": [
+      "history"
+    ],
+    "caption": "Orcagna (attr.), the expulsion of the Duke of Athens, 1343"
+  },
+  {
+    "topic": "history",
+    "file": "Francesco granacci, entrata di Carlo VIII a Firenze.jpg",
+    "subjects": [
+      "history"
+    ],
+    "caption": "Francesco Granacci, Charles VIII enters Florence, 1494"
+  },
+  {
+    "topic": "history",
+    "file": "Fabio borbottoni, 1820-1902, piazza della luna nel mercato vecchio.JPG",
+    "subjects": [
+      "event:A market morning in Mercato Vecchio",
+      "event:Mercato Vecchio & ghetto demolished"
+    ],
+    "caption": "Piazza della Luna in the Mercato Vecchio, painted by Fabio Borbottoni before the demolitions"
+  },
+  {
+    "topic": "history",
+    "file": "prefix:Brindellone dello scoppio del carro di firenze, che si dice del 1494",
+    "subjects": [
+      "event:Scoppio del Carro – the new Brindellone",
+      "event:Scoppio del Carro (Easter)"
+    ],
+    "caption": "The Brindellone, the cart of the Scoppio del Carro"
+  },
+  {
+    "topic": "history",
+    "file": "Calcio Storico partita.JPG",
+    "subjects": [
+      "event:Calcio Storico final (San Giovanni)"
+    ],
+    "caption": "A match of Calcio Storico in Piazza Santa Croce"
+  },
+  {
+    "topic": "history",
+    "file": "Porta alla croce, lato interno, lapide alluvione 1966.JPG",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "The 1966 flood line marked at Porta alla Croce"
+  },
+  {
+    "topic": "history",
+    "file": "prefix:Unknown painter - Execution of Savonarola on the Piazza della Signoria",
+    "subjects": [
+      "event:Execution of Savonarola",
+      "event:Bonfire of the Vanities",
+      "rec:Palazzo Vecchio"
+    ],
+    "caption": "The execution of Savonarola in Piazza della Signoria, 23 May 1498 (anonymous, after Francesco Rosselli, Museo di San Marco)"
+  },
+  {
+    "topic": "history",
+    "file": "Stefano Ussi - The Execution of Savonarola - WGA24194.jpg",
+    "subjects": [
+      "event:Execution of Savonarola"
+    ],
+    "caption": "Stefano Ussi, The Execution of Savonarola, c. 1850"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazzale degli Uffizi perspective view, Florence, Italy, August 2025.jpg",
+    "subjects": [
+      "rec:Galleria degli Uffizi"
+    ],
+    "caption": "The Piazzale degli Uffizi from Piazza della Signoria towards the Arno"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Uffizi courtyard, Florence.jpg",
+    "subjects": [
+      "rec:Galleria degli Uffizi"
+    ],
+    "caption": "The Uffizi courtyard: portico, mezzanine, piano nobile and top loggia"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Uffizi visti dal fiume 11 vasariano.JPG",
+    "subjects": [
+      "rec:Galleria degli Uffizi",
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "The Uffizi and the Vasari Corridor seen from the Arno"
+  },
+  {
+    "topic": "history",
+    "file": "prefix:Palazzo degli Uffizi te Florence Veduta degli Ufizi",
+    "subjects": [
+      "rec:Galleria degli Uffizi"
+    ],
+    "caption": "Giuseppe Zocchi's view of the Uffizi, 18th century (Rijksmuseum)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Firenze - Florence - Lungarno degli Archibugieri - Passage below the Vasari Corr",
+    "subjects": [
+      "rec:Galleria degli Uffizi",
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "The Vasari Corridor on its arcade along Lungarno degli Archibusieri"
+  },
+  {
+    "topic": "history",
+    "file": "Jacques Callot - Interlude in the Medici Theater - WGA3781.jpg",
+    "subjects": [
+      "rec:Galleria degli Uffizi"
+    ],
+    "caption": "Jacques Callot, an interlude in the Teatro Mediceo of the Uffizi, c. 1617"
+  },
+  {
+    "topic": "history",
+    "file": "Pianta del buonsignori, dettaglio 128 san piero scheraggio.jpg",
+    "subjects": [
+      "rec:Galleria degli Uffizi"
+    ],
+    "caption": "San Pier Scheraggio on Buonsignori's map of 1584, already inside the Uffizi"
+  },
+  {
+    "topic": "landmarks",
+    "file": "San pier scheraggio, veduta dell'ex-abside.JPG",
+    "subjects": [
+      "rec:Galleria degli Uffizi"
+    ],
+    "caption": "What is left of San Pier Scheraggio: the old apse in Via della Ninna"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Corridoio Vasariano, curva.JPG",
+    "subjects": [
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "Inside the Vasari Corridor"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01.jpg",
+    "subjects": [
+      "rec:Ponte Vecchio"
+    ],
+    "caption": "The Vasari Corridor crossing Piazza di Santa Felicita"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Basilica di San Lorenzo Esterno Facciata 1.jpg",
+    "subjects": [
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "San Lorenzo's bare brick façade on Piazza San Lorenzo"
+  },
+  {
+    "topic": "history",
+    "file": "Michelangelo (disegno), modellino per la facciata di san lorenzo, 1518 ca..JPG",
+    "subjects": [
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "Model after Michelangelo's design for the façade, c. 1518 – never built (Casa Buonarroti)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Firenze - Florence - Piazza di San Lorenzo - View West on Basilica di San Lorenz",
+    "subjects": [
+      "rec:Basilica di San Lorenzo",
+      "rec:Cappella dei Principi"
+    ],
+    "caption": "The basilica from the piazza, with the domes of the crossing and of the Cappella dei Principi behind"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Filippo Brunelleschi, Sacrestia Vecchia.JPG",
+    "subjects": [
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "Brunelleschi's Old Sacristy, 1421–28"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Basilica di San Lorenzo Esterno Chiostro 1.jpg",
+    "subjects": [
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "The canons' cloister, 1457–60"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Sagrestia nuova di michelangelo, cupola 02.jpg",
+    "subjects": [
+      "rec:Basilica di San Lorenzo",
+      "rec:Cappella dei Principi"
+    ],
+    "caption": "The dome of Michelangelo's New Sacristy from inside"
+  },
+  {
+    "topic": "history",
+    "file": "prefix:San Lorenzo, Library, Ricetto, window, elevation (recto)",
+    "subjects": [
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "16th-century drawing of a window of the Laurentian Library's vestibule (ricetto)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Ferdinando e giuseppe ruggieri (progetto), esterno della cappella dei principi",
+    "subjects": [
+      "rec:Cappella dei Principi",
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "The Cappella dei Principi from outside: the exterior finished to the Ruggieris' design in the 18th century"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, cappelle medicee, esterno, finestrone 06 cartiglio con data 1642.jpg",
+    "subjects": [
+      "rec:Cappella dei Principi"
+    ],
+    "caption": "A cartouche dated 1642 over a window of the Cappella dei Principi"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Firenze - Florence - Via Cavour - Palazzo Medici-Riccardi 1444-1460 by Michelozz",
+    "subjects": [
+      "rec:Palazzo Medici Riccardi"
+    ],
+    "caption": "Michelozzo's front on Via Larga (Via Cavour)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo medici riccardi, finestra inginocchiata.JPG",
+    "subjects": [
+      "rec:Palazzo Medici Riccardi"
+    ],
+    "caption": "One of the kneeling windows that closed the corner loggia in 1517"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Palazzo Medici Riccardi Cortile Interno 1.jpg",
+    "subjects": [
+      "rec:Palazzo Medici Riccardi"
+    ],
+    "caption": "Michelozzo's courtyard"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo medici riccardi, facciata interna sul giardino 01.JPG",
+    "subjects": [
+      "rec:Palazzo Medici Riccardi"
+    ],
+    "caption": "The garden front, Medici side"
+  },
+  {
+    "topic": "history",
+    "file": "Palazzo Medici-Riccardi etching.jpg",
+    "subjects": [
+      "rec:Palazzo Medici Riccardi"
+    ],
+    "caption": "Palazzo Medici Riccardi, 19th-century etching"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Firenze Basilica di San Lorenzo Esterno Angolo Nord",
+    "subjects": [
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "The north flank: blind arches of the chapels, oculi, clerestory, the crossing tiburio and the domes"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Esterno della Cappella dei Principi.jpg",
+    "subjects": [
+      "rec:Cappella dei Principi",
+      "rec:Basilica di San Lorenzo"
+    ],
+    "caption": "The Cappella dei Principi and Ruggieri's bell tower from Piazza Madonna degli Aldobrandini"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Firenze - Florence - Via de' Gori - View Up on Palazzo Medici",
+    "subjects": [
+      "rec:Palazzo Medici Riccardi"
+    ],
+    "caption": "The corner of the palace: rusticated bosses, the loggia arch and the great cornice"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Lungarno degli archibugieri (corridoio vasariano) visto dal fiume 02.JPG",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The loggia on the Lungarno degli Archibusieri from the Arno: arches on piers, the corridor above with its windows to the river"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Corridoio vasariano, veduta di lungarno archibugieri.JPG",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "Looking along the Lungarno from a corridor window: the loggia's arches and the oculi on the city side"
+  },
+  {
+    "topic": "history",
+    "file": "prefix:Lungarno degli archibusieri con la loggia del corridoio vasariano ancora tamponata",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The loggia still walled up into shops, before 1890"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Via della ninna, veduta col cavalcavia del corridoio vasariano.jpg",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The overpass on Via della Ninna between the Uffizi and Palazzo Vecchio"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Torre dei Mannelli-Vasari Corridor.jpg",
+    "subjects": [
+      "rec:Torre dei Mannelli",
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "Torre dei Mannelli: the corridor goes round it on pietra serena corbels"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Via guicciadini, veduta sul cavalcavia del corridoio vasariano su via de' bardi",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The stretch over Via de' Bardi, rebuilt after 1944 with a wider arch"
+  },
+  {
+    "topic": "history",
+    "file": "Via guicciardini prima delle demolizioni del 1944 (anni 1890s).jpg",
+    "subjects": [
+      "rec:Corridoio Vasariano",
+      "rec:Torre dei Mannelli"
+    ],
+    "caption": "Via de' Guicciardini at the bridge before the German mines of 1944 (1890s)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santafelicita.jpg",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "Santa Felicita: the corridor on Vasari's portico, the Arco dei Rossi on the left"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Piazza di santa felicita, cavalcavia del corridoio vasariano (arco dei rossi) 01",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The Arco dei Rossi, where the corridor crosses the lane beside Santa Felicita"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Corridoio vasariano, affaccio su santa felicita.JPG",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The grand-ducal window from the corridor into Santa Felicita"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Boboli, corridoio vasariano.JPG",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The last stretch along the Boboli garden: small windows and oculi over a row of corbels"
+  },
+  {
+    "topic": "history",
+    "file": "Pianta del buonsignori, dettaglio 046 corridore del gran duca (corridoio vasariano).jpg",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The \"corridore del Gran Duca\" on Buonsignori's map of 1584"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Pitti (Florence) - Facade.jpg",
+    "subjects": [
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "The front on Piazza Pitti: rusticated stone, arched windows on two and three storeys"
+  },
+  {
+    "topic": "history",
+    "file": "Pitti boboli utens.jpg",
+    "subjects": [
+      "rec:Palazzo Pitti",
+      "rec:Forte di Belvedere",
+      "rec:Grotta del Buontalenti"
+    ],
+    "caption": "Giusto Utens's lunette of c. 1599: the palace before the Parigi extensions, the garden and the fort"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Pitti, cortile dell'ammannati 22.jpg",
+    "subjects": [
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "Ammannati's courtyard: banded orders of rustication"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo pitti, cortile dell'ammannati, lato nord, finestra inginocchiata.jpg",
+    "subjects": [
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "A kneeling window in Ammannati's style"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Pitti Nebenflügel mit Hauptbau.jpg",
+    "subjects": [
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "The long front with a rondò wing projecting into the piazza"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Boboli, palazzina della meridiana, esterno 01.JPG",
+    "subjects": [
+      "rec:Palazzina della Meridiana",
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "The Palazzina della Meridiana on the garden side"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Boboli, anfiteatro, obelisco 01.JPG",
+    "subjects": [
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "The Boboli amphitheatre with the Egyptian obelisk and the granite basin"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Grotta del buontalenti, festina lente sulla facciata.JPG",
+    "subjects": [
+      "rec:Grotta del Buontalenti"
+    ],
+    "caption": "The front of the Grotta del Buontalenti"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Kaffeehaus Boboli-Garten Florenz-01.jpg",
+    "subjects": [
+      "rec:Kaffeehaus del Giardino di Boboli"
+    ],
+    "caption": "Zanobi del Rosso's Kaffeehaus, 1776"
+  },
+  {
+    "topic": "landmarks",
+    "file": "prefix:Firenze - Florence - Giardino di Boboli - View SSE on La fontana del Nettuno",
+    "subjects": [
+      "rec:Palazzo Pitti"
+    ],
+    "caption": "The Neptune basin in Boboli, Stoldo Lorenzi's Neptune on its rock"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Forte belvedere, edificio principale 02.JPG",
+    "subjects": [
+      "rec:Forte di Belvedere"
+    ],
+    "caption": "The palazzina inside Forte Belvedere"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Florence, Palazzo Strozzi, North and West facade, Benedetto da Maiano, 1489-1538.jpg",
+    "subjects": [
+      "rec:Palazzo Strozzi"
+    ],
+    "caption": "The north and west fronts: rustication, two rows of arched double windows, the cornice"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Façade van Palazzo Strozzi te Florence, RP-F-00-3012.jpg",
+    "subjects": [
+      "rec:Palazzo Strozzi"
+    ],
+    "caption": "The front in a photograph of c. 1875–1900, with the stone bench along the base"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Cortile di palazzo strozzi, 2012, 01.JPG",
+    "subjects": [
+      "rec:Palazzo Strozzi"
+    ],
+    "caption": "Cronaca's courtyard: arches on pietra serena columns"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Strozzi, lucerna del Caparra 01.JPG",
+    "subjects": [
+      "rec:Palazzo Strozzi"
+    ],
+    "caption": "One of Caparra's wrought-iron corner lanterns, 1491–98"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Palazzo dell'Arcone di Piazza.jpg",
+    "subjects": [
+      "rec:Piazza della Repubblica",
+      "rec:Palazzo dell'Arcone di Piazza"
+    ],
+    "caption": "The Arcone from Via degli Strozzi: paired columns, the inscription, the statues of the arts"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Piazza della Repubblica - View WNW on the Arcone 1895 by Vincenzo Micheli.jpg",
+    "subjects": [
+      "rec:Piazza della Repubblica",
+      "rec:Palazzo dell'Arcone di Piazza"
+    ],
+    "caption": "The square towards Micheli's arch and its portico"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Portici, piazza della Repubblica (Firenze).jpg",
+    "subjects": [
+      "rec:Piazza della Repubblica",
+      "rec:Palazzo dell'Arcone di Piazza"
+    ],
+    "caption": "Under the portico of the Palazzo dell'Arcone"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza della repubblica in 1895.jpg",
+    "subjects": [
+      "rec:Piazza della Repubblica"
+    ],
+    "caption": "The square in 1895, then Piazza Vittorio Emanuele II, with the king's statue"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Mercato centrale di san lorenzo 01.jpg",
+    "subjects": [
+      "rec:Mercato di San Lorenzo"
+    ],
+    "caption": "The market from the piazza: stone arches below, the red iron and glass hall above"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Via dell'Ariento - View SE on Mercato Centrale 1874 by Giuseppe Mengoni.jpg",
+    "subjects": [
+      "rec:Mercato di San Lorenzo"
+    ],
+    "caption": "Along Via dell'Ariento: shutters and iron fans in the arches"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Hotel baglioni, terrazza, veduta giorno, mercato centrale.JPG",
+    "subjects": [
+      "rec:Mercato di San Lorenzo"
+    ],
+    "caption": "The market's roofs from a terrace nearby"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Veduta esterna del mercato centrale di Firenze durante l’esposizione di Floricultura (xilografia).jpg",
+    "subjects": [
+      "rec:Mercato di San Lorenzo"
+    ],
+    "caption": "The new market during the Horticultural Exhibition of 1874 (wood engraving)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo strozzi, cornicione interrotto.JPG",
+    "subjects": [
+      "rec:Palazzo Strozzi"
+    ],
+    "caption": "Where Cronaca's cornice stops: only its dentils and frieze run on along the side"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Ospedale degli Innocenti Florenz.jpg",
+    "subjects": [
+      "rec:Spedale degli Innocenti"
+    ],
+    "caption": "The Innocenti front: nine arches on steps, a window over each, the end bays"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Andrea della robbia, putti in fasce della facciata dello spedale degli innocenti, 1487, B 02.jpg",
+    "subjects": [
+      "rec:Spedale degli Innocenti"
+    ],
+    "caption": "One of Andrea della Robbia's tondi, 1487: a baby in swaddling clothes"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, loggiato dei serviti (2020).jpg",
+    "subjects": [
+      "rec:Loggia dei Servi di Maria"
+    ],
+    "caption": "The Loggia dei Servi di Maria, copying the Innocenti across the square"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Piazza della Santissima Annunziata - View NE on la Basilica della Santissima Annunziata - Church-Front 1444 by Michelozzo.jpg",
+    "subjects": [
+      "rec:Basilica della Santissima Annunziata"
+    ],
+    "caption": "The church's portico of 1601 with the Pucci inscription and the canopy over the middle arch"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza SS Annunziata Firenze Apr 2008.jpg",
+    "subjects": [
+      "rec:Spedale degli Innocenti",
+      "rec:Basilica della Santissima Annunziata",
+      "rec:Loggia dei Servi di Maria"
+    ],
+    "caption": "The square: the Loggia dei Servi, the church and the Innocenti"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Da giuseppe zocchi, piazza e tempio della SS. annunziata di firenze, xviii-xix secolo.jpg",
+    "subjects": [
+      "rec:Basilica della Santissima Annunziata",
+      "rec:Spedale degli Innocenti"
+    ],
+    "caption": "Giuseppe Zocchi's view of the square, 18th century"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Fontane dei Mostri Marini (40924836380).jpg",
+    "subjects": [
+      "rec:Basilica della Santissima Annunziata"
+    ],
+    "caption": "One of Tacca's sea-monster fountains, set up in 1641"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Loggia del pesce before 1880.jpg",
+    "subjects": [
+      "rec:Loggia del Pesce"
+    ],
+    "caption": "The loggia in the Mercato Vecchio before 1880, with the stalls and their awnings"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Loggia del pesce nel MercatoVecchio, Firenze avanti 1885.jpg",
+    "subjects": [
+      "rec:Loggia del Pesce"
+    ],
+    "caption": "The Loggia del Pesce in the Mercato Vecchio, before 1885"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Giuseppe moricci, la loggia del pesce, firenze, 1870s, coll. priv..jpg",
+    "subjects": [
+      "rec:Loggia del Pesce"
+    ],
+    "caption": "Giuseppe Moricci's painting of the loggia, 1870s"
+  },
+  {
+    "topic": "landmarks",
+    "file": "P.zaCiompi2018 01.jpg",
+    "subjects": [
+      "rec:Loggia del Pesce"
+    ],
+    "caption": "The loggia rebuilt in Piazza dei Ciompi, 2018"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Vasari corridor (Corridoio Vasariano), Florence (26073081173).jpg",
+    "subjects": [
+      "rec:Corridoio Vasariano"
+    ],
+    "caption": "The corridor's head at the Uffizi: the great arch over the street, the small door on the river side"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Chiesa di Santo Spirito, Firenze facciata.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "The plain plastered front with its curving gable"
+  },
+  {
+    "topic": "landmarks",
+    "file": "14 - Basilica di Santo Spirito, Firenze.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "Santo Spirito from the square"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, chiesa e convento di san marco, facciata 01.jpg",
+    "subjects": [
+      "rec:Basilica di San Marco",
+      "rec:Ex convento di San Marco"
+    ],
+    "caption": "The church front of 1777–78 and the convent on Piazza San Marco"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Basilica di San Marco Esterno Facciata Portale.jpg",
+    "subjects": [
+      "rec:Basilica di San Marco"
+    ],
+    "caption": "The portal of San Marco with the cherub group"
+  },
+  {
+    "topic": "landmarks",
+    "file": "San Marco Klosterhof.jpg",
+    "subjects": [
+      "rec:Ex convento di San Marco"
+    ],
+    "caption": "Michelozzo's cloister of Sant'Antonino"
+  },
+  {
+    "topic": "landmarks",
+    "file": "San marco, biblioteca di michelozzo 01.jpg",
+    "subjects": [
+      "rec:Ex convento di San Marco"
+    ],
+    "caption": "Michelozzo's library, 1440s"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Campanile di Giotto Vista su la Basilica di Santo Spirito.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "Santo Spirito from Giotto's tower: the transept, the dome and the bell tower"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, basilica di Santo Spirito, campanile - Veduta dalla piazza.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "Baccio d'Agnolo's bell tower, with AVSPICIIS COSMI under the belfry"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Campanile di Giotto Vista su la Basilica di San Marco.jpg",
+    "subjects": [
+      "rec:Basilica di San Marco"
+    ],
+    "caption": "San Marco from Giotto's tower: the front of 1777–78, the bell tower, the chapel with its lantern"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santo spirito, chiostro dei morti, 01.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "The Chiostro dei Morti, c. 1620"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santo spirito, chiostro grande dell'ammannati 01.JPG",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "Ammannati's Chiostro Grande, 1564–69"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza santo spirito, fontana 01.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Santo Spirito"
+    ],
+    "caption": "The fountain of Piazza Santo Spirito (1660, in the square since 1812)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Courtyard of San Marco in Firenze.jpg",
+    "subjects": [
+      "rec:Ex convento di San Marco"
+    ],
+    "caption": "The cloister of Sant'Antonino"
+  },
+  {
+    "topic": "landmarks",
+    "file": "S. marco, chiostro di San Domenico 01.JPG",
+    "subjects": [
+      "rec:Ex convento di San Marco"
+    ],
+    "caption": "The cloister of San Domenico"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Chiesa del carmine, facciata.JPG",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Carmine"
+    ],
+    "caption": "The unfinished front of the Carmine on its square"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santa Maria del Carmine from Brunelleschi's Dome.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Carmine",
+      "rec:Cappella Corsini"
+    ],
+    "caption": "The Carmine from the Duomo: the long flank with its big windows, the octagon over the crossing and the Corsini chapel"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, basilica di Santa Maria del Carmine - Veduta esterna da ovest.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Carmine",
+      "rec:Convento del Carmine"
+    ],
+    "caption": "The Carmine from the west: the flank, the octagon over the crossing and the bell gable"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Chiesa del carmine, ext. retro, cappella corsini 01.JPG",
+    "subjects": [
+      "rec:Cappella Corsini",
+      "rec:Basilica di Santa Maria del Carmine"
+    ],
+    "caption": "Silvani's Corsini chapel from the garden behind the church"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Via dell'ardiglione, giardino dei nidiaci, veduta su retro del carmine 01.jpg",
+    "subjects": [
+      "rec:Basilica di Santa Maria del Carmine"
+    ],
+    "caption": "The back of the Carmine: the choir and the octagon over the crossing"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santa Maria del Carmine (Florence) - Cloister 2013.jpg",
+    "subjects": [
+      "rec:Primo chiostro del Carmine",
+      "rec:Basilica di Santa Maria del Carmine",
+      "rec:Convento del Carmine"
+    ],
+    "caption": "The first cloister of the Carmine, 1597–1612"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Franceschi-Dragomanni, veduta, s. felicita 03.JPG",
+    "subjects": [
+      "rec:Chiesa di Santa Felicita",
+      "rec:Campanile di Santa Felicita"
+    ],
+    "caption": "Santa Felicita's flank and bell tower over the roofs of the Oltrarno"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo Franceschi-Dragomanni, veduta, s. felicita 01.JPG",
+    "subjects": [
+      "rec:Campanile di Santa Felicita",
+      "rec:Chiesa di Santa Felicita"
+    ],
+    "caption": "The bell tower of Santa Felicita"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Facciata basilica san miniato al monte.jpg",
+    "subjects": [
+      "rec:Basilica di San Miniato al Monte"
+    ],
+    "caption": "San Miniato's front in white marble and green serpentine, with the mosaic and the eagle of the Calimala"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Viale Galileo - View SE on La basilica di San Miniato al Monte I.jpg",
+    "subjects": [
+      "rec:Basilica di San Miniato al Monte",
+      "rec:Palazzo dei Vescovi"
+    ],
+    "caption": "San Miniato from the stairs below the terrace"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Basilica di San Miniato al Monte Esterno Coro.jpg",
+    "subjects": [
+      "rec:Basilica di San Miniato al Monte",
+      "rec:Campanile di San Miniato al Monte"
+    ],
+    "caption": "The apse and Baccio d'Agnolo's unfinished bell tower"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Campanile di San miniato al Monte.jpg",
+    "subjects": [
+      "rec:Basilica di San Miniato al Monte"
+    ],
+    "caption": "The apse wall, its windows closed with thin marble"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Lunarno torrigiani visto dal fiume 01.JPG",
+    "subjects": [
+      "rec:Lungarni: river walls and parapets"
+    ],
+    "caption": "The Lungarno Torrigiani from the river: the stone wall, the brick parapet, the outlet of the old mill race"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Lungarno corsini visto dal fiume 01.JPG",
+    "subjects": [
+      "rec:Lungarni: river walls and parapets"
+    ],
+    "caption": "The Lungarno Corsini from the river: the wall in pietra forte under the brick parapet"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Lungarno della Zecca Vecchia - View WSW.jpg",
+    "subjects": [
+      "rec:Lungarni: river walls and parapets"
+    ],
+    "caption": "The left bank from the Lungarno della Zecca Vecchia: the Lungarno Serristori's wall behind the Renai"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Giuseppe zocchi, lungarno corsini.jpg",
+    "subjects": [
+      "rec:Lungarni: river walls and parapets"
+    ],
+    "caption": "Giuseppe Zocchi's view of the Lungarno Corsini (c. 1744): the walled bank with its parapet"
+  },
+  {
+    "topic": "history",
+    "file": "All2.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "A lungarno after the flood: the parapet broken, tree trunks and wreckage on the road"
+  },
+  {
+    "topic": "history",
+    "file": "All1.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "A street after the water went down: mud and wreckage along the walls"
+  },
+  {
+    "topic": "history",
+    "file": "All4.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "A square after the flood, its cars wrecked and buried in mud"
+  },
+  {
+    "topic": "history",
+    "file": "All5.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Wrecked cars piled up in a street, one on top of another"
+  },
+  {
+    "topic": "history",
+    "file": "All6.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Cars and wreckage in water still standing in the street"
+  },
+  {
+    "topic": "history",
+    "file": "All3.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "A car buried under the mud"
+  },
+  {
+    "topic": "history",
+    "file": "Bottega via dei canacci di Foresto Marianini a firenze alluvionata nel 1966.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Foresto Marianini's workshop in Via dei Canacci after the flood"
+  },
+  {
+    "topic": "history",
+    "file": "Angeli del fango.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Angeli del fango: soldiers clearing the mud with spades and a cart"
+  },
+  {
+    "topic": "history",
+    "file": "Volontari Firenze 1966.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Volunteers carrying works of art out of the mud, November 1966"
+  },
+  {
+    "topic": "history",
+    "file": "Angeli del fango della Scuola Sottufficiali Carabinieri, fotografati a novembre del 1966.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Cadets of the Carabinieri NCO school, angeli del fango, at a field kitchen, November 1966"
+  },
+  {
+    "topic": "history",
+    "file": "National Library manuscripts being washed in Florence after the 1966 flood of the Arno - UNESCO - PHOTO 0000001407 0001 - Restoration.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Manuscripts of the Biblioteca Nazionale being washed after the flood"
+  },
+  {
+    "topic": "history",
+    "file": "Books, Florence - UNESCO - PHOTO0000001410 0001.tiff",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "Restoring books damaged by the flood"
+  },
+  {
+    "topic": "history",
+    "file": "Saragat alluvione di FIrenze 1966.jpg",
+    "subjects": [
+      "event:The great flood"
+    ],
+    "caption": "President Giuseppe Saragat visits the flooded city, 6 November 1966"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - stazione Leopolda - 1861.jpg",
+    "subjects": [
+      "rec:Stazione Leopolda"
+    ],
+    "caption": "The Stazione Leopolda in 1861, the year of the National Exhibition"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Stazione leopolda 1850.jpg",
+    "subjects": [
+      "rec:Stazione Leopolda"
+    ],
+    "caption": "The Stazione Leopolda around 1850"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, stazione leopolda, ingresso.JPG",
+    "subjects": [
+      "rec:Stazione Leopolda"
+    ],
+    "caption": "The entrance of the Leopolda today"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Via ghibellina, le murate 01.JPG",
+    "subjects": [
+      "rec:Le Murate",
+      "rec:ex Monastero delle Murate"
+    ],
+    "caption": "The Murate on Via Ghibellina"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Le murate, piazza delle murate 01.JPG",
+    "subjects": [
+      "rec:Le Murate",
+      "rec:ex Monastero delle Murate"
+    ],
+    "caption": "Piazza delle Murate, inside the former prison"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Via Luigi Carlo Farini - View East on la principale Sinagoga di Firenze - the New Synagogue 1882 by Marco Treves.jpg",
+    "subjects": [
+      "rec:Tempio Maggiore Israelitico",
+      "rec:Tempio Maggiore Israelitico - Sinagoga"
+    ],
+    "caption": "The Synagogue from Via Farini: the banded front, the towers and the green dome"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Synagogue of Florence.jpg",
+    "subjects": [
+      "rec:Tempio Maggiore Israelitico",
+      "rec:Tempio Maggiore Israelitico - Sinagoga"
+    ],
+    "caption": "The Synagogue and its garden"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Florence, Santa Maria Novella railway station, Gruppo Toscano, 1934 1.jpg",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The front: the clock block, the glass cascade and the canopy"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Stazione SMN vetrate.jpg",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The cascade: frosted glass in two tiers between the stone blocks"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Stazione smn orologio.JPG",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The clock on the stone block beside the glass"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Stazione smn lato 01.JPG",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The long blind wall and the canopy along Via Valfonda"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Smn, campanile, veduta, stazione 03.jpg",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The station from the bell tower of Santa Maria Novella: the head building, the platforms and the tracks"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze stazione 1900.jpg",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The Maria Antonia station around 1900, with its clock turret"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzina reale di SMN, Firenze 01.jpg",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The Palazzina Reale: white marble, the portico of honour"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzina Reale Firenze.JPG",
+    "subjects": [
+      "rec:Stazione di Santa Maria Novella"
+    ],
+    "caption": "The Palazzina Reale and Griselli's group by the exedra"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Fondazione Teatro del maggio musicale fiorentino, Firenze (FI).jpg",
+    "subjects": [
+      "rec:Teatro del Maggio Musicale Fiorentino"
+    ],
+    "caption": "The Teatro del Maggio from Piazza Vittorio Gui"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Teatro del Maggio Firenze.jpg",
+    "subjects": [
+      "rec:Teatro del Maggio Musicale Fiorentino"
+    ],
+    "caption": "The foyer under the white block, with the letters of MAGGIO"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Smn, campanile, veduta, nuovo teatro dell'opera.jpg",
+    "subjects": [
+      "rec:Teatro del Maggio Musicale Fiorentino"
+    ],
+    "caption": "The white block and the dark fly tower over the roofs, from the bell tower of Santa Maria Novella"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza del nuovo teatro dell'opera, scalinata.JPG",
+    "subjects": [
+      "rec:Teatro del Maggio Musicale Fiorentino"
+    ],
+    "caption": "The stair up to the terraces"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Hake live at Cavea del Teatro del Maggio Musicale Fiorentino, Florence - July 6, 2019.jpg",
+    "subjects": [
+      "rec:Teatro del Maggio Musicale Fiorentino"
+    ],
+    "caption": "A concert in the cavea, before the fly tower's dark wall"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Stazione Leopolda 66.JPG",
+    "subjects": [
+      "rec:Stazione Leopolda"
+    ],
+    "caption": "The arches of the head behind the pergola"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Gezicht op het Stazione Leopolda te Florence (vermoedelijk) tijdens de Esposizione Nazionale in 1861, RP-F-F07073.jpg",
+    "subjects": [
+      "rec:Stazione Leopolda"
+    ],
+    "caption": "The Leopolda during the National Exhibition of 1861 (stereo view)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Esposizione Nazionale 1861.jpg",
+    "subjects": [
+      "rec:Stazione Leopolda"
+    ],
+    "caption": "The entrance of the 1861 Exhibition: a portico of seven arches under a pediment"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Synagogue of Florence from Brunelleschi's Dome.jpg",
+    "subjects": [
+      "rec:Tempio Maggiore Israelitico",
+      "rec:Tempio Maggiore Israelitico - Sinagoga"
+    ],
+    "caption": "The Synagogue from the Duomo's dome"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Tempio Maggiore Israelitico Esterno Lato Nord 1.jpg",
+    "subjects": [
+      "rec:Tempio Maggiore Israelitico",
+      "rec:Tempio Maggiore Israelitico - Sinagoga"
+    ],
+    "caption": "The north side: banding, horseshoe windows, the tower"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Synagoge Florenz-2.jpg",
+    "subjects": [
+      "rec:Tempio Maggiore Israelitico",
+      "rec:Tempio Maggiore Israelitico - Sinagoga"
+    ],
+    "caption": "The front: the great arch, the windows and the portico"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza di Santa Croce 18-22 Florenz.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The painted front on Piazza Santa Croce – the photograph straightened onto the model's front"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Piazza di Santa Croce - View SSW on Palazzo dell'Antella 1619 by Giulio Parigi.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The palace from the square, its upper floors on stone brackets"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo dell'Antella, ext. 01.JPG",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The front in 2014"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palais Antella - Florence (IT52) - 2022-08-31 - 1.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The palace in the row on the south side of the square"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza di Santa Croce 20-21-22, Palazzo dell'Antella, busto di cosimo II di chiarissimo fancelli, 01.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "Chiarissimo Fancelli's bust of Cosimo II on the front"
+  },
+  {
+    "topic": "landmarks",
+    "file": "local:landmarks/antella-jany-2.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The allegories between the piano nobile's windows, under painted red drapes; the frieze above",
+    "author": "Jany Martelli",
+    "date": "2026",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": ""
+  },
+  {
+    "topic": "landmarks",
+    "file": "local:landmarks/antella-jany-3.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The frieze: framed scenes in colour between grisaille putti and garlands",
+    "author": "Jany Martelli",
+    "date": "2026",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": ""
+  },
+  {
+    "topic": "landmarks",
+    "file": "local:landmarks/antella-jany-4.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "The attic panels and the frieze: an angel, a putto, a seated figure in a roundel",
+    "author": "Jany Martelli",
+    "date": "2026",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": ""
+  },
+  {
+    "topic": "landmarks",
+    "file": "local:landmarks/antella-jany-5.jpg",
+    "subjects": [
+      "rec:Palazzo dell'Antella"
+    ],
+    "caption": "An allegory in grisaille between two windows of the piano nobile",
+    "author": "Jany Martelli",
+    "date": "2026",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": ""
+  },
+  {
+    "topic": "landmarks",
+    "file": "Piazza di Santa Maria Novella, obelischi della corsa dei Cocchi, su dis. di bartolomeo ammannati, 1570-1608, Nord 01.jpg",
+    "subjects": [
+      "rec:Piazza Santa Maria Novella"
+    ],
+    "caption": "The north obelisk: steps, pedestal with breccia panels, the four bronze tortoises, the lily on top"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Piazza di Santa Maria Novella 01.jpg",
+    "subjects": [
+      "rec:Piazza Santa Maria Novella"
+    ],
+    "caption": "The lawns and an obelisk before Santa Maria Novella"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Sommer, Giorgio (1834-1914) - n. 2928 - Chiesa St. Maria Novella (Firenze).jpg",
+    "subjects": [
+      "rec:Piazza Santa Maria Novella"
+    ],
+    "caption": "The square in the later 19th century: bare ground round the obelisks, no lawns yet"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Biblioteca Nazionale Centrale di Firenze.JPG",
+    "subjects": [
+      "rec:Biblioteca Nazionale Centrale di Firenze"
+    ],
+    "caption": "The front on Piazza dei Cavalleggeri: the portico, the name panel and the two towers"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Lungarno della Zecca Vecchia - View NW on Biblioteca Nazionale Centrale di Firenze 1935 by Cesare Bazzaniu and V. Mazzei.jpg",
+    "subjects": [
+      "rec:Biblioteca Nazionale Centrale di Firenze"
+    ],
+    "caption": "The library from the Lungarno della Zecca Vecchia"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Bncf, facciata 01.JPG",
+    "subjects": [
+      "rec:Biblioteca Nazionale Centrale di Firenze"
+    ],
+    "caption": "The portico of three arches, the arms of Florence and of Savoy, the name panel"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Bncf, facciata, torretta 01.JPG",
+    "subjects": [
+      "rec:Biblioteca Nazionale Centrale di Firenze"
+    ],
+    "caption": "A tower: the arched opening with its bronze statue, the verse of Dante below"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Bncf, facciata, rotonda magliabechi.JPG",
+    "subjects": [
+      "rec:Biblioteca Nazionale Centrale di Firenze"
+    ],
+    "caption": "The rotunda on Via Magliabechi – the Tribuna, the first part finished (1929–30)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze - Florence - Piazzale Michelangelo 1865 by Giuseppe Poggi - View ESE towards bronze copy of Michelangelo's David 1873.jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The terrace and the monument with the bronze David (1873)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Viale dei Colli monumento sul piazzale Michelangelo.jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The monument in an engraving: the stepped base with posts and chains, the four allegories, the David"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Loggia del poggi.JPG",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "Poggi's Loggia above the terrace, its arcade on paired columns, the balustraded roof"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze souvenir 1900 (page 46 crop).jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The Loggia about 1900 (Alinari), San Salvatore and San Miniato behind"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze souvenir 1900 (page 45 crop).jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The hill about 1900 (Brogi): the Rampe zigzagging up from the tower of San Niccolò to the piazzale"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Fontane delle Rampe del Poggi 00 Firenze.jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The great grotto of the Rampe: three arches faced with spugne, cascades and basins"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Rampe del poggi, veduta 05.JPG",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "A retaining wall of the Rampe in rusticated pietra forte, with a niche and its balustrade"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Santo Spirito, sagrestia di giuliano da sangallo 01.JPG",
+    "subjects": [
+      "rec:Sagrestia di Santo Spirito"
+    ],
+    "caption": "Giuliano da Sangallo's octagonal sacristy (1489–92)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Cenacolo di santo spirito, ingresso.JPG",
+    "subjects": [
+      "rec:Cenacolo di Santo Spirito"
+    ],
+    "caption": "The entrance to the old refectory of Santo Spirito, the Cenacolo"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Torrino di santa rosa 01.JPG",
+    "subjects": [
+      "rec:Torrino di Santa Rosa"
+    ],
+    "caption": "The Torrino di Santa Rosa on the Lungarno Soderini, rebuilt in 1856"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Torre della serpe 01.JPG",
+    "subjects": [
+      "rec:Torre della Serpe"
+    ],
+    "caption": "The Torre della Serpe, a tower of the city walls"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Old entrance gate in Pinti (1880), by Odoardo Borrani.jpg",
+    "subjects": [
+      "rec:Porta a Pinti"
+    ],
+    "caption": "Porta a Pinti in 1880, before its demolition – painting by Odoardo Borrani"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo della borsa, firenze, 01.JPG",
+    "subjects": [
+      "rec:Palazzo della Borsa"
+    ],
+    "caption": "The front on the Lungarno Diaz with the pronaos and pediment, the Palazzo Vecchio behind"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Palazzo della borsa firenze.JPG",
+    "subjects": [
+      "rec:Palazzo della Borsa"
+    ],
+    "caption": "From across the Arno: the long front between the Uffizi and the Ponte alle Grazie"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, società canottieri, terrazza sull'arno 01.jpg",
+    "subjects": [
+      "rec:Società Canottieri Firenze"
+    ],
+    "caption": "The terrace on the Arno under the Uffizi's corbelled loggia, chairs on the lawn, the Ponte Vecchio beyond"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, società canottieri, terrazza sull'arno 03.jpg",
+    "subjects": [
+      "rec:Società Canottieri Firenze"
+    ],
+    "caption": "The path along the river wall and the lawn, under the Uffizi's west end"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, società canottieri, terrazza sull'arno 05.jpg",
+    "subjects": [
+      "rec:Società Canottieri Firenze"
+    ],
+    "caption": "The steps by the club's door and the flagpole by the water"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze, società canottieri, terrazza sull'arno, ingresso 01.jpg",
+    "subjects": [
+      "rec:Società Canottieri Firenze"
+    ],
+    "caption": "The club's door in the white wall: the sign, the clock, the tablets"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Lungarno anna maria luisa de' medici 8, società dei canottieri firenze 01.jpg",
+    "subjects": [
+      "rec:Società Canottieri Firenze"
+    ],
+    "caption": "The green door on the Lungarno Anna Maria Luisa de' Medici 8, the way in from the street"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Firenze Piazzale Michelangelo latarnia.jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "One of the cast-iron lamps on the terrace's balustrade"
+  },
+  {
+    "topic": "landmarks",
+    "file": "Sommer, Giorgio (1834-1914) - n. 5570 - FIRENZE. Piazza Michelangelo.JPG",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The terrace in the 1890s: the gravel ground, the balustrade and a lamp, the Loggia behind (Giorgio Sommer)"
+  },
+  {
+    "topic": "landmarks",
+    "file": "8569 P.Z. Florence, Tuscany, Italy, ca. 1897.jpg",
+    "subjects": [
+      "rec:Piazzale Michelangelo"
+    ],
+    "caption": "The city from the lower terrace by the piazzale, about 1897 (Photochrom, Detroit Publishing)"
+  }
 ]

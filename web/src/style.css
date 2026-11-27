@@ -294,3 +294,13 @@ details { margin-top: 12px; font-size: 12px; } details ul { padding-left: 16px; 
 #narration.on { opacity: 1; }
 #narration b { display: block; color: #8b1a1a; font-weight: 600; margin-bottom: 1px; }
 @media (max-width: 700px) { #narration { top: 96px; font-size: 12px; } }
+
+/* compass next to the era: turns with the view, the camera's height over the ground below it (2026-11-27) */
+#compass { display: flex; align-items: center; gap: 6px; padding: 0 10px 0 6px; height: 40px; opacity: .78; color: var(--head); pointer-events: none; }
+#compass svg { display: block; } #compass-h { font: 600 12px system-ui, sans-serif; min-width: 44px; white-space: nowrap; }
+@media (max-width: 720px) { #compass-h { display: none; } #compass { padding: 0 4px; } }
+/* right click on a building seen up close: hide it until the camera moves away */
+#hide-pop { position: fixed; z-index: 40; transform: translate(8px, 8px); }
+#hide-pop button { display: flex; align-items: center; gap: 6px; padding: 7px 11px; border-radius: 10px; border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(10px); color: var(--head); font: 600 13px system-ui, sans-serif; cursor: pointer; box-shadow: 0 4px 18px rgba(60, 10, 18, .18); }
+#hide-pop button:hover { border-color: var(--red); }
+#hidden-chip { position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%); z-index: 30; padding: 6px 12px; font: 600 12px system-ui, sans-serif; color: var(--head); cursor: pointer; }
