@@ -145,6 +145,15 @@ export const LANDMARKS: LandmarkDef[] = [
       { key: 'chiostro', name: 'Chiostro di San Miniato al Monte', from: 1455, part: { of: 'Basilica di San Miniato al Monte',
         about: "The monastery's cloister, planned in 1426 and built from 1443 to the mid-1450s between the church and the Bishops' Palace; Paolo Uccello painted scenes from the lives of the desert hermits on its walls." } }],
     source: "Landmark model v1 – San Miniato al Monte (Blender; OSM outlines and a traced outline for the monastery, LiDAR 2023; church begun 1018, marble front 12th–13th c., Bishops' Palace 1295, bell tower 1523, cloister 1443–c. 1455)" },
+  // §12 item 7 (pipeline/47_moderni.py, blender/data/moderni.json): absolute scene coordinates
+  { file: 'stazione_smn', title: 'Stazione di Santa Maria Novella', from: 1935, replaces: ['Stazione di Santa Maria Novella'], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Santa Maria Novella station (Blender; OSM relation 3324492, LiDAR 2023; Gruppo Toscano 1933–35, inaugurated 30 October 1935)' },
+  { file: 'leopolda', title: 'Stazione Leopolda', from: 1848, replaces: ['Stazione Leopolda'], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Stazione Leopolda (Blender; OSM way 269666091, LiDAR 2023; Enrico Presenti, opened 2 June 1848, passengers to 1860)' },
+  { file: 'sinagoga', title: 'Tempio Maggiore Israelitico', from: 1882, replaces: ['Tempio Maggiore Israelitico - Sinagoga'], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – the Synagogue (Blender; OSM way 102979678, LiDAR 2023; Treves, Falcini, Micheli 1874–82)' },
+  { file: 'murate', title: 'Le Murate', from: 1424, replaces: ['ex Monastero delle Murate'], at: [0, 0], rot: 0, ground: 0,
+    source: 'Landmark model v1 – Le Murate (Blender; OSM relation 1609313, LiDAR 2023; convent 1424, prison 1883–1985, recovered from 2001)' },
   // the river walls and parapets of the lungarni (pipeline/46_lungarni.py): absolute scene coordinates
   { file: 'lungarni', title: 'Lungarni: river walls and parapets', from: 1287, replaces: [], at: [0, 0], rot: 0, ground: 0,
     source: 'Landmark model v1 – Lungarni (Blender; line and heights from the LiDAR ground; walls 1287–90, 1600, 1850, 1865–90; breaches 1966 and 2016)' },

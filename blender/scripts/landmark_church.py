@@ -16,8 +16,8 @@ def extra_materials():
 
 class Site:
     """Frame of one site: a along the front from its corner A, o inwards (0 = the front line), h = scene height."""
-    def __init__(s, key):
-        s.D = json.load(open(os.path.join(ROOT, "blender", "data", "chiese.json"), encoding="utf-8"))[key]
+    def __init__(s, key, data="chiese"):
+        s.D = json.load(open(os.path.join(ROOT, "blender", "data", data + ".json"), encoding="utf-8"))[key]
         s.A = s.D["A"]; s.t = s.D["t"]; s.n = s.D["n"]
         s.TA = Vector((s.t[0], -s.t[1], 0)); s.NO = Vector((s.n[0], -s.n[1], 0))
         s.G = s.D["ground_front"] + 0.05; s.L = s.D["width"]
@@ -27,7 +27,7 @@ class Site:
         """Frame on the front: u along it from A, n outwards (towards the square)."""
         return Frame(s.W(0, 0), s.TA, -s.NO)
 
-    def raster(s, phase_of, mat="plaster", step=2.5, detail=None, skip=None, solid=None, shutters=None):
+    def raster(s, phase_of, mat="plaster", step=2.5, detail=None, skip=None, solid=None, shutters=None, **kw):
         """Buildings massed from the DSM raster (landmark_mass.massing): phase_of(a, o, k) -> (part, year[, end]) or None
         (k = index of the OSM outline); detail(part) -> {"mat": …} picks the wall material; solid(a, o) marks hand-built
         masses that roofs lean against."""
@@ -46,7 +46,7 @@ class Site:
             return g["k"][j][i] if 0 <= i < g["na"] and 0 <= j < g["no"] else None
         if solid is None: solid = lambda a, o: k_at(a, o) == 0         # roofs lean against the church
         mat_of = (lambda ph: (detail(ph[0]) or {}).get("mat", mat)) if detail else None
-        return massing(cells, a0, o0, s.W, s.TA, s.NO, mat=mat, solid=solid, mat_of=mat_of, shutters=shutters)
+        return massing(cells, a0, o0, s.W, s.TA, s.NO, mat=mat, solid=solid, mat_of=mat_of, shutters=shutters, **kw)
 
     def cloister(s, part, a0, a1, o0, o1, ground, spring, bays, depth, top, kind="loggia", upper=None, ring_top=None, garth="lawn", well=None, wall="plaster"):
         """A cloister on the garth a0..a1 × o0..o1: on each side an arcade of round arches on pietra serena columns, the
