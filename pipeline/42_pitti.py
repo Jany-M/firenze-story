@@ -110,4 +110,8 @@ PZ = (-89.9, 992.9)
 out["palazzina_ground"] = [round(G(PZ[0] + dx, PZ[1] + dz), 2) for dx in (-13, 0, 13) for dz in (-10, 0, 10)]
 out["courtyard_ground"] = round(float(np.median([G(x, z) for x, z in max(inners, key=len)])), 2)
 out["front_ground"] = [[t, round(G(*(A + d * t + n * 1.5)), 2)] for t in range(-14, 190, 4)]                     # the Belvedere palazzina inside the fort (OSM building)
+# the app's ground round the piazza and the two rondò terraces (1 m in the palace frame): the retaining walls of the
+# terraces and the piazza's slope are drawn on it
+out["ground"] = {"t0": -40, "b0": -100, "nt": 271, "nb": 111,
+                 "h": [[round(G(*(A + d * t - n * b)), 2) for t in range(-40, 231)] for b in range(-100, 11)]}
 dst = os.path.join(ROOT, "blender", "data", "pitti.json"); json.dump(out, open(dst, "w", newline="\n")); print("→", dst, "ground front", ground_front)
