@@ -63,11 +63,19 @@ const corridorKeep = Fn(() => {
   return cut.not();
 });
 
+/** A tile's bytes: tiles ship gzipped (.bin.gz); inflate in the browser unless the server already did (gzip magic 1f 8b). */
+async function fetchTile(url: string): Promise<ArrayBuffer> {
+  const raw = await (await fetch(url)).arrayBuffer();
+  const b = new Uint8Array(raw, 0, Math.min(2, raw.byteLength));
+  if (b[0] !== 0x1f || b[1] !== 0x8b) return raw;
+  return await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+}
 /** Tiles of the city mesh (pipeline/23_city_tiles.py): loaded round the camera as it moves, nearest first. */
 interface TileInfo { f: string; i: number; j: number; x0: number; z0: number; q: number; big: boolean; nv: number; nt: number; i32: boolean }
 
 export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSet,
-  opts: { radius?: number; center?: [number, number]; first?: number } = {}) {
+  opts: { radius?: number; center?: [number, number]; first?: number; low?: boolean } = {}) {
+  const LOW = !!opts.low;   // small devices: flat wall colours (no wall textures), the window grid only close up
   void orthoTex;   // roofs are tinted per building from the orthophoto in the pipeline (no per-pixel photo smear)
   const [meta, tindex] = await Promise.all([fetch(`${base}/structures.json`).then(r => r.json()), fetch(`${base}/tiles/index.json`).then(r => r.json())]);
   const recs: Rec[] = meta.items;
@@ -77,7 +85,7 @@ export async function loadCity(base: string, orthoTex: THREE.Texture, tex: TexSe
   for (let i = 0; i < recs.length; i++) boxes.set([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity], i * 6);
   const group = new THREE.Group(); group.name = 'city';
   async function tileMesh(t: TileInfo) {
-    const buf = await (await fetch(`${base}/tiles/${t.f}`)).arrayBuffer(), nv = t.nv;
+    const buf = await fetchTile(`${base}/tiles/${t.f}`), nv = t.nv;
     let o = 0; const take = <T>(C: new (b: ArrayBuffer, o: number, n: number) => T, n: number, bytes: number) => { const a = new C(buf, o, n); o += n * bytes; return a; };
     const q16 = take(Int16Array, nv * 3, 2), n8 = take(Int8Array, nv * 4, 1), b16 = take(Uint16Array, nv, 2);
     if (o % 4) o += 4 - (o % 4);                                            // never needed (nv*6+nv*4+nv*2 = 12·nv), kept for safety
@@ -180,16 +188,16 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     const u = aFu, rel = vRel, wuv = vec2(u, rel);
     // size of one screen pixel on the wall (metres): fine detail and then the window grid fade out as it shrinks (no moire)
     const pxm = max(fwidth(u), fwidth(rel));
-    const near = smoothstep(0.1, 0.035, pxm);                     // slats, glazing bars, planks
-    const mid = smoothstep(0.32, 0.14, pxm);                      // windows: below ~4 px each they average into the wall
-    const thin = smoothstep(0.09, 0.04, pxm);                     // frames, sills, string courses (~15 cm): only when wider than ~2 px
+    const near = LOW ? float(0) : smoothstep(0.1, 0.035, pxm);   // slats, glazing bars, planks
+    const mid = LOW ? smoothstep(0.2, 0.09, pxm) : smoothstep(0.32, 0.14, pxm);   // windows: below ~4 px each (low tier: ~7 px) they average into the wall
+    const thin = LOW ? float(0) : smoothstep(0.09, 0.04, pxm);   // frames, sills, string courses (~15 cm): only when wider than ~2 px
     // ---------- wall materials ----------
     const palette = mix(mix(V3(0.86, 0.75, 0.56), V3(0.93, 0.88, 0.76), h), mix(V3(0.78, 0.72, 0.6), V3(0.84, 0.64, 0.5), h2), step(0.62, h3));
-    const intonaco = mix(vec3(1), T('intonaco', wuv.div(4)).mul(1.1), mix(float(0.25), float(0.55), near));
+    const intonaco = LOW ? vec3(1) : mix(vec3(1), T('intonaco', wuv.div(4)).mul(1.1), mix(float(0.25), float(0.55), near));
     const plaster = palette.mul(intonaco);
-    const forte = T('pietra_forte', wuv.div(vec2(3.2, 2.4)));
-    const serena = T('pietra_serena', wuv.div(2.2));
-    const cotto = T('cotto', wuv.div(1.2));
+    const forte = LOW ? V3(0.6, 0.49, 0.36) : T('pietra_forte', wuv.div(vec2(3.2, 2.4)));
+    const serena = LOW ? V3(0.5, 0.5, 0.48) : T('pietra_serena', wuv.div(2.2));
+    const cotto = LOW ? V3(0.64, 0.38, 0.28) : T('cotto', wuv.div(1.2));
     // marble bichrome (Baptistery, Duomo, Campanile, Santa Croce, SMN): white Carrara fields framed by green Prato bands
     const px = fract(u.div(2.6)), py = fract(rel.div(3.2));
     const band = step(px, 0.09).add(step(0.91, px)).add(step(py, 0.08)).add(step(0.92, py)).min(1);

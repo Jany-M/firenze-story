@@ -58,7 +58,7 @@ async function main() {
   say('Dated buildings and structures');
   // the city streams in tiles round the view; small devices keep only those near it (quality.ts cityRadius)
   const c0: [number, number] = state.cam.length === 6 ? [state.cam[3], state.cam[5]] : [0, 60];
-  const city = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius, center: c0, first: q.tier === 'low' ? 350 : 600 });
+  const city = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius, center: c0, first: q.tier === 'low' ? 350 : 600, low: q.tier === 'low' });
   const { mesh, recs, hide } = city;
   done(`${recs.length.toLocaleString()} structures`);
   say('Landmark models');

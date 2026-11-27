@@ -2,7 +2,8 @@
 
 Inputs  (SRC/data): LiDAR 2023 DSM/DTM core tiles, OSM buildings, OpenHistoricalMap, Wikidata, Comune archaeology,
                     historic map mosaics (cadastre 1830s partial, 1843, 1873, 1937) resampled by BUILD/*_05.npy.
-Outputs (OUT):      structures.*.bin (merged geometry, one draw call) + structures.json (one record per structure)
+Outputs (OUT):      structures.json (one record per structure); the merged geometry structures.*.bin goes to MESH
+                    (_dev/data/build/city) for 23_city_tiles.py – the app loads the tiles, not the one big mesh
 Every structure has: start/end year, construction ramp, confidence (documented|inferred|conjectural), sources.
 """
 import sys, os, json, math, re, zipfile, io, numpy as np, cv2
@@ -779,7 +780,7 @@ pos = np.concatenate(POS); nrm = np.concatenate(NRM); bid = np.concatenate(BID);
 nrm8 = np.clip(np.round(nrm * 127), -127, 127).astype(np.int8)
 nrm8 = np.concatenate([nrm8, np.zeros((len(nrm8), 1), np.int8)], 1)
 for nmn, arr in (("pos", pos.astype(np.float32)), ("nrm", nrm8), ("bid", bid.astype(np.float32)), ("fu", fu.astype(np.float32)), ("fv", fv.astype(np.float32)), ("idx", idx.astype(np.uint32))):
-    arr.tofile(os.path.join(OUT, f"structures.{nmn}.bin"))
+    os.makedirs(MESH, exist_ok=True); arr.tofile(os.path.join(MESH, f"structures.{nmn}.bin"))
 FOOT.tofile(os.path.join(OUT, "footprints.u16"))      # 2 × rows × cols uint16, row 0 = north edge (Y1), 2 m cells
 save_json("structures.json", {"places": MV, "conflicts": CONFLICTS, "count": len(REC), "verts": int(len(pos)), "tris": int(len(idx) // 3), "items": REC})
 print("verts", len(pos), "tris", len(idx) // 3, "records", len(REC), "roofs", ROOF_STATS)

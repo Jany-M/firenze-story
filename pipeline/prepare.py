@@ -106,8 +106,8 @@ else:
                 run([PY, J("pipeline", "19_resample_maps.py")], "historic map rasters (19_resample_maps.py)")
             run([PY, J("pipeline", "20_build_city.py")], "city (20_build_city.py, ~2 min)")
     else: print("  = city data up to date")
-tiles_in = [J("pipeline", "23_city_tiles.py"), J("web", "public", "data", "structures.json"), J("web", "public", "data", "structures.pos.bin")]
-if os.path.exists(J("web", "public", "data", "structures.pos.bin")):
+tiles_in = [J("pipeline", "23_city_tiles.py"), J("web", "public", "data", "structures.json"), J("_dev", "data", "build", "city", "structures.pos.bin")]
+if os.path.exists(J("_dev", "data", "build", "city", "structures.pos.bin")):
     if stale(tiles_in, [J("web", "public", "data", "tiles", "index.json")]):
         if have("numpy"): run([PY, J("pipeline", "23_city_tiles.py")], "city tiles (23_city_tiles.py)")
     else: print("  = city tiles up to date")

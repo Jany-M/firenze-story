@@ -5,6 +5,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))   # firenz
 SRC = os.environ.get("FS_SRC", os.path.join(ROOT, "_dev"))                  # work cache (gitignored): _dev/data/raw, _dev/data/processed
 OUT = os.environ.get("FS_OUT", os.path.join(ROOT, "web", "public", "data"))
 BUILD = os.environ.get("FS_BUILD", os.path.join(ROOT, "_dev", "data", "build"))  # intermediate rasters (regenerable)
+MESH = os.path.join(BUILD, "city")   # the merged city mesh structures.*.bin (input of 23_city_tiles.py; not deployed: the app loads tiles)
 # Study area (EPSG:25832, ETRS89 / UTM 32N): a square of +-CORE_HALF m around the origin (Cascine to Piazza Ferrucci,
 # Ponte alla Vittoria to Ponte San Niccolo). LiDAR 500 m tiles are fetched for the enclosing tile grid and cropped.
 ORIGIN = (681500.0, 4849000.0)      # local scene origin (three.js x=E, z=-N)

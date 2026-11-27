@@ -309,8 +309,8 @@ save_json("streets.json", {"nodes": nodes, "edges": edges, "zone": zone, "square
 
 # ================= urban raster: first year anything stood in each 8 m cell (from the dated city mesh) =================
 UC = 8.0; nu = int((X1 - X0) / UC)
-spos = np.fromfile(os.path.join(OUT, "structures.pos.bin"), np.float32).reshape(-1, 3)
-sbid = np.fromfile(os.path.join(OUT, "structures.bid.bin"), np.float32).astype(int)
+spos = np.fromfile(os.path.join(MESH, "structures.pos.bin"), np.float32).reshape(-1, 3)
+sbid = np.fromfile(os.path.join(MESH, "structures.bid.bin"), np.float32).astype(int)
 items = json.load(open(os.path.join(OUT, "structures.json"), encoding="utf-8"))["items"]
 starts = np.array([it["start"] if it["kind"] != "roman" else 9999 for it in items], np.float32)   # Roman insulae are conjectural: keep greenery
 U = np.full((nu, nu), 9999, np.float32)
