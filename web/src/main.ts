@@ -130,7 +130,7 @@ async function main() {
       refreshLive(true, true);
     } else scenes.clear();
   }
-  let pendingEvent: any = null;
+  let pendingEvent: any = null, sceneTitle = '';
   function refreshLive(force = false, frame = false) {
     if (state.mode !== 'live') return;
     const changed = people.setContext(Math.round(state.year), controls.target, 360);
@@ -140,30 +140,35 @@ async function main() {
       pendingEvent = null;
       panels.liveNote(s === 'calcio' ? 'Calcio storico in Piazza Santa Croce' : s === 'market' ? 'Market day in Mercato Vecchio' : s === 'scoppio' ? 'Scoppio del Carro in Piazza del Duomo'
         : s === 'david' ? 'The David on its way to Piazza della Signoria (14–18 May 1504, route presumed)' : s === 'davidWait' ? 'The David by the palace door, waiting to be raised onto the ringhiera (8 June 1504)'
-        : s === 'ponti1944' ? 'The Night of the Bridges, 3–4 August 1944 (sequence compressed)' : 'Everyday streets');
+        : s === 'ponti1944' ? 'The Night of the Bridges, 3–4 August 1944 (sequence compressed)' : s === 'alluvione1966' ? 'The flood of 4 November 1966' : 'Everyday streets');
+      sceneTitle = s === 'david' ? 'The David leaves the Opera del Duomo' : s === 'scoppio' ? 'Scoppio del Carro' : s === 'ponti1944' ? 'The Night of the Bridges'
+        : s === 'alluvione1966' ? 'The great flood' : '';
     }
   }
   // One lighting for the whole app (DEFAULT_HOUR). An event with its own hour (the Night of the Bridges at 23:00) lights the
-  // scene for that hour while it runs; it goes back to the default when the animation ends, or as soon as the user moves
-  // on: another event, another year or day, another mode.
-  const EVENT_LEN: Record<string, number> = { ponti1944: 72 };     // seconds of a live sequence before it counts as over
-  let eventLight: { year: number; date: string; until: number } | null = null;
+  // scene for that hour while it is on – played, paused or finished, so it can be played again – and goes back to the
+  // default as soon as the user moves on: another event, another year or day, another mode.
+  let eventLight: { year: number; date: string } | null = null;
   const endEventLight = () => { if (!eventLight) return; eventLight = null; if (state.hour !== DEFAULT_HOUR) queueMicrotask(() => set({ hour: DEFAULT_HOUR })); };
   if (state.hour !== DEFAULT_HOUR) set({ hour: DEFAULT_HOUR });
   function goEvent(i: number) {
     const e = EVENTS[i];
     eventLight = null;
-    if (e.hour != null && e.hour !== DEFAULT_HOUR) eventLight = { year: e.year, date: e.date ?? state.date, until: e.live && EVENT_LEN[e.live] ? performance.now() + EVENT_LEN[e.live] * 1000 : Infinity };
+    if (e.hour != null && e.hour !== DEFAULT_HOUR) eventLight = { year: e.year, date: e.date ?? state.date };
     set({ year: e.year, date: e.date ?? state.date, hour: eventLight ? e.hour! : DEFAULT_HOUR, playing: false, mode: e.live ? 'live' : state.mode });
     if (e.live) { pendingEvent = e; refreshLive(true); } else flyTo(e.at[0], e.at[1], 600, 0.85);
     panels.showEvent(i);
+    if (e.live && scenes.duration() > 0) panels.foldLive();     // an animation runs: the Events box folds to its title and player
   }
 
   // ---- UI ----
   say('Street names and house numbers');
   const addresses = await fetch(`${DATA}/addresses.json`).then(r => r.ok ? r.json() : undefined).catch(() => undefined);
   const streetHL = createStreetHighlight(scene, height);
-  const panels = createPanels(recs, { flyTo, event: goEvent, backend: stage.backend, layerCount: id => id === 'A07' ? river.ancientCount() : 0, addresses,
+  const panels = createPanels(recs, { flyTo, event: goEvent, backend: stage.backend,
+    // the scene player: play / pause (paused: the scene stands still and the camera is free), drag to move through it
+    playToggle: () => { const D = scenes.duration(); if (!D) return; if (scenes.time >= D - 0.01) { scenes.seek(0); scenes.paused = false; } else scenes.paused = !scenes.paused; },
+    seek: (f: number) => scenes.seek(f * scenes.duration()), layerCount: id => id === 'A07' ? river.ancientCount() : 0, addresses,
     highlightStreet: code => streetHL.show(code && addresses ? addresses.streets[code] : null), squares: streets.squares,
     landmarks: [
       ...LANDMARKS.filter(l => l.replaces[0] && !l.members).map(l => ({ name: l.replaces[0], x: l.at[0], z: l.at[1], from: l.from ?? 1300 })),
@@ -180,7 +185,9 @@ async function main() {
   const timeline = createTimeline(document.getElementById('timeline')!, recs, goEvent);
   let laidMap = '';                         // the overlay on the ground now ("auto" follows the year)
   on((s, ch) => {
-    if (eventLight && ((('year' in ch) && Math.round(s.year) !== eventLight.year) || (('date' in ch) && s.date !== eventLight.date) || ('mode' in ch))) endEventLight();
+    // set() reports every key it was given, changed or not: compare values, or picking an event (which passes the mode
+    // along) ends its own lighting at once and the night scene with it
+    if (eventLight && ((('year' in ch) && Math.round(s.year) !== eventLight.year) || (('date' in ch) && s.date !== eventLight.date) || (('mode' in ch) && s.mode !== 'live'))) endEventLight();
     if ('year' in ch) { uYear.value = s.year; statues.update(s.year); walk.setYear(s.year); env.update(s.year); splats.update(s.year); }
     if ('color' in ch) uColorMode.value = { real: 0, period: 1, confidence: 2 }[s.color];
     if ('selected' in ch) uSelected.value = s.selected;
@@ -237,6 +244,14 @@ async function main() {
   toast(matchMedia('(pointer: coarse)').matches ? 'One finger moves · pinch to zoom · two fingers rotate · ☰ for help'
     : 'Ctrl + drag (or right-drag) rotates and tilts · press H for all view controls');
 
+  /** Share of the view's width hidden by the left dock (0 on phones, where panels sit in a bottom sheet). */
+  const dockL = document.getElementById('dock-l')!;
+  function leftCover() {
+    if (layout.phone) return 0;
+    let r = 0;
+    for (const el of Array.from(dockL.children) as HTMLElement[]) if (!el.hidden) { const b = el.getBoundingClientRect(); if (b.width > 0 && b.height > 40) r = Math.max(r, b.right); }
+    return Math.min(0.5, r / innerWidth);
+  }
   // ---- loop ----
   const timer = new THREE.Timer(); let camSave = 0;
   renderer.setAnimationLoop(() => {
@@ -250,7 +265,6 @@ async function main() {
       if (y >= 2026) set({ year: 2026, playing: false }); else set({ year: y });
     } else tlEl.classList.remove('fast');
     view.update(dt); controls.update(); uTime.value += dt; city.follow(controls.target.x, controls.target.z);
-    if (eventLight && performance.now() > eventLight.until) endEventLight();
     stage.setSun(state.mode === 'live' ? scenes.lightHour() ?? state.hour : state.hour, state.year); uSky.value.copy(scene.background as THREE.Color);
     { // haze scales with zoom: close views stay crisp, the whole valley only fades at the horizon
       const d = camera.position.distanceTo(controls.target), f = scene.fog as THREE.Fog;
@@ -263,12 +277,18 @@ async function main() {
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);
     riverPeople.setContext(Math.round(state.year), controls.target, 2000); riverPeople.update(dt);
     if (state.mode === 'live') {
-      refreshLive(); people.update(dt); scenes.update(dt);
+      refreshLive();
+      if (!scenes.paused) { people.update(dt); scenes.update(dt); }      // paused: everything stands still
       const f = scenes.follow();                       // keep a moving subject in view, the user still orbits and zooms
-      if (f) { const k = Math.min(1, dt * 1.5), dx = (f.x - controls.target.x) * k, dz = (f.z - controls.target.z) * k;
+      if (f && !scenes.paused) { const k = Math.min(1, dt * 1.5), dx = (f.x - controls.target.x) * k, dz = (f.z - controls.target.z) * k;
         controls.target.x += dx; controls.target.z += dz; camera.position.x += dx; camera.position.z += dz; }
-      const g = scenes.camGoal();                      // a scene that frames itself (the flood): ease towards its view, same heading
+      // the left dock (event card, info card) covers part of the view on wide screens: a scene that frames itself is
+      // fitted into the free part, and its subject shifted to that part's middle
+      const free = leftCover(), aspect = camera.aspect * (1 - free);
+      const g = scenes.camGoal(aspect);                // a scene that frames itself (the flood, the David): ease towards its view
       if (g && !camHeld) {
+        const ax0 = g[4] ?? 0, right = new THREE.Vector3(Math.cos(ax0), 0, -Math.sin(ax0)), shift = 0.573 * g[2] * camera.aspect * free / 2;
+        g[0] -= right.x * shift; g[1] -= right.z * shift;
         const k = Math.min(1, dt * 0.9), tgt = new THREE.Vector3(g[0], height(g[0], g[1]), g[1]);
         controls.target.lerp(tgt, k);
         const dir = camera.position.clone().sub(controls.target); let az = Math.atan2(dir.x, dir.z);
@@ -277,6 +297,7 @@ async function main() {
         camera.position.lerp(want, k);
       }
     }
+    { const D = scenes.duration(); panels.player(state.mode === 'live' && D > 0 ? { title: sceneTitle, t: scenes.time, dur: D, paused: scenes.paused } : null); }
     if ((camSave += dt) > 1) { camSave = 0; panels.legend(); state.cam = [...camera.position.toArray(), ...controls.target.toArray()].map(v => Math.round(v)); }
     { // never under the ground: with the tilt down to the horizontal the camera could sink into a slope
       const gy = height(camera.position.x, camera.position.z) + 1.7;

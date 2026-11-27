@@ -3,7 +3,7 @@
 import { layout } from './layout';
 import { galleryHtml, wireGallery, materialsFor } from './gallery';
 import { libraryUrl } from '../data/library';
-import { state, set, fmtYear, fmtDay, fmtHour, MONTHS, type Mode } from '../state';
+import { state, set, fmtYear, fmtDay, fmtHour, type Mode } from '../state';
 import { epochAt, EVENTS, EVENT_REFS, PERIODS, CONF_COLORS, MAP_OVERLAYS, CREDITS, SOURCE_LAYERS, overlayFor } from '../data/history';
 import { ANCIENT_SITES, NECROPOLES } from '../sim/river';
 import { isAlive, uPeriodPick, type Rec } from '../scene/city';
@@ -12,7 +12,7 @@ import { linkSource, sceneToLatLon, streetNameIn, fmtNo, DATASET, A07_PAGES, typ
 const $ = <T extends HTMLElement>(s: string, r: ParentNode = document) => r.querySelector(s) as T;
 const esc = (s: string) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
-export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[];
+export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number, dist?: number) => void; event: (i: number) => void; backend: string; playToggle?: () => void; seek?: (f: number) => void; layerCount?: (id: string) => number; addresses?: Addresses; highlightStreet?: (code: string | null) => void; squares?: { name: string; ring: [number, number][] }[]; landmarks?: { name: string; x: number; z: number; from: number }[];
     catalogue?: { title: string; items: Rec[]; at: [number, number] | null; from: number }[] }) {
   const hud = $('#hud'), modes = $('#modes'), side = $('#side'), card = $('#card'), live = $('#live'), evcard = $('#evcard'), lmk = $('#lmk');
   /** Event card (left, under the era box): summary, sources, Wikipedia. */
@@ -56,16 +56,30 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
   ov.onchange = () => set({ overlay: ov.value }); ovo.oninput = () => set({ overlayOpacity: +ovo.value });
 
   // ---- Live controls ----
+  // the day and hour are told by the event's own title and the scene's clock, so the box holds no date inputs; while an
+  // animation plays the box folds to its title and the player (play / pause, the progress bar to move through it)
   live.innerHTML = `
-    <h3 class="ptitle" id="ltitle">Events</h3>
-    <div class="row when"><input id="dd" type="number" min="1" max="31" title="day"><select id="dm" title="month">${MONTHS.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('')}</select>
-      <span class="muted">at</span><b id="hrv"></b></div>
+    <h3 class="ptitle"><span id="ltitle">Events</span></h3>
+    <div id="player" class="keep" hidden><button id="pp" title="play / pause">❚❚</button><input id="pbar" type="range" min="0" max="1000" step="1" aria-label="progress"><span id="ptime" class="muted"></span></div>
     <div class="muted" id="livenote"></div>
     <h4>Events</h4><div id="levents" class="events"></div>`;
-  const dd = $<HTMLInputElement>('#dd', live), dm = $<HTMLSelectElement>('#dm', live);
-  const setDate = () => { const m = +dm.value, d = Math.min(Math.max(+dd.value || 1, 1), new Date(2001, m, 0).getDate());
-    set({ date: `${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}` }); };
-  dd.onchange = setDate; dm.onchange = setDate;
+  const pl = $('#player', live), pp = $<HTMLButtonElement>('#pp', live), pbar = $<HTMLInputElement>('#pbar', live), ptime = $('#ptime', live);
+  let dragging = false, plTitle = '';
+  pp.onclick = () => hooks.playToggle?.();
+  pbar.addEventListener('pointerdown', () => (dragging = true)); addEventListener('pointerup', () => (dragging = false));
+  pbar.oninput = () => hooks.seek?.(+pbar.value / 1000);
+  const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  /** The scene player: shown while a scene with a sequence is on (null hides it). */
+  function player(p: { title: string; t: number; dur: number; paused: boolean } | null) {
+    pl.hidden = !p;
+    const title = p?.title || 'Events';
+    if (title !== plTitle) { plTitle = title; $('#ltitle', live).textContent = title; }
+    if (!p) return;
+    const end = p.t >= p.dur - 0.01, icon = end ? '↻' : p.paused ? '▶' : '❚❚';
+    if (pp.textContent !== icon) { pp.textContent = icon; pp.title = end ? 'play again' : p.paused ? 'play' : 'pause'; }
+    if (!dragging) pbar.value = String(Math.round(p.t / p.dur * 1000));
+    const tx = `${mmss(p.t)} / ${mmss(p.dur)}`; if (ptime.textContent !== tx) ptime.textContent = tx;
+  }
   // every event with its year (and day for the yearly ones): a click moves the timeline and the camera there
   // the same live scene once only: the historical date wins over today's (e.g. Calcio 1530, not the 2026 final)
   const seenLive = new Set<string>();
@@ -367,19 +381,15 @@ export function createPanels(recs: Rec[], hooks: { flyTo: (x: number, z: number,
       $('#ovnow', side).textContent = state.overlay !== 'auto' ? '' : m && id !== 'none' ? `Now: ${m.name}` : 'No map documented for this year yet (the first is the 1830s cadastre).'; }
     side.querySelectorAll('#cm button').forEach(b => b.classList.toggle('on', (b as HTMLElement).dataset.c === state.color));
     side.hidden = state.mode !== 'sources'; live.hidden = state.mode !== 'live'; lmk.hidden = state.mode !== 'landmarks';
-    const [mm, dday] = state.date.split('-').map(Number);
-    if (document.activeElement !== dd) dd.value = String(dday); if (document.activeElement !== dm) dm.value = String(mm);
-    $('#hrv', live).textContent = fmtHour(state.hour);
     if ('selected' in changed) showCard(state.selected, true);
     if ('mode' in changed && state.mode === 'landmarks') renderLmk();
     if ('mode' in changed) layout.open(state.mode === 'live' ? live : state.mode === 'landmarks' ? lmk : side);
-    $('#ltitle', live).textContent = `Events · ${fmtDay(state.date)} · ${fmtHour(state.hour)}`;
   }
   /** Something on the map is selected (building, landmark, street or square, river site) or its card/strip is open. */
   const hasSelection = () => state.selected >= 0 || !card.hidden || !strip.hidden;
   /** Drop every selection: cards, street highlight, the street strip. */
   function clearSelection() { showSite(null); hooks.highlightStreet?.(null); closeStrip(); set({ selected: -1 }); }
-  return { hasSelection, clearSelection, update, showSite, showEvent, showStreet: (code: string | null) => { if (code) { set({ selected: -1 }); showStreet(code); } }, streetAt, legend: () => { if (state.mode === 'sources') legend(); }, liveNote: (t: string) => ($('#livenote', live).textContent = t) };
+  return { hasSelection, clearSelection, update, showSite, showEvent, player, foldLive: () => layout.fold(live, true), showStreet: (code: string | null) => { if (code) { set({ selected: -1 }); showStreet(code); } }, streetAt, legend: () => { if (state.mode === 'sources') legend(); }, liveNote: (t: string) => ($('#livenote', live).textContent = t) };
 }
 
 export function toast(msg: string) {

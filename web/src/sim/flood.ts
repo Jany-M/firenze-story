@@ -23,6 +23,8 @@ export function createFlood(root: THREE.Object3D, height: Height) {
   let probe: (x: number, z: number) => number[] = () => [];
   let mesh: THREE.Mesh | null = null, label: HTMLDivElement | null = null, t = 0;
   let breach = { x: CAVALLEGGERI, z: 0 };
+  // the flooded area's bounding box by the hour (every quarter from the break to the peak): the camera fits it
+  const EXT_H0 = BREAK, EXT_DH = 0.25; let ext: [number, number, number, number][] = [];
 
   async function build(base: string) {
     const axis: number[][] = (await (await fetch(`${base}/river.json`)).json()).axis;
@@ -52,6 +54,17 @@ export function createFlood(root: THREE.Object3D, height: Height) {
     for (let c = 0; c < N; c++) if (!ch[c] && G[c] < S[c]) {
       const x = X0 + (c % nx) * STEP, z = Z0 + ((c / nx) | 0) * STEP;
       A[c] = Math.min(BREAK + 0.5 + bank(x, z) / speed, BREAK + Math.hypot(x - breach.x, z - breach.z) / (speed * 1.6));
+    }
+    { // extent of the water outside the river's bed at each quarter hour
+      const n = Math.ceil((PEAK - EXT_H0) / EXT_DH) + 1; ext = [];
+      for (let q = 0; q < n; q++) {
+        const h = EXT_H0 + q * EXT_DH; let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+        for (let c = 0; c < N; c++) if (!ch[c] && A[c] <= h) {
+          const x = X0 + (c % nx) * STEP, z = Z0 + ((c / nx) | 0) * STEP;
+          if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z;
+        }
+        ext.push(isFinite(x0) ? [x0, x1, z0, z1] : [breach.x - 60, breach.x + 60, breach.z - 60, breach.z + 20]);
+      }
     }
     probe = (x, z) => { const c = Math.round((z - Z0) / STEP) * nx + Math.round((x - X0) / STEP); return [G[c], S[c], A[c], ch[c]]; };
     // the mesh: one quad a cell, vertices carry ground, surface and arrival time
@@ -84,11 +97,11 @@ export function createFlood(root: THREE.Object3D, height: Height) {
     label.style.cssText = 'position:fixed;top:64px;left:50%;transform:translateX(-50%);padding:4px 12px;border-radius:12px;background:rgba(255,255,255,.85);font:600 13px system-ui;color:#5a1c1c;z-index:20;pointer-events:none';
     document.body.appendChild(label);
   }
-  /** Loop of 100 s: 03:30 → 22:00 on 4 November in 70 s, then the fall to 08:00 on 6 November, a pause. */
+  /** Played once in 100 s: 03:30 → 22:00 on 4 November in 70 s, then the fall to 08:00 on 6 November, a pause. */
   const hourAt = (t: number) => t < 70 ? START + t / 70 * (22 - START) : t < 95 ? 22 + (t - 70) / 25 * (DRY - 22) : DRY;
-  function update(dt: number) {
+  function update(dt: number, len = 100) {
     if (!mesh) return;
-    t = (t + dt) % 100;
+    t = Math.min(len, t + dt);
     const h = hourAt(t);
     uH.value = h;
     if (label) {
@@ -112,19 +125,31 @@ export function createFlood(root: THREE.Object3D, height: Height) {
   };
   /** Where the camera should look: close over the first break in the parapet, then out over the flooded quarters. */
   const ease = (a: number, b: number, h: number) => { const k = Math.min(1, Math.max(0, (h - a) / (b - a))); return k * k * (3 - 2 * k); };
-  function camGoal(): [number, number, number, number, number] | null {
+  /** The flooded area at hour h: [x0, x1, z0, z1] (interpolated between quarter hours, fixed after the peak). */
+  function extentAt(h: number) {
+    if (!ext.length) return null;
+    const f = Math.max(0, Math.min(ext.length - 1, (h - EXT_H0) / EXT_DH)), i = Math.min(ext.length - 2, Math.floor(f)), k = f - i;
+    const a = ext[i], b = ext[Math.min(ext.length - 1, i + 1)];
+    return a.map((v, j) => v + (b[j] - v) * k) as [number, number, number, number];
+  }
+  function camGoal(aspect = 1.6): [number, number, number, number, number] | null {
     if (!mesh) return null;
     const h = hourAt(t);
     // from the far bank, low, the parapet at Piazza Cavalleggeri in front and Santa Croce behind; as soon as the water is
-    // out (5:00) the view rises and draws back quickly over Santa Croce, then over the whole centre
-    const k1 = ease(5.0, 6.2, h), k2 = ease(6.2, 8.5, h), k3 = ease(DRY - 30, DRY - 4, h);
-    const x0 = 520, z0 = 445;                                                                    // towards Santa Croce, over the parapet (bank at z ≈565)
-    let x = x0 + (330 - x0) * k1, z = z0 + (200 - z0) * k1;                                       // towards Santa Croce
-    x += (120 - x) * k2; z += (120 - z) * k2;                                                     // then the whole centre
-    const dist = 320 + 500 * k1 + 860 * k2 - 600 * k3, pitch = 1.33 - 0.65 * k1 + 0.04 * k2;   // low over the far bank, then up
-    return [x, z, dist, pitch, 0.05 + 0.3 * k2];                                                  // heading: from the south bank
+    // out (5:00) the view rises and keeps drawing back as it spreads, so the whole flooded area stays in view (it is
+    // fitted into the part of the screen the side panels leave free: `aspect`), and stays there to the end
+    const x0 = 520, z0 = 445, d0 = 320, p0 = 1.33, a0 = 0.05;                                     // over the parapet (bank at z ≈565)
+    const s = ease(BREAK, BREAK + 0.9, h), e = extentAt(Math.min(h, PEAK));
+    if (!e || s <= 0) return [x0, z0, d0, p0, a0];
+    const pitch = 0.78, az = 0.25;                                                                // from the south, looking north
+    const w = (e[1] - e[0]) + 120, dep = (e[3] - e[2]) + 120, cx = (e[0] + e[1]) / 2, cz = (e[2] + e[3]) / 2;
+    // vertical field 32°: the view is 0.573·d high and 0.573·d·aspect wide at distance d; the ground's depth is seen
+    // foreshortened by the pitch, so it needs a little less height than its length
+    const fov = 0.573, need = Math.max(w / (fov * aspect), dep * Math.cos(pitch) * 1.25 / fov, 420);
+    return [x0 + (cx - x0) * s, z0 + (cz - z0) * s, d0 + (need - d0) * s, p0 + (pitch - p0) * s, a0 + (az - a0) * s];
   }
-  const api = { build, update, clear, seek, lightHour, camGoal, probe: (x: number, z: number) => probe(x, z), get on() { return !!mesh; } };
+  const api = { build, update, clear, seek, lightHour, camGoal, probe: (x: number, z: number) => probe(x, z), get on() { return !!mesh; },
+    duration: 100, get time() { return t; }, set time(v: number) { t = Math.max(0, Math.min(100, v)); } };
   (window as unknown as { __flood?: typeof api }).__flood = api;
   return api;
 }

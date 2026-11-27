@@ -11,16 +11,21 @@ type Height = (x: number, z: number) => number;
 const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
 const R = Math.random;
 // camera azimuth per scene (radians; camera placed on this side of the target, looking across the open square)
-const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: 2.2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.12 };   // the flood: from the south bank, looking north
+const CAM: Record<string, number> = { calcio: -1.9, market: 2.6, scoppio: 0.15, david: -Math.PI / 2, davidWait: 2.6, ponti1944: 0.2, alluvione1966: 0.12 };   // the flood: from the south bank, looking north
 // distance (m) and pitch (rad from vertical) of the opening shot; default 110 m / 0.82. The Night of the Bridges frames
 // the whole reach from Ponte alla Vittoria (x ≈ −1670) to Ponte San Niccolò (x ≈ +1300) so every blast is in view.
-const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98], alluvione1966: [320, 1.33] };   // from the south, over Oltrarno
-export const PLACES = { market: [-90, 14], calcio: [513, 306], scoppio: [-1, -135], duomoDoor: [27, -139], david: [232, -150] } as const;
+const CAM_DIST: Record<string, [number, number]> = { ponti1944: [2950, 0.98], alluvione1966: [320, 1.33], david: [19, 1.0] };   // from the south, over Oltrarno
+export const PLACES = { market: [-90, 14], calcio: [513, 306], scoppio: [-1, -135], duomoDoor: [27, -139], david: [213.6, -148.5] } as const;
 /** Presumed route of the David, 14–18 May 1504 (≈600 m; no street route is documented): out of the Opera del Duomo yard
  *  (wall above the gate broken open), along the south flank of the cathedral, down the Corso (Via dei Calzaiuoli) into
- *  Piazza della Signoria, to the ringhiera by the palace door (Landucci's diary, via Opera di Santa Maria del Fiore). */
-const DAVID_ROUTE: [number, number][] = [[232, -150], [200, -110], [100, -102], [40, -96], [14, -90], [13.8, -46], [13.6, 30], [13.5, 104],
-  [16, 170], [35, 230], [55, 258], [64, 269]];
+ *  Piazza della Signoria, to the ringhiera by the palace door (Landucci's diary, via Opera di Santa Maria del Fiore).
+ *  The gate: in the Opera's west front facing the cathedral's apse across the street (x ≈ 213 in 1504: the 1843 map's
+ *  outline, where the yard's entrance – today the museum's, Piazza del Duomo 9 – opens); the statue starts 10 m inside the
+ *  yard, comes out square through it, crosses to the middle of the street and turns south along the apse. */
+const GATE = { x: 213.6, z: -148.5, nx: -1, nz: 0 };                     // the gate's middle and the face's outward normal
+const DAVID_ROUTE: [number, number][] = [[GATE.x + 10, GATE.z], [GATE.x, GATE.z], [GATE.x - 12, GATE.z], [200, -132],
+  [200, -110], [100, -102], [40, -96], [14, -90], [13.8, -46], [13.6, 30], [13.5, 104], [16, 170], [35, 230], [55, 258], [64, 269]];
+const DAVID_PACE = 2.2, DAVID_WAIT = 5, DAVID_HOLD = 10;               // m/s along the route (four days compressed), s before, s after
 
 /** Easter Sunday 'MM-DD' (Julian computus before 1583, Gregorian after – Meeus/Jones/Butcher). */
 export function easter(y: number) {
@@ -41,7 +46,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
   const square = (re: RegExp) => squares.find(q => re.test(q.name));
   const root = new THREE.Group(); root.name = 'scene-props'; scene.add(root);
   const sand = new THREE.MeshStandardMaterial({ color: 0xcdb58a, roughness: 1 });
-  let active = '', t = 0;
+  let active = '', t = 0, paused = false;
   // calcio state
   let ball = V(0, 0, 0), ballVel = V(0, 0, 0), runners: any[] = [], pitch = { cx: 0, cz: 0, w: 0, d: 0 };
   // scoppio state
@@ -51,7 +56,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
   // 1944 state: the Night of the Bridges
   let bridgeList: { mesh: THREE.Object3D; start: number; end: number; name: string }[] = [], blasts: { at: THREE.Vector3[]; t: number; mesh?: THREE.Object3D; done: boolean }[] = [];
   // david state
-  let davidFrame: THREE.Group | null = null, crew: { ag: any; lx: number; lz: number }[] = [], ropes: THREE.Line[] = [], davidMoving = false;
+  let davidFrame: THREE.Group | null = null, crew: { ag: any; lx: number; lz: number }[] = [], ropes: THREE.Line[] = [], davidMoving = false, davidD = -1;
   const routeLen: number[] = [0];
   for (let i = 1; i < DAVID_ROUTE.length; i++) routeLen.push(routeLen[i - 1] + Math.hypot(DAVID_ROUTE[i][0] - DAVID_ROUTE[i - 1][0], DAVID_ROUTE[i][1] - DAVID_ROUTE[i - 1][1]));
   const routeAt = (d: number) => {
@@ -63,7 +68,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
 
   function restoreBridges() { for (const b of bridgeList) b.mesh.visible = lastYear >= b.start && lastYear < b.end; blasts = []; }
   let lastYear = 2026;
-  function clear() { if (blasts.length) restoreBridges(); flood.clear(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; dove = null; t = 0; davidFrame = null; crew = []; ropes = []; }
+  function clear() { if (blasts.length) restoreBridges(); flood.clear(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; dove = null; t = 0; paused = false; davidFrame = null; crew = []; ropes = []; davidD = -1; }
   const SOLID = /stall|tribune|brindellone|bench|table|scalo|crate|barrel/;      // props people walk around
   const put = (n: string, x: number, z: number, rot = 0) => { const o = props.place(n, x, height(x, z), z, rot, root); if (o && SOLID.test(n)) walk.addProp(o, 0.1); return o; };
 
@@ -150,25 +155,47 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     part(1.1, 0.5, 1.0, 0.25); part(0.7, 1.9, 0.5, 1.45); part(0.95, 1.4, 0.55, 3.1); part(0.45, 0.55, 0.45, 4.1);
     part(0.22, 1.3, 0.22, 3.0, 0.62); part(0.22, 1.1, 0.22, 3.6, -0.62);
     for (let i = 0; i < 4; i++) { const r = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(0, 0, 0), V(0, 0, 0)]), new THREE.LineBasicMaterial({ color: 0x3b2f22 })); root.add(r); ropes.push(r); }
+    // the men are placed by the scene round the frame every frame (claimed "placed": no free-ground search at the origin,
+    // which used to refuse them all): haulers on four ropes ahead, pushers behind, carpenters re-laying the beams,
+    // then the escort – the Opera's officials leading, guards in the Signoria's red on both flanks (stones were thrown at
+    // the statue by night, and it was guarded; Landucci)
     crew = [];
-    for (let i = 0; i < 44; i++) {                    // haulers on four ropes ahead, pushers behind, carpenters re-laying the beams
-      const k = i % 4, row = Math.floor(i / 4);
-      const lx = i < 28 ? (k - 1.5) * 1.3 : (R() - 0.5) * 4, lz = i < 28 ? 7 + row * 1.6 : i < 38 ? -3.2 - R() * 1.5 : 4 + R() * 2;
-      const ag = people.claim(V(0, 0, 0), V(0, 0, 1), 'runner', 'walk', undefined, R() < 0.15 ? 'renaissance_elite' : 'renaissance_m');
-      if (ag) { (ag as any).pace = 2.2; (ag as any).target = V(0, 0, 0); crew.push({ ag, lx, lz }); }
+    const man = (lx: number, lz: number, outfit: string, color?: string) => {
+      const ag = people.claim(V(0, 0, 0), V(0, 0, 1), 'static', 'walk', color, outfit, true);
+      if (ag) crew.push({ ag, lx, lz });
+    };
+    if (moving) {
+      for (let i = 0; i < 44; i++) {
+        const k = i % 4, row = Math.floor(i / 4);
+        const lx = i < 28 ? (k - 1.5) * 1.3 : (R() - 0.5) * 4, lz = i < 28 ? 7 + row * 1.6 : i < 38 ? -3.2 - R() * 1.5 : 4 + R() * 2;
+        man(lx, lz, R() < 0.15 ? 'renaissance_elite' : 'renaissance_m');
+      }
+      for (let i = 0; i < 6; i++) man((i % 2 ? 1 : -1) * 1.1, 21 + Math.floor(i / 2) * 1.6, 'renaissance_elite', i < 2 ? '#2a2a2a' : undefined);   // the Opera's officials
+      for (let i = 0; i < 4; i++) man((i % 2 ? 1 : -1) * 1.4, 26.5 + Math.floor(i / 2) * 1.6, 'guard', '#8c1d1d');                   // two guards leading
+      for (let i = 0; i < 12; i++) man((i % 2 ? 1 : -1) * 4.3, -7 + Math.floor(i / 2) * 4.2, 'guard', i % 4 < 2 ? '#8c1d1d' : '#e8e1d2');   // flanks
     }
     for (let i = 0; i < 60; i++) {                    // onlookers along the street
-      const d = 40 + R() * (routeLen[routeLen.length - 1] - 60), p = routeAt(d), s2 = R() < 0.5 ? -1 : 1, off = 5 + R() * 3;
+      const d = 40 + R() * (routeLen[routeLen.length - 1] - 60), p = routeAt(d), s2 = R() < 0.5 ? -1 : 1, off = 6 + R() * 3;
       const x = p.x + Math.cos(p.h) * off * s2, z = p.z - Math.sin(p.h) * off * s2;
       people.claim(V(x, height(x, z), z), V(p.x, 0, p.z), 'static', R() < 0.7 ? 'idle' : 'agree');
     }
-    placeFrame(moving ? 8 : routeLen[routeLen.length - 1], true);
+    // the yard's gate, its wall broken open above it so the statue would pass: a dark opening in a stone frame
+    const gy = height(GATE.x, GATE.z), rot = Math.atan2(GATE.nx, GATE.nz);
+    const hole = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 7.6), new THREE.MeshStandardMaterial({ color: 0x15120f, roughness: 1 }));
+    hole.position.set(GATE.x + GATE.nx * 0.35, gy + 3.8, GATE.z + GATE.nz * 0.35); hole.rotation.y = rot; root.add(hole);
+    const stone = new THREE.MeshStandardMaterial({ color: 0x8d8678, roughness: 0.9 });
+    for (const [w, h, x, y] of [[0.5, 7.9, -2.55, 3.95], [0.5, 7.9, 2.55, 3.95], [5.6, 0.5, 0, 7.85]] as const) {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.4), stone); m.rotation.y = rot;
+      m.position.set(GATE.x + GATE.nx * 0.4 + Math.cos(rot) * x, gy + y, GATE.z + GATE.nz * 0.4 - Math.sin(rot) * x); m.castShadow = true; root.add(m);
+    }
+    placeFrame(moving ? 0 : routeLen[routeLen.length - 1], true);
   }
   function placeFrame(d: number, snap = false) {
     if (!davidFrame) return;
     const p = routeAt(d); davidFrame.position.set(p.x, height(p.x, p.z), p.z); davidFrame.rotation.y = p.h;
     const c = Math.cos(p.h), s2 = Math.sin(p.h), W = (lx: number, lz: number) => V(p.x + lx * c + lz * s2, 0, p.z - lx * s2 + lz * c);
-    for (const m of crew) { const q = W(m.lx, m.lz); q.y = height(q.x, q.z); m.ag.target.copy(q); if (snap) m.ag.obj.position.copy(q); }
+    const moved = !snap && davidD >= 0 && Math.abs(d - davidD) > 1e-3; davidD = d;
+    for (const m of crew) { const q = W(m.lx, m.lz); q.y = height(q.x, q.z); m.ag.obj.position.copy(q); m.ag.obj.rotation.y = p.h; people.anim(m.ag, moved ? 'walk' : 'idle'); }
     ropes.forEach((r, k) => { const a = W((k - 1.5) * 0.7, 1.5), b = W((k - 1.5) * 1.3, 7 + 6 * 1.6); a.y = height(a.x, a.z) + 1.2; b.y = height(b.x, b.z) + 1.0;
       r.geometry.setFromPoints([a, b]); r.visible = davidMoving; });
   }
@@ -191,8 +218,28 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
       blasts.push({ at: [V(x, height(x, z) + 6, z)], t: 4 + n * 7 + k * 2.5, done: false });
   }
 
+  /** Length (s) of the active scene's sequence, played once; 0 for the open-ended ones (market, calcio, the David waiting). */
+  function duration() {
+    if (active === 'david' && davidMoving) return DAVID_WAIT + routeLen[routeLen.length - 1] / DAVID_PACE + DAVID_HOLD;
+    if (active === 'scoppio') return 24;
+    if (active === 'ponti1944') return blasts.length ? Math.max(...blasts.map(b => b.t)) + 6 : 0;
+    if (active === 'alluvione1966') return flood.duration;
+    return 0;
+  }
+  /** Jump to a moment of the sequence: past steps are shown done (bridges down, statue further on), with no effects. */
+  function seek(to: number) {
+    const D = duration(); if (!D) return;
+    t = Math.max(0, Math.min(D, to)); fx.clear();
+    if (active === 'ponti1944') for (const b of blasts) { b.done = b.t < t; if (b.mesh) b.mesh.visible = !(b.t + 0.5 < t); }
+    if (active === 'alluvione1966') { flood.time = t; flood.update(0, D); }
+    if (active === 'scoppio' && dove) dove.visible = false;
+    if (active === 'david') placeFrame(davidAt(t), true);
+  }
+  const davidAt = (tt: number) => Math.min(routeLen[routeLen.length - 1] - 0.01, Math.max(0, (tt - DAVID_WAIT) * DAVID_PACE));
   function update(dt: number) {
-    t += dt;
+    if (paused) return;
+    const D = duration();
+    t += dt; if (D) t = Math.min(t, D);
     if (active === 'calcio') {
       // ball wanders; players chase it, some hold positions
       ballVel.x += (R() - 0.5) * 6 * dt; ballVel.z += (R() - 0.5) * 6 * dt; ballVel.multiplyScalar(0.98);
@@ -210,13 +257,12 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
       });
     }
     if (active === 'david' && davidFrame && davidMoving) {
-      // compressed loop of the four days: 5 s in the yard, ≈4.5 min along the route, 10 s at the palace door
-      const L = routeLen[routeLen.length - 1] - 8, c = t % (L / 2.2 + 15);
-      placeFrame(c < 5 ? 8 : Math.min(L, 8 + (c - 5) * 2.2), c < 0.05);
+      // the four days compressed, once: 5 s in the yard, ≈4.5 min along the route, then at the palace door
+      placeFrame(davidAt(t));
     }
     if (active === 'scoppio' && dove) {
-      // 45 s cycle: 5 s wait · 4 s flight to the cart · ≈11 s of fireworks on the cart · flight back · pause
-      const c = t % 45, fly = (k: number) => dove!.position.lerpVectors(wireA, wireB, k * k * (3 - 2 * k));
+      // once: 5 s wait · 4 s flight to the cart · ≈11 s of fireworks on the cart · flight back
+      const c = t, fly = (k: number) => dove!.position.lerpVectors(wireA, wireB, k * k * (3 - 2 * k));
       dove.visible = c > 5 && c < 15;
       if (c > 5 && c < 9) fly((c - 5) / 4);
       else if (c > 11 && c < 15) fly(1 - (c - 11) / 4);
@@ -235,14 +281,13 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
       }
     }
     if (active === 'ponti1944' && blasts.length) {
-      const c = t % 70;
-      if (c < dt * 1.5) { for (const b of blasts) { b.done = false; if (b.mesh) b.mesh.visible = true; } }   // loop: bridges back
+      const c = t;                                       // once: the night's blasts one after another
       for (const b of blasts) if (!b.done && c >= b.t) {
         b.done = true; b.at.forEach((p, i) => setTimeout(() => fx.explode(p, b.mesh ? 1.8 : 1.2), i * 180));
         if (b.mesh) setTimeout(() => { if (active === 'ponti1944') b.mesh!.visible = false; }, 500);
       }
     }
-    if (active === 'alluvione1966') flood.update(dt);
+    if (active === 'alluvione1966') flood.update(dt, D);
     fx.update(dt);
   }
 
@@ -266,16 +311,28 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     if (want === 'scoppio') scoppio(pos[0], pos[1]);
     if (want === 'ponti1944') ponti1944();
     if (want === 'alluvione1966') void flood.build('./data');
-    if (want === 'david' || want === 'davidWait') { david(want === 'david'); const fr = davidFrame as THREE.Group | null; if (fr) pos = [fr.position.x, fr.position.z]; }
+    if (want === 'david' || want === 'davidWait') { david(want === 'david'); const fr = davidFrame as THREE.Group | null; if (fr) pos = want === 'david' ? [GATE.x - 4, GATE.z] : [fr.position.x, fr.position.z]; }
     active = want;
     if (want && (at?.live || frame)) focus(pos[0], pos[1], CAM[want], ...(CAM_DIST[want] ?? []));
     return want;
   }
-  /** A moving subject the camera should follow (the David on its way), or null. */
-  const follow = () => (active === 'david' && davidFrame ? davidFrame.position : null);
+  /** A moving subject the camera should follow, or null (the David is framed by camGoal). */
+  const follow = () => null as THREE.Vector3 | null;
   /** A scene that lights itself (the flood's clock): the hour for the sun, or null. */
   const lightHour = () => (active === 'alluvione1966' ? flood.lightHour() : null);
-  /** A scene that moves the camera: [x, z, distance, pitch] to ease towards, or null. */
-  const camGoal = () => (active === 'alluvione1966' ? flood.camGoal() : null);
-  return { evaluate, update, clear, follow, lightHour, camGoal, setBridges(b: typeof bridgeList) { bridgeList = b; }, get active() { return active; } };
+  /** A scene that moves the camera: [x, z, distance, pitch, heading] to ease towards, or null. `aspect` is the width/height
+   *  of the part of the view left free by the side panels (the flood fits its spreading water into it). */
+  const ease = (a: number, b: number, x: number) => { const k = Math.min(1, Math.max(0, (x - a) / (b - a))); return k * k * (3 - 2 * k); };
+  function camGoal(aspect = 1.6): [number, number, number, number, number] | null {
+    if (paused) return null;
+    if (active === 'alluvione1966') return flood.camGoal(aspect);
+    if (active === 'david' && davidFrame && davidMoving) {
+      // in front of the gate, low, as the statue comes out of the yard; then up over it, following it from above
+      const az = Math.atan2(GATE.nx, GATE.nz), up = ease(DAVID_WAIT + 9, DAVID_WAIT + 15, t), p = davidFrame.position;
+      return [GATE.x - 4 + (p.x - GATE.x + 4) * up, GATE.z + (p.z - GATE.z) * up, 19 + 61 * up, 1.0 - 0.65 * up, az];   // the street to the apse is ≈22 m wide
+    }
+    return null;
+  }
+  return { evaluate, update, clear, follow, lightHour, camGoal, duration, seek, setBridges(b: typeof bridgeList) { bridgeList = b; },
+    get active() { return active; }, get time() { return t; }, get paused() { return paused; }, set paused(v: boolean) { paused = v; } };
 }

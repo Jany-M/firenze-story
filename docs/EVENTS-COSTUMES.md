@@ -36,19 +36,32 @@ When the colombina reaches the cart, about 10 s of fireworks go off on it: burst
 wheels (girandole); small smoke puffs grow to a fixed size, rise a few metres and fade near the cart. Then it stops.
 Effects live in `web/src/sim/fx.ts` (shared with the 1944 explosions).
 
+### Playing a scene
+The scripted scenes (Scoppio del Carro, the David, the Night of the Bridges, the flood) play once. While one plays, the
+Events box folds to its title and a player: play / pause (paused, the scene stands still and the camera is free) and a
+progress bar to move back and forth through it; at the end, ↻ plays it again. The market and the calcio run on, with
+no player.
+
 ## 1b. The move of the David (14–18 May 1504) and the Night of the Bridges (3–4 August 1944)
 - **David**: left the Opera del Duomo yard at sunset on 14 May 1504 through the wall broken above the gate; 40+ men,
   timber frame on greased beams with the statue hung inside; arrived 18 May, set on the ringhiera 8 June (Luca Landucci,
   quoted by Opera di Santa Maria del Fiore, Opera Magazine post 4693). Route not documented – presumed in the app.
+  In the app the statue comes out through a gate in the yard's west front, facing the cathedral's apse (where the
+  Opera's entrance is today, Piazza del Duomo 9; the 1504 wall line from the 1843 map), seen from the street in front;
+  the camera then rises and follows it from above. 44 men haul, push and re-lay the beams; the Opera's officials walk
+  ahead with two guards, and guards in the Signoria's red and white flank the frame (it was guarded at night after stones
+  were thrown at it, Landucci).
 - **Night of the Bridges**: from the evening of 3 August to dawn on 4 August 1944 the retreating German army blew up
   Ponte alle Grazie, Santa Trinita, alla Carraia, San Niccolò and alla Vittoria; Ponte Vecchio was spared but Por Santa
   Maria, Via de' Bardi, Borgo San Jacopo and Via Guicciardini were mined (La Nazione; Uffizi "The Night of the Bridges").
-  The app plays the blasts one after another in a loop (order and timing compressed; hours per bridge not documented).
+  The app plays the blasts one after another, once (order and timing compressed; hours per bridge not documented).
 
 ## 1c. The flood of 4 November 1966
 - The Arno rises through the night, comes over the lungarni about 5 a.m., reaches Piazza del Duomo by 9:45, stands highest in
   the afternoon and falls from 8 p.m.; the streets clear on 6 November. The water's surface is calibrated on the Via dei Neri
-  plaque (4.92 m) and Piazza del Duomo (≈1.8 m); a 100 s loop, with a clock naming the hour (`web/src/sim/flood.ts`).
+  plaque (4.92 m) and Piazza del Duomo (≈1.8 m); 100 s, played once, with a clock naming the hour (`web/src/sim/flood.ts`).
+  The camera starts low over the parapet at Piazza Cavalleggeri and, once the water is out, draws back with it until the
+  whole flooded area is in view (fitted into the part of the screen the left card leaves free).
   Heights, timings and sources: [landmarks/LUNGARNI.md](landmarks/LUNGARNI.md#the-flood-of-4-november-1966).
 
 ## 2. Florentine carnival (Carnevale)

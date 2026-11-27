@@ -156,10 +156,12 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     }
   }
   /** Reserve an agent for a static/runner role at a position (used by event scenes). */
-  function claim(pos: THREE.Vector3, face: THREE.Vector3, role: Role, anim: string, color?: string, outfit?: string): Agent | null {
+  function claim(pos: THREE.Vector3, face: THREE.Vector3, role: Role, anim: string, color?: string, outfit?: string, placed = false): Agent | null {
     const ag = agents.find(a => !a.busy); if (!ag) return null;
-    const ok = walk.nearestFree(pos.x, pos.z, 6, 0.3, role !== 'static'); if (!ok) return null;   // never inside a wall or a trunk
-    if (ok[0] !== pos.x || ok[1] !== pos.z) pos = pos.clone().set(ok[0], pos.y, ok[1]);
+    if (!placed) {                                   // placed: the scene moves the figure itself every frame (a procession)
+      const ok = walk.nearestFree(pos.x, pos.z, 6, 0.3, role !== 'static'); if (!ok) return null;   // never inside a wall or a trunk
+      if (ok[0] !== pos.x || ok[1] !== pos.z) pos = pos.clone().set(ok[0], pos.y, ok[1]);
+    }
     ag.busy = true; ag.role = role; ag.obj.visible = true; ag.obj.position.copy(pos); ag.obj.lookAt(face.x, pos.y, face.z);
     tint(ag, color, outfit); play(ag, anim); return ag;
   }
@@ -228,7 +230,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, max = 200, 
     }
   }
   return {
-    group, claim, release, update, agents, setPose,
+    group, claim, release, update, agents, setPose, anim: play,
     get year() { return year; },
     setEnabled(v: boolean) { const was = enabled; enabled = v; group.visible = v; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
     setContext(y: number, c: THREE.Vector3, r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); radius = r; if (changed && enabled) reset(); return changed; },

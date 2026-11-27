@@ -5,7 +5,7 @@
 //     their title line
 //   phone (< 700 px wide): one bottom sheet above the timeline holding every panel, one open at a time;
 //     dragging the map folds them all, tapping a title opens it
-// Panels fold with their ▾ / ▸ button or by tapping their title (h3). The era chip in the header opens a popover
+// Panels fold with their ▾ / ▸ button, which sits in the title line next to the title (h3), or by tapping the title. The era chip in the header opens a popover
 // with the era details; the ☰ menu holds the links and the view-controls help.
 const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
 const PHONE = matchMedia('(max-width: 699px)');
@@ -18,7 +18,7 @@ const shown = (el: HTMLElement) => !el.hidden;
 
 function setFold(el: HTMLElement, min: boolean) {
   el.classList.toggle('min', min);
-  const b = el.querySelector<HTMLButtonElement>(':scope > .coll');
+  const b = el.querySelector<HTMLButtonElement>(COLL);
   if (b) { b.textContent = min ? '▸' : '▾'; b.setAttribute('aria-expanded', String(!min)); }
 }
 /** Unfold a panel; on compact screens fold the other open panels sharing its dock (on phones: all of them). */
@@ -27,13 +27,15 @@ function expand(el: HTMLElement) {
   if (!COMPACT.matches) return;
   for (const p of panels()) if (p !== el && shown(p) && (PHONE.matches || p.parentElement === el.parentElement)) setFold(p, true);
 }
+const COLL = ':scope > .coll, :scope > h3 > .coll';
 function ensureButton(el: HTMLElement) {
-  if (el.querySelector(':scope > .coll')) return;
+  if (el.querySelector(COLL)) return;
   const b = document.createElement('button'); b.className = 'coll'; b.title = 'fold / unfold';
   b.textContent = el.classList.contains('min') ? '▸' : '▾';
   b.onclick = e => { e.stopPropagation(); el.classList.contains('min') ? expand(el) : setFold(el, true); };
-  const x = el.querySelector(':scope > .x');               // × first (rightmost), then ▾ beside it
-  if (x) x.after(b); else el.prepend(b);
+  const h = el.querySelector(':scope > h3');               // beside the title; panels without one keep it in the corner
+  if (h) h.prepend(b);
+  else { const x = el.querySelector(':scope > .x'); if (x) x.after(b); else el.prepend(b); }
 }
 /** Mode panels live in the right dock, except on phones where everything shares one sheet. */
 function place() {
