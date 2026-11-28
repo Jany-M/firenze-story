@@ -79,7 +79,7 @@ async function main() {
   const { mesh, recs, hide } = city;
   done(`${recs.length.toLocaleString()} structures`);
   say('Landmark models');
-  const landmarks = await loadLandmarks(scene, mtex, recs); hide(landmarks.replaced, landmarks.replacedIds);
+  const landmarks = await loadLandmarks(scene, mtex, recs, './models/landmarks', { radius: q.landmarkRadius, center: c0, at: LMK_AT }); hide(landmarks.replaced, landmarks.replacedIds);
   fetch('./models/landmarks/corridoio_path.json').then(r => r.ok ? r.json() : null).then(c => { if (c) setCorridorCut(c.runs, c.from); }).catch(() => {});
   const xray = createXray(camera, controls.target, { boxes: city.boxes, recs }, landmarks.xrayParts);
   // Years where something visibly changes: a structure rising (start → start + ramp) or going, a landmark part, an event.
@@ -108,12 +108,12 @@ async function main() {
   const statues = createStatues(scene, height); statues.update(state.year);
   done(`${meta.trees.count.toLocaleString()} trees`);
   say('People and costumes');
-  const people = await createPeople(scene, streets, q.people);
+  const people = await createPeople(scene, streets, q.people, { cap: Math.round(q.people * 1.6) + 60 });   // walkers and the scenes' extras: a ceiling, so memory stops growing
   // made on demand for the area in view (river crews, squares and bridges near the camera); none drawn above PEOPLE_ALT
   const riverPeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.riverPeople });
   const squarePeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.squarePeople });
   // the crowds thin if the device falls behind (perf.ts)
-  const governor = createGovernor(q, renderer, [{ crowd: people, base: q.people, cap: 600 }, { crowd: riverPeople, base: 0, cap: q.riverPeople },
+  const governor = createGovernor(q, renderer, [{ crowd: people, base: q.people, cap: Math.round(q.people * 1.6) + 60 }, { crowd: riverPeople, base: 0, cap: q.riverPeople },
     { crowd: squarePeople, base: 0, cap: q.squarePeople }]);
   // what people stand on: the ground, or a bridge's deck where the street crosses one (a ray down onto the bridges standing
   // this year, cached per half metre)
@@ -147,6 +147,22 @@ async function main() {
   const view = createViewControls(camera, controls, renderer.domElement);
   say('River life: boats, fishermen, birds');
   const riverAxis = (await (await fetch(`${DATA}/river.json`)).json()).axis;
+  // nobody walks across the river except on a bridge standing that year: a street edge whose points fall on the water (between
+  // the banks of river.json) must lie inside a standing bridge's outline (env.spans, every phase of every bridge)
+  {
+    const ax = (riverAxis as number[][]).slice().sort((a, b) => a[0] - b[0]);
+    const banks = (x: number) => { let i = ax.findIndex(p => p[0] >= x); if (i <= 0) i = 1;
+      const a = ax[i - 1], b = ax[i], t = Math.min(1, Math.max(0, (x - a[0]) / ((b[0] - a[0]) || 1))); return [a[3] + (b[3] - a[3]) * t, a[4] + (b[4] - a[4]) * t]; };
+    const onWater = (x: number, z: number) => { if (x < ax[0][0] || x > ax[ax.length - 1][0]) return false; const [n, s2] = banks(x); return z > n + 0.5 && z < s2 - 0.5; };
+    const inside = (P: [number, number][], x: number, z: number) => { let c = false;
+      for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const [xi, zi] = P[i], [xj, zj] = P[j]; if ((zi > z) !== (zj > z) && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) c = !c; } return c; };
+    const onBridge = (x: number, z: number, y: number) => env.spans.some(b => y >= b.start && y < b.end && (inside(b.pts, x, z) || b.pts.some(([px, pz]) => Math.hypot(px - x, pz - z) < 4)));
+    const N = streets.nodes as number[][];
+    const ok = (a: number, b: number, y: number) => { const A = N[a], B = N[b];
+      for (const f of [0.1, 0.3, 0.5, 0.7, 0.9]) { const x = A[0] + (B[0] - A[0]) * f, z = A[2] + (B[2] - A[2]) * f; if (onWater(x, z) && !onBridge(x, z, y)) return false; }
+      return true; };
+    for (const crowd of [people, squarePeople]) crowd.setEdgeFilter(ok);
+  }
   const river = createRiver(scene, props, riverPeople, height, riverAxis, env.bridges, env.weirs.map((w: any) => w.mesh.userData), env.water.geometry, streets.nodes);
   if ((window as any).__fs) Object.assign((window as any).__fs, { river });
   const splats = createSplats(scene, () => controls.target.clone(), toast);
@@ -310,6 +326,10 @@ async function main() {
   // compass: the rose turns with the view (north up when looking north); the camera's height over the ground under it
   const rose = document.getElementById('compass-rose')!, compH = document.getElementById('compass-h')!, fwd = new THREE.Vector3();
   let compT = 0;
+  let lmT = 0;
+  // a small note while buildings and models stream in round the view (they come first; the crowds wait on small devices)
+  const streamChip = document.createElement('div'); streamChip.className = 'pill stream-chip'; streamChip.hidden = true;
+  streamChip.textContent = 'Loading the buildings nearby…'; document.body.appendChild(streamChip);
   const compass = (dt: number) => {
     if ((compT += dt) < 0.08) return; compT = 0;
     camera.getWorldDirection(fwd);
@@ -331,7 +351,7 @@ async function main() {
   document.getElementById('menu-maps')!.onclick = () => { openGallery(materialsFor(['map'])); document.getElementById('menu')!.hidden = true; };
   document.getElementById('menu-help')!.onclick = () => { view.toggleHelp(); document.getElementById('menu')!.hidden = true; };
   toast(matchMedia('(pointer: coarse)').matches ? 'One finger moves · pinch to zoom · two fingers rotate · ☰ for help'
-    : 'Ctrl + drag (or right-drag) rotates and tilts · press H for all view controls');
+    : 'Ctrl + drag rotates and tilts · right-drag moves up and down · press H for all view controls');
 
   /** Share of the view's width hidden by the left dock (0 on phones, where panels sit in a bottom sheet). */
   const dockL = document.getElementById('dock-l')!;
@@ -360,6 +380,9 @@ async function main() {
       if (q.tier === 'low' || q.tier === 'min') { f.near = Math.max(120, d * 0.7); f.far = Math.min(q.cityRadius * 0.95, Math.max(600, d * 2.2 + 300)); }   // small devices: a tight circle of focus, the rest in haze
       else { f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); }
       stage.fitClip(f.far); }
+    if ((lmT += dt) > 1) { lmT = 0; landmarks.stream(controls.target.x, controls.target.z);   // small devices: models near the view only
+      if (q.tier === 'low' || q.tier === 'min') governor.hold(!city.idle());                  // and the city's tiles before the crowds
+      streamChip.hidden = city.idle() && !landmarks.loading; }
     xray.update(dt, state.year); compass(dt); if (!document.hidden && dt < 1) governor.tick(dt);
     river.update(dt, state.year, true, camera.position.y - controls.target.y); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => { const p = periodOf(r.start); return uPeriodPick.value >= 0 && p !== uPeriodPick.value ? '#a3a09b' : PERIODS[p]?.color ?? '#888'; }));   // a period picked in the legend: the others grey

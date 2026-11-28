@@ -208,63 +208,112 @@ export const LANDMARKS: LandmarkDef[] = [
     source: 'Landmark model v1 – Le mura (Blender; OSM + OpenHistoricalMap lines, LiDAR 2023 heights; walls 1284–1333, towers lowered 1529, bastions, Fortezza da Basso, Poggi demolitions 1865–70)' },
 ];
 
-export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[], base = './models/landmarks') {
+/** Load the landmark models. opts.radius (small devices, quality.ts): only the models within that distance of the view are
+ *  held – the others are fetched when the view comes near (`stream`) and let go again (geometry and materials freed) once it
+ *  is well away, so the tab's memory follows the area in view instead of growing with every model. The city records each
+ *  model replaces are worked out for all of them at once (no model file needed), so no LiDAR shell shows up meanwhile. */
+export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[], base = './models/landmarks',
+  opts: { radius?: number; center?: [number, number]; at?: Record<string, [number, number]> } = {}) {
   const group = new THREE.Group(); group.name = 'landmarks'; scene.add(group);
   const parts: { obj: THREE.Object3D; from: number; to: number; root?: THREE.Object3D }[] = [];
   const loader = new GLTFLoader();
   const items: { def: LandmarkDef; root: THREE.Object3D; rec?: Rec; members: { key: string; rec?: Rec }[] }[] = [];
   const clearIds: number[] = [];
-  for (const def of LANDMARKS) {
+  // 1. what each model replaces and where it stands – for every model, without its file
+  const prep: { def: LandmarkDef; rec?: Rec; members: { key: string; name: string; part?: Part; from?: number; to?: number; rec?: Rec }[]; c?: [number, number]; state: 'idle' | 'loading' | 'loaded'; mats?: Record<string, THREE.Material> }[] = [];
+  await Promise.all(LANDMARKS.map(async def => {
+    const polys = [...(def.clear ? [def.clear] : []),
+      ...(def.clearFile ? await fetch(`${base}/${def.file}_clear.json`).then(r => r.json()).catch(() => []) as [number, number][][] : [])];
+    const inside = recs.filter(r => polys.some(P => inPoly(r.c[0], r.c[1], P)) || def.ids?.includes(r.id));
+    clearIds.push(...inside.map(r => r.id));
+    const members = (def.members ?? []).map(m => {
+      if (m.part) return { ...m, rec: undefined as Rec | undefined };
+      const rr = recs.filter(r => r.name === m.name).sort((a, b) => +(b.kind === 'building') - +(a.kind === 'building'))[0];
+      if (rr && m.from != null) rr.start = m.from;
+      if (rr && m.to != null) rr.end = m.to;
+      if (rr && !rr.src.includes(def.source)) rr.src = [def.source, ...rr.src];
+      return { ...m, rec: rr };
+    });
+    const rec = recs.find(r => r.name === def.replaces[0]) ?? inside.find(r => r.name) ?? inside[0];
+    // a landmark found only by its outline takes its name and first year onto the record its card shows
+    if (rec && def.replaces[0] && rec.name !== def.replaces[0] && !recs.some(r => r.name === def.replaces[0])) rec.name = def.replaces[0];
+    if (rec && def.from != null && rec.name === def.replaces[0]) rec.start = def.from;
+    if (rec && def.to !== undefined && rec.name === def.replaces[0]) rec.end = def.to;
+    for (const r of [...recs.filter(r => def.replaces.includes(r.name)), ...inside]) if (!r.src.includes(def.source)) r.src = [def.source, ...r.src];
+    // where it stands: its origin, its record, a known spot; the city-wide ones (walls, lungarni, corridor) have none and stay
+    const c: [number, number] | undefined = def.at[0] || def.at[1] ? def.at : opts.at?.[def.file] ?? (rec ? rec.c : undefined);
+    const wide = /^(mura|lungarni|corridoio)$/.test(def.file);
+    prep.push({ def, rec, members, c: wide ? undefined : c, state: 'idle' });
+  }));
+  prep.sort((a, b) => LANDMARKS.indexOf(a.def) - LANDMARKS.indexOf(b.def));
+  let lastYear = NaN;
+  const painted = new Map<object, string | null>();
+  const boxes = new Map<THREE.Object3D, THREE.Box3>();
+  // 2. one model in
+  async function load(pr: typeof prep[number]) {
+    if (pr.state !== 'idle') return; pr.state = 'loading';
+    const def = pr.def;
     try {
       const [gltf, defs] = await Promise.all([loader.loadAsync(`${base}/${def.file}.glb`), fetch(`${base}/${def.file}_materials.json`).then(r => r.json())]);
-      const mats = buildMaterials(defs, tex, THREE.DoubleSide);
+      const mats = buildMaterials(defs, tex, THREE.DoubleSide); pr.mats = mats;
       const root = gltf.scene;
-      const polys = [...(def.clear ? [def.clear] : []),
-        ...(def.clearFile ? await fetch(`${base}/${def.file}_clear.json`).then(r => r.json()).catch(() => []) as [number, number][][] : [])];
-      const inside = recs.filter(r => polys.some(P => inPoly(r.c[0], r.c[1], P)) || def.ids?.includes(r.id));
-      clearIds.push(...inside.map(r => r.id));
-      // members: the record of each gate / tower (prefer the LiDAR shell over a mapped point), dated by the model
-      const members = (def.members ?? []).map(m => {
-        if (m.part) {                                         // no city record: one made from the model's own nodes
+      const members = pr.members.map(m => {
+        if (m.part && !m.rec) {                             // no city record: one made from the model's own nodes (once)
           const box = new THREE.Box3();
-          gltf.scene.traverse((o: any) => { if (o.isMesh && (o.name.startsWith(m.key + '@') || o.name.startsWith(m.key + '_') || o.parent?.name.startsWith(m.key + '@'))) box.expandByObject(o); });
-          if (box.isEmpty()) return { key: m.key, rec: undefined };
-          const ctr = box.getCenter(new THREE.Vector3());
-          const rv: Rec = { id: recs.length, kind: 'building', name: m.name, start: m.from ?? def.from ?? 1300, end: m.to ?? null, ramp: 0, conf: 'documented',
-            src: [def.source], qid: '', wiki: m.part.wiki ?? '', ground: box.min.y, h: box.max.y - box.min.y, phases: [], roof: '',
-            c: [ctr.x + def.at[0], ctr.z + def.at[1]], of: m.part.of, about: m.part.about, also: m.part.also, virtual: true };
-          recs.push(rv); return { key: m.key, rec: rv };
+          root.traverse((o: any) => { if (o.isMesh && (o.name.startsWith(m.key + '@') || o.name.startsWith(m.key + '_') || o.parent?.name.startsWith(m.key + '@'))) box.expandByObject(o); });
+          if (!box.isEmpty()) {
+            const ctr = box.getCenter(new THREE.Vector3());
+            m.rec = { id: recs.length, kind: 'building', name: m.name, start: m.from ?? def.from ?? 1300, end: m.to ?? null, ramp: 0, conf: 'documented',
+              src: [def.source], qid: '', wiki: m.part.wiki ?? '', ground: box.min.y, h: box.max.y - box.min.y, phases: [], roof: '',
+              c: [ctr.x + def.at[0], ctr.z + def.at[1]], of: m.part.of, about: m.part.about, also: m.part.also, virtual: true } as Rec;
+            recs.push(m.rec);
+          }
         }
-        const rr = recs.filter(r => r.name === m.name).sort((a, b) => +(b.kind === 'building') - +(a.kind === 'building'))[0];
-        if (rr && m.from != null) rr.start = m.from;
-        if (rr && m.to != null) rr.end = m.to;
-        if (rr && !rr.src.includes(def.source)) rr.src = [def.source, ...rr.src];
-        return { key: m.key, rec: rr };
+        return { key: m.key, rec: m.rec };
       });
-      const rec = recs.find(r => r.name === def.replaces[0]) ?? inside.find(r => r.name) ?? inside[0];
-      // a landmark found only by its outline takes its name and first year onto the record its card shows
-      if (rec && def.replaces[0] && rec.name !== def.replaces[0] && !recs.some(r => r.name === def.replaces[0])) rec.name = def.replaces[0];
-      if (rec && def.from != null && rec.name === def.replaces[0]) rec.start = def.from;
-      if (rec && def.to !== undefined && rec.name === def.replaces[0]) rec.end = def.to;
-      root.position.set(def.at[0], def.ground ?? rec?.ground ?? 8.4, def.at[1]); root.rotation.y = def.rot;
+      root.position.set(def.at[0], def.ground ?? pr.rec?.ground ?? 8.4, def.at[1]); root.rotation.y = def.rot;
       root.traverse((o: any) => {
         if (o.isMesh) { o.material = mats[o.material.name] ?? o.material; o.castShadow = o.receiveShadow = true; o.userData.mat0 = o.material; }
         // "part@1504_160-1873" – years, optionally with a day of the year (glTF loaders strip dots from node names)
         const m = /@(-?\d+)(?:_(\d+))?-(-?\d+)(?:_(\d+))?/.exec(o.name);
         if (m) parts.push({ obj: o, root, from: +m[1] + (m[2] ? (+m[2] - 1) / 366 : 0), to: +m[3] + (m[4] ? (+m[4] - 1) / 366 : 0) });
       });
-      for (const r of [...recs.filter(r => def.replaces.includes(r.name)), ...inside]) if (!r.src.includes(def.source)) r.src = [def.source, ...r.src];
-      group.add(root); items.push({ def, root, rec, members });
-    } catch (e) { console.warn('landmark missing', def.file, e); }
+      group.add(root); items.push({ def, root, rec: pr.rec, members }); pr.state = 'loaded';
+      for (const p of parts) if (p.root === root) p.obj.visible = lastYear >= p.from && lastYear < p.to;
+      onLoad?.();
+    } catch (e) { console.warn('landmark missing', def.file, e); pr.state = 'idle'; }
   }
-  let lastYear = NaN;
+  /** Let a model go: out of the scene, its geometry and materials freed (it comes back through `stream`). */
+  function unload(pr: typeof prep[number]) {
+    const i = items.findIndex(it => it.def === pr.def); if (i < 0) return;
+    const root = items[i].root; items.splice(i, 1); group.remove(root);
+    for (let k = parts.length - 1; k >= 0; k--) if (parts[k].root === root) { boxes.delete(parts[k].obj); parts.splice(k, 1); }
+    boxes.delete(root); painted.forEach((_, key) => { if ((key as any).root === root) painted.delete(key); });
+    root.traverse((o: any) => { if (o.isMesh) o.geometry.dispose(); });
+    for (const m of Object.values(pr.mats ?? {})) m.dispose();
+    pr.mats = undefined; pr.state = 'idle';
+  }
+  const R = opts.radius || 0;
+  const near = (pr: typeof prep[number], x: number, z: number, k: number) => !R || !pr.c || Math.hypot(pr.c[0] - x, pr.c[1] - z) < R * k;
+  let onLoad: (() => void) | undefined;
+  const c0 = opts.center ?? [0, 60];
+  for (const pr of prep) if (near(pr, c0[0], c0[1], 1)) await load(pr);          // the near ones before the app opens
+  let busyStream = false;
+  /** Small devices: bring in the models near (x, z), one at a time, and let go of those far away. */
+  async function stream(x: number, z: number) {
+    if (!R || busyStream) return; busyStream = true;
+    try {
+      for (const pr of prep) if (pr.state === 'loaded' && !near(pr, x, z, 1.6)) unload(pr);
+      const next = prep.filter(pr => pr.state === 'idle' && near(pr, x, z, 1)).sort((a, b) => Math.hypot(a.c![0] - x, a.c![1] - z) - Math.hypot(b.c![0] - x, b.c![1] - z))[0];
+      if (next) await load(next);
+    } finally { busyStream = false; }
+  }
   function update(year: number) {
     if (year === lastYear) return; lastYear = year;
     for (const p of parts) p.obj.visible = year >= p.from && year < p.to;
   }
   // Sources view: paint the whole model in its record's period / confidence colour (null = real materials)
   const flat: Record<string, THREE.Material> = {};
-  const painted = new Map<object, string | null>();
   function paint(colorOf: ((r: Rec) => string) | null) {
     for (const it of items) {
       const c = colorOf && it.rec ? colorOf(it.rec) : null; if (painted.has(it) && painted.get(it) === c) continue;
@@ -272,8 +321,8 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
       it.root.traverse((o: any) => { if (o.isMesh) o.material = m ?? o.userData.mat0; }); painted.set(it, c);
     }
   }
-  /** Names of records whose LiDAR shell must not be drawn. */
-  const replaced = new Set(items.flatMap(i => [...i.def.replaces, ...(i.def.members ?? []).filter(m => !m.part).map(m => m.name)]));
+  /** Names of records whose LiDAR shell must not be drawn (every model, loaded or not). */
+  const replaced = new Set(prep.flatMap(i => [...i.def.replaces, ...(i.def.members ?? []).filter(m => !m.part).map(m => m.name)]));
   const replacedIds = new Set(clearIds);
   /** The landmark model under the ray (only its parts standing in the current year) → its record id and distance. */
   const ray0: THREE.Object3D[] = [];
@@ -297,10 +346,10 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
   /** every year a landmark part appears or goes (for the timeline's fast-forward through quiet stretches) */
   const changes = parts.flatMap(p => [p.from, p.to]).filter(y => y < 9999);
   /** Parts standing now, with their world boxes (for the x-ray of close views, scene/xray.ts). */
-  const boxes = new Map<THREE.Object3D, THREE.Box3>();
   /** Parts that may hide (x-ray), each with the box of the building it belongs to: a building being looked at never hides
    *  its own parts (zooming onto the Duomo must not open it up). Models spread over the whole city (walls, lungarni) count
    *  part by part. */
+  const _sz = new THREE.Vector3();
   function xrayParts() {
     const out: { obj: THREE.Object3D; box: THREE.Box3; whole: THREE.Box3; root?: THREE.Object3D }[] = [];
     for (const p of parts) {
@@ -309,10 +358,10 @@ export async function loadLandmarks(scene: THREE.Scene, tex: TexSet, recs: Rec[]
       if (b.isEmpty()) continue;
       let w = p.root ? boxes.get(p.root) : undefined;
       if (p.root && !w) { p.root.updateWorldMatrix(true, true); w = new THREE.Box3().setFromObject(p.root); boxes.set(p.root, w); }
-      const big = !w || w.getSize(new THREE.Vector3()).length() > 400;
+      const big = !w || w.getSize(_sz).length() > 400;
       out.push({ obj: p.obj, box: b, whole: big ? b : w!, root: big ? undefined : p.root });   // a model's parts go together
     }
     return out;
   }
-  return { group, update, paint, replaced, replacedIds, pick, changes, xrayParts };
+  return { group, update, paint, replaced, replacedIds, pick, changes, xrayParts, stream, get loading() { return busyStream; }, set onLoad(f: () => void) { onLoad = f; } };
 }

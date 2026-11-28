@@ -184,7 +184,11 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   function dress(ag: Agent, outfit: string, color?: string) {
     const items = OUTFITS[outfit] ?? [];
     ag.female = /_f$|^roman_f/.test(outfit);
-    for (const [k, m] of Object.entries(ag.worn)) m.visible = items.includes(k);
+    for (const [k, m] of Object.entries(ag.worn)) {
+      if (items.includes(k) || HEAD_ITEM.test(k)) { m.visible = items.includes(k); continue; }   // heads, hats and hair: small, reused below
+      m.parent?.remove(m); (m.material as THREE.Material).dispose(); if ((m as any).skeleton) (m as any).skeleton.dispose?.();
+      delete ag.worn[k];                                // memory stays flat as the years change (2026-11-28)
+    }
     const pal = clothingFor(year), pick = () => pal[(Math.random() * pal.length) | 0];
     const main = new THREE.Color(color ?? pick()), alt = new THREE.Color(color && /calcio/.test(outfit) ? color : pick()).multiplyScalar(0.75);
     for (const it of items) {
@@ -220,10 +224,19 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   let year = 1490, centre = new THREE.Vector3(), radius = 380, enabled = false, epoch = 0;
   const minZone = () => (year < 1172 ? 2 : year < 1865 ? 1 : 0);
   const allowed = (n: number) => G.zone[n] >= minZone();
+  // who may cross water: the app tells (a street over the river only where a bridge stands that year); cached per year
+  let edgeOk: ((a: number, b: number, year: number) => boolean) | null = null;
+  const passCache = new Map<number, boolean>();
+  const passable = (a: number, b: number) => {
+    if (!edgeOk) return true;
+    const k = a < b ? a * 1e6 + b : b * 1e6 + a; let v = passCache.get(k);
+    if (v === undefined) { v = edgeOk(a, b, year); passCache.set(k, v); }
+    return v;
+  };
   const near: number[] = [];
   function refreshNear() {
     near.length = 0;
-    G.nodes.forEach((p, i) => { if (allowed(i) && G.adj[i].length && Math.hypot(p[0] - centre.x, p[2] - centre.z) < radius) near.push(i); });
+    G.nodes.forEach((p, i) => { if (allowed(i) && G.adj[i].some(b => allowed(b) && passable(i, b)) && Math.hypot(p[0] - centre.x, p[2] - centre.z) < radius) near.push(i); });
   }
   function place(ag: Agent) {
     if (!near.length) { ag.obj.visible = false; return; }
@@ -237,7 +250,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   const edgeFree = (a: number, b: number) => { const A = G.nodes[a], B = G.nodes[b];
     for (const f of [0.25, 0.5, 0.75]) if (walk.blocked(A[0] + (B[0] - A[0]) * f, A[2] + (B[2] - A[2]) * f, 0.2)) return false; return true; };
   function nextEdge(ag: Agent, from = -1) {
-    const all = G.adj[ag.a].filter(allowed), free0 = all.filter(b => edgeFree(ag.a, b));
+    const all = G.adj[ag.a].filter(b => allowed(b) && passable(ag.a, b)), free0 = all.filter(b => edgeFree(ag.a, b));
     const free = free0.length > 1 ? free0.filter(b => b !== from) : free0, opts = free.length ? free : all;   // go on, not back (unless a dead end)
     ag.b = opts.length ? opts[(Math.random() * opts.length) | 0] : ag.a;
     const A = G.nodes[ag.a], B = G.nodes[ag.b]; ag.len = Math.max(0.5, Math.hypot(B[0] - A[0], B[2] - A[2])); ag.t = 0;
@@ -299,14 +312,15 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
     for (const [p, w] of ag.mix!) if (w > 0) for (const [n, x, y, z] of POSE_BONES[p]) { const a = mixAcc[n]; if (a) { a[0] += x * w; a[1] += y * w; a[2] += z * w; } }
     for (const n of MIX_BONES) { const a = mixAcc[n]; ag.bones['mixamorig' + n]?.rotation.set(a[0], a[1], a[2]); }
   }
+  let rodGeo: THREE.CylinderGeometry | undefined;
   function setPose(ag: Agent, pose: Pose | null, waterY = 0) {
     ag.pose = pose ?? undefined; if (pose) ag.mix = undefined;
-    if (ag.rod) { ag.obj.remove(ag.rod.g); ag.rod = undefined; }
+    if (ag.rod) { ag.obj.remove(ag.rod.g); ag.rod.line.geometry.dispose(); ag.rod = undefined; }
     if (!pose) { for (const k of ['LeftUpLeg', 'RightUpLeg', 'LeftLeg', 'RightLeg', 'RightArm', 'LeftArm', 'RightForeArm', 'LeftForeArm', 'Spine', 'Spine1']) ag.bones['mixamorig' + k]?.rotation.set(0, 0, 0); return; }
     if (pose === 'rod' || pose === 'sitrod') {
       const g = new THREE.Group();                         // seated or not, the upper body keeps its height in the agent frame
       const hand = new THREE.Vector3(0.05, 1.12, 0.42), dir = new THREE.Vector3(0, 0.55, 1).normalize(), L = 3.4;
-      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.016, L, 5), rodMat); c.castShadow = true;
+      const c = new THREE.Mesh(rodGeo ??= new THREE.CylinderGeometry(0.006, 0.016, L, 5), rodMat); c.castShadow = true;
       c.position.copy(hand).addScaledVector(dir, L / 2); c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir); g.add(c);
       const tip = hand.clone().addScaledVector(dir, L);
       const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([tip, tip.clone().setY(0)]), lineMat); line.frustumCulled = false; g.add(line);
@@ -436,7 +450,8 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
     get year() { return year; }, get epoch() { return epoch; },
     setVisible(v: boolean) { if (!v) group.visible = false; },   // hidden for a moment (the timeline playing); update() shows them again
     setEnabled(v: boolean) { const was = enabled; enabled = v; if (!v) group.visible = false; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
-    setContext(y: number, c: THREE.Vector3, _r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; year = y; centre.copy(c); if (changed && enabled) reset(); return changed; },
+    setEdgeFilter(f: (a: number, b: number, year: number) => boolean) { edgeOk = f; passCache.clear(); },
+    setContext(y: number, c: THREE.Vector3, _r = 380) { const changed = Math.abs(y - year) >= 1 || c.distanceTo(centre) > 120; if (Math.round(y) !== Math.round(year)) passCache.clear(); year = y; centre.copy(c); if (changed && enabled) reset(); return changed; },
     get made() { return agents.length; },
     reset,
   };

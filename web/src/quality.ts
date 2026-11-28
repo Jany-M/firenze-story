@@ -4,10 +4,10 @@
 //
 // Memory budget (2026-11-28, measured on a desktop at `high`: the tab holds ≈1 GB – city tiles ≈ 350 MB, landmark models
 // ≈ 250 MB, the 2 m ground with its two heights ≈ 150 MB, people and props ≈ 150 MB, textures the rest). What each tier keeps:
-//   high  everything: the whole city, all trees, 280 walkers, 2 m ground, 4096 shadows           (8 GB+ desktops)
-//   mid   city within 1.8 km of the view, 60 % of the trees, 160 walkers, 2 m ground              (≈ 600–700 MB)
-//   low   city within 800 m, 30 % of the trees, 70 walkers, 4 m ground, no shadows, DPR 1       (≈ 350–450 MB; 4 GB tablets)
-//   min   city within 550 m, 15 % of the trees, 30 walkers, 4 m ground, no antialias, no tilt  (≈ 250 MB; 2–3 GB phones)
+//   high  everything: the whole city, all trees, 170 walkers, 2 m ground, 4096 shadows           (8 GB+ desktops)
+//   mid   city within 1.8 km of the view, 60 % of the trees, 100 walkers, 2 m ground              (≈ 600–700 MB)
+//   low   city within 800 m, 30 % of the trees, 45 walkers, 4 m ground, no shadows, DPR 1       (≈ 350–450 MB; 4 GB tablets)
+//   min   city within 550 m, 15 % of the trees, 20 walkers, 4 m ground, no antialias, no tilt  (≈ 250 MB; 2–3 GB phones)
 // After start-up a governor (perf.ts) watches the frame time and the JS heap and thins the crowds and the pixel ratio if
 // the device falls behind, giving them back slowly when it recovers.
 
@@ -23,14 +23,15 @@ export interface Quality {
   treeShare: number;         // share of the trees drawn
   anisotropy: number;
   landmarks: boolean;        // hand-built landmark models
+  landmarkRadius: number;    // landmark models held only within this distance of the view (0 = all, loaded at start)
   terrainUp: number;         // ground resampling: 2 = a 2 m grid (≈4× the vertices of the 4 m LiDAR grid), 1 = as measured
 }
 
 const TIERS: Record<Tier, Omit<Quality, 'tier' | 'reason'>> = {
-  high: { dpr: 2, antialias: true, shadows: true, shadowSize: 4096, tilt: true, cityRadius: 0, people: 280, riverPeople: 120, squarePeople: 260, treeShare: 1, anisotropy: 8, landmarks: true, terrainUp: 2 },
-  mid: { dpr: 1.5, antialias: true, shadows: true, shadowSize: 2048, tilt: true, cityRadius: 1800, people: 160, riverPeople: 80, squarePeople: 160, treeShare: 0.6, anisotropy: 4, landmarks: true, terrainUp: 2 },
-  low: { dpr: 1, antialias: true, shadows: false, shadowSize: 1024, tilt: false, cityRadius: 800, people: 70, riverPeople: 40, squarePeople: 70, treeShare: 0.3, anisotropy: 2, landmarks: true, terrainUp: 1 },
-  min: { dpr: 1, antialias: false, shadows: false, shadowSize: 512, tilt: false, cityRadius: 550, people: 30, riverPeople: 18, squarePeople: 30, treeShare: 0.15, anisotropy: 1, landmarks: true, terrainUp: 1 },
+  high: { landmarkRadius: 0, dpr: 2, antialias: true, shadows: true, shadowSize: 4096, tilt: true, cityRadius: 0, people: 170, riverPeople: 120, squarePeople: 260, treeShare: 1, anisotropy: 8, landmarks: true, terrainUp: 2 },
+  mid: { landmarkRadius: 0, dpr: 1.5, antialias: true, shadows: true, shadowSize: 2048, tilt: true, cityRadius: 1800, people: 100, riverPeople: 80, squarePeople: 160, treeShare: 0.6, anisotropy: 4, landmarks: true, terrainUp: 2 },
+  low: { landmarkRadius: 1200, dpr: 1, antialias: true, shadows: false, shadowSize: 1024, tilt: false, cityRadius: 800, people: 45, riverPeople: 40, squarePeople: 70, treeShare: 0.3, anisotropy: 2, landmarks: true, terrainUp: 1 },
+  min: { landmarkRadius: 800, dpr: 1, antialias: false, shadows: false, shadowSize: 512, tilt: false, cityRadius: 550, people: 20, riverPeople: 18, squarePeople: 30, treeShare: 0.15, anisotropy: 1, landmarks: true, terrainUp: 1 },
 };
 
 function webglRenderer(): string {

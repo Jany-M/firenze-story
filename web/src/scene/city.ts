@@ -367,7 +367,7 @@ const SX = (c: any, a: any, b: any): any => mix(b, a, select(c, float(1), float(
     for (const r of recs) if (names.has(r.name) || ids.has(r.id)) { d0[r.id * 4] = 99998; d0[r.id * 4 + 1] = 99999; r.hidden = true; }
     T0.needsUpdate = true;
   }
-  return { mesh, recs, hide, boxes, follow, tileCount: () => loaded.size };
+  return { mesh, recs, hide, boxes, follow, tileCount: () => loaded.size, idle: () => busy === 0 };
 }
 
 /** Cheap 2D noise for material variation (0..1). */

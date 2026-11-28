@@ -8,13 +8,16 @@ import type { Quality } from './quality';
 interface Crowd { setBudget(base: number, cap: number): void }
 export function createGovernor(q: Quality, renderer: { setPixelRatio(r: number): void },
   crowds: { crowd: Crowd; base: number; cap: number }[]) {
-  let level = 1, acc = 0, frames = 0, sinceUp = 0;
+  let level = 1, acc = 0, frames = 0, sinceUp = 0, held = false;
   const apply = () => {
-    for (const c of crowds) c.crowd.setBudget(c.base * level, Math.max(c.base * level, c.cap * Math.max(level, 0.5)));
+    const l = held ? 0 : level;                       // held: the city's tiles first, the crowds after
+    for (const c of crowds) c.crowd.setBudget(c.base * l, Math.max(c.base * l, c.cap * Math.max(l, 0.5)));
     renderer.setPixelRatio(Math.max(1, q.dpr * (level < 0.6 ? Math.max(0.6, level + 0.2) : 1)));
   };
   return {
     get level() { return level; },
+    /** Hold the walkers back while the city is still streaming in (small devices: the buildings come first). */
+    hold(v: boolean) { if (v !== held) { held = v; apply(); } },
     tick(dt: number) {
       acc += dt; frames++; sinceUp += dt;
       if (acc < 4) return;

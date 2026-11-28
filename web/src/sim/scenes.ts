@@ -1,6 +1,7 @@
 // Live-mode scenes driven by the calendar: daily markets and scheduled events (calcio storico, Scoppio del Carro…).
 // Props come from the Blender library (scene/assets.ts); every scene is built from the same few placed assets.
 import * as THREE from 'three/webgpu';
+import { freeTree, libraryOf } from './free';
 import type { People } from './people';
 import type { Props } from '../scene/assets';
 import { createFX } from './fx';
@@ -45,6 +46,7 @@ export function easter(y: number) {
 export function createScenes(scene: THREE.Scene, people: People, height: Height, props: Props, squares: any[] = []) {
   const square = (re: RegExp) => squares.find(q => re.test(q.name));
   const root = new THREE.Group(); root.name = 'scene-props'; scene.add(root);
+  const keepLib = libraryOf(...Object.values(props.lib));   // the prop library's pieces are shared: never freed
   const sand = new THREE.MeshStandardMaterial({ color: 0xcdb58a, roughness: 1 });
   let active = '', t = 0, paused = false, activeAt: [number, number] | null = null;
   // calcio state
@@ -68,7 +70,7 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
 
   function restoreBridges() { for (const b of bridgeList) b.mesh.visible = lastYear >= b.start && lastYear < b.end; blasts = []; }
   let lastYear = 2026;
-  function clear() { if (blasts.length) restoreBridges(); flood.clear(); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; shoppers = []; dove = null; t = 0; paused = false; davidFrame = null; crew = []; ropes = []; davidD = -1; }
+  function clear() { if (blasts.length) restoreBridges(); flood.clear(); for (const c of [...root.children]) freeTree(c, keepLib); root.clear(); fx.clear(); walk.clearProps(); active = ''; runners = []; shoppers = []; dove = null; t = 0; paused = false; davidFrame = null; crew = []; ropes = []; davidD = -1; }
   const SOLID = /stall|tribune|brindellone|bench|table|scalo|crate|barrel/;      // props people walk around
   const put = (n: string, x: number, z: number, rot = 0) => { const o = props.place(n, x, height(x, z), z, rot, root); if (o && SOLID.test(n)) walk.addProp(o, 0.1); return o; };
 

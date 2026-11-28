@@ -196,6 +196,8 @@ export function createSquares(scene: THREE.Scene, props: Props, people: People, 
   function dropAll() { for (const s of [...sites.values()]) drop(s); }
 
   /** cam: camera position; target: what it looks at; avoid: where an event scene has its own crowd. */
+  const centres = new WeakMap<THREE.Object3D, THREE.Vector3>();     // a bridge does not move: its centre measured once
+  const bridgeCentre = (m: THREE.Object3D) => { let c = centres.get(m); if (!c) { c = new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()); centres.set(m, c); } return c; };
   function update(dt: number, cam: THREE.Vector3, target: THREE.Vector3, y: number, h: number, live: boolean, avoid?: [number, number] | null) {
     clock += dt;
     const e = `${Math.floor(y / 10)}:${live}`;
@@ -212,7 +214,7 @@ export function createSquares(scene: THREE.Scene, props: Props, people: People, 
           .forEach(s => want.set('sq:' + s.q.name + ':' + Math.round(s.x), () => buildSquare('sq:' + s.q.name + ':' + Math.round(s.x), s)));
         const seen = new Set<string>();
         bridges.filter(b => year >= b.start && year < b.end && b.mesh.visible)
-          .map(b => ({ b, c: new THREE.Box3().setFromObject(b.mesh).getCenter(V(0, 0, 0)) }))
+          .map(b => ({ b, c: bridgeCentre(b.mesh) }))
           .filter(o => d(o.c.x, o.c.z) < 220).sort((a, b) => d(a.c.x, a.c.z) - d(b.c.x, b.c.z))
           .filter(o => !seen.has(o.b.name) && seen.add(o.b.name)).slice(0, 2)
           .forEach(o => want.set('br:' + o.b.name + ':' + o.b.start, () => buildBridge('br:' + o.b.name + ':' + o.b.start, o.b)));

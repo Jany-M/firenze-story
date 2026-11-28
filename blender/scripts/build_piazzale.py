@@ -185,7 +185,11 @@ def ramp_level(t): return float(np.interp(t, RT, RL))
 def ramp_of(sign):
     """sign -1: the west ramp (s = SA - t), +1: the east one (s = SB + t); stations from the top."""
     ss = [(SA - t) if sign < 0 else (SB + t) for t in RT]
-    return {"xs": RT, "I": [F0(s) for s in ss], "O": [F1(s) for s in ss], "L": RL[:], "HI": RL[:], "top_first": True}
+    # the last 10 m come down onto this side's own ground (the shared profile is the two sides' mean): no step at the foot
+    own = [_across(s) for s in ss]; L = []
+    for t, l, o in zip(RT, RL, own):
+        w = max(0.0, min(1.0, (t - (RLEN - 10)) / 10)); L.append(l + w * (o - l))
+    return {"xs": RT, "I": [F0(s) for s in ss], "O": [F1(s) for s in ss], "L": L, "HI": L[:], "top_first": True}
 RW, RE = ramp_of(-1), ramp_of(1)
 def _low(x, z): return min(dtm(x + NOUT[0] * k, z + NOUT[1] * k) for k in (1.5, 2.5, 3.5))
 # the walls of the city side as lines with [x, z, top, foot] points, the low side towards the city
@@ -256,7 +260,10 @@ def slab(part, mat, outer, holes=(), lift=0.04, cell=4.0, flat=None, hfn=None):
     bt.free()
 # the terrace, less the carriageway round its south side (Viale Galileo into Viale Michelangiolo, left to the city's
 # streets, so the road runs on unbroken past both ends of the square) and less the monument's platform
-pv = GJ["pave"]; slab(GRAVEL, "gravel", pv["outer"], pv["holes"]); slab(ASPH, "asph", pv["outer"], pv["holes"])
+# laid on the LiDAR, but never below the level the ramps arrive at (where the old entries dipped the ground towards them):
+# the ramps' tops and the paving meet flush
+pvh = lambda x, z: max(dtm(x, z), TOPL - 0.01)
+pv = GJ["pave"]; slab(GRAVEL, "gravel", pv["outer"], pv["holes"], hfn=pvh); slab(ASPH, "asph", pv["outer"], pv["holes"], hfn=pvh)
 EDITS.append({"poly": pv["outer"], "drop": 0.3})
 mx, mz, mr = GJ["monument"]                                            # the LiDAR's hump of the platform cut away: the
 EDITS.append({"poly": [[mx + mr * math.cos(a), mz + mr * math.sin(a)] for a in np.linspace(0, 2 * math.pi, 20, endpoint=False)], "max": 63.35})   # monument stands on the terrace
@@ -271,7 +278,7 @@ def railing(part, F, L, v, h=1.0):
 def build_ramp(R, low, bal_len):
     I, O, HI, L, n = R["I"], R["O"], R["HI"], R["L"], len(R["xs"])
     for i in range(n - 1):
-        q = [Vs(*I[i], HI[i] + 0.05), Vs(*O[i], L[i] + 0.05), Vs(*O[i + 1], L[i + 1] + 0.05), Vs(*I[i + 1], HI[i + 1] + 0.05)]
+        q = [Vs(*I[i], HI[i] + 0.04), Vs(*O[i], L[i] + 0.04), Vs(*O[i + 1], L[i + 1] + 0.04), Vs(*I[i + 1], HI[i + 1] + 0.04)]   # as the paving
         for tri in ((q[0], q[1], q[2]), (q[0], q[2], q[3])):
             t = list(tri)
             if (t[1] - t[0]).cross(t[2] - t[0]).z < 0: t = t[::-1]

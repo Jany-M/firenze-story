@@ -42,14 +42,18 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
   // one box per city record (from its triangles), filled in by the city as its tiles load
   const B = city.boxes, recs = city.recs;
   /** ray (origin o, unit dir d) against box → [tEnter, tExit] or null */
-  const slab = (o: THREE.Vector3, d: THREE.Vector3, mn: number[], mx: number[]): [number, number] | null => {
-    let t0 = 0, t1 = Infinity; const O = [o.x, o.y, o.z], D = [d.x, d.y, d.z];
+  // ray–box test without allocations (it runs for every nearby building and ray, every scan): the result in SL
+  const SL: [number, number] = [0, 0];
+  const slab = (o: THREE.Vector3, d: THREE.Vector3, x0: number, y0: number, z0: number, x1: number, y1: number, z1: number): [number, number] | null => {
+    let t0 = 0, t1 = Infinity;
     for (let k = 0; k < 3; k++) {
-      if (Math.abs(D[k]) < 1e-9) { if (O[k] < mn[k] || O[k] > mx[k]) return null; continue; }
-      let a = (mn[k] - O[k]) / D[k], b = (mx[k] - O[k]) / D[k]; if (a > b) [a, b] = [b, a];
-      t0 = Math.max(t0, a); t1 = Math.min(t1, b); if (t0 > t1) return null;
+      const O = k === 0 ? o.x : k === 1 ? o.y : o.z, D = k === 0 ? d.x : k === 1 ? d.y : d.z;
+      const mn = k === 0 ? x0 : k === 1 ? y0 : z0, mx = k === 0 ? x1 : k === 1 ? y1 : z1;
+      if (Math.abs(D) < 1e-9) { if (O < mn || O > mx) return null; continue; }
+      let a = (mn - O) / D, b = (mx - O) / D; if (a > b) { const t = a; a = b; b = t; }
+      if (a > t0) t0 = a; if (b < t1) t1 = b; if (t0 > t1) return null;
     }
-    return [t0, t1];
+    SL[0] = t0; SL[1] = t1; return SL;
   };
   const rc = new THREE.Raycaster(), ndc = new THREE.Vector2(), occCity = new Set<number>(), occParts = new Set<THREE.Object3D>();
   const faded = new Set<THREE.Object3D>(), hits = new Map<number, number>();
@@ -79,12 +83,12 @@ export function createXray(camera: THREE.PerspectiveCamera, target: THREE.Vector
         const cx = (B[o] + B[o + 3]) / 2, cz = (B[o + 2] + B[o + 5]) / 2;
         if (Math.abs(cx - cam.x) > D || Math.abs(cz - cam.z) > D) continue;          // cheap reject
         if (inBox(B[o], B[o + 1], B[o + 2], B[o + 3], B[o + 4], B[o + 5])) continue;   // the building being looked at
-        if (isOcc(slab(cam, dir, [B[o], B[o + 1], B[o + 2]], [B[o + 3], B[o + 4], B[o + 5]]), B[o + 1])) hits.set(i, (hits.get(i) ?? 0) + (sx === 0 && sy === 0 ? 3 : 1));
+        if (isOcc(slab(cam, dir, B[o], B[o + 1], B[o + 2], B[o + 3], B[o + 4], B[o + 5]), B[o + 1])) hits.set(i, (hits.get(i) ?? 0) + (sx === 0 && sy === 0 ? 3 : 1));
       }
       for (const p of parts) {
         const w = p.whole ?? p.box;
         if (inBox(w.min.x, w.min.y, w.min.z, w.max.x, w.max.y, w.max.z)) continue;   // the landmark being looked at, whole
-        if (!isOcc(slab(cam, dir, [p.box.min.x, p.box.min.y, p.box.min.z], [p.box.max.x, p.box.max.y, p.box.max.z]), p.box.min.y)) continue;
+        if (!isOcc(slab(cam, dir, p.box.min.x, p.box.min.y, p.box.min.z, p.box.max.x, p.box.max.y, p.box.max.z), p.box.min.y)) continue;
         // a big part (a whole stretch of wall) only fades if the ray really hits it that close
         const h = rc.intersectObject(p.obj, true)[0];
         if (h && h.distance < D * 0.35) occParts.add(p.obj);

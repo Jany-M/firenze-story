@@ -34,7 +34,17 @@ Lean, DRY, reusable shared modules, standard formats, so other tools can plug in
   (Chrome) the JS heap; over 45 ms a frame or 80 % of the heap thins the crowds by a quarter (`people.setBudget`) and, lower
   down, the pixel ratio; under 24 ms and 60 % gives back a little every 12 s, never above the tier. The footprint grid is
   fetched once (the ground's softening and the walkable ground share it); the Piazzale's balusters lost a third of their
-  faces (17 → 13 MB). Still to do: landmark models loaded by distance on `min`/`low`.
+  faces (17 → 13 MB).
+- 2026-11-28 (steady memory, review 7): **landmark streaming** on `low` (1.2 km) and `min` (800 m): what each model replaces is
+  worked out for all of them at start (no model file needed), the files of the models near the view are fetched, the others
+  as the view comes near (one at a time, every second), and those beyond 1.6 × the radius are let go with their geometry and
+  materials freed (`landmarks.stream`). On the two lower tiers the crowds wait until the city's tiles round the view are in;
+  a note shows while tiles and models stream. Leaks closed: a figure kept every garment of every era it had worn (now taken
+  off and freed), fishing rods and lines, fishermen's stones, washerwomen's baskets left on recycled figures, event props and
+  river props made on the spot (`sim/free.ts` frees what is not the shared library); walkers have a ceiling (1.6 × the tier's
+  number + 60, was 600). Allocation churn trimmed in the x-ray ray tests and the bridges' centres. Measured on `high`
+  (localhost, Chrome): the JS heap swings between ≈1.1 and 1.18 GB over two rounds of six places – flat, garbage collected; on
+  `min` ≈ 490 MB live after a collection. The walkers are fewer on every tier (170 / 100 / 45 / 20).
 - Flicker: decoration boxes in the Blender kit (`pbox`) have no back face when they sit on a wall; camera near plane =
   3 % of the distance to the target (0.5–20 m); the sun's shadow camera covers 1.25 × that distance (90–700 m, in 30 m
   steps) and its centre is snapped to the shadow-map texel grid; normal bias scales with the texel size.

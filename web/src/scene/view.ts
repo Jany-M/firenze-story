@@ -1,4 +1,5 @@
-// View management on top of MapControls (left-drag pan · Ctrl + left-drag or right-drag rotate and tilt · wheel zoom):
+// View management on top of MapControls (left-drag pan · Ctrl + left-drag rotate and tilt · right-drag up and down (the
+// camera and the point it looks at rise or sink together, 2026-11-28) · wheel zoom):
 //   W A S D move · Q / E rotate · R / F tilt · + / - zoom · N north-up · H help
 // Moving the mouse with Ctrl held and no button pressed does nothing (it used to rotate, and turned the view by accident).
 // The tilt goes down to the horizontal, so a front can be seen square on from the street.
@@ -6,7 +7,7 @@ import * as THREE from 'three/webgpu';
 import type { MapControls } from 'three/addons/controls/MapControls.js';
 
 export const VIEW_HELP = [
-  ['Left drag', 'move'], ['Ctrl + left drag', 'rotate and tilt'], ['Right drag', 'rotate and tilt'], ['Wheel', 'zoom'],
+  ['Left drag', 'move'], ['Ctrl + left drag', 'rotate and tilt'], ['Right drag', 'move up and down'], ['Wheel', 'zoom'],
   ['W A S D', 'move'], ['Q / E', 'rotate'], ['R / F', 'tilt'], ['+ / −', 'zoom'], ['N', 'face north'], ['H', 'this help'],
 ];
 
@@ -38,6 +39,20 @@ export function createViewControls(camera: THREE.PerspectiveCamera, controls: Ma
     const len = THREE.MathUtils.clamp(off.length() * f, controls.minDistance, controls.maxDistance);
     camera.position.copy(controls.target).add(off.setLength(len));
   }
+
+  // right drag: straight up and down – camera and target together, by the drag's height scaled with the distance
+  (controls.mouseButtons as any).RIGHT = null;
+  let vDrag: { y: number; id: number } | null = null;
+  dom.addEventListener('pointerdown', e => { if (e.button === 2 && e.pointerType === 'mouse') { vDrag = { y: e.clientY, id: e.pointerId }; dom.setPointerCapture(e.pointerId); } });
+  dom.addEventListener('pointermove', e => {
+    if (!vDrag || e.pointerId !== vDrag.id) return;
+    const dy = e.clientY - vDrag.y; vDrag.y = e.clientY; if (!dy) return;
+    const dist = camera.position.distanceTo(controls.target), h = (-dy * dist * 1.6) / Math.max(300, dom.clientHeight);   // drag up: rise
+    const ty = THREE.MathUtils.clamp(controls.target.y + h, -10, 3000) - controls.target.y;
+    controls.target.y += ty; camera.position.y += ty;
+  });
+  const endV = (e: PointerEvent) => { if (vDrag && e.pointerId === vDrag.id) { dom.releasePointerCapture(e.pointerId); vDrag = null; } };
+  dom.addEventListener('pointerup', endV); dom.addEventListener('pointercancel', endV);
 
   addEventListener('keydown', e => {
     const tag = (e.target as HTMLElement).tagName; if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;

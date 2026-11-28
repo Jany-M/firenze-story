@@ -280,10 +280,12 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const groundAt = makeHeight({ ...meta, terrain: { n, step: tstep } }, h, hw, { ...dated, year: () => 99999 });   // bridges and trees: today's ground
   const bmats = bridgeMaterials(tex) as Record<string, THREE.Material>;
   const bridges: { mesh: THREE.Object3D; x: number; start: number; end: number; name: string; kind: string }[] = [];
+  const spans: { pts: [number, number][]; start: number; end: number }[] = [];   // where a bridge stands, by year (who may cross)
   for (const b of meta.streets.bridges) {
-    if (/vecchio/i.test(b.name) && b.start >= 1345) continue;      // the 1345 bridge with its shops is a landmark model (landmarks.ts)
     const pts: [number, number][] = [];
     for (let i = 0; i < b.count; i++) pts.push([bpos[(b.base + i) * 3], bpos[(b.base + i) * 3 + 2]]);
+    spans.push({ pts, start: b.start, end: b.end ?? 99999 });                  // every phase, the landmark Ponte Vecchio too
+    if (/vecchio/i.test(b.name) && b.start >= 1345) continue;      // the 1345 bridge with its shops is a landmark model (landmarks.ts)
     const cx = pts.reduce((s2, q) => s2 + q[0], 0) / pts.length;
     const m = mergeBridge(buildBridge(pts, specFor(b.name, b.start, b.kind), levelAt(cx), groundAt), bmats);
     m.name = `${b.name} ${b.start}`;
@@ -340,7 +342,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     for (const b of bridges) b.mesh.visible = year >= b.start && year < b.end;
     for (const w of weirs) w.mesh.visible = year >= w.start && year < w.end;
   }
-  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG, dated, foot };
+  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG, dated, foot, spans };
 }
 
 /** Terrain height lookup for agents and props: LiDAR core grid, 40 m ring outside it. */

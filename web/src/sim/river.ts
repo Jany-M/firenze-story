@@ -6,6 +6,7 @@ import * as THREE from 'three/webgpu';
 import type { Props } from '../scene/assets';
 import { outfitFor, type People, type Pose, type PoseMix } from './people';
 import { walk } from './walk';
+import { freeTree, libraryOf } from './free';
 
 type Height = (x: number, z: number) => number;
 type Axis = number[][];                     // [x, level, z centre, z north bank, z south bank], every 20 m, flow -> -x
@@ -90,14 +91,22 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   // lungarno wall), or if no street is near at all (the open fields and gravel banks outside the town).
   const cells = new Map<string, number[][]>();
   for (const n of streetNodes) { const k = `${Math.floor(n[0] / 20)},${Math.floor(n[2] / 20)}`; (cells.get(k) ?? cells.set(k, []).get(k)!).push(n); }
-  function reachable(x: number, z: number, y = height(x, z)) {
+  function reachable(x: number, z: number, y = height(x, z), strict = false) {
+    // strict (people put on a bank or in the shallows): a street at about their level within 30 m, or – outside the built
+    // city of that time – open fields; never a small inlet between walls and houses with no way down to it
     let near = false;
     for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) for (const n of cells.get(`${Math.floor(x / 20) + i},${Math.floor(z / 20) + j}`) ?? []) {
       const d = Math.hypot(n[0] - x, n[2] - z);
       if (d < 60) near = true;
-      if (d < 30 && Math.abs(n[1] - y) < 2.2) return true;
+      if (d < 30 && Math.abs(n[1] - y) < 2.2 && (!strict || clearLine(x, z, n[0], n[2]))) return true;
     }
-    return !near;
+    return !near;                                            // open country: fields come down to the water
+  }
+  /** Nothing built between the two points (a way down to the water, not a yard behind houses). */
+  function clearLine(x0: number, z0: number, x1: number, z1: number) {
+    const L = Math.hypot(x1 - x0, z1 - z0), n = Math.max(1, Math.ceil(L / 2));
+    for (let k = 1; k < n; k++) { const t = k / n; if (walk.blocked(x0 + (x1 - x0) * t, z0 + (z1 - z0) * t, 0.3, false)) return false; }
+    return true;
   }
   /** Rest a prop on the ground: at the ground's height under it, tilted with the slope (nothing hangs in the air or sinks). */
   const _up = new THREE.Vector3(0, 1, 0), _n = new THREE.Vector3(), _q = new THREE.Quaternion();
@@ -130,7 +139,8 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   let ducks: { obj: THREE.Object3D; x: number; lane: number; v: number }[] = [];
   let birds: THREE.InstancedMesh | null = null; const birdState: { c: THREE.Vector3; r: number; a: number; s: number; h: number }[] = [];
   let key = '', small: THREE.Object3D[] = [], viewK = '';
-  let stoneMat: THREE.Material | undefined;
+  let keepLib: Set<object> | undefined;
+  let stoneMat: THREE.Material | undefined; const stoneGeo = new THREE.IcosahedronGeometry(0.34, 1);   // shared (no geometry made per rebuild)
 
   function waterPos(x: number, lane: number) {       // lane -1 north bank .. 0 centre .. 1 south bank
     const p = at(x); const z = lane < 0 ? p[2] + (p[3] - p[2]) * -lane : p[2] + (p[4] - p[2]) * lane;
@@ -158,7 +168,10 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     return { land: new THREE.Vector3(x, height(x, zl), zl), water: new THREE.Vector3(x, surface?.(x, z - dir * 0.6) ?? p[1], z - dir * 0.6), dir };
   }
   function clear() {
-    for (const o of [...statics, ...movers.filter(m => m.kind !== 'wade').map(m => m.obj), ...ducks.map(d => d.obj), ...grazers.map(g => g.obj)]) group.remove(o);
+    keepLib ??= libraryOf(...Object.values(props.lib));
+    for (const g of [stoneGeo, basketGeo, basketMat, loadGeo, loadMat, stoneMat, smokeMat]) if (g) keepLib.add(g);
+    for (const o of [...statics, ...movers.filter(m => m.kind !== 'wade').map(m => m.obj), ...ducks.map(d => d.obj), ...grazers.map(g => g.obj)]) { group.remove(o); freeTree(o, keepLib); }
+    for (const w of washers) for (const c of [...w.ag.obj.children]) if ((c as any).geometry === basketGeo) w.ag.obj.remove(c);   // her basket stays with her, not the figure
     statics = []; movers = []; ducks = []; workers.length = 0; washers.length = 0; grazers = []; smoke.length = 0; ancientObjs = []; small = []; viewK = '';
     for (const c of crew) people.release(c); crew = [];
   }
@@ -187,7 +200,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     // boats between the weirs only until 1586, always outside them
     if (live) for (let i = 0; i < 9; i++) {
       let x = 0, north = false, p = new THREE.Vector3(), ok = false;
-      for (let t = 0; t < 6 && !ok; t++) { x = (bx.carraia ?? -400) - 600 + R() * 1900; north = R() < 0.5; p = onBank(x, north, 1.2); ok = reachable(p.x, p.z, p.y); }
+      for (let t = 0; t < 6 && !ok; t++) { x = (bx.carraia ?? -400) - 600 + R() * 1900; north = R() < 0.5; p = onBank(x, north, 1.2); ok = reachable(p.x, p.z, p.y, true); }
       if (!ok) continue;
       const w = waterPos(x, north ? -1 : 1);
       const seated = i % 3 !== 2;
@@ -196,12 +209,17 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       if (seated) {                                     // on a stone ~0.42 m high: hips at the stone top, feet on the ground
         a.obj.position.y = p.y - 0.6; people.setPose(a, 'sitrod', w.y);
         stoneMat ??= new THREE.MeshStandardNodeMaterial({ color: 0xa39d90, roughness: 0.95, flatShading: true });
-        const st = new THREE.Mesh(new THREE.IcosahedronGeometry(0.34, 1), stoneMat); st.scale.set(1, 0.62, 0.85); st.position.set(a.obj.position.x, p.y + 0.15, a.obj.position.z);
+        const st = new THREE.Mesh(stoneGeo, stoneMat); st.scale.set(1, 0.62, 0.85); st.position.set(a.obj.position.x, p.y + 0.15, a.obj.position.z);
         st.rotation.y = a.obj.rotation.y; st.translateZ(-0.12); st.castShadow = true; group.add(st); statics.push(st);
       } else people.setPose(a, 'rod', w.y);
     }
     if (live && inRange(year, RIVER_LIFE.waders)) for (let i = 0; i < 2; i++) {   // wading knee-deep near the bank, rod out over the current
-      const x = (bx.carraia ?? -400) - 300 + R() * 1400, north = R() < 0.5, p = waterPos(x, north ? -0.88 : 0.88);
+      let x = 0, north = false, ok = false;
+      for (let t = 0; t < 6 && !ok; t++) {                // only off a bank they can reach (a street at their level close by, or open fields)
+        x = (bx.carraia ?? -400) - 300 + R() * 1400; north = R() < 0.5; const b = onBank(x, north, 1.2); ok = reachable(b.x, b.z, b.y, true);
+      }
+      if (!ok) continue;
+      const p = waterPos(x, north ? -0.88 : 0.88);
       const a = people.claim(p.clone().setY(p.y - 0.45), waterPos(x, 0), 'static', 'idle', undefined, 'fisher'); if (!a) continue;
       a.obj.position.y = p.y - 0.45; people.setPose(a, 'rod', p.y); crew.push(a);
     }
@@ -254,7 +272,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       for (let k = 0; k < 12; k++) {
         const x = x0 + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * 18;
         let ok = true; for (let d = -span / 2; d <= span / 2 && ok; d += 1.5) { const e = edge(x + d, north, out); if (walk.blocked(e.land.x, e.land.z, 0.6, false)) ok = false; }
-        if (ok) { const e = edge(x, north, out); ok = reachable(e.land.x, e.land.z, e.land.y); }
+        if (ok) { const e = edge(x, north, out); ok = reachable(e.land.x, e.land.z, e.land.y, true); }
         if (ok) return x;
       }
       return null;
