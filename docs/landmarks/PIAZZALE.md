@@ -53,7 +53,15 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
   parapet (*inferred*), part `viale_muri`.
 - **The monument to Michelangelo**: three marble steps ringed by posts and chains, the lower pedestal with red marble
   panels and the arms in bronze, the four bronze allegories of the Medici Chapel (Day, Night, Dawn, Dusk) reclining at its
-  corners, the upper pedestal with the inscriptions, and the bronze David looking towards the hills (figures simplified).
+  corners, the upper pedestal with the inscriptions, and the bronze David looking towards the hills.
+- **The statues as figures** (refinement pass, 2026-11-28; `blender/scripts/landmark_figure.py`): bodies built from posed
+  joints – ellipsoids for head, trunk, hands and feet, tapered limbs with rounded joints, smooth-shaded –, posed from
+  photographs of the works. The David (4.85 m on its rock, the tree stump by the right leg): weight on the right leg, the left
+  set forward and out, the right arm down along the thigh, the left hand at the shoulder with the sling, the head turned to
+  his left. The four Times of Day reclining on scrolled couches at the corners, each along its side with the head towards
+  the corner: Night with her head on the raised arm, Dawn waking, Day with an arm behind the back, Dusk leaning back with
+  the head lowered (which figure lies at which corner, and the couches' form, *inferred*). Faces, hair, muscles and the
+  sling are not modelled; the same builder will replace the other stand-in statues.
 - **The Loggia**: an arcade of three round arches between paired columns, closed end bays, a balustraded roof terrace, on a
   podium above the terrace wall with its inscription.
 - **The Rampe**: retaining walls in courses of pietra forte with balustrades, every one on its measured line (until
@@ -65,7 +73,7 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
   (`models/landmarks/ground_edits.json`, applied to the app's ground grid, `web/src/scene/terrainRefine.ts`).
 - Basins at the OSM fountains' places (ways 463430105, 690889344).
 
-Still open (refinement pass): the statues of the monument as real figures (now blocks); the lower terrace's brick paving
+Still open (refinement pass): the figures' faces, hair, muscles and the sling; the lower terrace's brick paving
 and garden beds by the Belvedere; the round fountain basin seen in the 1900s postcards on the terrace (not dated yet).
 
 ## Phases
