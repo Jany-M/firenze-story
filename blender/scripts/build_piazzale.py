@@ -113,21 +113,35 @@ def med(a, k=2):
 def strip(p0, p1, n, a, b):
     """Ground-edit polygon along p0 -> p1, from a to b metres along the normal n (scene x, z)."""
     return [[p0[0] + n[0] * a, p0[1] + n[1] * a], [p1[0] + n[0] * a, p1[1] + n[1] * a], [p1[0] + n[0] * b, p1[1] + n[1] * b], [p0[0] + n[0] * b, p0[1] + n[1] * b]]
-def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None, cut=5.0, fill=3.0, grottoes=(), open_below=0.0):
+def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None, cut=5.0, fill=3.0, grottoes=(), open_below=0.0, footfn=None, slope=False):
     """A retaining wall along the snapped line `name`: rusticated pietra forte from the foot to the top, a coping, then
     the balustrade (rail="bal"), a plain stone parapet ("parapet", *inferred*) or nothing. The ground in front is cut
     down to the foot and filled up behind to the top. grottoes: (x, width, height) – niches at that x along the wall."""
     w = WJ[name]; P = [p for p in w["pts"] if upto is None or upto(p)]; nx, nz = w["low"]
     tops = med([p[2] for p in P]); feet = med([p[3] for p in P])
+    if slope: tops = [sum(tops[max(0, i - 2):i + 3]) / len(tops[max(0, i - 2):i + 3]) for i in range(len(tops))]
     if top is not None: tops = [top] * len(P)
     frames = []
     for i in range(len(P) - 1):
         p0, p1 = (P[i][0], P[i][1]), (P[i + 1][0], P[i + 1][1])
         F, L = seg(p0, p1, ((p0[0] + p1[0]) / 2 + nx * 10, (p0[1] + p1[1]) / 2 + nz * 10))
         t, f = max(tops[i], tops[i + 1]), min(feet[i], feet[i + 1])
+        if footfn:                                                     # a ramp runs along the wall's foot here
+            ff = [footfn(*q) for q in (p0, p1)]
+            if None not in ff: f = min(ff)
         if open_below and min(feet[i], feet[i + 1]) > (top if top is not None else t) - open_below:
             continue                                                   # the ramp reaches the terrace here: no wall, no rail
         if t - f < 0.4: t = f + 0.4
+        if slope:                                                      # a wall stepping down a slope: its top follows the ground
+            ta, tb = max(tops[i], f + 0.4), max(tops[i + 1], f + 0.4); pcs = max(1, int(L / 0.6))
+            for k in range(pcs):
+                u0, u1 = L * k / pcs, L * (k + 1) / pcs; tt = ta + (tb - ta) * (k + 0.5) / pcs
+                box(bm_for(part, "forte"), F, u0, u1 + 0.01, f - 0.8, tt, -depth, 0)
+                pbox(bm_for(part, "forte"), F, u0 - 0.01, u1 + 0.02, tt - 0.3, tt + 0.05, 0, 0.25)
+                if rail == "parapet": box(bm_for(part, "forte"), F, u0, u1 + 0.01, tt, tt + 0.85, -0.5, 0.05)
+            EDITS.append({"poly": strip(p0, p1, (nx, nz), -3.1, cut), "max": round(f - 0.05, 2)})
+            EDITS.append({"poly": strip(p0, p1, (nx, nz), -3.2 - fill, -3.2), "min": round(min(ta, tb) - 0.08, 2)})
+            frames.append((F, L, t, f, p0, p1)); continue
         rusticated(part, F, L, f - 0.8, t, course=course, depth=depth)
         pbox(bm_for(part, "forte"), F, -0.15, L + 0.15, t - 0.35, t, 0, 0.3)                   # coping
         if rail == "bal": balustrade(part, F, L, t)
@@ -138,19 +152,74 @@ def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None
         # the ground is cut to the foot from just behind the face (under the wall's body) to `cut` in front, and filled to
         # the top beyond: the nearest terrain point behind the face (2 m grid) is always cut, so the step between the two falls
         # inside the wall's body (4.5 m deep), never in front of the face
-        EDITS.append({"poly": strip(p0, p1, (nx, nz), -2.1, cut), "max": round(f - 0.05, 2)})
-        EDITS.append({"poly": strip(p0, p1, (nx, nz), -2.2 - fill, -2.2), "min": round(t - 0.08, 2)})
+        EDITS.append({"poly": strip(p0, p1, (nx, nz), -3.1, cut), "max": round(f - 0.05, 2)})
+        EDITS.append({"poly": strip(p0, p1, (nx, nz), -3.2 - fill, -3.2), "min": round(t - 0.08, 2)})
         frames.append((F, L, t, f, p0, p1))
     return frames
 
+# ------------------------------------------------------------------ Viale Poggi's two ramps beside the terrace: geometry first, the terrace wall stands on them
+# LiDAR 2023 cross-sections every 4 m and Street View (2022, 2024): the west ramp climbs east along the terrace wall and
+# reaches the terrace's level at its top end, where the wall stops; the east ramp is its mirror image, leaving the terrace
+# through the oblique corner at x 842–848 and running down along the wall to Viale Poggi. Both are drawn as regular strips
+# of constant width, level across, their level along them read from the LiDAR, smoothed and made to fall steadily.
+def _line(P):
+    """z at x on a polyline of (x, z, ...) points, extended straight beyond its ends."""
+    def z(x):
+        for a, b in zip(P, P[1:]):
+            if a[0] <= x <= b[0]: return a[1] + (b[1] - a[1]) * (x - a[0]) / max(1e-6, b[0] - a[0])
+        a, b = (P[0], P[1]) if x < P[0][0] else (P[-2], P[-1])
+        return a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0])
+    return z
+def lerp(a, b, t): return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+_nw = WJ["north_w"]["pts"]                                            # the snapped line wavered over the low wall at the west ramp's top;
+WJ["north_w"]["pts"] = ([p for p in _nw if p[0] < 799.5] + [[805.0, 936.3, 63.1, 61.8], [812.0, 933.3, 63.1, 55.9],
+                        [815.0, 933.6, 63.1, 55.9], [818.0, 935.0, 63.1, 55.9]] + [p for p in _nw if p[0] > 820])   # the corner beyond read off the DTM
+zw, ze = _line(WJ["north_w"]["pts"]), _line(WJ["north_e"]["pts"])
+TOPL = 63.1                                                           # the terrace's level where a ramp meets it
+def make_ramp(xs, inner, outer, head, top_first, ts=(0.3, 0.45, 0.6, 0.75)):
+    """xs: stations (x); inner/outer(x) -> (x, z); head(x): True where the inner side is the opening onto the terrace
+    (its points at the terrace's level). top_first: the top end is xs[0]."""
+    I = [inner(x) for x in xs]; O = [outer(x) for x in xs]
+    raw = [float(np.median([dtm(*lerp(a, b, t)) for t in ts])) for a, b in zip(I, O)]
+    idx = list(range(len(xs))) if top_first else list(range(len(xs) - 1, -1, -1))
+    L = [0.0] * len(xs); prev = TOPL; dist = 0.0
+    for k, i in enumerate(idx):
+        if k: dist += abs(xs[i] - xs[idx[k - 1]])
+        sm = [raw[j] for j in range(max(0, i - 2), min(len(xs), i + 3))]
+        v = min(sum(sm) / len(sm), prev, TOPL)                         # steadily down from the top
+        v = max(v, TOPL - 0.2 * dist) if dist < 12 else v            # no step where it leaves the terrace: at most 1 in 5
+        L[i] = prev = v
+    L = [L[0]] + [(L[i - 1] + L[i] + L[i + 1]) / 3 for i in range(1, len(L) - 1)] + [L[-1]]
+    HI = [TOPL if head(x) else l for x, l in zip(xs, L)]
+    return {"xs": xs, "I": I, "O": O, "L": L, "HI": HI, "top_first": top_first}
+# west: x 764 -> 812, 7.5 m wide; the head x 805–812 opens onto the terrace, the outer edge closing in to its corner (812, 933.3)
+_xw = [float(x) for x in range(764, 805)][::2] + [805.0, 807.0, 809.0, 811.0, 812.0]
+_ow = lambda x: (x, zw(x) - 7.5) if x <= 798 else lerp((798.0, zw(798) - 7.5), (812.0, 933.3), (x - 798) / 14)
+RW = make_ramp(_xw, lambda x: (x, zw(x)) if x <= 805 else lerp((805.0, 936.3), (812.0, 933.3), (x - 805) / 7), _ow, lambda x: x > 805.01, False)
+# east: x 842 -> 888, 9 m wide; the head x 842–848 is the oblique corner, from the end of the city-side wall (842.1, 938.6)
+_xe = [842.1, 844.0, 846.0, 848.3] + [float(x) for x in range(850, 889, 2)]
+_oe = lambda x: lerp((842.1, 938.6), (849.6, 939.6), (x - 842.1) / 7.5) if x < 849.6 else (x + 0.145 * 9.0, ze(x) - 0.989 * 9.0)
+RE = make_ramp(_xe, lambda x: lerp((842.1, 938.6), (848.3, 948.5), (x - 842.1) / 6.2) if x < 848.3 else (x, ze(x)), _oe, lambda x: x < 848.29, True, ts=(0.5, 0.65, 0.8))   # read on the road half: a stepped path runs along the wall's foot
+def ramp_foot(R, x0, x1):
+    def f(x, z):
+        if x0 <= x <= x1: return float(np.interp(x, R["xs"], R["L"]))
+        return None
+    return f
+_fw, _fe = ramp_foot(RW, 764, 804.9), ramp_foot(RE, 848.2, 888)
+def foot_nw(x, z):
+    if 804.9 <= x <= 812.1: return TOPL                                 # the west ramp's opening: no wall
+    return _fw(x, z)
+print("ramp levels W", [round(v, 1) for v in RW["L"]], "E", [round(v, 1) for v in RE["L"]])
+
 # ------------------------------------------------------------------ the terrace: walls on the city side, the Iris side, the west
 TOP = 63.2
-for nm in ("north_w", "north_step", "north_e"): wall_line(nm, PZ, top=TOP, open_below=1.3)   # open where Viale Poggi meets it
+wall_line("north_w", PZ, top=TOP, open_below=1.3, footfn=foot_nw)   # the ramps run at the wall's foot, and it opens where
+wall_line("north_e", PZ, top=TOP, open_below=1.3, footfn=_fe)       # they meet the terrace (the oblique corner left open)
 wall_line("east", PZ)
 wall_line("west_n", PZ, top=63.3)
 wall_line("west_s", PZ, upto=lambda p: p[1] < 1004)
 # the containing walls below, along Viale Poggi's bends and on the Iris garden side (built with the Viale, 1865–76)
-for nm in ("viale_low", "viale_w1", "viale_w2", "iris"): wall_line(nm, VW, rail="parapet")
+for nm in ("viale_low", "viale_w1", "viale_w2", "iris"): wall_line(nm, VW, rail="parapet", slope=True)
 
 # ------------------------------------------------------------------ the great staircase on the city side (west end)
 # 40 steps (OSM way 233265212) from the terrace (63.4) down to the lower terrace by the Belvedere (57.3), 12 m wide,
@@ -179,7 +248,7 @@ def slab(part, mat, outer, holes=(), lift=0.04, cell=4.0, flat=None, hfn=None):
     """A ground slab on the polygon (with holes), cut into 4 m cells and laid on the LiDAR heights (or flat at `flat`)."""
     rings = [list(outer)] + [list(h) for h in holes]
     pts = [Vector((x, -z, 0)) for r in rings for x, z in r]
-    tris = tessellate_polygon([[Vector((x, -z, 0)) for x, z in r] for r in rings]); print("slab", part, mat, len(pts), len(tris))
+    tris = tessellate_polygon([[Vector((x, -z, 0)) for x, z in r] for r in rings])
     bt = bmesh.new(); vs = [bt.verts.new(p) for p in pts]
     for a, b, c in tris:
         try: bt.faces.new((vs[a], vs[b], vs[c]))
@@ -204,22 +273,55 @@ pv = GJ["pave"]; slab(GRAVEL, "gravel", pv["outer"], pv["holes"]); slab(ASPH, "a
 EDITS.append({"poly": pv["outer"], "drop": 0.3})
 mx, mz, mr = GJ["monument"]                                            # the LiDAR's hump of the platform cut away: the
 EDITS.append({"poly": [[mx + mr * math.cos(a), mz + mr * math.sin(a)] for a in np.linspace(0, 2 * math.pi, 20, endpoint=False)], "max": 63.35})   # monument stands on the terrace
-# Viale Poggi where it climbs to the terrace along the city side and goes down again on the other side (the two ramps
-# that meet the terrace at its step on the city side): gravel, then asphalt like the terrace
-def ramp_h(r):
-    """The ramp's level: the LiDAR, read 2 m out from the terrace wall where closer (the wall's top would show)."""
-    wp = WJ[r["wall"]]["pts"]; nx, nz = r["low"]
-    def h(x, z):
-        d = min(abs((x - a[0]) * nx + (z - a[1]) * nz) for a in wp if abs(a[0] - x) < 4) if any(abs(a[0] - x) < 4 for a in wp) else 9
-        k = max(0.0, 2.0 - d); return dtm(x + nx * k, z + nz * k)
-    return h
-for r in GJ["ramps"]:
-    hf = ramp_h(r)
-    slab(GRAVEL, "gravel", r["outer"], r["holes"], hfn=hf); slab(ASPH, "asph", r["outer"], r["holes"], hfn=hf)
-    EDITS.append({"poly": r["outer"], "drop": 0.3})
-    for (x0, z0), (x1, z1) in zip(r["edge"], r["edge"][1:]):            # a low stone parapet on its open side (*inferred*)
-        F, L = seg((x0, z0), (x1, z1), (x0 + r["low"][0] * 5, z0 + r["low"][1] * 5)); g0 = hf((x0 + x1) / 2, (z0 + z1) / 2)
-        box(bm_for(VW, "forte"), F, -0.02, L + 0.02, g0 - 1.2, g0 + 0.85, -0.45, 0.05)
+# Viale Poggi where it climbs to the terrace along the city side and goes down again on the other side: the two ramps
+# (geometry above), gravel, then asphalt like the terrace, on a fill held by a rusticated wall where the bank falls away
+def railing(part, F, L, v, h=1.0):
+    """An iron railing: posts, a top and a bottom rail, plain bars (*inferred*: the photographs show it only from afar)."""
+    for k in range(int(L / 1.8) + 1):
+        u = min(L, k * 1.8); pbox(bm_for(part, "iron"), F, u - 0.03, u + 0.03, v, v + h, -0.33, -0.27)
+    for v0 in (v + 0.1, v + h - 0.05): pbox(bm_for(part, "iron"), F, 0, L, v0, v0 + 0.05, -0.33, -0.27)
+    for k in range(int(L / 0.14)): u = k * 0.14 + 0.07; pbox(bm_for(part, "iron"), F, u - 0.01, u + 0.01, v + 0.1, v + h, -0.31, -0.29)
+def build_ramp(R, low, bal_len):
+    I, O, HI, L, n = R["I"], R["O"], R["HI"], R["L"], len(R["xs"])
+    for i in range(n - 1):
+        q = [Vs(*I[i], HI[i] + 0.05), Vs(*O[i], L[i] + 0.05), Vs(*O[i + 1], L[i + 1] + 0.05), Vs(*I[i + 1], HI[i + 1] + 0.05)]
+        for tri in ((q[0], q[1], q[2]), (q[0], q[2], q[3])):
+            t = list(tri)
+            if (t[1] - t[0]).cross(t[2] - t[0]).z < 0: t = t[::-1]
+            if (t[1] - t[0]).cross(t[2] - t[0]).length < 1e-6: continue
+            poly(bm_for(GRAVEL, "gravel"), t); poly(bm_for(ASPH, "asph"), t)
+        lo = min(HI[i], HI[i + 1], L[i], L[i + 1])
+        pq = [list(I[i]), list(O[i]), list(O[i + 1]), list(I[i + 1])]
+        EDITS.append({"poly": pq, "min": round(lo - 0.45, 2)}); EDITS.append({"poly": pq, "max": round(lo - 0.08, 2)})
+    # the outer side, from the top end down: a balustrade over the first stretch (as on the terrace), then an iron railing;
+    # the wall below follows the fall of the bank and gives way to a kerb where the bank is level with the road
+    order = list(range(n - 1)) if R["top_first"] else list(range(n - 2, -1, -1)); acc = 0.0
+    for i in order:
+        a, b = O[i], O[i + 1]; ta, tb = L[i], L[i + 1]
+        if math.hypot(b[0] - a[0], b[1] - a[1]) < 0.05: continue
+        F, Ls = seg(a, b, ((a[0] + b[0]) / 2 + low[0] * 5, (a[1] + b[1]) / 2 + low[1] * 5))
+        ga = min(ta, dtm(a[0] + low[0] * 2, a[1] + low[1] * 2)); gb = min(tb, dtm(b[0] + low[0] * 2, b[1] + low[1] * 2))
+        drop = max(ta - ga, tb - gb); pieces = max(1, int(Ls / 0.5))
+        for k in range(pieces):                                          # sloping top, in 0.5 m pieces
+            u0, u1 = Ls * k / pieces, Ls * (k + 1) / pieces; tt = ta + (tb - ta) * (k + 0.5) / pieces
+            if drop > 0.6:
+                box(bm_for(VW, "forte"), F, u0, u1 + 0.01, min(ga, gb) - 0.8, tt, -1.4, 0)
+                pbox(bm_for(VW, "forte"), F, u0 - 0.01, u1 + 0.02, tt - 0.3, tt + 0.05, 0, 0.12)
+            else: box(bm_for(VW, "forte"), F, u0, u1 + 0.01, tt - 0.5, tt + 0.18, -0.3, 0)
+        if drop > 0.6:
+            EDITS.append({"poly": strip(a, b, low, 0.0, 2.2), "max": round(min(ga, gb) - 0.05, 2)})
+        p1 = max(1, int(Ls / 1.5))
+        for k in range(p1):
+            u0, u1 = Ls * k / p1, Ls * (k + 1) / p1; tt = ta + (tb - ta) * (k + 0.5) / p1
+            Fk = Frame(F.p(u0, 0, 0), F.u, F.n)
+            if acc + u0 < bal_len: balustrade(VW, Fk, u1 - u0, tt + 0.05, pier=99)
+            elif drop > 0.8: railing(VW, Fk, u1 - u0, tt + 0.05)
+        acc += Ls
+build_ramp(RW, WJ["north_w"]["low"], 0.0)
+build_ramp(RE, WJ["north_e"]["low"], 18.0)
+for a, b, inside in (((842.1, 938.6), (848.3, 948.5), (835.0, 950.0)), ((805.0, 936.3), (812.0, 933.3), (812.0, 945.0))):
+    F, L = seg(a, b, inside)                                         # where a ramp meets the terrace: the ground kept under the paving
+    n = (F.n.x, -F.n.y); EDITS.append({"poly": strip(a, b, n, -0.5, 3.0), "max": round(TOPL - 0.3, 2)})
 # the garden before the Loggia, between the carriageway and the Loggia's terrace wall: gravel paths, lawn beds edged in
 # stone, the oval fountain (OSM way 1093617565; photographs: Sailko on Commons, localistorici.it)
 isl = GJ["island"]; MAT["path"] = material("garden_gravel", "terra", (0.74, 0.69, 0.6), 1.0, 0.3, tint=(1.3, 1.25, 1.15))
@@ -242,11 +344,14 @@ cylinder(LG, "water", Vs(*fc), 0.05, fg + 1.3, fg + 2.2, seg=6)
 # lamp posts along the balustrades (every ≈ 24 m, *inferred* spacing; on the line in every photograph)
 def along(nm, every, off, g=TOP):
     P = WJ[nm]["pts"]; nx, nz = WJ[nm]["low"]; acc = every / 2
+    ff = foot_nw if nm == "north_w" else _fe if nm == "north_e" else (lambda x, z: None)
     for a, b in zip(P, P[1:]):
         L = math.hypot(b[0] - a[0], b[1] - a[1]); t = acc
         while t < L:
             x = a[0] + (b[0] - a[0]) * t / L - nx * off; z = a[1] + (b[1] - a[1]) * t / L - nz * off
-            lamp(PZ, x, z, g if g is not None else dtm(x, z)); t += every
+            fv = ff(x, z)
+            if fv is None or fv < TOP - 1.3: lamp(PZ, x, z, g if g is not None else dtm(x, z))   # none over a ramp's opening
+            t += every
         acc = t - L
 for nm in ("north_w", "north_e"): along(nm, 24, 1.0)
 along("east", 24, 1.0, None); along("west_n", 24, 1.0)

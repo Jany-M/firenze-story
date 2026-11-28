@@ -175,6 +175,38 @@
   "scale": 1.0,
   "metal": 0.0
  },
+ "fs_linen_wet": {
+  "tex": null,
+  "color": [
+   0.78,
+   0.79,
+   0.77
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.45,
+  "scale": 1.0,
+  "metal": 0.0
+ },
+ "fs_linen_blue": {
+  "tex": null,
+  "color": [
+   0.48,
+   0.56,
+   0.68
+  ],
+  "tint": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "rough": 0.75,
+  "scale": 1.0,
+  "metal": 0.0
+ },
  "fs_produce_green": {
   "tex": null,
   "color": [

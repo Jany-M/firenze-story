@@ -103,7 +103,7 @@ async function main() {
   const env = await loadEnvironment(DATA, meta, ortho, blank, mtex, { treeShare: q.treeShare, anisotropy: q.anisotropy, terrainUp: q.tier === 'low' ? 1 : 2 });
   scene.add(env.group);
   const HW = new Float32Array(await (await fetch(`${DATA}/wide.f32`)).arrayBuffer());
-  const height = makeHeight({ ...meta, terrain: { n: env.grid.n, step: env.grid.step } }, env.grid.h, HW);   // the same rounded grid as the ground mesh
+  const height = makeHeight({ ...meta, terrain: { n: env.grid.n, step: env.grid.step } }, env.grid.h, HW, { ...env.dated, year: () => state.year });   // the same rounded grid as the ground mesh
   const statues = createStatues(scene, height); statues.update(state.year);
   done(`${meta.trees.count.toLocaleString()} trees`);
   say('People and costumes');
@@ -141,6 +141,7 @@ async function main() {
   say('River life: boats, fishermen, birds');
   const riverAxis = (await (await fetch(`${DATA}/river.json`)).json()).axis;
   const river = createRiver(scene, props, riverPeople, height, riverAxis, env.bridges, env.weirs.map((w: any) => w.mesh.userData), env.water.geometry, streets.nodes);
+  if ((window as any).__fs) Object.assign((window as any).__fs, { river });
   const splats = createSplats(scene, () => controls.target.clone(), toast);
 
   // ---- camera helpers ----

@@ -57,8 +57,11 @@ Lungarno Corsini (c. 1744).
 
 ## Standing on the ground
 Since 2026-11-27 the app's ground is shaped under the lungarni too (`models/landmarks/ground_edits.json`, written by
-`build_lungarni.py`): under each stretch's road, from 2.2 m behind the wall's face to the houses, the ground is brought to the
-road's level, and from 2.1 m behind the face to 2 m out in front it is cut to the bank's level. The step between bank and road
+`build_lungarni.py`): under each stretch's road, from 3.2 m behind the wall's face to the houses, the ground is brought to the
+road's level, and from 3.1 m behind the face to 7 m out in front it is cut to the bank's level (2026-11-28: 3 m back, so a
+triangle of the 2 m grid laid diagonally across the step stays behind the face – at 2 m small spikes showed at the wall's
+foot; 7 m out, past the foot of the slope the softened ground now gives an unwalled bank). These edits carry the stretch's
+year: before it the bank is the softened slope ([MATERIALS.md](../MATERIALS.md)). The step between bank and road
 then falls under the road, never in front of the face (it had shown as green spikes along the walls), the road never floats
 over a dip, and people walking the street walk on it. Trees are not planted on a lungarno's road.
 The 4 m ground model turns a vertical wall into a slope. The face is put on the first river-level vertex of each grid column

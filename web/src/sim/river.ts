@@ -4,7 +4,7 @@
 // mode, and so do their crews and the pre-urban villagers (own small crowd, never reset by the event scenes).
 import * as THREE from 'three/webgpu';
 import type { Props } from '../scene/assets';
-import { outfitFor, type People, type Pose } from './people';
+import { outfitFor, type People, type Pose, type PoseMix } from './people';
 import { walk } from './walk';
 
 type Height = (x: number, z: number) => number;
@@ -159,7 +159,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
   }
   function clear() {
     for (const o of [...statics, ...movers.filter(m => m.kind !== 'wade').map(m => m.obj), ...ducks.map(d => d.obj), ...grazers.map(g => g.obj)]) group.remove(o);
-    statics = []; movers = []; ducks = []; workers.length = 0; grazers = []; smoke.length = 0; ancientObjs = []; small = []; viewK = '';
+    statics = []; movers = []; ducks = []; workers.length = 0; washers.length = 0; grazers = []; smoke.length = 0; ancientObjs = []; small = []; viewK = '';
     for (const c of crew) people.release(c); crew = [];
   }
 
@@ -264,15 +264,21 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       const e0 = edge(x, north, 0.2);
       // the slab slopes into the water (its front, +Z, towards the river); basket and spread linen behind on the bank
       const l = props.place('laundry', e0.land.x, Math.max(e0.land.y, e0.water.y) - 0.05, e0.land.z, e0.dir > 0 ? Math.PI : 0, group); if (l) { settle(l, 0.03, 0.9); l.position.y = Math.max(l.position.y, e0.water.y - 0.05); statics.push(l); }
+      // the hand cart they brought the linen in, on the bank behind them, along the river
+      const hc = edge(x - 6.5, north, 4.2).land, cart = props.place('handcart', hc.x, hc.y, hc.z, Math.PI / 2 + (R() - 0.5) * 0.4, group);
+      if (cart) { settle(cart, 0.02, 0.9); statics.push(cart); }
       if (live) for (let k = 0; k < 3 + (R() * 3 | 0); k++) {
         const e = edge(x + (k - 2) * 1.5, north, 0.55), p = e.land;
         const knees = height(p.x, p.z + e.dir * 0.25), feet = height(p.x, p.z - e.dir * 0.35);         // kneeling across the slope: knees and toes on the ground
         const y = Math.max(Math.min(knees, feet) + 0.02, e.water.y + 0.05);
-        const a = people.claim(p, e.water, 'static', k % 2 ? 'agree' : 'idle', undefined, outfitFor(year, true), true); if (!a) break;
-        a.obj.position.set(p.x, y - 0.42, p.z); a.obj.lookAt(e.water.x, y - 0.42, e.water.z); people.setPose(a, 'kneel'); crew.push(a);
-        // a round of three tasks, each woman at her own point in it: scrubbing on the slab, wringing, beating the linen
-        workers.push({ ag: a, t: R() * 20, steps: [
-          { dur: 7, poses: ['kneel', 'kneel2'], every: 0.7 }, { dur: 3.5, poses: ['wring'] }, { dur: 4.5, poses: ['beat', 'kneel'], every: 0.55 }] });
+        const a = people.claim(p, e.water, 'static', 'idle', undefined, outfitFor(year, true), true); if (!a) break;
+        a.obj.position.set(p.x, y - 0.42, p.z); a.obj.lookAt(e.water.x, y - 0.42, e.water.z); crew.push(a);
+        // her things: a basket at her right side, the piece she works (on the slab, wrung into a rope, or held up by an edge)
+        const bk = new THREE.Mesh(basketGeo, basketMat); bk.position.set(-0.62, 0.42 + 0.17, -0.12); bk.castShadow = true; a.obj.add(bk);
+        const g = { flat: props.place('garment_flat', 0, 0, 0, 0, group), twist: props.place('garment_twist', 0, 0, 0, 0, group), hang: props.place('garment_hang', 0, 0, 0, 0, group) };
+        for (const o of Object.values(g)) if (o) { o.visible = false; statics.push(o); }
+        const slabY = Math.max(height(p.x + (e.water.x - p.x) * 0.3, p.z + (e.water.z - p.z) * 0.3), e.water.y) + 0.03;
+        washers.push({ ag: a, t: R() * 26, g, slabY, water: e.water.y, seed: R() * 10 });
       }
     }
     // fornaciai digging clay from the bank below the city, bricks drying in rows
@@ -284,6 +290,9 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
       // the moulding table between the heap and the rows
       const tb = onBank(x + 3.5, north, 7.4);
       const tbl = props.place('table', tb.x, tb.y, tb.z, north ? 0 : Math.PI, group); if (tbl) { settle(tbl, 0.0, 1.0); statics.push(tbl); }
+      // the cart that takes the clay and the dried bricks to the kiln, waiting by the heap
+      const cc = onBank(x - 5.5, north, 8.5), cart = props.place('claycart', cc.x, cc.y, cc.z, Math.PI / 2 + (north ? 0 : Math.PI) + (R() - 0.5) * 0.3, group);
+      if (cart) { settle(cart, 0.02, 1.3); statics.push(cart); }
       if (live) {
         // three men, each with a round of his own, looped: the digger cuts clay at the face of the bank and takes it to the
         // heap; the moulder fetches clay from the heap and works it at the table; the carrier takes the moulded bricks from
@@ -429,6 +438,52 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
    *  `every` s – two strokes of a spade, of kneading, of scrubbing) or walks to a point (with a load in the arms when
    *  `carry`). People stand on the ground as they go (height under their feet each frame). */
   const workers: { ag: any; t: number; steps: Step[]; k?: number; st?: number; load?: THREE.Object3D }[] = [];
+  /** The washerwomen's round, mixed smoothly from pose to pose (people.setMix): each phase moves back and forth between two
+   *  poses on a cosine (a scrubbing stroke, a swish in the current, a twist of the wringing, the linen raised and brought
+   *  down), and blends over 0.7 s from the end of the one before. hold: which piece of linen is in her hands. */
+  type WashPhase = { dur: number; a: Pose; b?: Pose; period?: number; hold: 'flat' | 'twist' | 'hang' };
+  const WASH: WashPhase[] = [
+    { dur: 2.6, a: 'reach', b: 'kneel', period: 5.2, hold: 'hang' },           // the washed piece into the basket, the next one out
+    { dur: 6.5, a: 'rinse', b: 'rinse2', period: 1.9, hold: 'hang' },          // rinsed in the current
+    { dur: 8.0, a: 'kneel', b: 'kneel2', period: 1.5, hold: 'flat' },          // soaped and scrubbed on the slab
+    { dur: 4.5, a: 'wring', b: 'wring2', period: 1.2, hold: 'twist' },         // wrung
+    { dur: 4.5, a: 'beatUp', b: 'beatDown', period: 1.05, hold: 'twist' },     // beaten on the stone
+  ];
+  const WASH_T = WASH.reduce((a, p) => a + p.dur, 0);
+  const washers: { ag: any; t: number; g: Record<string, THREE.Object3D | null>; slabY: number; water: number; seed: number }[] = [];
+  const basketGeo = new THREE.CylinderGeometry(0.3, 0.23, 0.34, 12), basketMat = new THREE.MeshStandardMaterial({ color: 0x9a7a48, roughness: 0.95 });
+  const hR = new THREE.Vector3(), hL = new THREE.Vector3(), hd = new THREE.Vector3(), X1 = new THREE.Vector3(1, 0, 0), fw = new THREE.Vector3();
+  const mixOf = (ph: WashPhase, tt: number): [Pose, Pose, number] => [ph.a, ph.b ?? ph.a, ph.b ? 0.5 - 0.5 * Math.cos((2 * Math.PI * tt) / ph.period!) : 0];
+  function washStep(dt: number) {
+    for (const w of washers) {
+      const ag = w.ag; if (!ag.obj.visible) continue;
+      w.t = (w.t + dt) % WASH_T; let tt = w.t, i = 0;
+      while (tt >= WASH[i].dur) { tt -= WASH[i].dur; i++; }
+      const ph = WASH[i], pv = WASH[(i + WASH.length - 1) % WASH.length];
+      const [a, b, x] = mixOf(ph, tt), e = tt < 0.7 ? (1 - Math.cos((tt / 0.7) * Math.PI)) / 2 : 1;
+      const mix: PoseMix = [[a, e * (1 - x)], [b, e * x]];
+      if (e < 1) { const [pa, pb, px] = mixOf(pv, pv.dur); mix.push([pa, (1 - e) * (1 - px)], [pb, (1 - e) * px]); }
+      people.setMix(ag, mix);
+      // the linen: on the slab in front of her while she scrubs, otherwise between or under her hands (last frame's bones)
+      const hold = e < 0.5 ? pv.hold : ph.hold;
+      const R_ = ag.bones['mixamorigRightHand'], L_ = ag.bones['mixamorigLeftHand'];
+      for (const k of ['flat', 'twist', 'hang']) if (w.g[k]) w.g[k]!.visible = k === hold;
+      if (hold === 'flat' && w.g.flat) {
+        ag.obj.getWorldDirection(fw); fw.y = 0; fw.normalize();
+        w.g.flat.position.set(ag.obj.position.x + fw.x * 0.62, w.slabY, ag.obj.position.z + fw.z * 0.62);
+        w.g.flat.rotation.set(0, Math.atan2(fw.x, fw.z), 0);
+      } else if (R_ && L_) {
+        R_.getWorldPosition(hR); L_.getWorldPosition(hL); hd.subVectors(hL, hR);
+        const o = w.g[hold]; if (!o) continue;
+        o.position.addVectors(hR, hL).multiplyScalar(0.5);
+        if (hold === 'twist') { o.quaternion.setFromUnitVectors(X1, hd.clone().normalize()); o.scale.set(Math.min(1.5, Math.max(0.6, hd.length() / 0.45)), 1, 1); }
+        else {                                                    // hanging from the hands, swinging a little; under water it is hidden
+          o.rotation.set(Math.sin(w.t * 2.3 + w.seed) * 0.18, Math.atan2(-hd.z, hd.x), Math.sin(w.t * 1.7 + w.seed) * 0.08);
+          o.position.y = Math.max(o.position.y, w.water - 0.5);
+        }
+      }
+    }
+  }
   const loadGeo = new THREE.BoxGeometry(0.42, 0.22, 0.3), loadMat = new THREE.MeshStandardMaterial({ color: 0x9a6a48, roughness: 0.95 });
   function workerStep(dt: number) {
     for (const w of workers) {
@@ -465,7 +520,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     if (vk !== viewK) { viewK = vk; const on = alt < SMALL_ALT; for (const o of small) o.visible = on; for (const d of ducks) d.obj.visible = on; }
     if (!group.visible) return;
     t += dt;
-    workerStep(dt);
+    workerStep(dt); washStep(dt);
     for (const m of movers) {
       if (m.kind === 'nav') {
         m.x += m.dir * m.speed * dt; if (m.x > m.x1 || m.x < m.x0) { m.dir *= -1; m.x = Math.min(m.x1, Math.max(m.x0, m.x)); }
@@ -513,5 +568,7 @@ export function createRiver(scene: THREE.Scene, props: Props, people: People, he
     let o: THREE.Object3D | null = hit.object; while (o && !o.userData.site) o = o.parent;
     return o ? { info: o.userData.site, dist: hit.distance } : null;
   }
-  return { group, update, setHighlight, pickSite, ancientCount: () => ancientObjs.length };
+  /** Where the bank crews are this year (for the dev console and the camera: washerwomen, then the clay workers). */
+  const crewSites = () => [...washers.map(w => ['wash', w.ag.obj.position.clone()]), ...workers.map(w => ['clay', w.ag.obj.position.clone()])];
+  return { group, update, setHighlight, pickSite, crewSites, ancientCount: () => ancientObjs.length };
 }

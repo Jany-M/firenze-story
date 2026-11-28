@@ -144,6 +144,17 @@ season, the urban raster (8 m) is coarse at street edges.
   each polygon (`_dev/tmp/fon_check.py`): 0101 / 0102 / 0505 / 0506 grey (paved, ≤ 4 % green), 0201 / 0202 yellow-grey with
   17 % green (earth and grass, left out).
 
+## Natural slopes (2026-11-28, review 5)
+The softening now works on two scales (`terrainRefine.ts`): small bumps and hollows close together relax as a whole (three
+passes, wherever a point is within 2 m of its neighbours' mean, 75 % of the way), and what is left of a break – a river
+bank, a terrace edge with no wall – is spread by a wider blur (≈6 m) into a slope, a point moving at most 3 m. A 7 m bank
+becomes a bank sloping over 10–12 m, not a cliff with flutes. Kept as measured: the ground within a cell of any building's
+footprint (any year, `footprints.u16`), so no house is left on air; round the landmarks' walls the wide blur is held back
+(their ground edits shape it) and only the untouched ground between them is relaxed afterwards. The lungarni's walls are
+dated: their ground edits carry the stretch's year, the app keeps two heights per vertex (before, from) and the vertex shader
+and every height lookup pick by year – before a wall is built its bank is a slope (1490 Oltrarno), from that year it is the
+wall's cut bank and filled road. On a slope the street paving gives way to earth and grass (no paving down a bank).
+
 ## Rounder ground (2026-11-28)
 The LiDAR terrain is a 4 m grid, so slopes read as straight facets meeting at sharp corners. In the app
 (`web/src/scene/terrainRefine.ts`) it is first softened – each point moves 60 % of the way to its neighbours' weighted mean,

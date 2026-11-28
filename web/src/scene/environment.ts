@@ -1,11 +1,11 @@
 // Landscape: core terrain (LiDAR) + 12 km ring (Copernicus), ground by era (fields, meadows, earth, paving, today's
 // surfaces), the Arno with its reaches and pescaie, dated bridge phases, vegetation that disappears when the ground
 // gets built on. Everything year-dependent is decided on the GPU from uYear.
-import { terrainGrid, applyGroundEdits, surfaceTest, type GroundEdit } from './terrainRefine';
+import { terrainGrid, applyGroundEdits, surfaceTest, buildingMask, markEdits, type GroundEdit } from './terrainRefine';
 import * as THREE from 'three/webgpu';
 import {
   Fn, uniform, texture, vec2, vec3, vec4, mix, positionWorld, positionLocal, dot, select, float, smoothstep, hash, fract, step,
-  floor, sin, abs, max, length, attribute, cameraPosition, normalize, pow, instanceIndex, transformNormalToView,
+  floor, sin, abs, max, length, attribute, cameraPosition, normalize, pow, instanceIndex, transformNormalToView, normalWorld,
 } from 'three/tsl';
 import { uYear, uSky } from './city';
 export { uSky };
@@ -94,6 +94,8 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const jit = vec2(fbm(P.mul(0.11)).sub(0.5), fbm(P.mul(0.11).add(37.0)).sub(0.5)).mul(U.cell * 1.6 / (coreHalf * 2));
     const urbanStart = texture(urbanTex).sample(uvC.add(jit)).r;
     const built = sq.mul(smoothstep(urbanStart.sub(15), urbanStart.add(15), uYear));
+    // on a slope (a river bank, a hillside left unwalled) the street paving gives way to earth and grass: no paving down a bank
+    const builtFlat = built.mul(smoothstep(0.8, 0.92, normalWorld.y));
     const T = (n: keyof TexSet, size: number) => texture(tex[n].col).sample(P.div(size)).rgb;
     const terra = T('terra', 8), lastr = T('lastrico', 5).mul(0.95), amm = T('ammattonato', 2.4), filari = T('lastrico_filari', 4),
       // asphalt in Florence is a mid grey, near the stone setts' tone, only smoother: the texture lifted towards that grey,
@@ -152,7 +154,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     const modernWide = mix(open, s2.mul(1.08), smoothstep(1900, 2000, uYear).mul(builtToday).add(smoothstep(1950, 2010, uYear).mul(0.55).mul(float(1).sub(builtToday))));
     const t = smoothstep(1880, 1960, uYear);
     const countryside = mix(modernWide, mix(open, o.mul(1.05), t.mul(0.6)), inCore);
-    let base: any = mix(countryside, urbanGround, built);
+    let base: any = mix(countryside, urbanGround, builtFlat);
     base = mix(base, romanGround, inCastrum.mul(romanEra));
     const ov = ovTex.sample(uvC);
     return vec4(mix(base, ov.rgb, ov.a.mul(uOverlayOpacity).mul(sq)), 1);
@@ -161,18 +163,35 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   groundMat.colorNode = ground;
 
   // ---------- core terrain (4 m) with a skirt that hides the seam to the 40 m ring ----------
-  const TG = terrainGrid(await bin(`${base}/terrain.f32`, Float32Array), meta.terrain.n, meta.terrain.step, opts.terrainUp ?? 2);
+  const foot = await fetch(`${base}/footprints.u16`).then(r => (r.ok ? r.arrayBuffer() : null)).catch(() => null);
+  const tsrc = await bin(`${base}/terrain.f32`, Float32Array);
   let edits: GroundEdit[] = [];
   try {                                                                   // the ground gives way to the landmark models
     const ge = await fetch(`${base.replace(/data\/?$/, '')}models/landmarks/ground_edits.json`).then(r => (r.ok ? r.json() : {}));
-    edits = Object.values(ge as Record<string, GroundEdit[]>).flat(); applyGroundEdits(TG, edits);
+    edits = Object.values(ge as Record<string, GroundEdit[]>).flat();
   } catch { /* no edits */ }
+  // kept as measured by the softening: ground by buildings, and round the landmarks' walls (their own edits shape it)
+  const keepM = foot ? buildingMask(new Uint16Array(foot), meta.terrain.n, meta.terrain.step) : new Uint8Array(meta.terrain.n ** 2);
+  markEdits(keepM, edits, meta.terrain.n, meta.terrain.step);
+  const TG = terrainGrid(tsrc, meta.terrain.n, meta.terrain.step, opts.terrainUp ?? 2, keepM);
+  const dated = applyGroundEdits(TG, edits, { mask: keepM, n: meta.terrain.n });
   const h = TG.h, n = TG.n, size = coreHalf * 2, tstep = TG.step;
   const tg = new THREE.PlaneGeometry(size, size, n - 1, n - 1); tg.rotateX(-Math.PI / 2);
   const p = tg.getAttribute('position') as THREE.BufferAttribute;
+  // two grounds where a dated structure reshapes it (a lungarno's wall and road): the one before, the one from its year;
+  // the vertex shader picks per vertex from uYear
+  for (let i = 0; i < p.count; i++) p.setY(i, dated.h2[i]);
+  tg.computeVertexNormals();
+  tg.setAttribute('normalNew', (tg.getAttribute('normal') as THREE.BufferAttribute).clone());
+  tg.setAttribute('yNew', new THREE.Float32BufferAttribute(dated.h2, 1));
+  tg.setAttribute('yFrom', new THREE.Float32BufferAttribute(dated.yr, 1));
   for (let i = 0; i < p.count; i++) p.setY(i, h[i]);
   tg.computeVertexNormals();
-  const terrain = new THREE.Mesh(tg, groundMat); terrain.receiveShadow = true; terrain.name = 'terrain';
+  const terrainMat = groundMat.clone() as THREE.MeshStandardNodeMaterial;
+  const isNew = step(attribute('yFrom', 'float'), uYear);
+  terrainMat.positionNode = vec3(positionLocal.x, mix(positionLocal.y, attribute('yNew', 'float'), isNew), positionLocal.z);
+  terrainMat.normalNode = transformNormalToView(normalize(mix(attribute('normal', 'vec3'), attribute('normalNew', 'vec3'), isNew)));
+  const terrain = new THREE.Mesh(tg, terrainMat); terrain.receiveShadow = true; terrain.name = 'terrain';
   group.add(terrain);
   {
     const sk: number[] = [], idx: number[] = []; const e = [] as number[][];
@@ -251,7 +270,7 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   const axis: number[][] = (await (await fetch(`${base}/river.json`)).json()).axis;
   const levelAt = (x: number) => { let i = 0; while (i < axis.length - 2 && axis[i + 1][0] < x) i++;
     const [a, b2] = [axis[i], axis[i + 1]], t = Math.min(1, Math.max(0, (x - a[0]) / (b2[0] - a[0]))); return a[1] + (b2[1] - a[1]) * t; };
-  const groundAt = makeHeight({ ...meta, terrain: { n, step: tstep } }, h, hw);
+  const groundAt = makeHeight({ ...meta, terrain: { n, step: tstep } }, h, hw, { ...dated, year: () => 99999 });   // bridges and trees: today's ground
   const bmats = bridgeMaterials(tex) as Record<string, THREE.Material>;
   const bridges: { mesh: THREE.Object3D; x: number; start: number; end: number; name: string; kind: string }[] = [];
   for (const b of meta.streets.bridges) {
@@ -314,19 +333,21 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     for (const b of bridges) b.mesh.visible = year >= b.start && year < b.end;
     for (const w of weirs) w.mesh.visible = year >= w.start && year < w.end;
   }
-  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG };
+  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG, dated };
 }
 
 /** Terrain height lookup for agents and props: LiDAR core grid, 40 m ring outside it. */
-export function makeHeight(meta: any, h: Float32Array, hw?: Float32Array) {
-  const sample = (g: Float32Array, n: number, step: number, x: number, z: number) => {
+export function makeHeight(meta: any, h: Float32Array, hw?: Float32Array, dated?: { h2: Float32Array; yr: Float32Array; year: () => number }) {
+  const sample = (g: Float32Array, n: number, step: number, x: number, z: number, alt?: typeof dated) => {
     const half = ((n - 1) * step) / 2, fx = (x + half) / step, fz = (z + half) / step;
     const i = Math.max(0, Math.min(n - 2, Math.floor(fx))), j = Math.max(0, Math.min(n - 2, Math.floor(fz)));
     const tx = Math.min(1, Math.max(0, fx - i)), tz = Math.min(1, Math.max(0, fz - j));
-    const a = g[j * n + i], b = g[j * n + i + 1], c = g[(j + 1) * n + i], d = g[(j + 1) * n + i + 1];
+    const y = alt ? alt.year() : 0;
+    const v = (k: number) => (alt && y >= alt.yr[k] ? alt.h2[k] : g[k]);       // the ground of that year at each corner
+    const a = v(j * n + i), b = v(j * n + i + 1), c = v((j + 1) * n + i), d = v((j + 1) * n + i + 1);
     return (a * (1 - tx) + b * tx) * (1 - tz) + (c * (1 - tx) + d * tx) * tz;
   };
   const core = ((meta.terrain.n - 1) * meta.terrain.step) / 2;
   return (x: number, z: number) => (Math.abs(x) <= core && Math.abs(z) <= core) || !hw
-    ? sample(h, meta.terrain.n, meta.terrain.step, x, z) : sample(hw, meta.wide.n, meta.wide.step, x, z);
+    ? sample(h, meta.terrain.n, meta.terrain.step, x, z, dated) : sample(hw, meta.wide.n, meta.wide.step, x, z);
 }

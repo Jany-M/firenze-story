@@ -71,6 +71,8 @@ M = {
     "gold":      material("gold", None, (0.85, 0.65, 0.25), 0.35, metal=1.0),
     "red_paint": material("red_paint", None, (0.55, 0.08, 0.06), 0.6),
     "white":     material("white", None, (0.92, 0.91, 0.88), 0.7),
+    "linen_wet": material("linen_wet", None, (0.78, 0.79, 0.77), 0.45),      # wet linen: greyer, with a sheen
+    "linen_blue": material("linen_blue", None, (0.48, 0.56, 0.68), 0.75),    # a dyed garment among the white
     "produce_g": material("produce_green", None, (0.30, 0.45, 0.15), 0.7),
     "produce_o": material("produce_orange", None, (0.85, 0.45, 0.10), 0.6),
     "produce_r": material("produce_red", None, (0.60, 0.10, 0.08), 0.6),
@@ -530,7 +532,7 @@ def laundry(c):                                   # washerwoman's things: wicker
 
 @asset
 def clayheap(c):                                  # river clay dug from the bank, heaped for the brick kilns (fornaci)
-    obj("clayheap", c, M["clay"], lambda bm: bmesh.ops.create_cone(bm, cap_ends=False, segments=12, radius1=1.8, radius2=0.4, depth=1.0,
+    obj("clayheap", c, M["clay"], lambda bm: bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=1.8, radius2=0.4, depth=1.0,
         matrix=Matrix.Translation((0, 0, 0.5))))
 
 @asset
@@ -542,6 +544,85 @@ def bricks(c):                                    # moulded bricks drying in row
     obj("bricks", c, M["clay"], b)
     obj("bricks_mould", c, M["wood"], lambda bm: box(bm, (1.9, 0, 0.45), (0.9, 0.6, 0.06)))   # moulding table top
     obj("bricks_legs", c, M["wood_dark"], lambda bm: [box(bm, (1.9 + dx, dy, 0.21), (0.06, 0.06, 0.42)) for dx in (-0.4, 0.4) for dy in (-0.25, 0.25)])
+
+# ---------------------------------------------------------------- the washerwomen's linen, held in the hands (placed each frame in the
+# web app between or under the hands) and the carts of the river crafts
+def cloth_sheet(bm, w, d, waves=3, amp=0.025, hang=False):
+    """A cloth: a grid w x d, rippled; lying on XY (hang=False, origin at its centre) or hanging down -Z from its top edge."""
+    nx, ny = 10, 8; vs = []
+    for j in range(ny + 1):
+        row = []
+        for i in range(nx + 1):
+            u, v = i / nx, j / ny
+            r = amp * math.sin(u * math.pi * waves) * math.sin(v * math.pi + 0.4)
+            row.append(bm.verts.new(((u - 0.5) * w, r, -v * d) if hang else ((u - 0.5) * w, (v - 0.5) * d, r + 0.012)))
+        vs.append(row)
+    for j in range(ny):
+        for i in range(nx):
+            bm.faces.new((vs[j][i], vs[j][i + 1], vs[j + 1][i + 1], vs[j + 1][i]))
+
+@asset
+def garment_flat(c):                              # a shirt or sheet spread on the washing slab, rubbed and soaped
+    obj("garment_flat", c, M["linen_wet"], lambda bm: cloth_sheet(bm, 0.62, 0.46, 3, 0.02))
+
+@asset
+def garment_twist(c):                             # linen wrung into a rope between the two hands (along X, centre at the origin)
+    def b(bm):
+        seg, L, rings = 8, 0.5, 9; vs = []
+        for k in range(rings):
+            t = k / (rings - 1); x = (t - 0.5) * L; r = 0.045 + 0.025 * math.sin(t * math.pi)
+            ring = []
+            for a in range(seg):
+                ang = 2 * math.pi * a / seg + t * 5.0; rr = r * (1.0 + 0.18 * math.cos(2 * ang))   # the twist shows as ridges
+                ring.append(bm.verts.new((x, rr * math.cos(ang), rr * math.sin(ang))))
+            vs.append(ring)
+        for k in range(rings - 1):
+            for a in range(seg): bm.faces.new((vs[k][a], vs[k][(a + 1) % seg], vs[k + 1][(a + 1) % seg], vs[k + 1][a]))
+        bm.faces.new(vs[0][::-1]); bm.faces.new(vs[-1])
+    obj("garment_twist", c, M["linen_wet"], b)
+
+@asset
+def garment_hang(c):                              # a garment held up by one edge: rinsed, shaken out, carried to the basket
+    obj("garment_hang", c, M["linen_wet"], lambda bm: cloth_sheet(bm, 0.5, 0.7, 2, 0.04, hang=True))
+
+def cart_wheels(bm, r, x, y=0.0, spokes=8):
+    for s in (-1, 1):
+        cyl(bm, (s * x, y, r), r, r, 0.07, 16, axis="X")
+        cyl(bm, (s * (x + 0.06), y, r), 0.08, 0.08, 0.16, 8, axis="X")              # hub
+def cart_bed(bm, W, D, H, side):
+    box(bm, (0, 0, H), (W, D, 0.05))
+    for sx in (-1, 1): box(bm, (sx * (W / 2 - 0.02), 0, H + side / 2), (0.04, D, side))
+    for sy in (-1, 1): box(bm, (0, sy * (D / 2 - 0.02), H + side / 2), (W, 0.04, side))
+
+@asset
+def handcart(c):                                  # carretto a mano: the laundress's two-wheeled hand cart, a basket and folded linen in it
+    W, D, H = 0.9, 1.1, 0.5
+    def body(bm):
+        cart_bed(bm, W, D, H, 0.22)
+        for sx in (-1, 1): box(bm, (sx * 0.34, D / 2 + 0.55, H - 0.02), (0.05, 1.2, 0.05))           # the shafts (front +Y)
+        box(bm, (0, D / 2 + 1.12, H - 0.02), (0.72, 0.05, 0.05))                                     # the handle bar
+        for sx in (-1, 1): box(bm, (sx * 0.34, D / 2 + 0.9, (H - 0.02) / 2), (0.05, 0.05, H - 0.02))  # the legs it rests on
+    obj("handcart", c, M["wood"], body)
+    obj("handcart_wheels", c, M["wood_dark"], lambda bm: cart_wheels(bm, 0.36, W / 2 + 0.06, -0.05))
+    obj("handcart_basket", c, M["wicker"], lambda bm: cyl(bm, (-0.15, -0.15, H + 0.2), 0.26, 0.2, 0.32, 12))
+    def linen(bm):
+        box(bm, (0.2, 0.25, H + 0.1), (0.4, 0.35, 0.12)); box(bm, (0.18, 0.22, H + 0.2), (0.34, 0.3, 0.08))
+        box(bm, (-0.15, -0.15, H + 0.37), (0.34, 0.3, 0.05))
+    obj("handcart_linen", c, M["white"], linen)
+    obj("handcart_linen2", c, M["linen_blue"], lambda bm: box(bm, (0.22, -0.25, H + 0.09), (0.32, 0.28, 0.1)))
+
+@asset
+def claycart(c):                                  # carretta: the brickmakers' two-wheeled tip cart, clay heaped in it, a few bricks
+    W, D, H = 1.2, 1.6, 0.75
+    def body(bm):
+        cart_bed(bm, W, D, H, 0.35)
+        for sx in (-1, 1): box(bm, (sx * 0.42, D / 2 + 0.9, H - 0.05), (0.07, 1.9, 0.07))            # shafts for a donkey or a man
+        for sx in (-1, 1): box(bm, (sx * 0.42, D / 2 + 1.6, (H - 0.05) / 2), (0.06, 0.06, H - 0.05))  # the prop it rests on
+    obj("claycart", c, M["wood"], body)
+    obj("claycart_wheels", c, M["wood_dark"], lambda bm: cart_wheels(bm, 0.55, W / 2 + 0.07))
+    obj("claycart_load", c, M["clay"], lambda bm: bmesh.ops.create_cone(bm, cap_ends=False, segments=10, radius1=0.62, radius2=0.18, depth=0.45,
+        matrix=Matrix.Translation((0, -0.1, H + 0.25)) @ Matrix.Diagonal((1.0, 1.25, 1.0, 1))))
+    obj("claycart_bricks", c, M["clay"], lambda bm: [box(bm, (-0.3 + i * 0.3, 0.55, H + 0.08 + k * 0.08), (0.26, 0.13, 0.065)) for i in range(3) for k in range(2)])
 
 # ---------------------------------------------------------------- build, save, export
 for name, fn in ASSETS.items():

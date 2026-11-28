@@ -100,6 +100,13 @@ of Sant'Iacopo), public baths (Vagaloggia, Molina dei Renai), floods (1333, 1557
   the carrier takes the moulded bricks to the drying rows; each walks with the load held in both arms. The washerwomen,
   kneeling, scrub on the slab (two strokes), wring and beat the linen, each at her own point of the round. The order of the
   work is that of a brickfield, *inferred* for the Arno's banks.
+- Since 2026-11-28 the washerwomen move smoothly: their round mixes poses by weight (`people.setMix`) – each phase swings
+  between two poses on a cosine and blends from the last over 0.7 s – and the linen is in their hands: a piece taken from
+  the basket at her side and put back (`garment_hang`), rinsed and swished in the current, laid on the slab and scrubbed
+  (`garment_flat`), wrung into a rope and beaten on the stone (`garment_twist`), placed each frame between or under her
+  hands. A hand cart with a basket and folded linen stands on the bank behind them (`handcart`), the brickmakers' tip cart
+  with clay and bricks by their heap (`claycart`); the clay heap is closed at the top. Assets in `build_assets.py`
+  (*inferred* forms).
 - The small boats ride higher: only a few centimetres of hull in the water (barchetti), the navicelli 0.2 m.
 - Squares hold a little fewer people (about one per 27 m², at most 52).
 

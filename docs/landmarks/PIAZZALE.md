@@ -35,10 +35,18 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
 - **The garden before the Loggia**, between the carriageway and the Loggia's terrace wall: gravel paths (the Comune's
   pedestrian polygon), sixteen lawn beds edged in stone (its holes) and the oval fountain (OSM way 1093617565) with a jet
   (its form *inferred*); photographs: Sailko on Commons, localistorici.it.
-- **The two ramps of Viale Poggi** that meet the terrace on the city side, read off the LiDAR: west of the step a 6 m road
-  climbs along the outside of the city-side wall from 56 m (x 770) to the terrace's level (x ≈ 810); east of it the road
-  goes down again, 8–12 m wide, to 54 m (x 900). The wall and its balustrade stop where a ramp reaches the terrace's
-  level; a low stone parapet on each ramp's open side (*inferred*).
+- **The two ramps of Viale Poggi** that meet the terrace on the city side, mirror images of each other (LiDAR cross-sections
+  every 4 m; Street View 2022 and 2024): the west one climbs east along the outside of the city-side wall from 56 m
+  (x 764) and reaches the terrace's level at its top end (x 805–812), where the wall stops and its outer edge closes in to
+  the terrace's corner (812, 933); the east one leaves the terrace through the **oblique corner** (842, 938.6)–(848.3,
+  948.5), open, without wall or balustrade, and runs down along the wall to Viale Poggi at 55.8 m (x 888). Both are
+  regular strips (7.5 m and 9 m wide), level across, their level along them the LiDAR's smoothed and made to fall
+  steadily (no step at the terrace: at most 1 in 5 there). On the open side each is held by a **rusticated retaining wall**
+  that follows the fall of the bank and gives way to a kerb where the bank is level with the road: on the east ramp
+  Poggi's balustrade for the first 18 m from the top, as in the photographs, then an iron railing; on the west ramp an
+  iron railing (*inferred*). Below the west ramp the bank falls to the Viale's own low wall, which now steps down with the
+  slope (its top follows the ground instead of rising in steps). The snapped wall line that wavered over the low wall at
+  the west ramp's top was dropped (x 799–812) and the corner beyond read off the DTM.
 - **The monument stands on the terrace**: its steps start at the terrace's level round it (63.45 m, LiDAR 8–11 m out); the
   LiDAR's hump of the platform is cut out of the ground, and the paving leaves a hole for it.
 - **The containing walls below**: along Viale Poggi's bends under the terrace and on the Iris garden side, with a low stone

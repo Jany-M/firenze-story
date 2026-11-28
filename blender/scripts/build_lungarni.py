@@ -117,11 +117,15 @@ for s in D["stretches"]:
         rs0, rs1 = z0 - riv * PT, z1 - riv * PT               # the road starts behind the parapet
         # the ground under the road is brought to the road's level (web terrain, ground_edits.json): the road never floats
         # over a dip of the 4 m ground model, and people walking the street walk on it, not under it
-        # (raised from 2.2 m behind the face; from 2.1 m behind it to 2 m out in front the ground is cut to the bank's level, so
-        # the step between bank and road falls under the road, never in front of the wall's face)
-        EDITS.append({"poly": [[x0 - nx * 2.2, z0 - nz * 2.2], [x1 - nx * 2.2, z1 - nz * 2.2], [x1, b1], [x0, b0]], "min": round(min(h0, h1) - 0.08, 2)})
-        EDITS.append({"poly": [[x0 - nx * 2.2, z0 - nz * 2.2], [x1 - nx * 2.2, z1 - nz * 2.2], [x1, b1], [x0, b0]], "max": round(min(h0, h1) - 0.03, 2)})
-        EDITS.append({"poly": [[x0 - nx * 2.1, z0 - nz * 2.1], [x1 - nx * 2.1, z1 - nz * 2.1], [x1 + nx * 2.0, z1 + nz * 2.0], [x0 + nx * 2.0, z0 + nz * 2.0]], "max": round(min(l0, l1, h0 - 1.5, h1 - 1.5), 2)})
+        # (raised from 3.2 m behind the face; from 3.1 m behind it to 7 m out in front the ground is cut to the bank's level –
+        # the web terrain softens unwalled banks into slopes, so the cut reaches past that slope's foot – so
+        # the step between bank and road falls under the road, never in front of the wall's face – 3 m back, so that even a
+        # triangle of the 2 m ground grid laid across the step diagonally (2.8 m) stays behind the face)
+        EDITS.append({"poly": [[x0 - nx * 3.2, z0 - nz * 3.2], [x1 - nx * 3.2, z1 - nz * 3.2], [x1, b1], [x0, b0]], "min": round(min(h0, h1) - 0.08, 2), "from": s["from"]})
+        EDITS.append({"poly": [[x0 - nx * 3.2, z0 - nz * 3.2], [x1 - nx * 3.2, z1 - nz * 3.2], [x1, b1], [x0, b0]], "max": round(min(h0, h1) - 0.03, 2), "from": s["from"]})
+        ul = math.hypot(x1 - x0, z1 - z0) or 1; ux, uz = (x1 - x0) / ul * 1.2, (z1 - z0) / ul * 1.2   # overlapping the next segment's cut by
+        EDITS.append({"poly": [[x0 - ux - nx * 3.1, z0 - uz - nz * 3.1], [x1 + ux - nx * 3.1, z1 + uz - nz * 3.1],     # 1.2 m: no ridge left at the joints
+                               [x1 + ux + nx * 7.0, z1 + uz + nz * 7.0], [x0 - ux + nx * 7.0, z0 - uz + nz * 7.0]], "max": round(min(l0, l1, h0 - 1.5, h1 - 1.5), 2), "from": s["from"]})
         re0, re1 = b0 + riv * sw, b1 + riv * sw               # and ends at the pavement
         y0r, y1r = s["from"], NOW
         stone_to = NOW if stone_always(slug, xm) else ASPHALT

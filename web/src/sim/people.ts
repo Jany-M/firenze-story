@@ -14,10 +14,13 @@ interface Agent {
   obj: THREE.Object3D; mixer: THREE.AnimationMixer; actions: Record<string, THREE.AnimationAction>; body: THREE.MeshStandardMaterial;
   skin: THREE.MeshStandardMaterial[]; bones: Record<string, THREE.Bone>; rig: THREE.Object3D; worn: Record<string, THREE.Mesh>; outfit: string;
   role: Role; a: number; b: number; t: number; len: number; speed: number; cur: string; target?: THREE.Vector3; busy: boolean; blockedN?: number; h?: number;   // h: the way the figure faces and walks (undefined: set it at once)
-  female: boolean; face: THREE.Mesh[]; talk?: Talk; pose?: Pose; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
+  female: boolean; face: THREE.Mesh[]; talk?: Talk; pose?: Pose; mix?: PoseMix; rod?: { g: THREE.Group; line: THREE.Line; tip: THREE.Vector3; waterY: number; ph: number };
 }
 /** Static poses layered on top of the idle clip (bones set after the mixer): seated, or holding a fishing rod. */
-export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel' | 'dig' | 'lift' | 'knead' | 'knead2' | 'carry' | 'kneel2' | 'wring' | 'beat';
+/** Poses mixed by weight (the weights summing to 1): a motion moves smoothly between poses instead of jumping. */
+export type PoseMix = [Pose, number][];
+export type Pose = 'sit' | 'rod' | 'sitrod' | 'kneel' | 'dig' | 'lift' | 'knead' | 'knead2' | 'carry' | 'kneel2' | 'wring' | 'beat'
+  | 'wring2' | 'rinse' | 'rinse2' | 'beatUp' | 'beatDown' | 'reach';
 // Xbot / Mixamo rig in T-pose: thigh forward = UpLeg.x −90°, shin down = Leg.x +90°; arm forward = Arm.y ±, down = Arm.z ±
 const POSE_BONES: Record<string, [string, number, number, number][]> = {
   sit: [['LeftUpLeg', -1.5, 0, -0.08], ['RightUpLeg', -1.5, 0, 0.08], ['LeftLeg', 1.45, 0, 0], ['RightLeg', 1.45, 0, 0]],
@@ -36,6 +39,15 @@ const POSE_BONES: Record<string, [string, number, number, number][]> = {
   kneel2: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.45, 0, 0], ['Spine1', 0.3, 0, 0], ['RightArm', 0, 0.75, 1.1], ['LeftArm', 0, -1.2, -0.8], ['RightForeArm', 0, 0.15, 0], ['LeftForeArm', 0, -0.55, 0]],
   wring: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.15, 0, 0], ['RightArm', 0, 1.2, 0.5], ['LeftArm', 0, -1.2, -0.5], ['RightForeArm', 0, 1.35, 0], ['LeftForeArm', 0, -1.35, 0]],
   beat: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.05, 0, 0], ['RightArm', 0, 1.1, -0.35], ['LeftArm', 0, -1.1, 0.35], ['RightForeArm', 0, 0.3, 0], ['LeftForeArm', 0, -0.3, 0]],
+  // their smoother round (sim/river.ts mixes these by weight): wringing pulled tight, rinsing a garment in the current
+  // (leaning over the water, the arms swishing it from side to side), the linen raised and brought down on the slab,
+  // and turning to the basket at her side for the next piece
+  wring2: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.22, 0, 0], ['RightArm', 0, 1.0, 0.7], ['LeftArm', 0, -1.0, -0.7], ['RightForeArm', 0, 1.6, 0], ['LeftForeArm', 0, -1.6, 0]],
+  rinse: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.6, 0, 0], ['Spine1', 0.35, 0, 0], ['RightArm', 0, 0.9, 1.05], ['LeftArm', 0, -0.9, -1.05], ['RightForeArm', 0, 0.2, 0], ['LeftForeArm', 0, -0.2, 0]],
+  rinse2: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.6, 0, 0], ['Spine1', 0.35, 0, 0], ['RightArm', 0, 1.25, 1.05], ['LeftArm', 0, -0.55, -1.05], ['RightForeArm', 0, 0.2, 0], ['LeftForeArm', 0, -0.2, 0]],
+  beatUp: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', -0.05, 0, 0], ['RightArm', 0, 1.0, -0.75], ['LeftArm', 0, -1.0, 0.75], ['RightForeArm', 0, 0.7, 0], ['LeftForeArm', 0, -0.7, 0]],
+  beatDown: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.45, 0, 0], ['Spine1', 0.2, 0, 0], ['RightArm', 0, 1.1, 0.75], ['LeftArm', 0, -1.1, -0.75], ['RightForeArm', 0, 0.1, 0], ['LeftForeArm', 0, -0.1, 0]],
+  reach: [['LeftUpLeg', -0.35, 0, -0.08], ['RightUpLeg', -0.35, 0, 0.08], ['LeftLeg', 1.9, 0, 0], ['RightLeg', 1.9, 0, 0], ['Spine', 0.35, -0.55, 0], ['Spine1', 0.2, -0.3, 0], ['RightArm', 0, 0.5, 1.25], ['LeftArm', 0, -0.9, -0.95], ['RightForeArm', 0, 0.2, 0], ['LeftForeArm', 0, -0.4, 0]],
   rod: [['RightArm', 0, 1.3, 0.55], ['LeftArm', 0, -1.15, -0.5], ['RightForeArm', 0, 0.35, 0], ['LeftForeArm', 0, -0.55, 0]],
 };
 // Talking hands: arm poses from the T-pose (as POSE_BONES), blended over whatever clip plays. Florentines talk with their
@@ -275,11 +287,20 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
     ag.busy = true; ag.role = role; ag.obj.visible = true; ag.obj.position.copy(pos); ag.obj.lookAt(face.x, pos.y, face.z); ag.h = undefined;
     tint(ag, color, outfit); play(ag, anim); return ag;
   }
-  function release(ag: Agent) { setPose(ag, null); ag.talk = undefined; ag.busy = false; ag.obj.visible = false; }
+  function release(ag: Agent) { setPose(ag, null); ag.mix = undefined; ag.talk = undefined; ag.busy = false; ag.obj.visible = false; }
   /** Seat an agent (seat height = its position + 0.45 m: put the agent's position at ground level), and/or give it a rod
    *  whose line drops to waterY (world). The rod sways and now and then is lifted (a bite or a re-cast). */
+  const MIX_BONES = ['LeftUpLeg', 'RightUpLeg', 'LeftLeg', 'RightLeg', 'RightArm', 'LeftArm', 'RightForeArm', 'LeftForeArm', 'Spine', 'Spine1'];
+  const mixAcc: Record<string, [number, number, number]> = {};
+  /** Hold a weighted mix of poses (see PoseMix); null lets go. Bones a pose does not name count as at rest (0). */
+  function setMix(ag: Agent, mix: PoseMix | null) { ag.mix = mix ?? undefined; if (mix) ag.pose = undefined; }
+  function applyMix(ag: Agent) {
+    for (const n of MIX_BONES) { const a = mixAcc[n] ?? (mixAcc[n] = [0, 0, 0]); a[0] = a[1] = a[2] = 0; }
+    for (const [p, w] of ag.mix!) if (w > 0) for (const [n, x, y, z] of POSE_BONES[p]) { const a = mixAcc[n]; if (a) { a[0] += x * w; a[1] += y * w; a[2] += z * w; } }
+    for (const n of MIX_BONES) { const a = mixAcc[n]; ag.bones['mixamorig' + n]?.rotation.set(a[0], a[1], a[2]); }
+  }
   function setPose(ag: Agent, pose: Pose | null, waterY = 0) {
-    ag.pose = pose ?? undefined;
+    ag.pose = pose ?? undefined; if (pose) ag.mix = undefined;
     if (ag.rod) { ag.obj.remove(ag.rod.g); ag.rod = undefined; }
     if (!pose) { for (const k of ['LeftUpLeg', 'RightUpLeg', 'LeftLeg', 'RightLeg', 'RightArm', 'LeftArm', 'RightForeArm', 'LeftForeArm', 'Spine', 'Spine1']) ag.bones['mixamorig' + k]?.rotation.set(0, 0, 0); return; }
     if (pose === 'rod' || pose === 'sitrod') {
@@ -375,8 +396,9 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
     for (const ag of agents) {
       if (!ag.obj.visible) continue;
       ag.mixer.update(dt);
-      if (ag.talk && !ag.pose) gesture(ag, dt);
+      if (ag.talk && !ag.pose && !ag.mix) gesture(ag, dt);
       if (ag.pose) applyPose(ag, clock);
+      else if (ag.mix) applyMix(ag);
       if (ag.role === 'walker') {
         ag.t += ag.speed * dt;
         if (ag.t >= ag.len) { const prev = ag.a; ag.a = ag.b; nextEdge(ag, prev); if (Math.random() < 0.02) { place(ag); continue; } }
@@ -408,7 +430,7 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   }
   return {
     setGround: (f: (x: number, z: number, bridge: boolean) => number) => { ground = f; },
-    group, claim, release, update, agents, setPose, setTalk, anim: play,
+    group, claim, release, update, agents, setPose, setMix, setTalk, anim: play,
     get year() { return year; }, get epoch() { return epoch; },
     setVisible(v: boolean) { if (!v) group.visible = false; },   // hidden for a moment (the timeline playing); update() shows them again
     setEnabled(v: boolean) { const was = enabled; enabled = v; if (!v) group.visible = false; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds
