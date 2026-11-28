@@ -62,9 +62,12 @@ and fountains climbing from the tower of San Niccolò, whose water runs again si
 <!-- /gallery -->
 
 ## What you see
-- The monument: steps with posts and chains, the four bronze allegories, the David
+- The monument: steps with posts and chains, the four bronze allegories (simple shapes for now), the David from a 3D scan of
+  the marble by Scan the World (CC BY-SA 4.0)
 - The balustrade along the terrace's edge over the city
 - The Loggia's arcade on paired columns
 - The Rampe's walls, grottoes and cascades between the bends of Viale Poggi
+
+3D scan of the David: Scan the World, [Michelangelo's David](https://www.myminifactory.com/object/3d-print-michelangelo-s-david-in-florence-italy-2052), CC BY-SA 4.0.
 
 More: [the model's notes](https://github.com/Jany-M/firenze-story/blob/main/docs/landmarks/PIAZZALE.md).

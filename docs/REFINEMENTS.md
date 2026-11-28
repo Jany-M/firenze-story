@@ -135,7 +135,7 @@ Technical page: [ORSANMICHELE.md](landmarks/ORSANMICHELE.md)
 Technical page: [PALAZZO-VECCHIO.md](landmarks/PALAZZO-VECCHIO.md)
 
 - [ ] Façade rhythm is regular (real bifore spacing is not); no coats of arms under the gallery, no painted vaults.
-- [ ] Statues are stand-ins (plinth and block figure); the Marzocco, Judith and the Neptune fountain are not modelled.
+- [ ] Hercules and Cacus is a stand-in (plinth and block figure; look for a scan first, Scan the World); the David's pedestal is a plain block; the Marzocco, Judith and the Neptune fountain are not modelled.
 - [ ] Interior courtyard (Michelozzo, 1453–) and the inner ranges are not modelled; the east wings are generic masses with plaster fronts.
 - [ ] The Duke of Athens' fortifications (1342–43) and the 1540 move of Cosimo I are not shown as separate phases.
 

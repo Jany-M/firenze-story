@@ -24,7 +24,7 @@ complex (one OSM record, Arnolfo block to Via dei Leoni).
 | Torre d'Arnolfo: shaft, gallery with swallowtail (Ghibelline) merlons, belfry, bell, cupola, Marzocco | 1310 | |
 | clock dial on the tower | 1353 | public clock from 1353; present dial and movement 17th c. |
 | arengario (speakers' platform along the façade) | 1323 → 1812 | then reduced to today's steps (*inferred* dates) |
-| David | 1504 | original moved to the Accademia 1873, copy from 1910 (stand-in figure, the gap 1873–1910 not shown) |
+| David | 1504 | original moved to the Accademia 1873, copy from 1910 (the gap 1873–1910 empty); both from Scan the World's 3D scan of the marble ([M44](../DATA-SOURCES.md#M44), CC BY-SA 4.0), 5.17 m on a plain pedestal |
 | Hercules and Cacus | 1534 | Bandinelli |
 | Salone dei Cinquecento range | 1495 | Cronaca |
 | ducal wings to Via dei Leoni | 1588 | Vasari 1555–72 and Buontalenti 1588–96, one date in v1 (*inferred*) |
@@ -35,7 +35,7 @@ tint than the city shader (the palace stone reads golden in daylight).
 
 ## Known limits of v1 (review list)
 - Façade rhythm is regular (real bifore spacing is not); no coats of arms under the gallery, no painted vaults.
-- Statues are stand-ins (plinth and block figure); the Marzocco, Judith and the Neptune fountain are not modelled.
+- Hercules and Cacus is a stand-in (plinth and block figure; look for a scan first, Scan the World); the David's pedestal is a plain block; the Marzocco, Judith and the Neptune fountain are not modelled.
 - Interior courtyard (Michelozzo, 1453–) and the inner ranges are not modelled; the east wings are generic masses
   with plaster fronts.
 - The Duke of Athens' fortifications (1342–43) and the 1540 move of Cosimo I are not shown as separate phases.

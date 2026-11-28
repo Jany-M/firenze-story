@@ -2,7 +2,7 @@
 
 # Maps and images
 
-All 285 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
+All 286 pictures in the collection. Click a picture to open it large. Each one keeps its author, licence and source page; the list is `docs/materials/manifest.json`.
 
 ## Maps and views of the city
 
@@ -328,6 +328,11 @@ All 285 pictures in the collection. Click a picture to open it large. Each one k
 <figure markdown>
 [![Palazzo Vecchio on Piazza della Signoria](/materials/landmarks/thumbs/piazza-della-signoria-palazzo-vecchio-veduta-01.jpg)](/materials/landmarks/piazza-della-signoria-palazzo-vecchio-veduta-01.jpg)
 <figcaption markdown>Palazzo Vecchio on Piazza della Signoria<br><small>Francesco Bini · 2021-05-10 16:58:47 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Piazza_della_signoria,_palazzo_vecchio,_veduta_01.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
+[![The door of Palazzo Vecchio: the marble copy of the David (1910) on the left, Bandinelli&#x27;s Hercules and Cacus on the right](/materials/landmarks/thumbs/firenze-florence-piazza-della-signoria-view-east-on-michelangelo-s-dav.jpg)](/materials/landmarks/firenze-florence-piazza-della-signoria-view-east-on-michelangelo-s-dav.jpg)
+<figcaption markdown>The door of Palazzo Vecchio: the marble copy of the David (1910) on the left, Bandinelli&#x27;s Hercules and Cacus on the right<br><small>Txllxt TxllxT · 2010-04-20 13:41:40 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazza_della_Signoria_-_View_East_on_Michelangelo%27s_David,_Entrance_of_Palazzo_Vecchio_%26_Baccio_Bandinelli%27s_Hercules_and_Cacus.jpg)</small></figcaption>
 </figure>
 
 <figure markdown>

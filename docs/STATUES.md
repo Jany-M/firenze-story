@@ -6,7 +6,8 @@ not empty and the list below is the work list for the refinement pass.
 
 Data: `web/src/data/statues.ts` (positions from OpenStreetMap unless noted). Drawing: `web/src/scene/statues.ts`.
 Statues that are already part of a landmark model (the Loggia dei Lanzi sculptures, the David and Hercules by
-Palazzo Vecchio's door, the Uffizi niche statues) are not repeated here.
+Palazzo Vecchio's door, the Uffizi niche statues) are not repeated here. Before modelling any of them by hand, look for a
+3D scan in Scan the World ([L03](DATA-SOURCES.md#L03)); the David on the Piazzale and by Palazzo Vecchio is one ([M44](DATA-SOURCES.md#M44)).
 
 ## Placeholders in the app (26)
 

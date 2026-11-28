@@ -12,6 +12,11 @@ The palace of the Priors, who governed the Republic, and later of Cosimo I de' M
 </figure>
 
 <figure markdown>
+[![The door of Palazzo Vecchio: the marble copy of the David (1910) on the left, Bandinelli&#x27;s Hercules and Cacus on the right](/materials/landmarks/thumbs/firenze-florence-piazza-della-signoria-view-east-on-michelangelo-s-dav.jpg)](/materials/landmarks/firenze-florence-piazza-della-signoria-view-east-on-michelangelo-s-dav.jpg)
+<figcaption markdown>The door of Palazzo Vecchio: the marble copy of the David (1910) on the left, Bandinelli&#x27;s Hercules and Cacus on the right<br><small>Txllxt TxllxT · 2010-04-20 13:41:40 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Firenze_-_Florence_-_Piazza_della_Signoria_-_View_East_on_Michelangelo%27s_David,_Entrance_of_Palazzo_Vecchio_%26_Baccio_Bandinelli%27s_Hercules_and_Cacus.jpg)</small></figcaption>
+</figure>
+
+<figure markdown>
 [![The courtyard of Palazzo Vecchio](/materials/landmarks/thumbs/palazzo-vecchio-cortile-interno.jpg)](/materials/landmarks/palazzo-vecchio-cortile-interno.jpg)
 <figcaption markdown>The courtyard of Palazzo Vecchio<br><small>Lorenzo Testa · 2015-06-17 13:19:38 · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) · [source](https://commons.wikimedia.org/wiki/File:Palazzo_Vecchio_Cortile_interno.JPG)</small></figcaption>
 </figure>
@@ -52,10 +57,12 @@ The palace of the Priors, who governed the Republic, and later of Cosimo I de' M
 ## In the app
 
 Shown from 1299: first the medieval tower stump, then Arnolfo's block and tower, the arengario, the Salone and the ducal
-wings, and the statues of the ringhiera at their dates. How it is built:
+wings, and the statues of the ringhiera at their dates; the David is a 3D scan of the marble by Scan the World
+(CC BY-SA 4.0). How it is built:
 [landmark notes](/docs/landmarks/PALAZZO-VECCHIO/).
 
 ## Sources
 
 - Musei Civici Fiorentini, [Palazzo Vecchio](https://www.musefirenze.it/musei/museo-di-palazzo-vecchio/)
 - Wikipedia: [Palazzo Vecchio](https://it.wikipedia.org/wiki/Palazzo_Vecchio)
+- Scan the World: [Michelangelo's David](https://www.myminifactory.com/object/3d-print-michelangelo-s-david-in-florence-italy-2052), 3D scan, CC BY-SA 4.0

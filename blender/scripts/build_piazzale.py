@@ -29,7 +29,7 @@ from landmark_kit import *
 import landmark_kit as K
 from landmark_detail import *
 from landmark_church import Vs, extra_materials
-from landmark_figure import figure, lying, recline, DAVID
+from landmark_scan import place as scan_place
 from mathutils import Vector
 K.reset()
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -373,25 +373,24 @@ for s in range(4):                                                  # its red ma
     for u in (-2.0, 2.0): pbox(bm_for(MO, "pinkm"), Fs, u - 0.9, u + 0.9, B + 0.9, B + 2.2, 0, 0.04)
     pbox(bm_for(MO, "bronze"), Fs, -0.6, 0.6, B + 1.0, B + 2.1, 0, 0.12)
 box(bm_for(MO, "marble"), Fm, -3.5, 3.5, B + 2.6, B + 3.0, -3.5, 3.5)                   # its cornice
-# the four Times of Day (bronze copies of Michelangelo's figures for the Medici tombs) reclining on scrolled couches at the
-# corners, each along its side with the head towards the corner (landmark_figure.py; which figure at which corner *inferred*)
-TIMES = {(-1, -1): ("Night", recline(arm="head"), True), (-1, 1): ("Dawn", recline(arm="rest", knee=0.3), True),
-         (1, -1): ("Day", recline(arm="back", head_up=0.33), False), (1, 1): ("Dusk", recline(arm="rest", bend=0.35, knee=0.22), False)}
-for (su, sn), (name, pose, fem) in TIMES.items():
+# the four Times of Day (bronze copies of Michelangelo's figures for the Medici tombs) on volutes at the corners: simple
+# reclining masses for now (a scan or a better model is for the refinement pass, PROJECT-DRAFT §12)
+for (su, sn) in ((-1, -1), (-1, 1), (1, -1), (1, 1)):
     cu, cn = su * 2.4, sn * 2.4
-    box(bm_for(MO, "marble"), Fm, min(cu - su * 1.75, cu + su * 0.9), max(cu - su * 1.75, cu + su * 0.9), B + 3.0, B + 3.45, cn - 0.75, cn + 0.75)   # the couch
-    sphere(MO, "marble", Fm.p(cu + su * 0.75, B + 3.55, cn), 0.32)                                      # its scroll at the corner end
-    lying(MO, "bronzev", Fm.p(cu - su * 0.15, B + 3.45, cn), Fm.u * su, Fm.n * sn, 2.15, pose, female=fem)
+    box(bm_for(MO, "marble"), Fm, cu - 0.9, cu + 0.9, B + 3.0, B + 3.5, cn - 0.9, cn + 0.9)
+    body = Frame(Fm.p(cu, 0, cn), Fm.u * su, Fm.n * sn)
+    box(bm_for(MO, "bronzev"), body, -1.1, 1.1, B + 3.5, B + 4.1, -0.35, 0.35)          # the figure lying along the corner
+    box(bm_for(MO, "bronzev"), body, 0.6, 1.1, B + 4.1, B + 4.7, -0.3, 0.3)             # raised shoulders and head
+    sphere(MO, "bronzev", body.p(0.9, B + 4.95, 0), 0.22)
 box(bm_for(MO, "marble"), Fm, -1.9, 1.9, B + 3.0, B + 5.9, -1.9, 1.9)                   # the upper pedestal (inscriptions)
 for s in range(4):
     ang = s * math.pi / 2; d = Vector((math.cos(ang), math.sin(ang), 0)); Fs = Frame(Vs(*C) + d * 1.9, Vector((-d.y, d.x, 0)), d)
     pbox(bm_for(MO, "pinkm"), Fs, -1.1, 1.1, B + 3.7, B + 5.3, 0, 0.03)
 box(bm_for(MO, "bronzev"), Fm, -2.1, 2.1, B + 5.9, B + 6.3, -2.1, 2.1)                  # bronze top moulding
-D = B + 6.3                                                         # the David, 5.2 m with its rock, weight on the right leg
-box(bm_for(MO, "bronzev"), Fm, -0.75, 0.75, D, D + 0.35, -0.55, 0.55)                   # rock and base
-figure(MO, "bronzev", Fm.p(0, D + 0.35, 0), face, 4.85, DAVID)                                  # landmark_figure.py
-rt = Vector((face.y, -face.x, 0))                                                                  # the tree stump by his right leg
-cone(MO, "bronzev", Fm.p(0, 0, 0) + rt * 0.42 - face * 0.28, 0.24, 0.17, D + 0.35, D + 1.75, seg=10)
+D = B + 6.3                                                         # the David: Papi's 1873 bronze cast of the marble
+# the 3D scan of the marble (Scan the World, CC BY-SA 4.0; reduced by prep_scan.py), with its own rock, stump and base,
+# 5.17 m overall like the marble; it is the same form as the cast
+scan_place(MO, "bronzev", "david_stw", Fm.p(0, D, 0), face, 5.17)
 
 
 # ------------------------------------------------------------------ the Rampe: walls on the measured lines, grottoes, basins

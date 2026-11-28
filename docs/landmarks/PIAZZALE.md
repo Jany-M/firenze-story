@@ -56,18 +56,12 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
 - **The monument to Michelangelo**: three marble steps ringed by posts and chains, the lower pedestal with red marble
   panels and the arms in bronze, the four bronze allegories of the Medici Chapel (Day, Night, Dawn, Dusk) reclining at its
   corners, the upper pedestal with the inscriptions, and the bronze David facing the city (towards the Duomo).
-- **The statues as figures** (refinement pass, 2026-11-28; `blender/scripts/landmark_figure.py`): bodies built from posed
-  joints – ellipsoids for head, trunk, hands and feet, tapered limbs with rounded joints, smooth-shaded –, posed from
-  photographs of the works. The David (4.85 m on its rock, the tree stump by the right leg): weight on the right leg, the left
-  set forward and out, the right arm down along the thigh, the left hand at the shoulder with the sling, the head turned to
-  his left. The four Times of Day reclining on scrolled couches at the corners, each along its side with the head towards
-  the corner: Night with her head on the raised arm, Dawn waking, Day with an arm behind the back, Dusk leaning back with
-  the head lowered (which figure lies at which corner, and the couches' form, *inferred*). A first detail layer
-  (2026-11-28, `_detail` in `landmark_figure.py`, from photographs of the marble and the bronze): deltoids, the chest's two
-  planes and the shoulder blades, the belly's columns and the flanks, the buttocks, knee caps; the face's brow, nose,
-  cheekbones, jaw and ears; a cap of curls; hands as palm, four fingers and thumb, curled as each hand holds (the stone in
-  the right, the sling in the left); the sling from the left hand over the shoulder down the back. The same builder will
-  replace the other stand-in statues.
+- **The David from a 3D scan** (2026-11-28; `blender/scripts/prep_scan.py`, `landmark_scan.py`): Scan the World's scan of
+  Michelangelo's marble ([M44](../DATA-SOURCES.md#M44), CC BY-SA 4.0), reduced from 1.2 million to 24,000 triangles and
+  scaled to 5.17 m with its rock, stump and base; Papi's bronze is a cast of the marble, so the form is the same. Front
+  towards the city. It replaces the figure built from posed joints (`landmark_figure.py`, review 7: it read as a caricature).
+- **The four Times of Day** are back to simple reclining masses on the corner volutes (body, raised shoulders, head) until a
+  scan or a better model of the Medici Chapel figures is found.
 - **The Loggia**: an arcade of three round arches between paired columns, closed end bays, a balustraded roof terrace, on a
   podium above the terrace wall with its inscription.
 - **The Rampe**: retaining walls in courses of pietra forte with balustrades, every one on its measured line (until
@@ -79,8 +73,7 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
   (`models/landmarks/ground_edits.json`, applied to the app's ground grid, `web/src/scene/terrainRefine.ts`).
 - Basins at the OSM fountains' places (ways 463430105, 690889344).
 
-Still open (refinement pass): the David (and the four Times) closer to the real bronzes, from photographs – the anatomy's
-masses (chest, belly, knees, the calves), the face's planes and the curls, hands with fingers, the sling; the garden beds
+Still open (refinement pass): the four Times of Day as real figures (look for scans first: Scan the World, M44); the garden beds
 by the Belvedere; the round fountain basin seen in the 1900s postcards on the terrace (not dated yet).
 
 ## Phases

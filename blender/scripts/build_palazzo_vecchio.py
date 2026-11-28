@@ -15,6 +15,7 @@ import os, sys, math
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from landmark_kit import *
 import landmark_kit as K
+from landmark_scan import place as scan_place
 K.reset()
 MAT["stone"] = material("pietra_forte", "pietra_forte", (0.62, 0.5, 0.36), 0.85, 0.32, tint=(3.0, 2.85, 2.55))
 MAT["serena"] = material("pietra_serena", "pietra_serena", (0.5, 0.5, 0.48), 0.7, 0.5)
@@ -186,8 +187,11 @@ def statue(part, u, base_h, fig_h):
     box(bm_for(part, "white"), Fw2, u - 0.9, u + 0.9, 0.0, 0.9 + base_h, 3.2, 5.0)
     box(bm_for(part, "white"), Fw2, u - 0.35, u + 0.35, 0.9 + base_h, 0.9 + base_h + fig_h * 0.86, 3.85, 4.35)
     box(bm_for(part, "white"), Fw2, u - 0.18, u + 0.18, 0.9 + base_h + fig_h * 0.86, 0.9 + base_h + fig_h, 3.9, 4.3)
-statue("david@1504_159-1873", 21.6, 2.0, 5.2)                 # set on the ringhiera 8 June 1504, to the Accademia 1873
-statue(f"david_copy@1910-{NOW}", 21.6, 2.0, 5.2)              # Arrighetti's marble copy
+def david(part):                                               # the 3D scan of the marble (Scan the World, CC BY-SA 4.0)
+    box(bm_for(part, "white"), Fw2, 21.6 - 0.9, 21.6 + 0.9, 0.0, 2.9, 3.2, 5.0)                # its pedestal
+    scan_place(part, "white", "david_stw", Fw2.p(21.6, 2.9, 4.1), Fw2.n, 5.17)               # front to the piazza
+david("david@1504_159-1873")                                   # set on the ringhiera 8 June 1504, to the Accademia 1873
+david(f"david_copy@1910-{NOW}")                                # Arrighetti's marble copy, the same form
 statue(f"hercules@1534-{NOW}", 29.6, 2.0, 5.0)
 
 # east: medieval houses on the lots (conjectural), then Cronaca's Salone dei Cinquecento and the ducal wings
