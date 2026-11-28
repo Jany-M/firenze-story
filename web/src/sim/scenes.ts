@@ -7,6 +7,20 @@ import type { Props } from '../scene/assets';
 import { createFX } from './fx';
 import { walk } from './walk';
 import { createFlood } from './flood';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/** The David from Scan the World's 3D scan of the marble (CC BY-SA 4.0; blender/scripts/build_scan_glb.py, 5.17 m, front +Z),
+ *  loaded the first time the scene is played and kept: its geometry is shared, never freed. */
+let davidScan: Promise<THREE.BufferGeometry | null> | null = null;
+function loadDavidScan() {
+  davidScan ??= new GLTFLoader().loadAsync('./models/scans/david_stw.glb').then(g => {
+    let geo: THREE.BufferGeometry | null = null;
+    g.scene.traverse((o: any) => { if (o.isMesh && !geo) geo = o.geometry; });
+    if (geo) { (geo as THREE.BufferGeometry).computeBoundingBox(); const b = (geo as THREE.BufferGeometry).boundingBox!; (geo as THREE.BufferGeometry).translate(-(b.min.x + b.max.x) / 2, -b.min.y, -(b.min.z + b.max.z) / 2); }   // centred in the frame
+    return geo;
+  }).catch(e => { console.warn('David scan missing', e); return null; });
+  return davidScan;
+}
 
 type Height = (x: number, z: number) => number;
 const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
@@ -216,10 +230,11 @@ export function createScenes(scene: THREE.Scene, people: People, height: Height,
     for (const y of [0.45, 3.2, 6.6]) for (const s of [-1, 1]) { beam(3.1, 0.22, 0.22, 0, y, s * 1.4); beam(0.22, 0.22, 3.1, s * 1.4, y, 0); }
     for (const s of [-1, 1]) beam(0.22, 4.2, 0.22, s * 1.4, 2.0, 0);                                   // braces
     for (const s of [-1, 1]) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 9), wood); m.position.set(s * 1.1, 0.15, 0); g.add(m); }   // greased runners
-    const fig = new THREE.Group(); fig.position.y = 1.6; g.add(fig);                                               // the statue, hung free of the floor
-    const part = (w: number, h: number, d: number, y: number, x = 0) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), marble); m.position.set(x, y, 0); m.castShadow = true; fig.add(m); };
-    part(1.1, 0.5, 1.0, 0.25); part(0.7, 1.9, 0.5, 1.45); part(0.95, 1.4, 0.55, 3.1); part(0.45, 0.55, 0.45, 4.1);
-    part(0.22, 1.3, 0.22, 3.0, 0.62); part(0.22, 1.1, 0.22, 3.6, -0.62);
+    const fig = new THREE.Group(); fig.position.y = 1.0; g.add(fig);                                               // the statue, hung free of the floor
+    loadDavidScan().then(geo => {                                                     // the 3D scan, 5.17 m with its base, facing the way it goes
+      if (!geo || davidFrame !== g) { marble.dispose(); return; }
+      keepLib.add(geo); const m = new THREE.Mesh(geo, marble); m.castShadow = m.receiveShadow = true; fig.add(m);
+    });
     for (let i = 0; i < 4; i++) { const r = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(0, 0, 0), V(0, 0, 0)]), new THREE.LineBasicMaterial({ color: 0x3b2f22 })); root.add(r); ropes.push(r); }
     // the men are placed by the scene round the frame every frame (claimed "placed": no free-ground search at the origin,
     // which used to refuse them all): haulers on four ropes ahead, pushers behind, carpenters re-laying the beams,

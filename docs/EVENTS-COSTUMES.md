@@ -46,6 +46,9 @@ no player.
 - **David**: left the Opera del Duomo yard at sunset on 14 May 1504 through the wall broken above the gate; 40+ men,
   timber frame on greased beams with the statue hung inside; arrived 18 May, set on the ringhiera 8 June (Luca Landucci,
   quoted by Opera di Santa Maria del Fiore, Opera Magazine post 4693). Route not documented – presumed in the app.
+  The statue in the frame is Scan the World's 3D scan of the marble ([M44](DATA-SOURCES.md#M44), CC BY-SA 4.0;
+  `web/public/models/scans/david_stw.glb` from `blender/scripts/build_scan_glb.py`), 5.17 m, facing the way it goes
+  (*inferred*), loaded the first time the scene plays.
   In the app the statue comes out through a gate in the yard's west front, facing the cathedral's apse (where the
   Opera's entrance is today, Piazza del Duomo 9; the 1504 wall line from the 1843 map), seen from the street in front;
   the camera then rises and follows it from above. 44 men haul, push and re-lay the beams; the Opera's officials walk

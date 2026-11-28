@@ -8,4 +8,7 @@ under the same terms. Register: `docs/DATA-SOURCES.md`.
 |---|---|---|---|---|
 | `david_stw.npz` | Michelangelo's David (marble, 1501–04, Galleria dell'Accademia) | Scan the World @ MyMiniFactory.com, "Michelangelo's David" – https://www.myminifactory.com/object/3d-print-michelangelo-s-david-in-florence-italy-2052 | CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/) | reduced from 1,199,884 to 24,000 triangles, moved to stand on its base at the origin, scaled to height 1 |
 
+`build_scan_glb.py` also writes each scan as a GLB of its own at real size for the web (`web/public/models/scans/<name>.glb`,
+same licence): the David there is the statue in the Live scene of its move (14–18 May 1504).
+
 The original STL files stay out of the repository (`_dev/references/`).
