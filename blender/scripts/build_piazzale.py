@@ -78,9 +78,10 @@ def balustrade(part, F, L, v, h=1.05, step=0.3, pier=6.0):
     nb = max(1, int(L / step))
     for k in range(nb):
         c = F.p((k + 0.5) * L / nb, 0, -0.25)
-        cone(part, "ghisa", c, 0.08, 0.11, v + b0, v + b0 + 0.18, seg=6)                   # the swelling foot
-        cone(part, "ghisa", c, 0.11, 0.06, v + b0 + 0.18, v + h - 0.2, seg=6)              # the tapering shaft
-        cylinder(part, "ghisa", c, 0.09, v + h - 0.2, v + h - 0.12, seg=6, cap=False)       # the capital
+        cone(part, "ghisa", c, 0.08, 0.11, v + b0, v + b0 + 0.18, seg=5)                   # the swelling foot
+        cone(part, "ghisa", c, 0.11, 0.07, v + b0 + 0.18, v + h - 0.12, seg=5)             # the tapering shaft up to the rail
+        # (5 sides and no separate capital: a third of the faces of the balustrade, which is most of the model's – the
+        # tab's memory on small devices, perf note 2026-11-28; the difference does not show at the distances it is seen)
     for kk in range(int(L / pier) + 1):
         u = min(L, kk * pier); pbox(bm_for(part, "forte"), F, u - 0.22, u + 0.22, v, v + h + 0.06, -0.5, 0.0)
 def lamp(part, x, z, g):
@@ -158,65 +159,51 @@ def wall_line(name, part, top=None, rail="bal", course=0.6, depth=4.5, upto=None
         frames.append((F, L, t, f, p0, p1))
     return frames
 
-# ------------------------------------------------------------------ Viale Poggi's two ramps beside the terrace: geometry first, the terrace wall stands on them
-# LiDAR 2023 cross-sections every 4 m and Street View (2022, 2024): the west ramp climbs east along the terrace wall and
-# reaches the terrace's level at its top end, where the wall stops; the east ramp is its mirror image, leaving the terrace
-# through the oblique corner at x 842–848 and running down along the wall to Viale Poggi. Both are drawn as regular strips
-# of constant width, level across, their level along them read from the LiDAR, smoothed and made to fall steadily.
-def _line(P):
-    """z at x on a polyline of (x, z, ...) points, extended straight beyond its ends."""
-    def z(x):
-        for a, b in zip(P, P[1:]):
-            if a[0] <= x <= b[0]: return a[1] + (b[1] - a[1]) * (x - a[0]) / max(1e-6, b[0] - a[0])
-        a, b = (P[0], P[1]) if x < P[0][0] else (P[-2], P[-1])
-        return a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0])
-    return z
+# ------------------------------------------------------------------ the city side: the great rectangle's front, the small rectangle, the two ramps
+# Drawn as the geometric shapes they are (Jany's review 5; pipeline/49_piazzale.py "front"): the great rectangle's front wall
+# is one straight line F0; in its middle a smaller rectangle stands out towards the city by the ramps' width; off its two
+# sides Viale Poggi's two ramps run down along F0, mirror images of each other (Street View 2022, 2024: the balustrade of the
+# great rectangle stops where a ramp reaches the terrace, the small rectangle's front carries its own). The ramps' level
+# along them is the LiDAR's, the two sides averaged (so they mirror), smoothed and made to fall steadily.
 def lerp(a, b, t): return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
-_nw = WJ["north_w"]["pts"]                                            # the snapped line wavered over the low wall at the west ramp's top;
-WJ["north_w"]["pts"] = ([p for p in _nw if p[0] < 799.5] + [[805.0, 936.3, 63.1, 61.8], [812.0, 933.3, 63.1, 55.9],
-                        [815.0, 933.6, 63.1, 55.9], [818.0, 935.0, 63.1, 55.9]] + [p for p in _nw if p[0] > 820])   # the corner beyond read off the DTM
-zw, ze = _line(WJ["north_w"]["pts"]), _line(WJ["north_e"]["pts"])
+GJ = json.load(open(os.path.join(ROOT, "blender", "data", "piazzale_ground.json")))   # pipeline/49_piazzale.py
+FR = GJ["front"]; FA, FB = FR["A"], FR["B"]; SA, SB, RWD, RLEN = FR["sa"], FR["sb"], FR["w"], FR["len"]
+_fl = math.hypot(FB[0] - FA[0], FB[1] - FA[1]); FD = ((FB[0] - FA[0]) / _fl, (FB[1] - FA[1]) / _fl); NOUT = (FD[1], -FD[0])   # towards the city
+def F0(s): return (FA[0] + FD[0] * s, FA[1] + FD[1] * s)
+def F1(s): p = F0(s); return (p[0] + NOUT[0] * RWD, p[1] + NOUT[1] * RWD)
 TOPL = 63.1                                                           # the terrace's level where a ramp meets it
-def make_ramp(xs, inner, outer, head, top_first, ts=(0.3, 0.45, 0.6, 0.75)):
-    """xs: stations (x); inner/outer(x) -> (x, z); head(x): True where the inner side is the opening onto the terrace
-    (its points at the terrace's level). top_first: the top end is xs[0]."""
-    I = [inner(x) for x in xs]; O = [outer(x) for x in xs]
-    raw = [float(np.median([dtm(*lerp(a, b, t)) for t in ts])) for a, b in zip(I, O)]
-    idx = list(range(len(xs))) if top_first else list(range(len(xs) - 1, -1, -1))
-    L = [0.0] * len(xs); prev = TOPL; dist = 0.0
-    for k, i in enumerate(idx):
-        if k: dist += abs(xs[i] - xs[idx[k - 1]])
-        sm = [raw[j] for j in range(max(0, i - 2), min(len(xs), i + 3))]
-        v = min(sum(sm) / len(sm), prev, TOPL)                         # steadily down from the top
-        v = max(v, TOPL - 0.2 * dist) if dist < 12 else v            # no step where it leaves the terrace: at most 1 in 5
-        L[i] = prev = v
-    L = [L[0]] + [(L[i - 1] + L[i] + L[i + 1]) / 3 for i in range(1, len(L) - 1)] + [L[-1]]
-    HI = [TOPL if head(x) else l for x, l in zip(xs, L)]
-    return {"xs": xs, "I": I, "O": O, "L": L, "HI": HI, "top_first": top_first}
-# west: x 764 -> 812, 7.5 m wide; the head x 805–812 opens onto the terrace, the outer edge closing in to its corner (812, 933.3)
-_xw = [float(x) for x in range(764, 805)][::2] + [805.0, 807.0, 809.0, 811.0, 812.0]
-_ow = lambda x: (x, zw(x) - 7.5) if x <= 798 else lerp((798.0, zw(798) - 7.5), (812.0, 933.3), (x - 798) / 14)
-RW = make_ramp(_xw, lambda x: (x, zw(x)) if x <= 805 else lerp((805.0, 936.3), (812.0, 933.3), (x - 805) / 7), _ow, lambda x: x > 805.01, False)
-# east: x 842 -> 888, 9 m wide; the head x 842–848 is the oblique corner, from the end of the city-side wall (842.1, 938.6)
-_xe = [842.1, 844.0, 846.0, 848.3] + [float(x) for x in range(850, 889, 2)]
-_oe = lambda x: lerp((842.1, 938.6), (849.6, 939.6), (x - 842.1) / 7.5) if x < 849.6 else (x + 0.145 * 9.0, ze(x) - 0.989 * 9.0)
-RE = make_ramp(_xe, lambda x: lerp((842.1, 938.6), (848.3, 948.5), (x - 842.1) / 6.2) if x < 848.3 else (x, ze(x)), _oe, lambda x: x < 848.29, True, ts=(0.5, 0.65, 0.8))   # read on the road half: a stepped path runs along the wall's foot
-def ramp_foot(R, x0, x1):
-    def f(x, z):
-        if x0 <= x <= x1: return float(np.interp(x, R["xs"], R["L"]))
-        return None
-    return f
-_fw, _fe = ramp_foot(RW, 764, 804.9), ramp_foot(RE, 848.2, 888)
-def foot_nw(x, z):
-    if 804.9 <= x <= 812.1: return TOPL                                 # the west ramp's opening: no wall
-    return _fw(x, z)
-print("ramp levels W", [round(v, 1) for v in RW["L"]], "E", [round(v, 1) for v in RE["L"]])
+def _across(s): return float(np.median([dtm(*lerp(F0(s), F1(s), t)) for t in (0.45, 0.6, 0.75, 0.9)]))
+RT = [float(t) for t in np.arange(0, RLEN + 0.01, 2.0)]                # stations, metres from a ramp's top
+_raw = [(_across(SA - t) + _across(SB + t)) / 2 for t in RT]
+RL = []; prev = TOPL
+for i, t in enumerate(RT):
+    sm = _raw[max(0, i - 2):i + 3]; v = min(sum(sm) / len(sm), prev, TOPL)
+    if t < 12: v = max(v, TOPL - 0.2 * t)                             # no step where it leaves the terrace: at most 1 in 5
+    RL.append(v); prev = v
+RL = [RL[0]] + [(RL[i - 1] + RL[i] + RL[i + 1]) / 3 for i in range(1, len(RL) - 1)] + [RL[-1]]
+def ramp_level(t): return float(np.interp(t, RT, RL))
+def ramp_of(sign):
+    """sign -1: the west ramp (s = SA - t), +1: the east one (s = SB + t); stations from the top."""
+    ss = [(SA - t) if sign < 0 else (SB + t) for t in RT]
+    return {"xs": RT, "I": [F0(s) for s in ss], "O": [F1(s) for s in ss], "L": RL[:], "HI": RL[:], "top_first": True}
+RW, RE = ramp_of(-1), ramp_of(1)
+def _low(x, z): return min(dtm(x + NOUT[0] * k, z + NOUT[1] * k) for k in (1.5, 2.5, 3.5))
+# the walls of the city side as lines with [x, z, top, foot] points, the low side towards the city
+_s_w0 = SA - RLEN
+_west = [p for p in WJ["north_w"]["pts"] if p[0] < F0(_s_w0)[0] - 1.0]           # the great rectangle's west end, as measured
+WJ["front_w"] = {"low": list(NOUT), "pts": _west + [[*F0(s), 63.2, ramp_level(SA - s)] for s in np.arange(_s_w0, SA + 0.01, 3.0)]}
+_e = [float(s) for s in np.arange(SB, _fl + 0.01, 3.0)] + [_fl]
+WJ["front_e"] = {"low": list(NOUT), "pts": [[*F0(s), 63.2, ramp_level(s - SB) if s - SB <= RLEN else _low(*F0(s))] for s in _e] + [[901.8, 959.1, 62.4, 55.0]]}
+WJ["front_s"] = {"low": list(NOUT), "pts": [[*F1(s), 63.2, _low(*F1(s))] for s in list(np.arange(SA, SB, 3.0)) + [SB]]}
+print("ramp levels", [round(v, 1) for v in RL])
 
 # ------------------------------------------------------------------ the terrace: walls on the city side, the Iris side, the west
 TOP = 63.2
-wall_line("north_w", PZ, top=TOP, open_below=1.3, footfn=foot_nw)   # the ramps run at the wall's foot, and it opens where
-wall_line("north_e", PZ, top=TOP, open_below=1.3, footfn=_fe)       # they meet the terrace (the oblique corner left open)
+wall_line("front_w", PZ, top=TOP, open_below=1.3)   # the ramps run at the great rectangle's wall's foot: it opens where they
+wall_line("front_e", PZ, top=TOP, open_below=1.3)   # reach the terrace's level (the balustrade stops there)
+wall_line("front_s", PZ, top=TOP)                    # the small rectangle's front, with its own balustrade
 wall_line("east", PZ)
+WJ["west_n"]["pts"].append([736.6, 955.3, 63.3, 57.6])            # carried on to the staircase's corner: no open slot down to the lower terrace
 wall_line("west_n", PZ, top=63.3)
 wall_line("west_s", PZ, upto=lambda p: p[1] < 1004)
 # the containing walls below, along Viale Poggi's bends and on the Iris garden side (built with the Viale, 1865–76)
@@ -243,7 +230,6 @@ EDITS.append({"poly": [[SX1 - 0.5, SZ0 - 0.5], [SX0 + 0.3, SZ0 - 0.5], [SX0 + 0.
 # ------------------------------------------------------------------ the terrace's ground: gravel at first, asphalt today
 # (gravel in the photographs of the 1870s–1900s, asphalt in those of the 1990s on; the change is dated 1960, *inferred*)
 def wl(nm, cond=lambda p: True): return [(p[0], p[1]) for p in WJ[nm]["pts"] if cond(p)]
-GJ = json.load(open(os.path.join(ROOT, "blender", "data", "piazzale_ground.json")))   # pipeline/49_piazzale.py
 from mathutils.geometry import tessellate_polygon
 def slab(part, mat, outer, holes=(), lift=0.04, cell=4.0, flat=None, hfn=None):
     """A ground slab on the polygon (with holes), cut into 4 m cells and laid on the LiDAR heights (or flat at `flat`)."""
@@ -293,7 +279,8 @@ def build_ramp(R, low, bal_len):
             poly(bm_for(GRAVEL, "gravel"), t); poly(bm_for(ASPH, "asph"), t)
         lo = min(HI[i], HI[i + 1], L[i], L[i + 1])
         pq = [list(I[i]), list(O[i]), list(O[i + 1]), list(I[i + 1])]
-        EDITS.append({"poly": pq, "min": round(lo - 0.45, 2)}); EDITS.append({"poly": pq, "max": round(lo - 0.08, 2)})
+        lift = (HI[i] + HI[i + 1] + L[i] + L[i + 1]) / 4 + 0.05 - (lo - 0.08)   # the ramp's surface over the ground left under it
+        EDITS.append({"poly": pq, "min": round(lo - 0.45, 2)}); EDITS.append({"poly": pq, "max": round(lo - 0.08, 2), "lift": round(lift, 2)})
     # the outer side, from the top end down: a balustrade over the first stretch (as on the terrace), then an iron railing;
     # the wall below follows the fall of the bank and gives way to a kerb where the bank is level with the road
     order = list(range(n - 1)) if R["top_first"] else list(range(n - 2, -1, -1)); acc = 0.0
@@ -318,11 +305,12 @@ def build_ramp(R, low, bal_len):
             if acc + u0 < bal_len: balustrade(VW, Fk, u1 - u0, tt + 0.05, pier=99)
             elif drop > 0.8: railing(VW, Fk, u1 - u0, tt + 0.05)
         acc += Ls
-build_ramp(RW, WJ["north_w"]["low"], 0.0)
-build_ramp(RE, WJ["north_e"]["low"], 18.0)
-for a, b, inside in (((842.1, 938.6), (848.3, 948.5), (835.0, 950.0)), ((805.0, 936.3), (812.0, 933.3), (812.0, 945.0))):
-    F, L = seg(a, b, inside)                                         # where a ramp meets the terrace: the ground kept under the paving
-    n = (F.n.x, -F.n.y); EDITS.append({"poly": strip(a, b, n, -0.5, 3.0), "max": round(TOPL - 0.3, 2)})
+build_ramp(RW, NOUT, 18.0)
+build_ramp(RE, NOUT, 18.0)
+# the lower terrace by the Belvedere at the foot of the great staircase: stone paving on the LiDAR (the Comune's pedestrian area,
+# grey in the orthophoto), so the staircase lands on a floor and not on the bare ground model
+LW = GJ["lower"]; slab(PZ, "step", LW["outer"], LW["holes"], lift=0.05)
+EDITS.append({"poly": LW["outer"], "drop": 0.3})
 # the garden before the Loggia, between the carriageway and the Loggia's terrace wall: gravel paths, lawn beds edged in
 # stone, the oval fountain (OSM way 1093617565; photographs: Sailko on Commons, localistorici.it)
 isl = GJ["island"]; MAT["path"] = material("garden_gravel", "terra", (0.74, 0.69, 0.6), 1.0, 0.3, tint=(1.3, 1.25, 1.15))
@@ -345,7 +333,8 @@ cylinder(LG, "water", Vs(*fc), 0.05, fg + 1.3, fg + 2.2, seg=6)
 # lamp posts along the balustrades (every ≈ 24 m, *inferred* spacing; on the line in every photograph)
 def along(nm, every, off, g=TOP):
     P = WJ[nm]["pts"]; nx, nz = WJ[nm]["low"]; acc = every / 2
-    ff = foot_nw if nm == "north_w" else _fe if nm == "north_e" else (lambda x, z: None)
+    def ff(x, z):                                                     # the wall's foot by the nearest point
+        q = min(P, key=lambda p: (p[0] - x) ** 2 + (p[1] - z) ** 2); return q[3] if nm.startswith("front") else None
     for a, b in zip(P, P[1:]):
         L = math.hypot(b[0] - a[0], b[1] - a[1]); t = acc
         while t < L:
@@ -354,12 +343,12 @@ def along(nm, every, off, g=TOP):
             if fv is None or fv < TOP - 1.3: lamp(PZ, x, z, g if g is not None else dtm(x, z))   # none over a ramp's opening
             t += every
         acc = t - L
-for nm in ("north_w", "north_e"): along(nm, 24, 1.0)
+for nm in ("front_w", "front_e", "front_s"): along(nm, 24, 1.0)
 along("east", 24, 1.0, None); along("west_n", 24, 1.0)
 
 # ------------------------------------------------------------------ the monument to Michelangelo
 C = (818.5, 976.5); G = 63.45                                          # on the terrace's level round it (LiDAR, 8–11 m out)
-face = Vector((0.35, -1.0, 0)).normalized()                         # David looks south-east, towards the hills (scene +z is south: -y in Blender)
+face = Vector((-0.57, 0.82, 0)).normalized()                        # David faces the city, towards the Duomo (north-west; scene -z is north: +y in Blender)
 Fm = Frame(Vs(*C), Vector((-face.y, face.x, 0)), face)
 for k, (w, h) in enumerate(((13.0, 0.3), (11.6, 0.6), (10.2, 0.9))):  # three steps
     box(bm_for(MO, "marble"), Fm, -w / 2, w / 2, G - 0.2, G + h, -w / 2, w / 2)

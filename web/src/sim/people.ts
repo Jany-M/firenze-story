@@ -122,7 +122,7 @@ export const PEOPLE_ALT = 340;
  *  none above PEOPLE_ALT). Figures are made on demand – for walkers and for whatever scenes, squares and the river ask
  *  for in the area in view – and reused; `cap` is only a safety limit. */
 export async function createPeople(scene: THREE.Scene, streets: any, base = 200, opts: { walkers?: boolean; cap?: number } = {}) {
-  const walkers = opts.walkers ?? true, cap = opts.cap ?? 600;
+  const walkers = opts.walkers ?? true; let cap = opts.cap ?? 600;
   const loader = new GLTFLoader();
   const [gltf, kit, hatKit] = await Promise.all([loader.loadAsync('./models/Xbot.glb'),
     loader.loadAsync('./models/costumes.glb').catch(() => null), loader.loadAsync('./models/hats.glb').catch(() => null)]);
@@ -431,6 +431,8 @@ export async function createPeople(scene: THREE.Scene, streets: any, base = 200,
   return {
     setGround: (f: (x: number, z: number, bridge: boolean) => number) => { ground = f; },
     group, claim, release, update, agents, setPose, setMix, setTalk, anim: play,
+    /** Thin or restore the crowd at run time (perf.ts): walkers round the view, and the most figures ever made. */
+    setBudget(b: number, c: number) { base = Math.max(0, Math.round(b)); cap = Math.max(8, Math.round(c)); },
     get year() { return year; }, get epoch() { return epoch; },
     setVisible(v: boolean) { if (!v) group.visible = false; },   // hidden for a moment (the timeline playing); update() shows them again
     setEnabled(v: boolean) { const was = enabled; enabled = v; if (!v) group.visible = false; if (v && !was) reset(true); },   // re-enabling must not drop scene crowds

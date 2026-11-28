@@ -35,25 +35,27 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
 - **The garden before the Loggia**, between the carriageway and the Loggia's terrace wall: gravel paths (the Comune's
   pedestrian polygon), sixteen lawn beds edged in stone (its holes) and the oval fountain (OSM way 1093617565) with a jet
   (its form *inferred*); photographs: Sailko on Commons, localistorici.it.
-- **The two ramps of Viale Poggi** that meet the terrace on the city side, mirror images of each other (LiDAR cross-sections
-  every 4 m; Street View 2022 and 2024): the west one climbs east along the outside of the city-side wall from 56 m
-  (x 764) and reaches the terrace's level at its top end (x 805–812), where the wall stops and its outer edge closes in to
-  the terrace's corner (812, 933); the east one leaves the terrace through the **oblique corner** (842, 938.6)–(848.3,
-  948.5), open, without wall or balustrade, and runs down along the wall to Viale Poggi at 55.8 m (x 888). Both are
-  regular strips (7.5 m and 9 m wide), level across, their level along them the LiDAR's smoothed and made to fall
-  steadily (no step at the terrace: at most 1 in 5 there). On the open side each is held by a **rusticated retaining wall**
-  that follows the fall of the bank and gives way to a kerb where the bank is level with the road: on the east ramp
-  Poggi's balustrade for the first 18 m from the top, as in the photographs, then an iron railing; on the west ramp an
-  iron railing (*inferred*). Below the west ramp the bank falls to the Viale's own low wall, which now steps down with the
-  slope (its top follows the ground instead of rising in steps). The snapped wall line that wavered over the low wall at
-  the west ramp's top was dropped (x 799–812) and the corner beyond read off the DTM.
+- **The city side as geometric shapes** (Jany's review 5, 2026-11-28; `pipeline/49_piazzale.py` "front"): the great
+  rectangle's front wall is one straight line through the measured wall at its two ends, (745, 927.4) and (899, 958.2); in its
+  middle a **smaller rectangle** stands out 7.5 m towards the city, between 66 and 99 m along that line (x ≈ 810–842), its
+  front carrying its own balustrade; off its two sides the **two ramps of Viale Poggi** run down along the great
+  rectangle's wall, mirror images of each other – 46 m long, 7.5 m wide, their outer edge continuing the small rectangle's
+  front. The great rectangle's balustrade stops where a ramp reaches the terrace's level and starts again as the ramp falls
+  away below it. The ramps' level is the LiDAR's, the two sides averaged so they mirror (63.1 m at the top, 56.2 m at the
+  foot), falling steadily (at most 1 in 5 at the top). On the open side each ramp is held by a rusticated retaining wall
+  following the fall of the bank, Poggi's balustrade for the first 18 m from the top, as in the photographs, then an iron
+  railing (*inferred*). The LiDAR's wall lines agree with these shapes within 1–3 m; the old snapped lines of the city side
+  (`north_w`, `north_step`, `north_e`) are used only for the great rectangle's west end.
+- **The lower terrace by the Belvedere** at the foot of the great staircase (57.3 m): stone paving laid on the LiDAR over the
+  Comune's pedestrian area there (grey in the orthophoto), so the staircase lands on a floor; the wall at the terrace's
+  north-west corner is carried on to the staircase's corner (no open slot down to it).
 - **The monument stands on the terrace**: its steps start at the terrace's level round it (63.45 m, LiDAR 8–11 m out); the
   LiDAR's hump of the platform is cut out of the ground, and the paving leaves a hole for it.
 - **The containing walls below**: along Viale Poggi's bends under the terrace and on the Iris garden side, with a low stone
   parapet (*inferred*), part `viale_muri`.
 - **The monument to Michelangelo**: three marble steps ringed by posts and chains, the lower pedestal with red marble
   panels and the arms in bronze, the four bronze allegories of the Medici Chapel (Day, Night, Dawn, Dusk) reclining at its
-  corners, the upper pedestal with the inscriptions, and the bronze David looking towards the hills.
+  corners, the upper pedestal with the inscriptions, and the bronze David facing the city (towards the Duomo).
 - **The statues as figures** (refinement pass, 2026-11-28; `blender/scripts/landmark_figure.py`): bodies built from posed
   joints – ellipsoids for head, trunk, hands and feet, tapered limbs with rounded joints, smooth-shaded –, posed from
   photographs of the works. The David (4.85 m on its rock, the tree stump by the right leg): weight on the right leg, the left
@@ -73,8 +75,9 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
   (`models/landmarks/ground_edits.json`, applied to the app's ground grid, `web/src/scene/terrainRefine.ts`).
 - Basins at the OSM fountains' places (ways 463430105, 690889344).
 
-Still open (refinement pass): the figures' faces, hair, muscles and the sling; the lower terrace's brick paving
-and garden beds by the Belvedere; the round fountain basin seen in the 1900s postcards on the terrace (not dated yet).
+Still open (refinement pass): the David (and the four Times) closer to the real bronzes, from photographs – the anatomy's
+masses (chest, belly, knees, the calves), the face's planes and the curls, hands with fingers, the sling; the garden beds
+by the Belvedere; the round fountain basin seen in the 1900s postcards on the terrace (not dated yet).
 
 ## Phases
 | Years | Part | Basis |

@@ -84,6 +84,22 @@ export function markEdits(m: Uint8Array, edits: GroundEdit[], n: number, step: n
   return m;
 }
 
+/** Marks (in place, never lowering a mark) the vertices within r m of the outline pts (its vertices and edges) with `val`. */
+export function markNear(m: Uint8Array, pts: [number, number][], n: number, step: number, r: number, val: 1 | 2) {
+  const half = ((n - 1) * step) / 2;
+  for (let a = 0; a < pts.length; a++) {
+    const [x0, z0] = pts[a], [x1, z1] = pts[(a + 1) % pts.length], L = Math.hypot(x1 - x0, z1 - z0);
+    const i0 = Math.max(0, Math.floor((Math.min(x0, x1) - r + half) / step)), i1 = Math.min(n - 1, Math.ceil((Math.max(x0, x1) + r + half) / step));
+    const j0 = Math.max(0, Math.floor((Math.min(z0, z1) - r + half) / step)), j1 = Math.min(n - 1, Math.ceil((Math.max(z0, z1) + r + half) / step));
+    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+      const x = -half + i * step, z = -half + j * step;
+      const t = L ? Math.max(0, Math.min(1, ((x - x0) * (x1 - x0) + (z - z0) * (z1 - z0)) / (L * L))) : 0;
+      if (Math.hypot(x - x0 - (x1 - x0) * t, z - z0 - (z1 - z0) * t) > r) continue;
+      const k = j * n + i; if (!m[k] || val < m[k]) m[k] = val;
+    }
+  }
+}
+
 /** Terrain vertices to keep as measured: within one cell of a building's footprint in any year (footprints.u16: 2 m cells,
  *  two layers, written by pipeline/20_build_city.py). */
 export function buildingMask(foot: Uint16Array, n: number, step: number): Uint8Array {
@@ -104,7 +120,9 @@ export function buildingMask(foot: Uint16Array, n: number, step: number): Uint8A
 // lower courses. The build scripts write, per model, strips along each wall: in front (the low side) the ground is cut
 // down to the wall's foot (`max`), behind it filled up to the top (`min`); under a paved terrace it is lowered a little
 // (`drop`) so the model's paving shows. The model decides, the ground gives way. File: models/landmarks/ground_edits.json
-export interface GroundEdit { poly: [number, number][]; max?: number; min?: number; drop?: number; from?: number }
+export interface GroundEdit { poly: [number, number][]; max?: number; min?: number; drop?: number; from?: number; lift?: number }
+// lift: how far the model's walking surface (paving, a ramp) stands over the ground left under it – added to the height people,
+// benches and props are given there (the mesh keeps the lower ground, hidden under the slab). A `drop` lifts by drop + 0.04.
 // An edit with `from` belongs to a structure built that year (a lungarno's wall and road): before it the ground keeps its own
 // softened shape (a sloping bank), from it the edit holds. Those go to a second height array, chosen per vertex by year.
 function inPoly(x: number, z: number, p: [number, number][]) {
@@ -115,8 +133,8 @@ function inPoly(x: number, z: number, p: [number, number][]) {
   }
   return c;
 }
-const applied = new WeakMap<Float32Array, { h2: Float32Array; yr: Float32Array }>();
-function applyTo(g: TerrainGrid, h: Float32Array, edits: GroundEdit[], yr?: Float32Array, touched?: Uint8Array) {
+const applied = new WeakMap<Float32Array, Dated>();
+function applyTo(g: TerrainGrid, h: Float32Array, edits: GroundEdit[], yr?: Float32Array, touched?: Uint8Array, lift?: Float32Array) {
   const half = ((g.n - 1) * g.step) / 2;
   const order = (e: GroundEdit) => (e.min !== undefined ? 0 : e.max !== undefined ? 1 : 2);   // fill, then cut (the low side wins), then lower
   for (const e of [...edits].sort((a, b) => order(a) - order(b))) {
@@ -127,6 +145,7 @@ function applyTo(g: TerrainGrid, h: Float32Array, edits: GroundEdit[], yr?: Floa
     for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
       if (!inPoly(-half + i * g.step, -half + j * g.step, e.poly)) continue;
       const k = j * g.n + i, was = h[k]; if (touched) touched[k] = 1;
+      if (lift && (e.lift !== undefined || e.drop)) lift[k] = e.lift ?? e.drop! + 0.04;
       if (e.min !== undefined) h[k] = Math.max(h[k], e.min);
       else if (e.max !== undefined) h[k] = Math.min(h[k], e.max);
       else if (e.drop) h[k] -= e.drop;
@@ -136,13 +155,14 @@ function applyTo(g: TerrainGrid, h: Float32Array, edits: GroundEdit[], yr?: Floa
 }
 /** Applies the undated edits to the grid in place; returns the dated ones' result: `h2` (the ground once they are built)
  *  and `yr` (per vertex, the year from which h2 holds; 99999 where they change nothing). */
-export function applyGroundEdits(g: TerrainGrid, edits: GroundEdit[], near?: { mask: Uint8Array; n: number }): { h2: Float32Array; yr: Float32Array } {
+export interface Dated { h2: Float32Array; yr: Float32Array; lift: Float32Array }
+export function applyGroundEdits(g: TerrainGrid, edits: GroundEdit[], near?: { mask: Uint8Array; n: number }): Dated {
   const done = applied.get(g.h); if (done) return done;
-  const yr = new Float32Array(g.h.length).fill(99999), touched = new Uint8Array(g.h.length);
-  applyTo(g, g.h, edits.filter(e => e.from === undefined), undefined, touched);
+  const yr = new Float32Array(g.h.length).fill(99999), touched = new Uint8Array(g.h.length), lift = new Float32Array(g.h.length);
+  applyTo(g, g.h, edits.filter(e => e.from === undefined), undefined, touched, lift);
   const h2 = new Float32Array(g.h); applyTo(g, h2, edits.filter(e => e.from !== undefined), yr, touched);
   if (near) for (const h of [g.h, h2]) relaxNear(g, h, touched, near.mask, near.n);
-  const res = { h2, yr }; applied.set(g.h, res); return res;
+  const res = { h2, yr, lift }; applied.set(g.h, res); return res;
 }
 /** Round a landmark the softening's wide blur is held back (markEdits), so what the LiDAR caught between its walls and the
  *  open ground – hedges, banks, steps cut in the slope – would stand up as sharp peaks. Once the edits are in, the ground

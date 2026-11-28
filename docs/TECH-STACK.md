@@ -26,6 +26,15 @@ Lean, DRY, reusable shared modules, standard formats, so other tools can plug in
   trees. **mid**: ratio 1.5, 2048 px shadows, structures within 1.8 km, 160 + 25 people, 60 % of the trees. **low**
   (phones, 2–4 GB devices, software GPUs): ratio 1, no antialiasing, no shadows, no tilt-shift, structures within 1.25 km,
   70 + 12 people, 30 % of the trees. `?q=low|mid|high` forces a tier (`?lite` = low); the loading screen shows the tier.
+- 2026-11-28 (memory calibration): a desktop at `high` holds ≈ 1 GB in the tab (city tiles ≈ 350 MB, landmark models
+  ≈ 250 MB, the 2 m ground with its two heights ≈ 150 MB, people and props ≈ 150 MB). A fourth tier, **min**, for 2–3 GB
+  phones (≈ 250 MB): city within 550 m, 15 % of the trees, 30 walkers (18 / 30 on the river and in squares), the 4 m ground,
+  no antialiasing, shadows or tilt-shift; `low` also keeps the 4 m ground now (`terrainUp`). A device with 2 GB, or a phone
+  with ≤ 3 GB or that does not say, gets `min`. **Run-time governor** (`web/src/perf.ts`): every 4 s the mean frame time and
+  (Chrome) the JS heap; over 45 ms a frame or 80 % of the heap thins the crowds by a quarter (`people.setBudget`) and, lower
+  down, the pixel ratio; under 24 ms and 60 % gives back a little every 12 s, never above the tier. The footprint grid is
+  fetched once (the ground's softening and the walkable ground share it); the Piazzale's balusters lost a third of their
+  faces (17 → 13 MB). Still to do: landmark models loaded by distance on `min`/`low`.
 - Flicker: decoration boxes in the Blender kit (`pbox`) have no back face when they sit on a wall; camera near plane =
   3 % of the distance to the target (0.5–20 m); the sun's shadow camera covers 1.25 × that distance (90–700 m, in 30 m
   steps) and its centre is snapped to the shadow-map texel grid; normal bias scales with the texel size.

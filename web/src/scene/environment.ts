@@ -1,7 +1,7 @@
 // Landscape: core terrain (LiDAR) + 12 km ring (Copernicus), ground by era (fields, meadows, earth, paving, today's
 // surfaces), the Arno with its reaches and pescaie, dated bridge phases, vegetation that disappears when the ground
 // gets built on. Everything year-dependent is decided on the GPU from uYear.
-import { terrainGrid, applyGroundEdits, surfaceTest, buildingMask, markEdits, type GroundEdit } from './terrainRefine';
+import { terrainGrid, applyGroundEdits, surfaceTest, buildingMask, markEdits, markNear, type GroundEdit } from './terrainRefine';
 import * as THREE from 'three/webgpu';
 import {
   Fn, uniform, texture, vec2, vec3, vec4, mix, positionWorld, positionLocal, dot, select, float, smoothstep, hash, fract, step,
@@ -173,6 +173,14 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   // kept as measured by the softening: ground by buildings, and round the landmarks' walls (their own edits shape it)
   const keepM = foot ? buildingMask(new Uint16Array(foot), meta.terrain.n, meta.terrain.step) : new Uint8Array(meta.terrain.n ** 2);
   markEdits(keepM, edits, meta.terrain.n, meta.terrain.step);
+  // and round every bridge's ends: the ground there was built up into ramps to meet the deck (it is in the LiDAR as such),
+  // so it stays as measured – the bridge never ends in the air over a softened bank
+  const bpos = await bin(`${base}/bridges.pos.bin`, Float32Array);
+  for (const b of meta.streets.bridges) {
+    const pts: [number, number][] = [];
+    for (let i = 0; i < b.count; i++) pts.push([bpos[(b.base + i) * 3], bpos[(b.base + i) * 3 + 2]]);
+    markNear(keepM, pts, meta.terrain.n, meta.terrain.step, 14, 1); markNear(keepM, pts, meta.terrain.n, meta.terrain.step, 36, 2);
+  }
   const TG = terrainGrid(tsrc, meta.terrain.n, meta.terrain.step, opts.terrainUp ?? 2, keepM);
   const dated = applyGroundEdits(TG, edits, { mask: keepM, n: meta.terrain.n });
   const h = TG.h, n = TG.n, size = coreHalf * 2, tstep = TG.step;
@@ -266,7 +274,6 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
   }
 
   // ---------- bridges: dated phases built as structures (scene/bridges.ts) ----------
-  const bpos = await bin(`${base}/bridges.pos.bin`, Float32Array);
   const axis: number[][] = (await (await fetch(`${base}/river.json`)).json()).axis;
   const levelAt = (x: number) => { let i = 0; while (i < axis.length - 2 && axis[i + 1][0] < x) i++;
     const [a, b2] = [axis[i], axis[i + 1]], t = Math.min(1, Math.max(0, (x - a[0]) / (b2[0] - a[0]))); return a[1] + (b2[1] - a[1]) * t; };
@@ -333,17 +340,17 @@ export async function loadEnvironment(base: string, meta: any, ortho: THREE.Text
     for (const b of bridges) b.mesh.visible = year >= b.start && year < b.end;
     for (const w of weirs) w.mesh.visible = year >= w.start && year < w.end;
   }
-  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG, dated };
+  return { group, terrain, wide, water, update, bridges, weirs, overlayNode: ovTex, wideHalf, treeData: T, grid: TG, dated, foot };
 }
 
 /** Terrain height lookup for agents and props: LiDAR core grid, 40 m ring outside it. */
-export function makeHeight(meta: any, h: Float32Array, hw?: Float32Array, dated?: { h2: Float32Array; yr: Float32Array; year: () => number }) {
+export function makeHeight(meta: any, h: Float32Array, hw?: Float32Array, dated?: { h2: Float32Array; yr: Float32Array; lift?: Float32Array; year: () => number }) {
   const sample = (g: Float32Array, n: number, step: number, x: number, z: number, alt?: typeof dated) => {
     const half = ((n - 1) * step) / 2, fx = (x + half) / step, fz = (z + half) / step;
     const i = Math.max(0, Math.min(n - 2, Math.floor(fx))), j = Math.max(0, Math.min(n - 2, Math.floor(fz)));
     const tx = Math.min(1, Math.max(0, fx - i)), tz = Math.min(1, Math.max(0, fz - j));
     const y = alt ? alt.year() : 0;
-    const v = (k: number) => (alt && y >= alt.yr[k] ? alt.h2[k] : g[k]);       // the ground of that year at each corner
+    const v = (k: number) => (alt && y >= alt.yr[k] ? alt.h2[k] : g[k]) + (alt?.lift ? alt.lift[k] : 0);   // the ground of that year (on a model's paving: its top)
     const a = v(j * n + i), b = v(j * n + i + 1), c = v((j + 1) * n + i), d = v((j + 1) * n + i + 1);
     return (a * (1 - tx) + b * tx) * (1 - tz) + (c * (1 - tx) + d * tx) * tz;
   };

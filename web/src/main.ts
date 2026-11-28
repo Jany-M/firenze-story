@@ -15,6 +15,7 @@ import { createPeople } from './sim/people';
 import { createScenes } from './sim/scenes';
 import { createSquares } from './sim/squares';
 import { createRiver } from './sim/river';
+import { createGovernor } from './perf';
 import { createTimeline } from './ui/timeline';
 import { createPanels, toast } from './ui/panels';
 import { createNarration } from './ui/narration';
@@ -74,7 +75,7 @@ async function main() {
   say('Dated buildings and structures');
   // the city streams in tiles round the view; small devices keep only those near it (quality.ts cityRadius)
   const c0: [number, number] = state.cam.length === 6 ? [state.cam[3], state.cam[5]] : [0, 60];
-  const city = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius, center: c0, first: q.tier === 'low' ? 350 : 600, low: q.tier === 'low' });
+  const city = await loadCity(DATA, ortho, mtex, { radius: q.cityRadius, center: c0, first: q.tier === 'low' || q.tier === 'min' ? 350 : 600, low: q.tier === 'low' || q.tier === 'min' });
   const { mesh, recs, hide } = city;
   done(`${recs.length.toLocaleString()} structures`);
   say('Landmark models');
@@ -100,7 +101,7 @@ async function main() {
   const tlEl = document.getElementById('timeline')!;
   scene.add(mesh);
   say('Terrain, river, bridges and trees');
-  const env = await loadEnvironment(DATA, meta, ortho, blank, mtex, { treeShare: q.treeShare, anisotropy: q.anisotropy, terrainUp: q.tier === 'low' ? 1 : 2 });
+  const env = await loadEnvironment(DATA, meta, ortho, blank, mtex, { treeShare: q.treeShare, anisotropy: q.anisotropy, terrainUp: q.terrainUp });
   scene.add(env.group);
   const HW = new Float32Array(await (await fetch(`${DATA}/wide.f32`)).arrayBuffer());
   const height = makeHeight({ ...meta, terrain: { n: env.grid.n, step: env.grid.step } }, env.grid.h, HW, { ...env.dated, year: () => state.year });   // the same rounded grid as the ground mesh
@@ -111,6 +112,9 @@ async function main() {
   // made on demand for the area in view (river crews, squares and bridges near the camera); none drawn above PEOPLE_ALT
   const riverPeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.riverPeople });
   const squarePeople = await createPeople(scene, streets, 0, { walkers: false, cap: q.squarePeople });
+  // the crowds thin if the device falls behind (perf.ts)
+  const governor = createGovernor(q, renderer, [{ crowd: people, base: q.people, cap: 600 }, { crowd: riverPeople, base: 0, cap: q.riverPeople },
+    { crowd: squarePeople, base: 0, cap: q.squarePeople }]);
   // what people stand on: the ground, or a bridge's deck where the street crosses one (a ray down onto the bridges standing
   // this year, cached per half metre)
   const deckRay = new THREE.Raycaster(), downV = new THREE.Vector3(0, -1, 0), deckCache = new Map<number, number>(); let deckYear = NaN;
@@ -134,8 +138,11 @@ async function main() {
   const squareLife = createSquares(scene, props, squarePeople, height, streets.squares, env.bridges, streets);
   // walkable ground: building footprints by year (pipeline 20), tree trunks, scene props – see sim/walk.ts
   say('Walkable ground');
-  const foot = await fetch(`${DATA}/footprints.u16`).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null);
+  const foot = env.foot;                                  // fetched once, by the environment (the ground's softening reads it too)
   walk.init(recs, foot ? new Uint16Array(foot) : null, env.treeData); walk.setYear(state.year);
+  // free-standing monuments of the landmark models are solid: nobody walks through the Piazzale's David and its steps
+  landmarks.group.updateMatrixWorld(true);
+  landmarks.group.traverse((o: any) => { if (o.isMesh && /^monumento_/.test(o.name + ' ' + (o.parent?.name ?? ''))) walk.addProp(o, 0.3, 'landmark'); });
   if ((import.meta as any).env?.DEV || location.hostname === 'localhost') Object.assign(window as any, { __fs: { scene, scenes, people, camera, controls, walk, get squares() { return squareLife; }, squarePeople, riverPeople, env } });   // dev-only debug handle
   const view = createViewControls(camera, controls, renderer.domElement);
   say('River life: boats, fishermen, birds');
@@ -350,10 +357,10 @@ async function main() {
     stage.setSun(state.mode === 'live' ? scenes.lightHour() ?? state.hour : state.hour, state.year); uSky.value.copy(scene.background as THREE.Color);
     { // haze scales with zoom: close views stay crisp, the whole valley only fades at the horizon
       const d = camera.position.distanceTo(controls.target), f = scene.fog as THREE.Fog;
-      if (q.tier === 'low') { f.near = Math.max(120, d * 0.7); f.far = Math.min(q.cityRadius * 0.95, Math.max(600, d * 2.2 + 300)); }   // small devices: a tight circle of focus, the rest in haze
+      if (q.tier === 'low' || q.tier === 'min') { f.near = Math.max(120, d * 0.7); f.far = Math.min(q.cityRadius * 0.95, Math.max(600, d * 2.2 + 300)); }   // small devices: a tight circle of focus, the rest in haze
       else { f.near = Math.max(900, d * 1.6); f.far = Math.max(5000, d * 7 + 3000); }
       stage.fitClip(f.far); }
-    xray.update(dt, state.year); compass(dt);
+    xray.update(dt, state.year); compass(dt); if (!document.hidden && dt < 1) governor.tick(dt);
     river.update(dt, state.year, true, camera.position.y - controls.target.y); streetHL.update(dt); landmarks.update(Math.floor(state.year) + dayFrac(state.date));
     landmarks.paint(state.mode !== 'sources' || state.color === 'real' ? null : state.color === 'confidence' ? (r => CONF_COLORS[r.conf]) : (r => { const p = periodOf(r.start); return uPeriodPick.value >= 0 && p !== uPeriodPick.value ? '#a3a09b' : PERIODS[p]?.color ?? '#888'; }));   // a period picked in the legend: the others grey
     river.setHighlight(state.mode === 'sources' && state.color !== 'real' ? (state.color === 'confidence' ? CONF_COLORS.inferred : SOURCE_LAYERS[0].color) : null);
