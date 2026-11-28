@@ -63,7 +63,7 @@ def figure(part, mat, origin, forward, H, pose, female=False, robe=False):
         limb(bm, J[side + "_sh"], J[side + "_el"], 0.047 * s, 0.034 * s)
         limb(bm, J[side + "_el"], J[side + "_wr"], 0.033 * s, 0.024 * s)
         hd = J[side + "_wr"] - J[side + "_el"]
-        ellipsoid(bm, J[side + "_wr"] + hd.normalized() * (0.035 * s), (0.022 * s, 0.045 * s, 0.012 * s), _rot_to(hd), seg=8)
+        if not pose.get("detail"): ellipsoid(bm, J[side + "_wr"] + hd.normalized() * (0.035 * s), (0.022 * s, 0.045 * s, 0.012 * s), _rot_to(hd), seg=8)
         # legs: thigh, shin, foot
         hip = J[side + "_hip"] + (J["pelvis"] - J[side + "_hip"]) * 0.25
         limb(bm, hip, J[side + "_kn"], 0.074 * s * (1.05 if female else 1.0), 0.046 * s)
@@ -72,11 +72,75 @@ def figure(part, mat, origin, forward, H, pose, female=False, robe=False):
         ellipsoid(bm, J[side + "_kn"] + kd * 0.3 - f * (0.012 * s), (0.045 * s, 0.1 * s, 0.045 * s), _rot_to(kd), seg=10)
         toe = J.get(side + "_toe", J[side + "_an"] + f * (0.11 * s))
         ellipsoid(bm, (J[side + "_an"] + toe) / 2 - Vector((0, 0, 0.01 * s)), (0.03 * s, 0.065 * s, 0.022 * s), _rot_to(toe - J[side + "_an"]), seg=8)
+    if pose.get("detail"): _detail(bm, J, f, r, s, sh, hp, up_low, up_high, (x, y, z), pose, female)
     if robe:                                                                                # a drape over the hips and legs (a cone)
         limb(bm, J["waist"], (J["l_an"] + J["r_an"]) / 2 + Vector((0, 0, 0.02 * s)), 0.11 * s, 0.17 * s, seg=14)
     bm.faces.ensure_lookup_table()
     for k in range(n0, len(bm.faces)): bm.faces[k].smooth = True
     return J
+
+def _frame(xv, zv):
+    """A rotation with x along xv and z along zv (made orthogonal)."""
+    x = xv.normalized(); z = (zv - x * zv.dot(x)).normalized(); y = z.cross(x)
+    return Matrix((x, y, z)).transposed(), x, y, z
+
+def _detail(bm, J, f, r, s, sh, hp, up_low, up_high, head_axes, pose, female):
+    """The masses that make a body read as Michelangelo's rather than a mannequin (from photographs of the David and the
+    Medici Times): deltoids, the chest's two planes, the belly's columns and the flanks over the hips, the buttocks, knees,
+    the face's planes (brow, nose, cheeks, jaw, chin), ears, a cap of curls, the hands as palm, fingers and thumb, the
+    sling (David). Sizes in units of H; each is placed on the trunk's own frame so it turns with the body."""
+    M, X, Y, Z = _frame(-sh, up_high)                     # chest frame: X towards the figure's right, Y forward, Z up (right-handed)
+    C = J["chest"]
+    for sd in (-1, 1):                                    # pectorals and deltoids
+        ellipsoid(bm, C + X * (sd * 0.055 * s) + Y * (0.062 * s) + Z * (0.015 * s), (0.06 * s, 0.03 * s, 0.045 * s), M, seg=10)
+        shp = J["l_sh"] if sd > 0 else J["r_sh"]
+        ellipsoid(bm, shp + Z * (0.005 * s) - (shp - C).normalized() * (0.005 * s), (0.05 * s, 0.05 * s, 0.055 * s), M, seg=10)
+        ellipsoid(bm, C - Y * (0.05 * s) + X * (sd * 0.06 * s) + Z * (0.01 * s), (0.055 * s, 0.03 * s, 0.07 * s), M, seg=10)   # the back's blades
+    Mw, Xw, Yw, Zw = _frame(-(hp + sh) / 2, up_low + up_high)
+    W_ = J["waist"]
+    if not female:
+        for row in range(3):                              # the belly's columns, three pairs
+            for sd in (-1, 1):
+                ellipsoid(bm, W_ + Xw * (sd * 0.022 * s) + Yw * (0.058 * s) + Zw * ((0.035 - row * 0.032) * s), (0.019 * s, 0.01 * s, 0.015 * s), Mw, seg=8)
+    for sd in (-1, 1):                                    # the flanks over the hips
+        ellipsoid(bm, W_ + Xw * (sd * 0.085 * s) + Zw * (-0.045 * s) + Yw * (0.01 * s), (0.03 * s, 0.05 * s, 0.05 * s), Mw, seg=8)
+    Mp, Xp, Yp, Zp = _frame(-hp, up_low)
+    for sd in (-1, 1):                                    # the buttocks
+        ellipsoid(bm, J["pelvis"] + Xp * (sd * 0.05 * s) - Yp * (0.055 * s) - Zp * (0.02 * s), (0.055 * s, 0.045 * s, 0.06 * s), Mp, seg=10)
+    for side in ("r", "l"):                               # knee caps
+        kn = J[side + "_kn"]; ellipsoid(bm, kn + f * (0.032 * s), (0.026 * s, 0.02 * s, 0.03 * s), _rot_to(f), seg=8)
+    # the head: brow, nose, cheekbones, jaw and chin, ears, the curls
+    hx, hy, hz = head_axes; H0 = J["head"]; Mh = Matrix((hx, hy, hz)).transposed()
+    ellipsoid(bm, H0 + hy * (0.052 * s) + hz * (0.018 * s), (0.04 * s, 0.014 * s, 0.012 * s), Mh, seg=8)              # brow
+    ellipsoid(bm, H0 + hy * (0.064 * s) - hz * (0.004 * s), (0.008 * s, 0.012 * s, 0.022 * s), Mh, seg=8)             # nose
+    for sd in (-1, 1):
+        ellipsoid(bm, H0 + hx * (sd * 0.03 * s) + hy * (0.042 * s) - hz * (0.012 * s), (0.016 * s, 0.014 * s, 0.014 * s), Mh, seg=8)   # cheeks
+        ellipsoid(bm, H0 + hx * (sd * 0.054 * s) - hz * (0.004 * s), (0.006 * s, 0.014 * s, 0.02 * s), Mh, seg=6)    # ears
+    ellipsoid(bm, H0 + hy * (0.036 * s) - hz * (0.05 * s), (0.032 * s, 0.026 * s, 0.022 * s), Mh, seg=8)             # jaw and chin
+    if pose.get("hair"):                                  # a cap of curls over the top and the back
+        for k in range(22):
+            a = k * 2.399; e = 0.25 + 0.65 * ((k * 0.618) % 1.0)
+            d = (hx * (math.cos(a) * math.cos(e)) + hy * (math.sin(a) * math.cos(e) * 0.9 - 0.15) + hz * math.sin(e)).normalized()
+            if d.dot(hy) > 0.55 and d.dot(hz) < 0.6: continue                              # leave the face free
+            ellipsoid(bm, H0 + d * (0.066 * s), (0.016 * s, 0.016 * s, 0.014 * s), _rot_to(d), seg=6)
+    # hands: a palm, four fingers and a thumb, curled by pose["grip"] (0 open … 1 a fist)
+    for side in ("r", "l"):
+        wr, el = J[side + "_wr"], J[side + "_el"]; d = (wr - el).normalized()
+        side_v = (r if side == "r" else -r); side_v = (side_v - d * side_v.dot(d)).normalized(); palm_n = d.cross(side_v)
+        g = pose.get(side + "_grip", 0.5)
+        c = wr + d * (0.03 * s)
+        ellipsoid(bm, c, (0.024 * s, 0.032 * s, 0.011 * s), _frame(side_v, palm_n)[0] @ Matrix.Rotation(0, 3, "X"), seg=8)
+        for k in range(4):
+            base = c + d * (0.03 * s) + side_v * ((k - 1.5) * 0.011 * s)
+            tip = base + d * (0.04 * s * (1 - 0.6 * g)) + palm_n * (0.03 * s * g)
+            limb(bm, base, tip, 0.0062 * s, 0.005 * s, seg=6)
+        tb = c - side_v * (0.022 * s); limb(bm, tb, tb + d * (0.025 * s) - side_v * (0.012 * s) + palm_n * (0.012 * s), 0.007 * s, 0.0055 * s, seg=6)
+    if pose.get("sling"):                                 # from the left hand over the shoulder, down the back to the right hand
+        pts = [J["l_wr"] + Vector((0, 0, 0.02 * s)), J["l_sh"] + Vector((0, 0, 0.05 * s)) - f * (0.02 * s),
+               J["chest"] - f * (0.1 * s) + (J["l_sh"] - J["chest"]) * 0.3, J["waist"] - f * (0.1 * s) + r * (0.06 * s),
+               J["r_wr"] - f * (0.03 * s)]
+        for a, b in zip(pts, pts[1:]): limb(bm, a, b, 0.006 * s, 0.006 * s, seg=5)
+        ellipsoid(bm, pts[2], (0.03 * s, 0.02 * s, 0.04 * s), seg=8)                    # the pouch hanging on the back
 
 def mirror(pose):
     """The same pose with left and right exchanged (x negated)."""
@@ -94,7 +158,7 @@ def mirror(pose):
 # shoulder holding the sling over it; the head turned to his left. Bronze cast by Clemente Papi, Piazzale 1873.
 DAVID = {
     "pelvis": (0.0, 0.0, 0.535), "waist": (0.0, 0.005, 0.625), "chest": (-0.008, 0.0, 0.735), "neck": (-0.005, 0.0, 0.865),
-    "head": (-0.012, 0.008, 0.932), "look": (-0.55, 0.85, 0.0), "hair": True,
+    "head": (-0.012, 0.008, 0.932), "look": (-0.55, 0.85, 0.0), "hair": True, "detail": True, "sling": True, "r_grip": 0.7, "l_grip": 0.5,
     "r_sh": (0.165, -0.005, 0.805), "l_sh": (-0.17, 0.0, 0.825),
     "r_el": (0.205, -0.01, 0.635), "r_wr": (0.21, 0.015, 0.495),
     "l_el": (-0.215, 0.07, 0.72), "l_wr": (-0.115, 0.06, 0.835),
@@ -110,7 +174,7 @@ DAVID = {
 def recline(head_up=0.36, knee=0.26, arm="head", bend=0.0):
     p = {
         "pelvis": (0.0, 0.0, 0.10), "waist": (0.12, 0.0, 0.15), "chest": (0.26, 0.0, 0.22), "neck": (0.36, 0.01, head_up - 0.04),
-        "head": (0.43, 0.02, head_up), "look": (0.4, 1.0, -0.2 - bend), "hair": True,
+        "head": (0.43, 0.02, head_up), "look": (0.4, 1.0, -0.2 - bend), "hair": True, "detail": True,
         "r_sh": (0.3, 0.13, 0.27), "l_sh": (0.29, -0.11, 0.21),
         "l_el": (0.22, -0.16, 0.05), "l_wr": (0.38, -0.12, 0.08),
         "r_el": (0.2, 0.21, 0.2), "r_wr": (0.08, 0.2, 0.12),

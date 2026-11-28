@@ -62,8 +62,12 @@ the Loggia above it and the Rampe – ramps, grottoes and fountains – climbing
   set forward and out, the right arm down along the thigh, the left hand at the shoulder with the sling, the head turned to
   his left. The four Times of Day reclining on scrolled couches at the corners, each along its side with the head towards
   the corner: Night with her head on the raised arm, Dawn waking, Day with an arm behind the back, Dusk leaning back with
-  the head lowered (which figure lies at which corner, and the couches' form, *inferred*). Faces, hair, muscles and the
-  sling are not modelled; the same builder will replace the other stand-in statues.
+  the head lowered (which figure lies at which corner, and the couches' form, *inferred*). A first detail layer
+  (2026-11-28, `_detail` in `landmark_figure.py`, from photographs of the marble and the bronze): deltoids, the chest's two
+  planes and the shoulder blades, the belly's columns and the flanks, the buttocks, knee caps; the face's brow, nose,
+  cheekbones, jaw and ears; a cap of curls; hands as palm, four fingers and thumb, curled as each hand holds (the stone in
+  the right, the sling in the left); the sling from the left hand over the shoulder down the back. The same builder will
+  replace the other stand-in statues.
 - **The Loggia**: an arcade of three round arches between paired columns, closed end bays, a balustraded roof terrace, on a
   podium above the terrace wall with its inscription.
 - **The Rampe**: retaining walls in courses of pietra forte with balustrades, every one on its measured line (until

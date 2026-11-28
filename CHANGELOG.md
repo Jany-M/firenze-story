@@ -2,6 +2,7 @@
 
 | Date | Change |
 |---|---|
+| 2026-11-28 | Refinement pass: the Piazzale's David and the four Times of Day gain a first layer of detail from photographs – the chest, belly, shoulders, knees, the face's planes, curls, hands with fingers, the sling over the David's shoulder ([PIAZZALE.md](docs/landmarks/PIAZZALE.md)). |
 | 2026-11-28 | Piazzale Michelangelo's city side redrawn as the shapes it is: the great rectangle's straight front, a smaller rectangle standing out in its middle with its own balustrade, and Viale Poggi's two ramps off its sides as mirror images (the balustrade stops where a ramp reaches the terrace). The David faces the city. The lower terrace by the Belvedere is paved, and the corner above it closed. People and benches stand on the terrace's paving and the ramps, not under them; nobody walks through the monument ([PIAZZALE.md](docs/landmarks/PIAZZALE.md)). |
 | 2026-11-28 | Bridges stay joined to the ground: round each bridge's ends the ground is left as measured (it was built up to meet the deck), not softened. The compass shows a fixed N in its middle, the red triangle on the rim pointing north. |
 | 2026-11-28 | Smaller devices: a fourth detail tier for 2–3 GB phones, the 4 m ground on the two lower tiers, and a governor that thins the crowds and the pixel ratio when a device falls behind or runs short of memory, and gives them back when it recovers ([TECH-STACK.md](docs/TECH-STACK.md)). |
